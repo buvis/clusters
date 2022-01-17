@@ -1,0 +1,9 @@
+.DS_Store
+.envrc
+.kube*
+.terraform*
+.vault-pwd
+Thumbs.db
+bin
+terraform-plugin-proxmox.log
+terraform.tfstate*
