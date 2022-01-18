@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
-  path: ./kube-system/cert-manager/operators
+  path: ./production/operations/kube-system/cert-manager/operators
   prune: true
   sourceRef:
     kind: GitRepository
