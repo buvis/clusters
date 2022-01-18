@@ -14,7 +14,7 @@ flux:
 	flux bootstrap github \
         --owner=buvis-net \
         --repository=clusters \
-        --path=./staging/operations \
+        --path=./production/operations \
         --branch=main \
         --personal
 
