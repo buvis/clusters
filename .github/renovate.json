@@ -1,0 +1,20 @@
+{
+  "extends": [
+    "config:base"
+  ],
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "Renovate Dashboard",
+  "kubernetes": {
+    "fileMatch": ["./.+\\.yaml$"]
+  },
+  "helm-values": {"fileMatch": ["./.+helmrelease\\.yaml$"]},
+  "regexManagers": [
+    {
+      "fileMatch": ["./.+helmrelease\\.yaml$"],
+      "matchStrings": [
+        "registryUrl=(?<registryUrl>.*?)\n *chart: (?<depName>.*?)\n *version: (?<currentValue>.*)\n"
+      ],
+      "datasourceTemplate": "helm"
+    }
+  ]
+}
