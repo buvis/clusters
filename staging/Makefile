@@ -1,4 +1,4 @@
-.PHONY: install nodes masters workers
+.PHONY: install nodes masters workers flux update-flux
 
 install: | nodes masters workers
 
@@ -23,7 +23,16 @@ flux:
 		--namespace=flux-system \
 		--from-file=sops.asc=/dev/stdin
 	kubectl create secret generic slack-url \
+		--namespace=flux-system \
 		--from-literal=address=$(SLACK_WEBHOOK_URL)
+	flux bootstrap github \
+        --owner=buvis-net \
+        --repository=clusters \
+        --path=./staging/operations \
+        --branch=main \
+        --personal
+
+update-flux:
 	flux bootstrap github \
         --owner=buvis-net \
         --repository=clusters \
