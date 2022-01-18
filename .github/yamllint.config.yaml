@@ -4,6 +4,8 @@ ignore: |
   cluster-secrets.yaml
   gotk-components.yaml
   vault.yaml
+  production/operations/vpn/vpn-gateway/secret.yaml
+  production/operations/kube-system/cert-manager/secrets.yaml
 extends: default
 rules:
   truthy:

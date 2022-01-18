@@ -1,0 +1,30 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-config
+  namespace: flux-system
+data:
+  NETWORK_K8S_CLUSTER_CIDR: "172.17.0.0/16"
+  NETWORK_K8S_SERVICE_CIDR: "10.43.0.0/16"
+  NETWORK_K8S_SERVICE_EXTERNAL_CIDR: "10.10.0.0/16"
+  NETWORK_MANAGEMENT_CIDR: "10.7.0.0/24"
+  SVC_PROMTAIL_IP: "10.10.0.33"
+  SVC_KUBERNETES_DASHBOARD_IP: "10.10.0.38"
+  SVC_BLOCKY_IP: "10.10.0.53"
+  SVC_INGRESS_IP: "10.10.0.80"
+  SVC_ZETTELKASTEN_IP: "10.10.0.81"
+  SVC_WIREGUARD_IP: "10.10.0.72"
+  SVC_BITTORRENT_IP: "10.10.0.106"
+  GATEWAY_IP: "10.7.0.1"
+  PGDB_SERVER_IP: "10.7.0.30"
+  NFS_SERVER_IP: "10.7.0.111"
+  NFS_SERVER_BAIKAL_PATH: "/mnt/tank/pv/baikal"
+  NFS_SERVER_WIREGUARD_PATH: "/mnt/tank/pv/wireguard"
+  NFS_SERVER_MEDIA_PATH: "/mnt/tank/media"
+  NFS_SERVER_BACKUP_PATH: "/mnt/tank/pv/backup"
+  NFS_SERVER_LONGHORN_BACKUP_PATH: "nfs://10.7.0.111:/mnt/tank/pv/longhorn-backup"
+  NFS_SERVER_PAPERLESS_PATH: "/mnt/tank/pv/paperless"
+  NFS_SERVER_PAPERLESS_INBOX_PATH: "/mnt/tank/homes/bob/paperless-inbox"
+  NFS_SERVER_PAPERLESS_USER: "983"   # this is id of NAS syncthing user
+  NFS_SERVER_TEEDY_PATH: "/mnt/tank/pv/teedy"

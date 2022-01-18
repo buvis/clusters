@@ -1,0 +1,104 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: paperless
+  namespace: gtd
+spec:
+  dependsOn:
+  - name: ingress-nginx
+    namespace: kube-system
+  - name: cert-manager
+    namespace: kube-system
+  interval: 5m
+  install:
+    timeout: 30m
+    remediation:
+      retries: 5
+  upgrade:
+    timeout: 30m
+    remediation:
+      retries: 5
+      remediateLastFailure: true
+    cleanupOnFail: true
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: paperless
+      version: 8.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home
+        namespace: flux-system
+      interval: 15m
+  # See https://github.com/k8s-at-home/charts/blob/master/charts/paperless/values.yaml
+  # for environment variables, see: https://paperless-ng.readthedocs.io/en/latest/configuration.html
+  values:
+    env:
+      PAPERLESS_ADMIN_USER: ${SECRET_PAPERLESS_ADMIN_USER}
+      PAPERLESS_ADMIN_PASSWORD: ${SECRET_PAPERLESS_ADMIN_PASSWORD}
+      PAPERLESS_CONSUMER_POLLING: 30
+      PAPERLESS_DBHOST: ${PGDB_SERVER_IP}
+      PAPERLESS_DBPASS: ${SECRET_PAPERLESS_DBPASS}
+      PAPERLESS_FILENAME_FORMAT: "{document_type}/{correspondent}/{created_year}{created_month}{created_day}-{correspondent}-{document_type}-{title}"
+      PAPERLESS_OCR_LANGUAGE: ces+eng  # these are the languages to use
+      PAPERLESS_OCR_LANGUAGES: ces     # this is additional language to install
+      PAPERLESS_REDIS: redis://:${SECRET_PAPERLESS_REDIS_AUTH_PASSWORD}@paperless-redis-master.gtd:6379
+      PAPERLESS_TIME_ZONE: Europe/Berlin
+      USERMAP_UID: ${NFS_SERVER_PAPERLESS_USER}
+      USERMAP_GID: ${NFS_SERVER_PAPERLESS_USER}
+    persistence:
+      data:
+        enabled: true
+        mountPath: /usr/src/paperless/data
+        existingClaim: paperless-data
+      media:
+        enabled: true
+        mountPath: /usr/src/paperless/media
+        existingClaim: paperless-media
+      consume:
+        enabled: true
+        mountPath: /usr/src/paperless/consume
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "${NFS_SERVER_IP}"
+            path: "${NFS_SERVER_PAPERLESS_INBOX_PATH}"
+      export:
+        enabled: true
+        mountPath: /usr/src/paperless/export
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "${NFS_SERVER_IP}"
+            path: "${NFS_SERVER_PAPERLESS_PATH}/export"
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: nginx
+          cert-manager.io/cluster-issuer: zerossl
+        hosts:
+        - host: paperless.buvis.net
+          paths:
+          - path: /
+            pathType: Prefix
+        tls:
+        - hosts:
+          - paperless.buvis.net
+          secretName: paperless-crt
+    redis:
+      enabled: true
+      auth:
+        enabled: true
+        password: ${SECRET_PAPERLESS_REDIS_AUTH_PASSWORD}
+      image:
+        repository: redis
+        tag: 6.0
+    probes:
+      startup:
+        spec:
+          initialDelaySeconds: 0
+          timeoutSeconds: 1
+          periodSeconds: 5
+          failureThreshold: 300

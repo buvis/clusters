@@ -1,0 +1,83 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: monica
+  namespace: gtd
+spec:
+  dependsOn:
+  - name: ingress-nginx
+    namespace: kube-system
+  - name: cert-manager
+    namespace: kube-system
+  - name: monica-db
+    namespace: gtd
+  interval: 5m
+  install:
+    timeout: 15m
+    remediation:
+      retries: 5
+  upgrade:
+    timeout: 15m
+    remediation:
+      retries: 5
+      remediateLastFailure: true
+    cleanupOnFail: true
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: monica
+      version: 7.0.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home
+        namespace: flux-system
+      interval: 5m
+  # See https://github.com/k8s-at-home/charts/blob/master/charts/stable/monica/values.yaml
+  values:
+    image:
+      repository: monica
+      tag: 3.6.1-apache
+      pullPolicy: IfNotPresent
+    env:
+      APP_ENV: production
+      APP_KEY: ${SECRET_MONICA_APP_KEY}
+      APP_URL: https://crm.buvis.net
+      DB_DATABASE: monica
+      DB_HOST: monica-db-mariadb
+      DB_PASSWORD: ${SECRET_MONICA_DB_PASSWORD}
+      DB_USERNAME: monica
+      DEFAULT_MAX_UPLOAD_SIZE: 50000
+      TZ: Europe/Berlin
+    persistence:
+      config:
+        enabled: true
+        existingClaim: monica-config
+    mariadb:
+      enabled: false
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: nginx
+          cert-manager.io/cluster-issuer: zerossl
+          nginx.ingress.kubernetes.io/proxy-body-size: 50m
+          nginx.ingress.kubernetes.io/proxy-connect-timeout: "1800"
+          nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"
+          nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
+        hosts:
+        - host: crm.buvis.net
+          paths:
+          - path: /
+            pathType: Prefix
+        tls:
+        - hosts:
+          - crm.buvis.net
+          secretName: monica-crt
+    probes:
+      startup:
+        spec:
+          initialDelaySeconds: 60
+          timeoutSeconds: 1
+          periodSeconds: 5
+          failureThreshold: 300

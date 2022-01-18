@@ -1,0 +1,50 @@
+---
+
+all:
+  hosts:
+  children:
+    cluster:
+      control_plane:
+      worker:
+      virt_worker:
+
+    control_plane:
+      children:
+        chief:
+        manager:
+
+    chief:
+      hosts:
+        columbus:
+
+    manager:
+      hosts:
+        nimitz:
+
+    worker:
+      hosts:
+        feynman:
+        planck:
+        einstein:
+        hawking:
+        braun:
+        hertz:
+
+    virt_worker:
+      hosts:
+        kao-worker-1:
+        kao-worker-2:
+        kao-worker-3:
+
+    standalone:
+      db:
+      player:
+
+    db:
+      hosts:
+        domum
+
+    player:
+      hosts:
+        hall:
+        higgs:

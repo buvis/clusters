@@ -1,0 +1,14 @@
+---
+# handler for role upgrade-host
+
+- name: reboot
+  reboot:
+  notify: "wait for boot"
+
+- name: wait for boot
+  wait_for:
+    port: 22
+    host: "{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}"
+    delay: 5
+    sleep: 5
+    timeout: 120

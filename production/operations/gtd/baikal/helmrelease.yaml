@@ -1,0 +1,73 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: baikal
+  namespace: gtd
+spec:
+  dependsOn:
+  - name: ingress-nginx
+    namespace: kube-system
+  - name: cert-manager
+    namespace: kube-system
+  interval: 5m
+  install:
+    timeout: 15m
+    remediation:
+      retries: 5
+  upgrade:
+    timeout: 15m
+    remediation:
+      retries: 5
+      remediateLastFailure: true
+    cleanupOnFail: true
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: baikal
+      version: 4.0.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home
+        namespace: flux-system
+      interval: 5m
+  # See https://github.com/k8s-at-home/charts/blob/master/charts/stable/baikal/values.yaml
+  values:
+    image:
+      tag: nginx
+    env:
+      TZ: Europe/Berlin
+    persistence:
+      config:
+        enabled: true
+        mountPath: /var/www/baikal/config
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "${NFS_SERVER_IP}"
+            path: "${NFS_SERVER_BAIKAL_PATH}/config"
+      data:
+        enabled: true
+        mountPath: /var/www/baikal/Specific
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "${NFS_SERVER_IP}"
+            path: "${NFS_SERVER_BAIKAL_PATH}/data"
+    mariadb:
+      enabled: false
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: nginx
+          cert-manager.io/cluster-issuer: zerossl
+        hosts:
+        - host: cal.buvis.net
+          paths:
+          - path: /
+            pathType: Prefix
+        tls:
+        - hosts:
+          - cal.buvis.net
+          secretName: cal-crt

@@ -1,0 +1,7 @@
+- hosts: manager
+  remote_user: "{{ default_user }}"
+  become: true
+  gather_facts: true
+
+  roles:
+  - install-k3s-additional-master

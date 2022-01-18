@@ -1,0 +1,86 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: thanos
+  namespace: monitoring
+spec:
+  dependsOn:
+  - name: ingress-nginx
+    namespace: kube-system
+  - name: cert-manager
+    namespace: kube-system
+  - name: oauth2-proxy
+    namespace: kube-system
+  - name: kube-prometheus-stack
+    namespace: monitoring
+  - name: minio
+    namespace: minio-operator
+  interval: 5m
+  install:
+    timeout: 15m
+    remediation:
+      retries: 5
+  upgrade:
+    timeout: 15m
+    remediation:
+      retries: 5
+      remediateLastFailure: true
+    cleanupOnFail: true
+  chart:
+    spec:
+      # renovate: registryUrl=https://charts.bitnami.com/bitnami
+      chart: thanos
+      version: 8.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: raspbernetes/thanos
+      tag: v0.23.1
+    query:
+      enabled: true
+      replicaLabels:
+      - replica
+      dnsDiscovery:
+        sidecarsService: kube-prometheus-stack-thanos-discovery
+        sidecarsNamespace: system-monitoring
+      ingress:
+        enabled: true
+        hostname: thanos.buvis.net
+        ingressClassName: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: zerossl
+          nginx.ingress.kubernetes.io/auth-url: "https://auth.buvis.net/oauth2/auth"
+          nginx.ingress.kubernetes.io/auth-signin: "https://auth.buvis.net/oauth2/start?rd=https%3A%2F%2F$host$request_uri"
+        tls: true
+    objstoreConfig: |
+      type: S3
+      config:
+        bucket: "thanos"
+        endpoint: "minio.monitoring.svc.cluster.local"
+        insecure: true
+        access_key: "${SECRET_MINIO_THANOS_ACCESSKEY}"
+        secret_key: "${SECRET_MINIO_THANOS_SECRETKEY}"
+    queryFrontend:
+      enabled: false
+    bucketweb:
+      enabled: true
+    compactor:
+      enabled: true
+      persistence:
+        enabled: false
+    storegateway:
+      enabled: true
+      persistence:
+        enabled: true
+        size: 5Gi
+    ruler:
+      enabled: false
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true

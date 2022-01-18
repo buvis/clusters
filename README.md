@@ -8,7 +8,7 @@ _... managed by Flux and serviced with RenovateBot_ :robot:
 
 ## :book:&nbsp; Overview
 
-This is home to my personal Kubernetes cluster. [Flux](https://github.com/fluxcd/flux2) watches this Git repository and makes the changes to my cluster based on the YAML manifests.
+This is home to my personal Kubernetes clusters. [Flux](https://github.com/fluxcd/flux2) watches this Git repository and makes the changes to my clusters based on the YAML manifests.
 
 For more information, head on over to my [docs](https://docs.buvis.net).
 

@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wireguard-configmap
+  namespace: network
+data:
+  PUID: "1000"
+  PGID: "1000"
+  TZ: "Europe/Berlin"
+  SERVERPORT: "51820"
+  SERVERURL: "vpn.buvis.net"
+  PEERS: "maxwell, kao, iphone"
+  PEERDNS: ${SVC_BLOCKY_IP}
+  ALLOWEDIPS: "0.0.0.0/0, ::/0"
+  INTERNAL_SUBNET: "10.6.0.0"
