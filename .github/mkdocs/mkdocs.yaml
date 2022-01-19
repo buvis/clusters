@@ -4,7 +4,7 @@ site_description: My home Kubernetes (k3s) clusters managed by GitOps (Flux2)
 site_author: Tomáš Bouška
 site_url: https://docs.buvis.net
 
-repo_name: buvis/cluster
+repo_name: buvis/clusters
 repo_url: https://github.com/buvis-net/clusters
 edit_uri: "edit/main/docs/"
 
