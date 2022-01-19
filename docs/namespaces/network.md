@@ -18,5 +18,5 @@ This hosts network related applications.
 
 ### References
 - [Docker image](https://github.com/linuxserver/docker-wireguard)
-- [Manifests inspiration](https://github.com/ivanmorenoj/k3s-pihole-wireguard/blob/main/k8s/05-wireguard.yaml)
+- [Manifests inspiration](https://github.com/ivanmorenoj/k3s-pihole-wireguard/blob/main/k8s/04-wireguard.yaml)
 - [Issue with routing](https://github.com/linuxserver/docker-wireguard/issues/78#issuecomment-739321794)

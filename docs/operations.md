@@ -5,7 +5,7 @@ This is automated using [Github Action](https://github.com/buvis-net/cluster/blo
 ## Usage
 
 ### Use secret values in manifests directly
-1. Define key-value pair in [cluster-secrets](flux-system/extras/cluster-secrets.yaml)
+1. Define key-value pair in [cluster-secrets](production/operations/flux-system/extras/cluster-secrets.yaml)
     ```bash
     sops flux-system/extras/cluster-secrets.yaml
     ```
