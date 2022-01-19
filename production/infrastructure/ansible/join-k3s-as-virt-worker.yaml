@@ -1,8 +1,0 @@
----
-- hosts: virt_worker
-  remote_user: "arch"
-  become: true
-  gather_facts: true
-
-  roles:
-  - join-k3s-as-worker

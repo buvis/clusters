@@ -1,6 +1,0 @@
----
-# Use bob as default user
-default_user: ubuntu
-
-# Ansible credentials
-ansible_user: "{{ default_user }}"

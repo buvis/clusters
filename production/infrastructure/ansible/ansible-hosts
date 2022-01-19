@@ -6,7 +6,6 @@ all:
     cluster:
       control_plane:
       worker:
-      virt_worker:
 
     control_plane:
       children:
@@ -29,12 +28,6 @@ all:
         hawking:
         braun:
         hertz:
-
-    virt_worker:
-      hosts:
-        kao-worker-1:
-        kao-worker-2:
-        kao-worker-3:
 
     standalone:
       db:
