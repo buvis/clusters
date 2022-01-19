@@ -31,7 +31,5 @@ resource "proxmox_vm_qemu" "kube-master" {
   ipconfig0    = "ip=dhcp"
   ciuser       = var.common.ciuser
   cipassword   = data.sops_file.secrets.data["cipassword"]
-  searchdomain = var.common.search_domain
-  nameserver   = var.common.gateway
   sshkeys      = data.sops_file.secrets.data["ssh_key"]
 }

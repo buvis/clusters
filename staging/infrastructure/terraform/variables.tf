@@ -11,8 +11,6 @@ variable "common" {
   default = {
     vm_template   = "ubuntu-cloudimg"
     ciuser        = "bob"
-    search_domain = "buvis.net"
-    gateway       = "10.7.0.1"
   }
 }
 

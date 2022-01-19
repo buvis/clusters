@@ -1,13 +1,13 @@
-.PHONY: install nodes masters workers flux update-flux
+.PHONY: install nodes masters workers flux update-flux destroy
 
-install: | nodes masters workers
+install: | nodes masters workers flux
 
 nodes:
 	cd infrastructure/terraform && terraform init
 	cd infrastructure/terraform && terraform apply -auto-approve
 
 masters:
-	ansible-playbook ansible/install-k3s-masters.yaml
+	ansible-playbook infrastructure/ansible/install-k3s-masters.yaml
 	kubectl apply -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
 	kubectl apply -f infrastructure/manifests/install-calico.yaml
 
@@ -39,3 +39,6 @@ update-flux:
         --path=./staging/operations \
         --branch=main \
         --personal
+
+destroy:
+	cd infrastructure/terraform && terraform destroy
