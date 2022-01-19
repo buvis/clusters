@@ -2,17 +2,16 @@
 
 Install the following tools on your workstation:
 
-- [pre-commit]
-- [direnv]
-- [sops]
-- [gpg]
-- [ansible]
-- [kubectl]
+- [pre-commit](https://pre-commit.com/#installation)
+- [direnv](https://direnv.net/docs/installation.html)
+- [gnupg and sops](https://fluxcd.io/docs/guides/mozilla-sops/)
+- [ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
+- [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
 
 Create accounts:
 
-- [ZeroSSL] to get certificates for ingress
-- [Slack] to get notifications from Flux
+- [ZeroSSL](https://app.zerossl.com/signup) to get certificates for ingress
+- [Slack](https://slack.com/get-started#/createnew) to get notifications from Flux
 
 ## Production cluster
 
