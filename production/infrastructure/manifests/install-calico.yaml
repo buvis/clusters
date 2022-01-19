@@ -1,0 +1,38 @@
+---
+apiVersion: operator.tigera.io/v1
+kind: Installation
+metadata:
+  name: default
+spec:
+  calicoNetwork:
+    # Note: The ipPools section cannot be modified post-install.
+    ipPools:
+    - blockSize: 26
+      cidr: "172.17.0.0/16"
+      encapsulation: IPIPCrossSubnet
+      natOutgoing: Enabled
+      nodeSelector: all()
+    containerIPForwarding: Enabled
+    nodeAddressAutodetectionV4:
+      cidrs:
+      - "10.7.0.0/24"
+---
+apiVersion: crd.projectcalico.org/v1
+kind: BGPConfiguration
+metadata:
+  name: default
+spec:
+  asNumber: 64512
+  nodeToNodeMeshEnabled: false
+  serviceClusterIPs:
+  - cidr: "10.43.0.0/16"
+  serviceExternalIPs:
+  - cidr: "10.10.0.0/16"
+---
+apiVersion: crd.projectcalico.org/v1
+kind: BGPPeer
+metadata:
+  name: global
+spec:
+  peerIP: 10.7.0.1
+  asNumber: 64513
