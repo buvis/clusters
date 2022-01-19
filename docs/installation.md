@@ -1,4 +1,4 @@
-# Prerequisites
+## Prerequisites
 
 Install the following tools on your workstation:
 
@@ -14,11 +14,11 @@ Create accounts:
 - [ZeroSSL] to get certificates for ingress
 - [Slack] to get notifications from Flux
 
-# Production cluster
+## Production cluster
 
 Anything that follows supposes you are working in [production directory](https://github.com/buvis-net/clusters/tree/main/production).
 
-## Preparation
+### Preparation
 
 1. [Add renovate to Github](https://github.com/marketplace/renovate)
 2. Make sure that postgres database `kubernetes` doesn't exist on datastore server
@@ -38,7 +38,7 @@ Anything that follows supposes you are working in [production directory](https:/
         ```
     3. Export `SOPS_KEY_FINGERPRINT` environment variable `.envrc` with the value from previous step
 
-## Bootstrap the cluster
+### Bootstrap the cluster
 
 1. Flash the nodes: `ansible-playbook infrastructure/ansible/flash-node`
 2. Get kube config: `ansible-playbook infrastructure/ansible/get-cluster-config`
@@ -47,7 +47,7 @@ Anything that follows supposes you are working in [production directory](https:/
 kubectl taint node <master> node-role.kubernetes.io/master:NoSchedule`
 ```
 
-## CNI deployment
+### CNI deployment
 
 1. Install bgpd on home router
 2. Copy `infrastructure/etc/bgpd.conf` to home router's `/etc` to configure bgpd to peer with the cluster
@@ -60,22 +60,22 @@ kubectl apply -f infrastructure/manifests/deploy-tigera-operator.yaml`
 kubectl apply -f infrastructure/manifests/install-calico.yaml`
 ```
 
-## Workloads deployment
+### Workloads deployment
 
 [Flux](https://github.com/fluxcd/flux2) watches my [clusters repository](https://github.com/buvis-net/clusters) and makes the changes to them based on the YAML manifests.
 
 To install Flux, run `make flux`
 
-## Persistent volumes migration
+### Persistent volumes migration
 
 It should be possible to migrate the persistent volumes from previous cluster installation from Longhorn's backups. I never tried that, so I don't know the exact procedure.
 
 
-# Staging cluster
+## Staging cluster
 
 Anything that follows supposes you are working in [staging directory](https://github.com/buvis-net/clusters/tree/main/staging).
 
-## Preparation
+### Preparation
 
 1. Export `GITHUB_TOKEN` environment variable in `.envrc` file with [GitHub personal access token](https://github.com/settings/tokens) generated specifically for Flux
 2. Export `SLACK_WEBHOOK_URL` environment variable in `.envrc`, get incoming webhook address `<SLACK_WEBHOOK_URL>` from [Slack](https://api.slack.com/apps)
@@ -87,7 +87,7 @@ Anything that follows supposes you are working in [staging directory](https://gi
         ```
     3. Export `SOPS_KEY_FINGERPRINT` environment variable `.envrc` with the value from previous step
 
-## Install Proxmox
+### Install Proxmox
 
 1. Download [Proxmox installation iso](https://www.proxmox.com/en/downloads/category/iso-images-pve)
 2. Burn it to USB stick: https://pve.proxmox.com/wiki/Prepare_Installation_Media (use 1M instead of 1m as block size)
@@ -122,7 +122,7 @@ Anything that follows supposes you are working in [staging directory](https://gi
   d. Comment out this line: `deb https://enterprise.proxmox.com/debian/pve buster pve-enterprise`
 10. Update the system: `apt update && apt dist-upgrade`
 
-## Create VM template
+### Create VM template
 
 1. SSH to proxmox machine
 2. Get the image for VM: `wget https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img`
@@ -136,6 +136,6 @@ Anything that follows supposes you are working in [staging directory](https://gi
 7. Set disk to boot: `qm set 9000 --boot c --bootdisk scsi0`
 9. Convert VM to template: `qm template 9000`
 
-## Bootstrap the cluster
+### Bootstrap the cluster
 
 Run `make install`
