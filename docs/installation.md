@@ -113,13 +113,22 @@ Anything that follows supposes you are working in [staging directory](https://gi
   f. Clear browser cache and reconnect UI
 8. Use community repo
   a. Edit sources: `vi /etc/apt/sources.list`
-  b. Add `deb http://download.proxmox.com/debian buster pve-no-subscription`
+  b. Add `deb http://download.proxmox.com/debian bullseye pve-no-subscription`
 9. Disable enterprise repo
   a. Go to apt sources directory: `cd /etc/apt/sources.list.d`
   b. Backup enterprise list: `cp pve-enterprise.list pve-enterprise.list.bak`
   c. Edit enterprise list: `vi pve-enterprise.list`
-  d. Comment out this line: `deb https://enterprise.proxmox.com/debian/pve buster pve-enterprise`
+  d. Comment out this line: `deb https://enterprise.proxmox.com/debian/pve bullseye pve-enterprise`
 10. Update the system: `apt update && apt dist-upgrade`
+
+#### Fixing Asus PN50
+
+1. Network will be down on the first boot. Restart it: `systemctl restart networking`
+2. Reboot gets stuck when exiting KVM. Upgrade to kernel 5.15: `apt install pve-kernel-5.15 pve-kernel-5.15.5-1-pve pve-headers-5.15 pve-headers-5.15.5-1-pve`
+
+References:
+- https://forum.proxmox.com/threads/shutdown-hangs-on-kvm-exiting-hardware-virtualization.101914/
+- https://forum.proxmox.com/threads/another-realtek-8125-funny.102240/
 
 ### Create VM template
 
@@ -129,10 +138,11 @@ Anything that follows supposes you are working in [staging directory](https://gi
   - Arch Linux: it lacks overlay module, so k3s won't run
   - CentOS: all VMs are named localhost, so Kubernetes will add one node only
 3. Create VM: `qm create 9000 --name "ubuntu-cloudimg" --memory 4096 --cpu cputype=host --cores 4 --serial0 socket --vga serial0 --net0 virtio,bridge=vmbr0,tag=20 --agent enabled=1,fstrim_cloned_disks=1`
-4. Import the image to local storage: `qm importdisk 9000 focal-server-cloudimg-amd64.qcow2 local-lvm --format qcow2`
-5. Attach the disk to VM: `qm set 9000 --scsihw virtio-scsi-pci --scsi0 local-lvm:vm-9000-disk-0`
-6. Add cloudinit CDROM drive: `qm set 9000 --ide2 local-lvm:cloudinit`
-7. Set disk to boot: `qm set 9000 --boot c --bootdisk scsi0`
+4. The following commands use `local-lvm` as storage. If possible, create/use a ZFS pool instead.
+5. Import the image to local storage: `qm importdisk 9000 focal-server-cloudimg-amd64.img local-lvm --format qcow2`
+6. Attach the disk to VM: `qm set 9000 --scsihw virtio-scsi-pci --scsi0 local-lvm:vm-9000-disk-0`
+7. Add cloudinit CDROM drive: `qm set 9000 --ide2 local-lvm:cloudinit`
+8. Set disk to boot: `qm set 9000 --boot c --bootdisk scsi0`
 9. Convert VM to template: `qm template 9000`
 
 ### Bootstrap the cluster

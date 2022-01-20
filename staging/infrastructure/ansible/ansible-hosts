@@ -9,9 +9,10 @@ all:
 
     control_plane:
       hosts:
-        kao-master-1:
+        staging-master-1:
 
     worker:
       hosts:
-        kao-worker-1:
-        kao-worker-2:
+        staging-worker-1:
+        staging-worker-2:
+        staging-worker-3:
