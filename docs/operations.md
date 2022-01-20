@@ -1,6 +1,6 @@
 ## Upgrade
 
-This is automated using [Github Action](https://github.com/buvis-net/cluster/blob/main/.github/workflows/update-flux.yaml)
+This is automated using [Github Action](https://github.com/buvis-net/clusters/blob/main/.github/workflows/update-flux-production.yaml).
 
 ## Usage
 

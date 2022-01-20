@@ -1,4 +1,4 @@
-This provides storage to the cluster. I'm using [Rancher's Longhorn](https://rancher.com/products/longhorn). See [manifests](https://github.com/tbouska/buvis-cluster/tree/main/longhorn-system).
+This provides storage to the cluster. I'm using [Rancher's Longhorn](https://rancher.com/products/longhorn). See [manifests](https://github.com/buvis-net/clusters/tree/main/production/operations/longhorn-system).
 
 ## Setup
 
