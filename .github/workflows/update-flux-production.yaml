@@ -1,5 +1,5 @@
 ---
-name: update-flux
+name: Update flux in production
 
 on:
   workflow_dispatch:
