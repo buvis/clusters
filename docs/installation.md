@@ -50,7 +50,7 @@ kubectl taint node <master> node-role.kubernetes.io/master:NoSchedule`
 
 1. Install bgpd on home router
 2. Copy `infrastructure/etc/bgpd.conf` to home router's `/etc` to configure bgpd to peer with the cluster
-3. Install Calico operator (manifest from https://docs.projectcalico.org/getting-started/kubernetes/k3s/multi-node-install modified to refer to arm64 images):
+3. Install Calico operator (manifest from [Calico multi-node install](https://docs.projectcalico.org/getting-started/kubernetes/k3s/multi-node-install) modified to refer to arm64 images):
 ```bash
 kubectl apply -f infrastructure/manifests/deploy-tigera-operator.yaml`
 ```
@@ -89,7 +89,7 @@ Anything that follows supposes you are working in [staging directory](https://gi
 ### Install Proxmox
 
 1. Download [Proxmox installation iso](https://www.proxmox.com/en/downloads/category/iso-images-pve)
-2. Burn it to USB stick: https://pve.proxmox.com/wiki/Prepare_Installation_Media (use 1M instead of 1m as block size)
+2. [Burn it to USB stick](https://pve.proxmox.com/wiki/Prepare_Installation_Media). Note: in macOS, use 1M instead of 1m as block size
 3. Boot Proxmox machine from the USB stick
 4. Install Proxmox following the installation wizard
 5. Enter root's password to `PM_PASS` environment variable in `.envrc`
@@ -127,8 +127,9 @@ Anything that follows supposes you are working in [staging directory](https://gi
 2. Reboot gets stuck when exiting KVM. Upgrade to kernel 5.15: `apt install pve-kernel-5.15 pve-kernel-5.15.5-1-pve pve-headers-5.15 pve-headers-5.15.5-1-pve`
 
 References:
-- https://forum.proxmox.com/threads/shutdown-hangs-on-kvm-exiting-hardware-virtualization.101914/
-- https://forum.proxmox.com/threads/another-realtek-8125-funny.102240/
+
+- [Realtek 8125 issues | Proxmox forum](https://forum.proxmox.com/threads/another-realtek-8125-funny.102240/)
+- [Shutdown hangs on kvm exiting | Proxmox forum](https://forum.proxmox.com/threads/shutdown-hangs-on-kvm-exiting-hardware-virtualization.101914/)
 
 ### Create VM template
 
