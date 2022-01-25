@@ -91,3 +91,7 @@ dependsOn:
     ```bash
     flux resume hr <RELEASE_NAME> -n <RELEASE_NAMESPACE>
     ```
+
+### Get CPU temperature in Proxmox for Asus PN50
+
+Look at k10temp-pci-00c3 in the output of `sensors` command.
