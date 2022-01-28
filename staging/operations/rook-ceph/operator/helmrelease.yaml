@@ -15,11 +15,3 @@ spec:
         kind: HelmRepository
         name: rook-release
         namespace: flux-system
-  values:
-    resources:
-      requests:
-        cpu: 100m
-        memory: 128Mi
-      limits:
-        cpu: 1000m
-        memory: 256Mi
