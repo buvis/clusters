@@ -36,18 +36,8 @@ spec:
         enabled: true
         urlPrefix: /
       storage:
-        useAllNodes: false
-        useAllDevices: false
+        useAllNodes: true
+        useAllDevices: true
         config:
           osdsPerDevice: "1"
-        nodes:
-        - name: "staging-worker-1"
-          devices:
-          - name: "sdb"
-        - name: "staging-worker-2"
-          devices:
-          - name: "sdb"
-        - name: "staging-worker-3"
-          devices:
-          - name: "sdb"
     cephObjectStores: []
