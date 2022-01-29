@@ -15,3 +15,15 @@ spec:
         kind: HelmRepository
         name: rook-release
         namespace: flux-system
+  values:
+    csi:
+      pluginTolerations:
+      - key: "node-role.kubernetes.io/master"
+        operator: "Exists"
+    resources:
+      limits:
+        cpu: 1000m
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
