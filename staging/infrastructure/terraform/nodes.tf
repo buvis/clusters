@@ -6,8 +6,8 @@ resource "proxmox_vm_qemu" "kube-master" {
   agent       = 0
   clone       = var.common.vm_template
   vmid        = each.value.id
-  memory      = each.value.memory
-  cores       = each.value.cores
+  cores       = var.common.cores
+  memory      = var.common.memory
   network {
     model    = "virtio"
     macaddr  = each.value.macaddr
@@ -16,7 +16,15 @@ resource "proxmox_vm_qemu" "kube-master" {
   disk {
     type    = "scsi"
     storage = "local-lvm"
-    size    = each.value.disk
+    size    = var.common.disk0
+    format  = "raw"
+    ssd     = 1
+    discard = "on"
+  }
+  disk {
+    type    = "scsi"
+    storage = "tank"
+    size    = var.common.disk1
     format  = "raw"
     ssd     = 1
     discard = "on"
