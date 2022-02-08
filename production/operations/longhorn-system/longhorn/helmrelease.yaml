@@ -38,6 +38,7 @@ spec:
       defaultReplicaCount: 3
       defaultLonghornStaticStorageClass: longhorn
       replicaAutoBalance: best-effort
+      nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
     ingress:
       enabled: true
       ingressClassName: nginx
