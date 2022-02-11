@@ -20,7 +20,7 @@ spec:
     spec:
       # renovate: registryUrl=https://groundhog2k.github.io/helm-charts/
       chart: mariadb
-      version: 0.4.1
+      version: 0.4.2
       sourceRef:
         kind: HelmRepository
         name: groundhog2k
