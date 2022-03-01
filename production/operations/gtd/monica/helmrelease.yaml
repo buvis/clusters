@@ -27,7 +27,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: monica
-      version: 7.0.0
+      version: 7.0.1
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home
@@ -37,7 +37,7 @@ spec:
   values:
     image:
       repository: monica
-      tag: 3.6.1-apache
+      tag: 3.7.0-apache
       pullPolicy: IfNotPresent
     env:
       APP_ENV: production
