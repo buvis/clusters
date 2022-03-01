@@ -10,7 +10,7 @@ metadata:
 spec:
   concurrency: 1
   # Latest release: https://update.k3s.io/v1-release/channels/stable
-  version: v1.22.2+k3s2
+  version: v1.22.6+k3s1
   nodeSelector:
     matchExpressions:
     - key: plan.upgrade.cattle.io/k3s-server
@@ -33,7 +33,7 @@ metadata:
 spec:
   concurrency: 1
   # Latest release: https://update.k3s.io/v1-release/channels/stable¬
-  version: v1.22.2+k3s2
+  version: v1.22.6+k3s1
   nodeSelector:
     matchExpressions:
     - key: plan.upgrade.cattle.io/k3s-agent
