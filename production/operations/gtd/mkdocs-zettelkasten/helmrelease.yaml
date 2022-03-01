@@ -46,11 +46,13 @@ spec:
       requirements: |
         mkdocs-zettelkasten==0.1.5
         git+https://github.com/jldiaz/mkdocs-plugin-tags.git#egg=tags-macros-plugin
+        mdx_truly_sane_lists
       theme:
         name: zettelkasten-solarized-light
       extensions:
       - admonition
       - pymdownx.superfences
+      - mdx_truly_sane_lists
       plugins:
       - search
       - tags
