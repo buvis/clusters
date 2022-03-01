@@ -18,7 +18,7 @@ This hosts system upgrade automation.
 ### Get email with upgrade eligibility
 1. SSH to any node
 2. Install prerequisites: `sudo pacman -S cronie s-nail`
-3. Enable scheduling: `sudo systemctl enable cronie`
+3. Enable scheduling: `sudo systemctl enable --now cronie`
 4. Configure email: `sudo vim /etc/mail.rc`
 ```
 set v15-compat
