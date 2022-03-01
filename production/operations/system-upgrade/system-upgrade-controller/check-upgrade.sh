@@ -14,8 +14,8 @@ if [ $(pacman -Su --print | wc -c) != 0 ]; then
         <br /><br /> \
         Follow the instructions to upgrade:<br /><br /> \
         1. Update plan version to today's date in yyyymmdd format:<br /> \
-        <code>vim ~/git/src/github.com/buvis/cluster/system-upgrade/system-upgrade-controller/plans/archlinux.yaml</code><br /><br />
-        2. Apply the plan:<br /> <code>kubectl apply -f ~/git/src/github.com/buvis/cluster/system-upgrade/system-upgrade-controller/plans/archlinux.yaml</code>
+        <code>vim ~/git/src/github.com/buvis-net/clusters/production/operations/system-upgrade/system-upgrade-controller/plans/archlinux.yaml</code><br /><br />
+        2. Apply the plan:<br /> <code>kubectl apply -f ~/git/src/github.com/buvis-net/clusters/production/operations/system-upgrade/system-upgrade-controller/plans/archlinux.yaml</code>
       "
 else
   MSG="<b style='color:#2e8b57;font-size:large;'>&#x1F44C There are no updates available &#x1F44C</b>"
