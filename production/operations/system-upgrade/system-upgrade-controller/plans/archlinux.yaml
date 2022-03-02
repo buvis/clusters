@@ -7,7 +7,7 @@ metadata:
   namespace: system-upgrade
 type: Opaque
 stringData:
-  version: "20211020"
+  version: "20220302"
   upgrade.sh: |
     #!/bin/sh
 
@@ -33,7 +33,7 @@ metadata:
   namespace: system-upgrade
 spec:
   version: latest
-  concurrency: 3
+  concurrency: 2
   nodeSelector:
     matchExpressions:
     - key: plan.upgrade.cattle.io/archlinux
