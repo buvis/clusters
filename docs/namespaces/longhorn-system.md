@@ -30,4 +30,11 @@ This provides storage to the cluster. I'm using [Rancher's Longhorn](https://ran
 2. Node - burger menu at node's line - Edit node and disks - Add disk
 
 ## Troubleshoot
+
+### Volume degraded
+
 1. Check logs of engine-manager pod on the node where there is volume failure
+
+### Restore from backup
+
+Follow [Restoring Volumes for Kubernetes StatefulSets](https://longhorn.io/docs/1.2.3/snapshots-and-backups/backup-and-restore/restore-statefulset/)
