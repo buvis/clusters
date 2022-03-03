@@ -11,3 +11,4 @@ spec:
   resources:
     requests:
       storage: 512Mi
+  volumeName: linkace-db-mariadb-0
