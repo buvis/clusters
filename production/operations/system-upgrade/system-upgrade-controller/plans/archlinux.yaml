@@ -7,7 +7,7 @@ metadata:
   namespace: system-upgrade
 type: Opaque
 stringData:
-  version: "20220302"
+  version: "20220303"
   upgrade.sh: |
     #!/bin/sh
 
