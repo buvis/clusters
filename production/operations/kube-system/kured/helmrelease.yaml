@@ -29,7 +29,7 @@ spec:
   values:
     image:
       repository: raspbernetes/kured
-      tag: 1.9.1
+      tag: 1.9.2
     updateStrategy: RollingUpdate
     configuration:
       timeZone: Europe/Berlin
