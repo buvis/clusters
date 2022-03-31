@@ -20,7 +20,7 @@ spec:
     spec:
       # renovate: registryUrl=https://weaveworks.github.io/kured
       chart: kured
-      version: 2.11.2
+      version: 2.12.1
       sourceRef:
         kind: HelmRepository
         name: weaveworks-kured
@@ -29,7 +29,7 @@ spec:
   values:
     image:
       repository: raspbernetes/kured
-      tag: 1.9.1
+      tag: 1.9.2
     updateStrategy: RollingUpdate
     configuration:
       timeZone: Europe/Berlin
