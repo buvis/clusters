@@ -68,7 +68,6 @@ spec:
       - thanos
       prometheusOperator:
         enabled: true
-        port: 9000
       secrets:
         enabled: true
         name: minio-thanos
