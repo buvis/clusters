@@ -36,6 +36,12 @@ spec:
       config:
         proxy-body-size: 0
       replicaCount: 1
+      metrics:
+        enabled: true
+        service:
+          annotations:
+            prometheus.io/port: "10254"
+            prometheus.io/scrape: "true"
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
