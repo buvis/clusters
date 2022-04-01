@@ -66,8 +66,7 @@ spec:
       buckets:
       - loki
       - thanos
-      prometheusOperator:
-        enabled: true
+      prometheusOperator: true
       secrets:
         enabled: true
         name: minio-thanos
