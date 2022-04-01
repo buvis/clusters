@@ -9,6 +9,7 @@ resources:
 - gotk-sync.yaml
 - sources.yaml
 - extras.yaml
+- podmonitor.yaml
 patches:
 - path: flux-system-gitrepository.patch.yaml
   target:
