@@ -65,6 +65,7 @@ spec:
                 storage: 10Gi
       metrics:
         enabled: true
+        port: 9000
       secrets:
         enabled: true
         name: minio-thanos
