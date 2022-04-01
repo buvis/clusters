@@ -47,7 +47,7 @@ spec:
       - replica
       dnsDiscovery:
         sidecarsService: kube-prometheus-stack-thanos-discovery
-        sidecarsNamespace: system-monitoring
+        sidecarsNamespace: monitoring
       ingress:
         enabled: true
         hostname: thanos.buvis.net
