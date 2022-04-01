@@ -63,7 +63,10 @@ spec:
             resources:
               requests:
                 storage: 10Gi
-      metrics:
+      buckets:
+      - loki
+      - thanos
+      prometheusOperator:
         enabled: true
         port: 9000
       secrets:
