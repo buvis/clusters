@@ -27,6 +27,8 @@ spec:
         # https://www.linkace.org/docs/v1/setup/setup-with-docker/advanced-configuration/#using-docker-environment-variables-instead-of-the-env-file
         - name: APP_KEY
           value: ${SECRET_LINKACE_APP_KEY}
+        - name: DB_CONNECTION
+          value: mysql
         - name: DB_HOST
           value: linkace-db-mariadb.gtd
         - name: DB_DATABASE
