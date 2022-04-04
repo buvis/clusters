@@ -36,5 +36,5 @@ spec:
         - name: DB_PASSWORD
           value: ${SECRET_LINKACE_DB_PASSWORD}
         - name: SETUP_COMPLETED
-          value: true
+          value: "true"
       restartPolicy: Always
