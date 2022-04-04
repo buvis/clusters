@@ -19,16 +19,19 @@ spec:
         app.kubernetes.io/name: linkace
     spec:
       containers:
-      - image: linkace/linkace:v1.9.2-simple
+      - image: linkace/linkace:v1.10.0-simple
         name: linkace
         ports:
         - containerPort: 80
-        volumeMounts:
-        - name: linkace-env
-          mountPath: /app/.env
-          subPath: env
+        env:
+        - name: APP_KEY
+          value: ${SECRET_LINKACE_APP_KEY}
+        - name: DB_HOST
+          value: linkace-db-mariadb.gtd
+        - name: DB_DATABASE
+          value: linkace
+        - name: DB_USERNAME
+          value: linkace
+        - name: DB_PASSWORD
+          value: ${SECRET_LINKACE_DB_PASSWORD}
       restartPolicy: Always
-      volumes:
-      - name: linkace-env
-        configMap:
-          name: linkace-env
