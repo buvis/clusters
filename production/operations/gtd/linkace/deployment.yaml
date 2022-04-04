@@ -19,7 +19,7 @@ spec:
         app.kubernetes.io/name: linkace
     spec:
       containers:
-      - image: linkace/linkace:v1.9.2-simple
+      - image: linkace/linkace:v1.10.0-simple
         name: linkace
         ports:
         - containerPort: 80
