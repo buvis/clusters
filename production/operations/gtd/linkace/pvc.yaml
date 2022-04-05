@@ -11,16 +11,4 @@ spec:
   resources:
     requests:
       storage: 512Mi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: linkace-config
-  namespace: gtd
-spec:
-  storageClassName: longhorn
-  accessModes:
-  - ReadWriteOnce
-  resources:
-    requests:
-      storage: 5Mi
+  volumeName: linkace-db-mariadb-0
