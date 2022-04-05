@@ -51,6 +51,7 @@ Reference: https://www.linkace.org/docs/v1/setup/setup-with-docker/simple/
 3. Paste content from a backup `linkace-export.html` file
 4. End heredoc by typing `EOF` on its own line
 5. Import to linkace: `./artisan links:import bookmarks.html --skip-check --skip-meta-generation`
+6. Lists are not captured in html export. You'll need to recreate them from csv backup.
 
 Reference:
 - https://github.com/Kovah/LinkAce/issues/287#issuecomment-860229837
