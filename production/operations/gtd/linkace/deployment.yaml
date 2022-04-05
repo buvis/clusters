@@ -23,20 +23,11 @@ spec:
         name: linkace
         ports:
         - containerPort: 80
-        env:
-        # https://www.linkace.org/docs/v1/setup/setup-with-docker/advanced-configuration/#using-docker-environment-variables-instead-of-the-env-file
-        - name: APP_KEY
-          value: ${SECRET_LINKACE_APP_KEY}
-        - name: DB_CONNECTION
-          value: mysql
-        - name: DB_HOST
-          value: linkace-db-mariadb.gtd
-        - name: DB_DATABASE
-          value: linkace
-        - name: DB_USERNAME
-          value: linkace
-        - name: DB_PASSWORD
-          value: ${SECRET_LINKACE_DB_PASSWORD}
-        - name: SETUP_COMPLETED
-          value: "true"
+        volumeMounts:
+        - name: linkace-config
+          mountPath: /app
       restartPolicy: Always
+      volumes:
+      - name: linkace-config
+        persistentVolumeClaim:
+          claimName: linkace-config
