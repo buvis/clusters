@@ -23,12 +23,12 @@ spec:
         name: linkace
         ports:
         - containerPort: 80
-        volumeMounts:
-        - name: linkace-config
-          mountPath: /app/.env
-          subPath: env
+        #volumeMounts:
+        #- name: linkace-env
+          #mountPath: /app/.env
+          #subPath: env
       restartPolicy: Always
-      volumes:
-      - name: linkace-config
-        persistentVolumeClaim:
-          claimName: linkace-config
+      #volumes:
+      #- name: linkace-env
+        #configMap:
+          #name: linkace-env
