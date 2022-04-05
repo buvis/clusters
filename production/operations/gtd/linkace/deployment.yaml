@@ -25,7 +25,8 @@ spec:
         - containerPort: 80
         volumeMounts:
         - name: linkace-config
-          mountPath: /app
+          mountPath: /app/.env
+          subPath: env
       restartPolicy: Always
       volumes:
       - name: linkace-config
