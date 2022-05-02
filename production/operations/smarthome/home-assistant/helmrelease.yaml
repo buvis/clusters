@@ -25,7 +25,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: home-assistant
-      version: 12.2.0
+      version: 13.1.1
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home
@@ -60,7 +60,7 @@ spec:
         enabled: true
         image:
           repository: codercom/code-server
-          tag: 4.2.0
+          tag: 4.3.0
         workingDir: "/config"
         args:
         - --auth
