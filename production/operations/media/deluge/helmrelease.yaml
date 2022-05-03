@@ -1,0 +1,74 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: deluge
+  namespace: media
+spec:
+  dependsOn:
+  - name: ingress-nginx
+    namespace: kube-system
+  - name: cert-manager
+    namespace: kube-system
+  - name: oauth2-proxy
+    namespace: kube-system
+  - name: vpn-gateway
+    namespace: vpn
+  interval: 5m
+  install:
+    timeout: 15m
+    remediation:
+      retries: 5
+  upgrade:
+    timeout: 15m
+    remediation:
+      retries: 5
+      remediateLastFailure: true
+    cleanupOnFail: true
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: deluge
+      version: 5.3.1
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home
+        namespace: flux-system
+      interval: 5m
+  values:
+    env:
+      TZ: Europe/Berlin
+      UMASK: "022"
+      PUID: 1001
+      PGID: 1001
+    podAnnotations:
+      setVPNGateway: "true"
+    persistence:
+      config:
+        enabled: true
+        existingClaim: deluge-config
+      media:
+        enabled: true
+        existingClaim: nas-media
+        mountPath: /media
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: nginx
+          cert-manager.io/cluster-issuer: zerossl
+        hosts:
+        - host: deluge.buvis.net
+          paths:
+          - path: /
+            pathType: Prefix
+        tls:
+        - hosts:
+          - deluge.buvis.net
+          secretName: deluge-crt
+    resources:
+      requests:
+        cpu: "0.3"
+        memory: "1000Mi"
+      limits:
+        memory: "4000Mi"
