@@ -49,7 +49,7 @@ spec:
           - minio.buvis.net
           secretName: minio-crt
     tenants:
-    - name: thanos-storage
+    - name: thanos
       namespace: monitoring
       pools:
       - servers: 1
