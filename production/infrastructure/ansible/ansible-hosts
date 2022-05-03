@@ -24,10 +24,8 @@ all:
       hosts:
         feynman:
         planck:
-        einstein:
         hawking:
         braun:
-        hertz:
 
     standalone:
       db:

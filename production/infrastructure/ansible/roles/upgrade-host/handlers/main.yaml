@@ -1,5 +1,16 @@
 ---
 # handler for role upgrade-host
+#
+
+- name: check if running k3s
+  stat:
+    path: /usr/local/bin/k3s-killall.sh
+  register: has_k3s
+
+- name: stop k3s
+  script:
+    executable: /usr/local/bin/k3s-killall.sh
+  when: has_k3s
 
 - name: reboot
   reboot:
