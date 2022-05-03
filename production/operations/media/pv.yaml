@@ -4,7 +4,7 @@ kind: PersistentVolume
 metadata:
   name: nas-media
 spec:
-  storageClassName: ""
+  storageClassName: nas-media
   capacity:
     storage: 1Mi
   accessModes:
@@ -20,11 +20,6 @@ spec:
   - hard
   - noatime
   - nodiratime
-  claimRef:
-    apiVersion: v1
-    kind: PersistentVolumeClaim
-    name: nas-media
-    namespace: media
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -32,10 +27,9 @@ metadata:
   name: nas-media
   namespace: media
 spec:
-  storageClassName: ""
+  storageClassName: nas-media
   accessModes:
   - ReadWriteMany
   resources:
     requests:
       storage: 1Mi
-  volumeName: nas-media
