@@ -64,8 +64,8 @@ spec:
               requests:
                 storage: 10Gi
       buckets:
-      - loki
-      - thanos
+      - name: loki
+      - name: thanos
       prometheusOperator: true
       secrets:
         enabled: true
