@@ -8,7 +8,7 @@ spec:
     # Note: The ipPools section cannot be modified post-install.
     ipPools:
     - blockSize: 26
-      cidr: "172.17.0.0/16"
+      cidr: "172.18.0.0/16"
       encapsulation: IPIPCrossSubnet
       natOutgoing: Enabled
       nodeSelector: all()
@@ -27,7 +27,7 @@ spec:
   serviceClusterIPs:
   - cidr: "10.43.0.0/16"
   serviceExternalIPs:
-  - cidr: "10.10.0.0/16"
+  - cidr: "10.11.0.0/16"
 ---
 apiVersion: crd.projectcalico.org/v1
 kind: BGPPeer
