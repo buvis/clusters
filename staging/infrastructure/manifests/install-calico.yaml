@@ -22,7 +22,7 @@ kind: BGPConfiguration
 metadata:
   name: default
 spec:
-  asNumber: 64512
+  asNumber: 64511
   nodeToNodeMeshEnabled: false
   serviceClusterIPs:
   - cidr: "10.43.0.0/16"
