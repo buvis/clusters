@@ -1,24 +1,19 @@
 ---
 # main task file for roles/prepare-storage
 
-- name: create partition
-  shell: /bin/echo -e "n\np\n\n\n\n\n\n\nw\n" | fdisk /dev/sdb
+- name: create partition for storage
+  community.general.parted:
+    device: /dev/sdb
+    number: 1
+    state: present
+    fs_type: ext4
 
-- name: reread partitions table
-  shell: partprobe /dev/sdb
-
-- name: format partition
-  filesytem:
+- name: format storage partition
+  filesystem:
     fstype: ext4
     dev: /dev/sdb1
-    force: true
 
-- name: create mount point
-  file:
-    path: /longhorn
-    state: directory
-
-- name: mount storage
+- name: mount storage for longhorn
   mount:
     path: /longhorn
     src: /dev/sdb1
