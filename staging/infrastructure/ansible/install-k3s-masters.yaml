@@ -6,3 +6,4 @@
 
   roles:
   - install-k3s-masters
+  - prepare-storage

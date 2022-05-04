@@ -5,3 +5,4 @@
 
   roles:
   - install-k3s-workers
+  - prepare-storage

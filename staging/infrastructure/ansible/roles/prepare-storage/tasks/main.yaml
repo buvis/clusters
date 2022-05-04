@@ -1,0 +1,27 @@
+---
+# main task file for roles/prepare-storage
+
+- name: create partition
+  shell: /bin/echo -e "n\np\n\n\n\n\n\n\nw\n" | fdisk /dev/sdb
+
+- name: reread partitions table
+  shell: partprobe /dev/sdb
+
+- name: format partition
+  filesytem:
+    fstype: ext4
+    dev: /dev/sdb1
+    force: true
+
+- name: create mount point
+  file:
+    path: /longhorn
+    state: directory
+
+- name: mount storage
+  mount:
+    path: /longhorn
+    src: /dev/sdb1
+    fstype: ext4
+    opts: rw,relatime
+    state: mounted
