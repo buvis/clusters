@@ -3,6 +3,7 @@ resource "proxmox_vm_qemu" "kube-master" {
 
   name        = each.key
   target_node = each.value.target_node
+  onboot      = true
   agent       = 0
   clone       = var.common.vm_template
   vmid        = each.value.id
