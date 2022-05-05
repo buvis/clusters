@@ -20,3 +20,9 @@
     fstype: ext4
     opts: rw,relatime
     state: mounted
+
+- name: enable iscsid
+  systemd:
+    name: iscsid
+    enabled: true
+    state: started

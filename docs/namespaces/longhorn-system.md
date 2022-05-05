@@ -35,6 +35,10 @@ This provides storage to the cluster. I'm using [Rancher's Longhorn](https://ran
 
 1. Check logs of engine-manager pod on the node where there is volume failure
 
+### Volume read-only
+
+Follow [Troubleshooting: `volume readonly or I/O error`](https://longhorn.io/kb/troubleshooting-volume-readonly-or-io-error/)
+
 ### Restore from backup
 
 Follow [Restoring Volumes for Kubernetes StatefulSets](https://longhorn.io/docs/1.2.3/snapshots-and-backups/backup-and-restore/restore-statefulset/)
