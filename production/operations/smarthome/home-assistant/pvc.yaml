@@ -1,5 +1,25 @@
 ---
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: hass-config
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  csi:
+    driver: driver.longhorn.io
+    fsType: ext4
+    volumeAttributes:
+      numberOfReplicas: '3'
+      staleReplicaTimeout: '30'
+    volumeHandle: linkace-db
+  storageClassName: longhorn
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: hass-config
@@ -11,3 +31,4 @@ spec:
   resources:
     requests:
       storage: 5Gi
+  volumeName: linkace-db
