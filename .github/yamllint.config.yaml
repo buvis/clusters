@@ -6,6 +6,7 @@ ignore: |
   vault.yaml
   production/operations/vpn/vpn-gateway/secret.yaml
   production/operations/kube-system/cert-manager/secrets.yaml
+  qa/operations/kube-system/cert-manager/secrets.yaml
   production/infrastructure/manifests/deploy-tigera-operator.yaml
 extends: default
 rules:

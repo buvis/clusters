@@ -27,7 +27,7 @@ spec:
       defaultClassReplicaCount: 3
       defaultFsType: ext4
     defaultSettings:
-      backupTarget: ${NFS_SERVER_LONGHORN_BACKUP_PATH}
+      backupTarget: ${NFS_SERVER_PATH_LONGHORN_BACKUP}
       defaultDataPath: /longhorn
       defaultReplicaCount: 3
       defaultLonghornStaticStorageClass: longhorn
