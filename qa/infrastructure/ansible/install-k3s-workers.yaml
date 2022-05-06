@@ -1,0 +1,8 @@
+---
+- hosts: worker
+  become: true
+  gather_facts: false
+
+  roles:
+  - install-k3s-workers
+  - prepare-storage

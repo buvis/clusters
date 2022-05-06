@@ -1,0 +1,28 @@
+---
+# main task file for roles/prepare-storage
+
+- name: create partition for storage
+  community.general.parted:
+    device: /dev/sdb
+    number: 1
+    state: present
+    fs_type: ext4
+
+- name: format storage partition
+  filesystem:
+    fstype: ext4
+    dev: /dev/sdb1
+
+- name: mount storage for longhorn
+  mount:
+    path: /longhorn
+    src: /dev/sdb1
+    fstype: ext4
+    opts: rw,relatime
+    state: mounted
+
+- name: enable iscsid
+  systemd:
+    name: iscsid
+    enabled: true
+    state: started

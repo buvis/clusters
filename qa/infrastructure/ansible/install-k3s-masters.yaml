@@ -1,0 +1,9 @@
+---
+- hosts: control_plane
+  remote_user: "{{ default_user }}"
+  become: true
+  gather_facts: false
+
+  roles:
+  - install-k3s-masters
+  - prepare-storage
