@@ -4,10 +4,10 @@ ignore: |
   cluster-secrets.yaml
   gotk-components.yaml
   vault.yaml
-  production/operations/vpn/vpn-gateway/secret.yaml
-  production/operations/kube-system/cert-manager/secrets.yaml
+  production-old/operations/vpn/vpn-gateway/secret.yaml
+  production-old/operations/kube-system/cert-manager/secrets.yaml
   qa/operations/kube-system/cert-manager/secrets.yaml
-  production/infrastructure/manifests/deploy-tigera-operator.yaml
+  production-old/infrastructure/manifests/deploy-tigera-operator.yaml
 extends: default
 rules:
   truthy:
