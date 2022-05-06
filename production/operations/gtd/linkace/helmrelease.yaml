@@ -16,6 +16,11 @@ spec:
       retries: 5
       remediateLastFailure: true
     cleanupOnFail: true
+  dependsOn:
+  - name: ingress-nginx
+    namespace: kube-system
+  - name: cert-manager
+    namespace: kube-system
   chart:
     spec:
       # renovate: registryUrl=https://groundhog2k.github.io/helm-charts/
