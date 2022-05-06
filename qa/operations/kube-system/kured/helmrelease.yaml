@@ -27,9 +27,6 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    image:
-      repository: raspbernetes/kured
-      tag: 1.9.2
     updateStrategy: RollingUpdate
     configuration:
       timeZone: Europe/Berlin
@@ -41,8 +38,6 @@ spec:
       slackHookUrl: ${SECRET_SLACK_KURED_WEBHOOK}
       slackChannel: kured
     tolerations:
-    - key: arm
-      operator: Exists
     - key: node-role.kubernetes.io/master
       operator: Exists
     - effect: NoSchedule
