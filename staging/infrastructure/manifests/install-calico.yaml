@@ -8,11 +8,10 @@ spec:
     # Note: The ipPools section cannot be modified post-install.
     ipPools:
     - blockSize: 26
-      cidr: "172.18.0.0/16"
-      encapsulation: IPIPCrossSubnet
+      cidr: "172.22.0.0/16"
+      encapsulation: None
       natOutgoing: Enabled
       nodeSelector: all()
-    containerIPForwarding: Enabled
     nodeAddressAutodetectionV4:
       cidrs:
       - "10.7.0.0/24"
@@ -23,9 +22,8 @@ metadata:
   name: default
 spec:
   asNumber: 64512
-  nodeToNodeMeshEnabled: false
   serviceClusterIPs:
-  - cidr: "10.44.0.0/16"
+  - cidr: "172.24.0.0/16"
   serviceExternalIPs:
   - cidr: "10.11.0.0/16"
 ---
