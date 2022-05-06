@@ -14,7 +14,7 @@ flux:
 	flux bootstrap github \
         --owner=buvis-net \
         --repository=clusters \
-        --path=./production/operations \
+        --path=./production-old/operations \
         --branch=main \
         --personal
 
@@ -22,6 +22,6 @@ update-flux:
 	flux bootstrap github \
         --owner=buvis-net \
         --repository=clusters \
-        --path=./production/operations \
+        --path=./production-old/operations \
         --branch=main \
         --personal
