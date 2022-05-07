@@ -67,11 +67,9 @@ spec:
                 storage: 10Gi
       buckets:
       - name: loki
-        region: eu
-        objectLock: false
       - name: thanos
-        region: eu
-        objectLock: false
+      users:
+      - name: minio-thanos
       prometheusOperator: true
       secrets:
         enabled: true
