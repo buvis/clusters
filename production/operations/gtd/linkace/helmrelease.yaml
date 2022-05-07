@@ -21,6 +21,8 @@ spec:
     namespace: kube-system
   - name: cert-manager
     namespace: kube-system
+  - name: longhorn
+    namespace: longhorn-system
   chart:
     spec:
       # renovate: registryUrl=https://groundhog2k.github.io/helm-charts/

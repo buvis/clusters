@@ -12,6 +12,8 @@ spec:
     namespace: kube-system
   - name: oauth2-proxy
     namespace: kube-system
+  - name: longhorn
+    namespace: longhorn-system
   interval: 5m
   install:
     timeout: 15m
