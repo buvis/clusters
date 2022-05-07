@@ -16,7 +16,7 @@ spec:
     volumeAttributes:
       numberOfReplicas: '3'
       staleReplicaTimeout: '30'
-    volumeHandle: linkace-db
+    volumeHandle: hass-config
   storageClassName: longhorn
 ---
 apiVersion: v1
@@ -31,4 +31,4 @@ spec:
   resources:
     requests:
       storage: 5Gi
-  volumeName: linkace-db
+  volumeName: hass-config
