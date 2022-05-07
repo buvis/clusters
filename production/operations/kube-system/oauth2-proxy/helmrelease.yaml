@@ -54,5 +54,3 @@ spec:
       - secretName: oauth2-proxy-https-cert
         hosts:
         - auth.buvis.net
-    image:
-      tag: latest-arm64
