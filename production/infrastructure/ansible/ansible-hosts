@@ -9,10 +9,10 @@ all:
 
     control_plane:
       hosts:
-        staging-master-1:
+        buvis-master-1:
 
     worker:
       hosts:
-        staging-worker-1:
-        staging-worker-2:
-        staging-worker-3:
+        buvis-worker-1:
+        buvis-worker-2:
+        buvis-worker-3:

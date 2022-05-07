@@ -21,22 +21,22 @@ variable "common" {
 variable "nodes" {
   type = map(map(string))
   default = {
-    staging-master-1 = {
+    buvis-master-1 = {
       id          = 4011
       macaddr     = "02:DE:4D:48:28:01"
       target_node = "higgs"
     },
-    staging-worker-1 = {
+    buvis-worker-1 = {
       id          = 4021
       macaddr     = "02:DE:4D:48:28:0A"
       target_node = "higgs"
     },
-    staging-worker-2 = {
+    buvis-worker-2 = {
       id          = 4022
       macaddr     = "02:DE:4D:48:28:0B"
       target_node = "higgs"
     },
-    staging-worker-3 = {
+    buvis-worker-3 = {
       id          = 4023
       macaddr     = "02:DE:4D:48:28:0C"
       target_node = "higgs"
