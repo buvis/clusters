@@ -10,8 +10,6 @@ spec:
     namespace: kube-system
   - name: cert-manager
     namespace: kube-system
-  - name: monica-db
-    namespace: gtd
   interval: 5m
   install:
     timeout: 15m

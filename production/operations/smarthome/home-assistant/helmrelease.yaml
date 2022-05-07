@@ -16,6 +16,13 @@ spec:
       retries: 5
       remediateLastFailure: true
     cleanupOnFail: true
+  dependsOn:
+  - name: ingress-nginx
+    namespace: kube-system
+  - name: cert-manager
+    namespace: kube-system
+  - name: monica-db
+    namespace: gtd
   chart:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
