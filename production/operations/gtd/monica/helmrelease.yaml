@@ -56,6 +56,8 @@ spec:
     mariadb:
       enabled: true
       auth:
+        database: monica
+        username: monica
         password: ${SECRET_MONICA_DB_PASSWORD}
         rootPassword: ${SECRET_MONICA_DB_ROOTPASSWORD}
       primary:
