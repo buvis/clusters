@@ -8,6 +8,8 @@ ignore: |
   production-old/operations/kube-system/cert-manager/secrets.yaml
   production-old/infrastructure/manifests/deploy-tigera-operator.yaml
   production/operations/kube-system/cert-manager/secrets.yaml
+  production/operations/minio-operator/minio/secret.yaml
+  production/operations/monitoring/thanos/secret.yaml
 extends: default
 rules:
   truthy:
