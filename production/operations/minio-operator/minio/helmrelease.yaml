@@ -70,6 +70,9 @@ spec:
       - name: thanos
       users:
       - name: minio-thanos
-      credsSecret:
-        name: minio-thanos
       prometheusOperator: true
+      secrets:
+        enabled: true
+        name: minio-thanos
+        accessKey: ${SECRET_MINIO_THANOS_ACCESSKEY}
+        secretKey: ${SECRET_MINIO_THANOS_SECRETKEY}
