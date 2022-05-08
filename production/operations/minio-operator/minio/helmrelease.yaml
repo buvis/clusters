@@ -70,5 +70,6 @@ spec:
       - name: thanos
       users:
       - name: minio-thanos
-      credsSecret: minio-thanos
+      credsSecret:
+        name: minio-thanos
       prometheusOperator: true
