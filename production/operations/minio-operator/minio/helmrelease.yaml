@@ -73,6 +73,6 @@ spec:
       prometheusOperator: true
       secrets:
         enabled: true
-        name: minio-thanos
+        name: minio-thanos-root
         accessKey: ${SECRET_MINIO_THANOS_ACCESSKEY}
         secretKey: ${SECRET_MINIO_THANOS_SECRETKEY}
