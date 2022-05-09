@@ -68,7 +68,7 @@ spec:
         service:
           type: LoadBalancer
           externalIPs:
-          - ${SVC_PROMTAIL_IP}
+          - ${SVC_IP_PROMTAIL}
           externalTrafficPolicy: Local
     serviceMonitor:
       enabled: true
