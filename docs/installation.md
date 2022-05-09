@@ -27,6 +27,7 @@ Anything that follows supposes you are working in [production directory](https:/
         ```bash
         sops operations/kube-system/cert-manager/secrets.yaml
         ```
+    3. Update keyID in operations/kube-system/cert-manager/operators/zerossl.yaml
 4. Export `GITHUB_TOKEN` environment variable in `.envrc` file with [GitHub personal access token](https://github.com/settings/tokens) generated specifically for Flux
 5. Export `SLACK_WEBHOOK_URL` environment variable in `.envrc`, get incoming webhook address `<SLACK_WEBHOOK_URL>` from [Slack](https://api.slack.com/apps)
 6. Enable [SOPS](https://github.com/mozilla/sops) for Flux

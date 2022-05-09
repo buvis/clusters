@@ -8,7 +8,7 @@ spec:
   acme:
     server: https://acme.zerossl.com/v2/DV90
     externalAccountBinding:
-      keyID: ${SECRET_ZEROSSL_EAB_KID}
+      keyID: zVMjbqGmgw9tV8SbB4thWg
       keySecretRef:
         name: zerossl-eab
         key: hmac
