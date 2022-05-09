@@ -1,6 +1,0 @@
----
-# defaults file for roles/flash-alarm-node
-
-sd_hostname: "alarm"
-default_user: "bob"
-dir_install: "/home/{{ default_user }}/install-alarm"

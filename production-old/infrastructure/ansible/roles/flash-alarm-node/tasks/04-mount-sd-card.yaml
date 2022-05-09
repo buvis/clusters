@@ -1,7 +1,0 @@
----
-# 04-mount-sd-card tasks file for roles/flash-alarm-node
-
-- name: Mount SD card
-  shell: "mount {{ dev_sd_boot }} {{ dir_install }}/sd-boot && mount {{ dev_sd_root }} {{ dir_install }}/sd-root"
-  args:
-    warn: false

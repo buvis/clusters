@@ -1,7 +1,0 @@
----
-# main task file for roles/install-k3s-first-master
-
-- name: install or upgrade k3s server as first master
-  shell: "curl -sfL https://get.k3s.io | K3S_TOKEN={{ vault_k3s_token }} INSTALL_K3S_EXEC='--no-deploy servicelb --flannel-backend=none --cluster-cidr={{ k3s_cluster_cidr }} --service-cidr={{ k3s_service_cidr }} --disable-network-policy --disable=traefik --disable=metrics-server --disable=local-storage --write-kubeconfig ~/.kube/config --write-kubeconfig-mode 644 --datastore-endpoint=postgres://k3s:{{ vault_datastore_password }}@{{ k3s_datastore }}/kubernetes' sh -"
-  args:
-    warn: false

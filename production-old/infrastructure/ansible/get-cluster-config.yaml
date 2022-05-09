@@ -1,8 +1,0 @@
----
-- hosts: chief
-  remote_user: "{{ default_user }}"
-  become: true
-  gather_facts: true
-
-  roles:
-  - role: get-cluster-config

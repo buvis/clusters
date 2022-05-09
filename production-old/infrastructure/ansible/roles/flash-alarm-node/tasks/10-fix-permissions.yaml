@@ -1,8 +1,0 @@
----
-# 09-fix-permissions tasks file for roles/flash-alarm-node
-
-- name: Fix permissions | fix ownership of {{ default_user}}'s home
-  shell: "chroot {{ dir_install }}/sd-root /bin/bash -c \"chown -R {{ default_user}}:{{ default_user}} /home/{{ default_user }}\""
-
-- name: Fix permissions | fix mode of {{ default_user}}'s home
-  shell: "chroot {{ dir_install }}/sd-root /bin/bash -c \"chmod -R 0701 /home/{{ default_user }}\""
