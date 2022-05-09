@@ -26,3 +26,8 @@
     name: iscsid
     enabled: true
     state: started
+
+- name: install nfs client
+  apt:
+    name: nfs-common
+    state: present
