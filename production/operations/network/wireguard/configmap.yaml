@@ -11,6 +11,6 @@ data:
   SERVERPORT: "51820"
   SERVERURL: "vpn.buvis.net"
   PEERS: "maxwell, kao, iphone"
-  PEERDNS: ${SVC_BLOCKY_IP}
+  PEERDNS: ${SVC_IP_BLOCKY}
   ALLOWEDIPS: "0.0.0.0/0, ::/0"
   INTERNAL_SUBNET: "10.6.0.0"
