@@ -25,7 +25,7 @@ Anything that follows supposes you are working in [production directory](https:/
     1. Generate new key-secret pair at [ZeroSSL | Developer](https://app.zerossl.com/developer)
     2. Update secrets for cert-manager:
         ```bash
-        sops operations/kube-system/cert-manager/secrets.yaml`
+        sops operations/kube-system/cert-manager/secrets.yaml
         ```
 4. Export `GITHUB_TOKEN` environment variable in `.envrc` file with [GitHub personal access token](https://github.com/settings/tokens) generated specifically for Flux
 5. Export `SLACK_WEBHOOK_URL` environment variable in `.envrc`, get incoming webhook address `<SLACK_WEBHOOK_URL>` from [Slack](https://api.slack.com/apps)
