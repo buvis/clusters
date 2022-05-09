@@ -68,14 +68,17 @@ spec:
           secretName: deluge-crt
     probes:
       liveness:
+        custom: true
         timeoutSeconds: 3
         failureThreshold: 5
         periodSeconds: 10
       readiness:
+        custom: true
         timeoutSeconds: 3
         failureThreshold: 5
         periodSeconds: 10
       startup:
+        custom: true
         timeoutSeconds: 3
         initialDelaySeconds: 5
         failureThreshold: 50
