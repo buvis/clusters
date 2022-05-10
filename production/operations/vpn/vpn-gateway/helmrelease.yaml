@@ -30,13 +30,13 @@ spec:
     routed_namespaces:
     - media
     publicPorts:
-    - hostname: qbittorrent
+    - hostname: deluge
       IP: 10
       ports:
       - type: udp
-        port: ${SECRET_QB_VPN_FORWARD_PORT}
+        port: ${SECRET_VPN_BT_FORWARD_PORT}
       - type: tcp
-        port: ${SECRET_QB_VPN_FORWARD_PORT}
+        port: ${SECRET_VPN_BT_FORWARD_PORT}
     settings:
       NOT_ROUTED_TO_GATEWAY_CIDRS: ${NETWORK_CIDR_K8S_CLUSTER} ${NETWORK_CIDR_K8S_SERVICE} ${NETWORK_CIDR_K8S_SERVICE_EXTERNAL} ${NETWORK_CIDR_HOST}
       VPN_INTERFACE: tun0

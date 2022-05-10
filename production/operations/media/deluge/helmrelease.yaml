@@ -12,6 +12,8 @@ spec:
     namespace: kube-system
   - name: oauth2-proxy
     namespace: kube-system
+  - name: longhorn
+    namespace: longhorn-system
   - name: vpn-gateway
     namespace: vpn
   interval: 5m
@@ -43,6 +45,7 @@ spec:
       PGID: 1001
     podAnnotations:
       setVPNGateway: "true"
+    hostname: deluge
     persistence:
       config:
         enabled: true
@@ -51,6 +54,23 @@ spec:
         enabled: true
         existingClaim: nas-media
         mountPath: /media
+    service:
+      main:
+        ports:
+          http:
+            port: 8112
+      bt-udp:
+        enabled: true
+        type: LoadBalancer
+        externalIPs:
+        - ${SVC_IP_BITTORRENT}
+        externalTrafficPolicy: Local
+        ports:
+          bt-udp:
+            enabled: true
+            port: ${SECRET_VPN_BT_FORWARD_PORT}
+            protocol: UDP
+            targetPort: ${SECRET_VPN_BT_FORWARD_PORT}
     ingress:
       main:
         enabled: true
