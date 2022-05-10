@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: deluge
+  name: qbittorrent
   namespace: media
 spec:
   dependsOn:
@@ -12,8 +12,6 @@ spec:
     namespace: kube-system
   - name: oauth2-proxy
     namespace: kube-system
-  - name: longhorn
-    namespace: longhorn-system
   - name: vpn-gateway
     namespace: vpn
   interval: 5m
@@ -30,8 +28,8 @@ spec:
   chart:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: deluge
-      version: 5.3.2
+      chart: qbittorrent
+      version: 13.4.2
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home
@@ -45,11 +43,13 @@ spec:
       PGID: 1001
     podAnnotations:
       setVPNGateway: "true"
-    hostname: deluge
+    hostname: torr
+    settings:
+      automaticPortSetup: false
     persistence:
       config:
         enabled: true
-        existingClaim: deluge-config
+        existingClaim: qbittorrent-config
       media:
         enabled: true
         existingClaim: nas-media
@@ -58,30 +58,18 @@ spec:
       main:
         ports:
           http:
-            port: 8112
-      bt-tcp:
+            port: 8080
+      bittorrent:
         enabled: true
         type: LoadBalancer
         externalIPs:
         - ${SVC_IP_BITTORRENT}
         externalTrafficPolicy: Local
         ports:
-          bt-tcp:
+          bittorrent:
             enabled: true
             port: ${SECRET_VPN_BT_FORWARD_PORT}
             protocol: TCP
-            targetPort: ${SECRET_VPN_BT_FORWARD_PORT}
-      bt-udp:
-        enabled: true
-        type: LoadBalancer
-        externalIPs:
-        - ${SVC_IP_BITTORRENT}
-        externalTrafficPolicy: Local
-        ports:
-          bt-udp:
-            enabled: true
-            port: ${SECRET_VPN_BT_FORWARD_PORT}
-            protocol: UDP
             targetPort: ${SECRET_VPN_BT_FORWARD_PORT}
     ingress:
       main:
@@ -90,11 +78,17 @@ spec:
           kubernetes.io/ingress.class: nginx
           cert-manager.io/cluster-issuer: zerossl
         hosts:
-        - host: deluge.buvis.net
+        - host: qb.buvis.net
           paths:
           - path: /
             pathType: Prefix
         tls:
         - hosts:
-          - deluge.buvis.net
-          secretName: deluge-crt
+          - qb.buvis.net
+          secretName: qbittorrent-crt
+    resources:
+      requests:
+        cpu: "0.3"
+        memory: "1000Mi"
+      limits:
+        memory: "4000Mi"

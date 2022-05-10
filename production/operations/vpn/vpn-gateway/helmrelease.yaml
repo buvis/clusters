@@ -30,11 +30,9 @@ spec:
     routed_namespaces:
     - media
     publicPorts:
-    - hostname: deluge
-      IP: 10
+    - hostname: torr
+      IP: 2
       ports:
-      - type: udp
-        port: ${SECRET_VPN_BT_FORWARD_PORT}
       - type: tcp
         port: ${SECRET_VPN_BT_FORWARD_PORT}
     settings:

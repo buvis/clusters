@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: deluge-config
+  name: qbittorrent-config
 spec:
   capacity:
     storage: 15Gi
@@ -16,13 +16,13 @@ spec:
     volumeAttributes:
       numberOfReplicas: '3'
       staleReplicaTimeout: '30'
-    volumeHandle: deluge-config
+    volumeHandle: qbittorrent-config
   storageClassName: longhorn
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: deluge-config
+  name: qbittorrent-config
   namespace: media
 spec:
   storageClassName: longhorn
@@ -31,4 +31,4 @@ spec:
   resources:
     requests:
       storage: 15Gi
-  volumeName: deluge-config
+  volumeName: qbittorrent-config
