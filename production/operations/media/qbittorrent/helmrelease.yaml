@@ -39,6 +39,8 @@ spec:
     env:
       TZ: Europe/Berlin
       UMASK: "022"
+      QBT_BitTorrent__Session__DefaultSavePath: "/media/downloads/qbittorrent/complete"
+      QBT_BitTorrent__Session__TempPath: "/media/downloads/qbittorrent/incomplete"
     podAnnotations:
       setVPNGateway: "true"
     hostname: torr
