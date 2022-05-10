@@ -59,6 +59,18 @@ spec:
         ports:
           http:
             port: 8112
+      bt-tcp:
+        enabled: true
+        type: LoadBalancer
+        externalIPs:
+        - ${SVC_IP_BITTORRENT}
+        externalTrafficPolicy: Local
+        ports:
+          bt-tcp:
+            enabled: true
+            port: ${SECRET_VPN_BT_FORWARD_PORT}
+            protocol: TCP
+            targetPort: ${SECRET_VPN_BT_FORWARD_PORT}
       bt-udp:
         enabled: true
         type: LoadBalancer
