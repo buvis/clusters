@@ -54,7 +54,7 @@ spec:
         mountPath: /media
     podSecurityContext:
       supplementalGroups:
-      - 65534
+      - 100
     service:
       main:
         ports:
