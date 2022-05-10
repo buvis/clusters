@@ -53,8 +53,8 @@ spec:
         existingClaim: nas-media
         mountPath: /media
     podSecurityContext:
-      supplementalGroups:
-      - 100
+      fsGroup: 568
+      fsGroupChangePolicy: "OnRootMismatch"
     service:
       main:
         ports:
