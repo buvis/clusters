@@ -39,8 +39,6 @@ spec:
     env:
       TZ: Europe/Berlin
       UMASK: "022"
-      PUID: 1001
-      PGID: 1001
     podAnnotations:
       setVPNGateway: "true"
     hostname: torr
@@ -54,6 +52,9 @@ spec:
         enabled: true
         existingClaim: nas-media
         mountPath: /media
+    podSecurityContext:
+      supplementalGroups:
+      - 65534
     service:
       main:
         ports:
