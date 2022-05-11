@@ -34,3 +34,4 @@ metadata:
 spec:
   peerIP: 10.7.0.1
   asNumber: 64513
+  keepOriginalNextHop: true
