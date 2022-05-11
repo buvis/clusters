@@ -9,11 +9,20 @@ resource "proxmox_vm_qemu" "kube-master" {
   vmid        = each.value.id
   cores       = var.common.cores
   memory      = var.common.memory
+  bootdisk     = "scsi0"
+  scsihw       = "virtio-scsi-pci"
+  os_type      = "cloud-init"
+  ipconfig0    = "ip=dhcp"
+  ciuser       = var.common.ciuser
+  cipassword   = data.sops_file.secrets.data["cipassword"]
+  sshkeys      = data.sops_file.secrets.data["ssh_key"]
+
   network {
     model    = "virtio"
     macaddr  = each.value.macaddr
     bridge   = "vmbr0"
   }
+
   disk {
     type    = "scsi"
     storage = "local-lvm"
@@ -22,6 +31,7 @@ resource "proxmox_vm_qemu" "kube-master" {
     ssd     = 1
     discard = "on"
   }
+
   disk {
     type    = "scsi"
     storage = "tank"
@@ -30,15 +40,9 @@ resource "proxmox_vm_qemu" "kube-master" {
     ssd     = 1
     discard = "on"
   }
+
   serial {
     id = 0
     type = "socket"
   }
-  bootdisk     = "scsi0"
-  scsihw       = "virtio-scsi-pci"
-  os_type      = "cloud-init"
-  ipconfig0    = "ip=dhcp"
-  ciuser       = var.common.ciuser
-  cipassword   = data.sops_file.secrets.data["cipassword"]
-  sshkeys      = data.sops_file.secrets.data["ssh_key"]
 }
