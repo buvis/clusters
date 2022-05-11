@@ -1,0 +1,39 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: flaresolverr
+  namespace: media
+spec:
+  dependsOn:
+  - name: vpn-gateway
+    namespace: vpn
+  interval: 5m
+  install:
+    timeout: 15m
+    remediation:
+      retries: 5
+  upgrade:
+    timeout: 15m
+    remediation:
+      retries: 5
+      remediateLastFailure: true
+    cleanupOnFail: true
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: flaresolverr
+      version: 5.3.1
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home
+        namespace: flux-system
+      interval: 5m
+  values:
+    controllerType: deployment
+    env:
+      TZ: Europe/Berlin
+      PUID: 1001
+      PGID: 1001
+    podAnnotations:
+      setVPNGateway: "true"

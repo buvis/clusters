@@ -1,0 +1,65 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: overseerr
+  namespace: media
+spec:
+  dependsOn:
+  - name: ingress-nginx
+    namespace: kube-system
+  - name: cert-manager
+    namespace: kube-system
+  - name: oauth2-proxy
+    namespace: kube-system
+  - name: vpn-gateway
+    namespace: vpn
+  - name: longhorn
+    namespace: longhorn-system
+  interval: 5m
+  install:
+    timeout: 15m
+    remediation:
+      retries: 5
+  upgrade:
+    timeout: 15m
+    remediation:
+      retries: 5
+      remediateLastFailure: true
+    cleanupOnFail: true
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: overseerr
+      version: 5.3.1
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home
+        namespace: flux-system
+      interval: 5m
+  values:
+    env:
+      TZ: Europe/Berlin
+      PUID: 1001
+      PGID: 1001
+    podAnnotations:
+      setVPNGateway: "true"
+    persistence:
+      config:
+        enabled: true
+        existingClaim: overseerr-config
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: nginx
+          cert-manager.io/cluster-issuer: zerossl
+        hosts:
+        - host: requests.buvis.net
+          paths:
+          - path: /
+            pathType: Prefix
+        tls:
+        - hosts:
+          - requests.buvis.net
+          secretName: requests-crt
