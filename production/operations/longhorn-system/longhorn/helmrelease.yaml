@@ -45,7 +45,7 @@ spec:
       ingressClassName: nginx
       host: longhorn.buvis.net
       tls: true
-      tlsSecret: longhorn-frontent-crt
+      tlsSecret: longhorn-frontend-crt
       annotations:
         cert-manager.io/cluster-issuer: zerossl
         nginx.ingress.kubernetes.io/auth-url: "https://auth.buvis.net/oauth2/auth"
