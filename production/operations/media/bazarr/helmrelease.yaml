@@ -40,8 +40,6 @@ spec:
   values:
     env:
       TZ: Europe/Berlin
-      PUID: 1001
-      PGID: 1001
     podAnnotations:
       setVPNGateway: "true"
     persistence:
@@ -52,6 +50,9 @@ spec:
         enabled: true
         existingClaim: nas-media
         mountPath: /media
+    podSecurityContext:
+      fsGroup: 568
+      fsGroupChangePolicy: "OnRootMismatch"
     ingress:
       main:
         enabled: true
