@@ -38,8 +38,6 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    image:
-      tag: arm-latest
     env:
       TZ: Europe/Berlin
       PUID: 1001
