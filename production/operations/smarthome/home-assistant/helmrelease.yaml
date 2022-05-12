@@ -46,6 +46,7 @@ spec:
         annotations:
           kubernetes.io/ingress.class: nginx
           cert-manager.io/cluster-issuer: zerossl
+          nginx.org/websocket-services: hass
         hosts:
         - host: hass.buvis.net
           paths:
