@@ -26,7 +26,7 @@ flux:
 		--namespace=flux-system \
 		--from-literal=address=$(SLACK_WEBHOOK_URL)
 	flux bootstrap github \
-        --owner=buvis-net \
+        --owner=buvis \
         --repository=clusters \
         --path=./production/operations \
         --branch=main \
@@ -34,7 +34,7 @@ flux:
 
 update-flux:
 	flux bootstrap github \
-        --owner=buvis-net \
+        --owner=buvis \
         --repository=clusters \
         --path=./production/operations \
         --branch=main \
