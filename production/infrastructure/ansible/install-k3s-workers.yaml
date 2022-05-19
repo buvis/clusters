@@ -4,5 +4,5 @@
   gather_facts: false
 
   roles:
-  - install-k3s-workers
+  - install-k3s-worker
   - prepare-storage

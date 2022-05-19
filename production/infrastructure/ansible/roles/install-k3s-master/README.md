@@ -1,7 +1,7 @@
 Upgrade host
 ============
 
-This role install the first k3s master.
+This role install the additional k3s master.
 
 Requirements
 ------------
@@ -22,13 +22,13 @@ Example Playbook
 ----------------
 
 ```
-- hosts: chief
+- hosts: master
   remote_user: "{{ default_user }}"
   become: true
   gather_facts: true
 
   roles:
-  - install-k3s-first-master
+  - install-k3s-master
 ```
 
 License

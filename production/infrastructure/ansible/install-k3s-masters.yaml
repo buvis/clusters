@@ -1,9 +1,18 @@
 ---
-- hosts: control_plane
+- hosts: chief
   remote_user: "{{ default_user }}"
   become: true
   gather_facts: false
 
   roles:
-  - install-k3s-masters
+  - install-k3s-chief
+  - prepare-storage
+
+- hosts: master
+  remote_user: "{{ default_user }}"
+  become: true
+  gather_facts: false
+
+  roles:
+  - install-k3s-master
   - prepare-storage

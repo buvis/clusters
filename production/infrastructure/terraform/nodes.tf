@@ -34,7 +34,7 @@ resource "proxmox_vm_qemu" "kube-master" {
 
   disk {
     type    = "scsi"
-    storage = "tank"
+    storage = each.value.pv_zfs
     size    = var.common.disk1
     format  = "raw"
     ssd     = 1

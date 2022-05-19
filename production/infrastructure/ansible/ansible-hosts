@@ -8,11 +8,22 @@ all:
       worker:
 
     control_plane:
+        chief:
+        master:
+
+    chief:
       hosts:
-        buvis-master-1:
+        higgs-master-1:
+
+    master:
+      hosts:
+        feynman-master-1:
 
     worker:
       hosts:
-        buvis-worker-1:
-        buvis-worker-2:
-        buvis-worker-3:
+        higgs-worker-1:
+        higgs-worker-2:
+        higgs-worker-3:
+        feynman-worker-1:
+        feynman-worker-2:
+        feynman-worker-3:
