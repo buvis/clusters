@@ -35,7 +35,7 @@ spec:
         externalTrafficPolicy: Local
       config:
         proxy-body-size: 0
-      replicaCount: 1
+      replicaCount: 5
       metrics:
         enabled: true
         service:
