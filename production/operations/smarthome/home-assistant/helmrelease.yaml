@@ -40,6 +40,15 @@ spec:
       config:
         enabled: true
         existingClaim: hass-config
+    service:
+      main:
+        type: LoadBalancer
+        externalIPs:
+        - ${SVC_IP_HASS}
+        externalTrafficPolicy: Local
+        ports:
+          http:
+            port: 8123
     ingress:
       main:
         enabled: true
