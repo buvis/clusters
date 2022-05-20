@@ -64,7 +64,7 @@ spec:
         existingClaim: tdarr-cache
         mountPath: /shared
     podSecurityContext:
-      fsGroup: 568
+      fsGroup: 1000
       fsGroupChangePolicy: "OnRootMismatch"
     ingress:
       main:
