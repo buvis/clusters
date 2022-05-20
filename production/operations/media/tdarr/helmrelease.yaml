@@ -1,0 +1,50 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: tdarr
+  namespace: media
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts
+      chart: tdarr
+      version: 4.5.2
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    env:
+      TZ: "Europe/Berlin"
+    persistence:
+      data:
+        enabled: true
+        existingClaim: tdarr-data
+        mountPath: /app/server
+      media:
+        enabled: true
+        existingClaim: nas-media
+        mountPath: /media
+    podSecurityContext:
+      fsGroup: 568
+      fsGroupChangePolicy: "OnRootMismatch"
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: nginx
+          cert-manager.io/cluster-issuer: zerossl
+          nginx.ingress.kubernetes.io/auth-url: "https://auth.buvis.net/oauth2/auth"
+          nginx.ingress.kubernetes.io/auth-signin: "https://auth.buvis.net/oauth2/start?rd=https%3A%2F%2F$host$request_uri"
+        hosts:
+        - host: tdarr.buvis.net
+          paths:
+          - path: /
+            pathType: Prefix
+        tls:
+        - hosts:
+          - tdarr.buvis.net
+          secretName: tdarr-crt
