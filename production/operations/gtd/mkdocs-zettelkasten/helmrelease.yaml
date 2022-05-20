@@ -42,7 +42,7 @@ spec:
       editUri: https://gitlab.com/buvis/zettelkasten/edit/main/zettelkasten
       updateInterval: 60
       siteName: Bob's Zettelkasten
-      siteUrl: https://zettelkasten.buvis.net
+      siteUrl: https://zkn.buvis.net
       requirements: |
         mkdocs-zettelkasten==0.1.5
         git+https://github.com/jldiaz/mkdocs-plugin-tags.git#egg=tags-macros-plugin
