@@ -5,7 +5,26 @@ metadata:
   name: tdarr
   namespace: media
 spec:
+  dependsOn:
+  - name: ingress-nginx
+    namespace: kube-system
+  - name: cert-manager
+    namespace: kube-system
+  - name: oauth2-proxy
+    namespace: kube-system
+  - name: longhorn
+    namespace: longhorn-system
   interval: 5m
+  install:
+    timeout: 15m
+    remediation:
+      retries: 5
+  upgrade:
+    timeout: 15m
+    remediation:
+      retries: 5
+      remediateLastFailure: true
+    cleanupOnFail: true
   chart:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts
@@ -13,7 +32,7 @@ spec:
       version: 4.5.2
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home-charts
+        name: k8s-at-home
         namespace: flux-system
       interval: 5m
   values:
