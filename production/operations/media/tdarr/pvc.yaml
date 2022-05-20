@@ -65,4 +65,4 @@ spec:
   resources:
     requests:
       storage: 100Gi
-  volumeName: tdarr-data
+  volumeName: tdarr-cache
