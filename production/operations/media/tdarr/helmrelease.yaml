@@ -58,6 +58,10 @@ spec:
         enabled: true
         existingClaim: nas-media
         mountPath: /media
+      cache:
+        enabled: true
+        existingClaim: tdarr-cache
+        mountPath: /cache
     podSecurityContext:
       fsGroup: 568
       fsGroupChangePolicy: "OnRootMismatch"
