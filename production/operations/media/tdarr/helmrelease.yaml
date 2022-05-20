@@ -36,6 +36,17 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    image:
+      repository: haveagitgat/tdarr
+      tag: 2.00.18
+      pullPolicy: IfNotPresent
+    node:
+      enabled: true
+      id: node
+      image:
+        repository: haveagitgat/tdarr_node
+        tag: 2.00.18  # this must be same version as the server
+        pullPolicy: IfNotPresent
     env:
       TZ: "Europe/Berlin"
     persistence:
