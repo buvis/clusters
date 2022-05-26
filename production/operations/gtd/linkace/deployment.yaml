@@ -36,8 +36,24 @@ spec:
           value: "true"
         ports:
         - containerPort: 80
+        volumeMounts:
+        - name: app
+          mountPath: /app
       restartPolicy: Always
       initContainers:
       - name: init-linkace
         image: busybox:1.35
-        command: ['sh', '-c', "mkdir /app && touch /app/.env && chmod 666 /app/.env"]
+        command:
+        - "sh"
+        - "-c"
+        - |
+          touch /app/.env &&
+          chmod 666 /app/.env
+        volumeMounts:
+        - name: app
+          mountPath: /app
+        securityContext:
+          runAsUser: 0
+      volumes:
+      - name: app
+        emptyDir: {}
