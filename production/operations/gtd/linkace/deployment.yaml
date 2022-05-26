@@ -39,5 +39,5 @@ spec:
       restartPolicy: Always
       initContainers:
       - name: init-linkace
-        image: busybox:1.28
+        image: busybox:1.35
         command: ['sh', '-c', "mkdir /app && touch /app/.env && chmod 666 /app/.env"]
