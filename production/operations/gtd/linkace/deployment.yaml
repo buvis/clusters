@@ -21,14 +21,19 @@ spec:
       containers:
       - image: linkace/linkace:v1.10.1-simple
         name: linkace
+        env:
+        - name: DB_HOST
+          value: linkace-db-mariadb.gtd
+        - name: DB_DATABASE
+          value: linkace
+        - name: DB_USERNAME
+          value: linkace
+        - name: DB_PASSWORD
+          value: ${SECRET_LINKACE_DB_PASSWORD}
+        - name: APP_KEY
+          value: ${SECRET_LINKACE_APP_KEY}
+        - name: SETUP_COMPLETED
+          value: true
         ports:
         - containerPort: 80
-        volumeMounts:
-        - name: linkace-env
-          mountPath: /app/.env
-          subPath: env
       restartPolicy: Always
-      volumes:
-      - name: linkace-env
-        configMap:
-          name: linkace-env
