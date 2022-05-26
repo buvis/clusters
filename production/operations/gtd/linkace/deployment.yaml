@@ -40,4 +40,4 @@ spec:
       initContainers:
       - name: init-linkace
         image: busybox:1.28
-        command: ['sh', '-c', "chmod 666 /app/.env"]
+        command: ['sh', '-c', "mkdir /app && touch /app/.env && chmod 666 /app/.env"]
