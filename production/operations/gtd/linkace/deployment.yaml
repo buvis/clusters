@@ -33,7 +33,7 @@ spec:
         - name: APP_KEY
           value: ${SECRET_LINKACE_APP_KEY}
         - name: SETUP_COMPLETED
-          value: true
+          value: "true"
         ports:
         - containerPort: 80
       restartPolicy: Always
