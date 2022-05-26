@@ -48,7 +48,7 @@ spec:
         - "-c"
         - |
           touch /app/.env &&
-          chmod -R 666 /app
+          chmod -R 777 /app
         volumeMounts:
         - name: app
           mountPath: /app
