@@ -21,14 +21,6 @@ spec:
       containers:
       - image: linkace/linkace:v1.10.1-simple
         name: linkace
-        env:
-        - name: DB_HOST
-          value: linkace-db-mariadb.gtd
-        - name: DB_DATABASE
-          value: linkace
-        - name: DB_USERNAME=[name of the user]
-        - name: DB_PASSWORD=[password for the user]
-  
         ports:
         - containerPort: 80
         volumeMounts:
