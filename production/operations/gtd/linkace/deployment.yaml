@@ -37,3 +37,7 @@ spec:
         ports:
         - containerPort: 80
       restartPolicy: Always
+      initContainers:
+      - name: init-linkace
+        image: busybox:1.28
+        command: ['sh', '-c', "chmod 666 /app/.env"]
