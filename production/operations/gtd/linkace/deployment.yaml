@@ -26,34 +26,17 @@ spec:
           value: linkace-db-mariadb.gtd
         - name: DB_DATABASE
           value: linkace
-        - name: DB_USERNAME
-          value: linkace
-        - name: DB_PASSWORD
-          value: ${SECRET_LINKACE_DB_PASSWORD}
-        - name: APP_KEY
-          value: ${SECRET_LINKACE_APP_KEY}
-        - name: SETUP_COMPLETED
-          value: "true"
+        - name: DB_USERNAME=[name of the user]
+        - name: DB_PASSWORD=[password for the user]
+  
         ports:
         - containerPort: 80
         volumeMounts:
-        - name: app
-          mountPath: /app
+        - name: linkace-env
+          mountPath: /app/.env
+          subPath: env
       restartPolicy: Always
-      initContainers:
-      - name: init-linkace
-        image: busybox:1.35
-        command:
-        - "sh"
-        - "-c"
-        - |
-          touch /app/.env &&
-          chmod -R 777 /app
-        volumeMounts:
-        - name: app
-          mountPath: /app
-        securityContext:
-          runAsUser: 0
       volumes:
-      - name: app
-        emptyDir: {}
+      - name: linkace-env
+        configMap:
+          name: linkace-env
