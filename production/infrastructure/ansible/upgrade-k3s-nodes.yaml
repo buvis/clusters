@@ -2,7 +2,7 @@
 - hosts: chief
   remote_user: "{{ default_user }}"
   become: true
-  gather_facts: false
+  gather_facts: true
 
   roles:
   - install-k3s-chief
@@ -11,7 +11,7 @@
 - hosts: master
   remote_user: "{{ default_user }}"
   become: true
-  gather_facts: false
+  gather_facts: true
 
   roles:
   - install-k3s-master
