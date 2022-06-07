@@ -34,7 +34,14 @@ spec:
         - ${SVC_IP_INGRESS}
         externalTrafficPolicy: Local
       config:
-        proxy-body-size: 0
+        proxy-body-size: 4096m
+        proxy-buffer-size: 128k
+        proxy-connect-timeout: 600s
+        proxy-read-timeout: 3600s
+        proxy-request-buffering: "off"
+        proxy-send-timeout: 3600s
+        server-tokens: "false"
+        worker-shutdown-timeout: 3600s
       replicaCount: 5
       metrics:
         enabled: true
