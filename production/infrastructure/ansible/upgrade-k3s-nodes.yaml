@@ -20,7 +20,6 @@
 - hosts: worker
   remote_user: "{{ default_user }}"
   become: true
-  serial: true
   gather_facts: true
 
   roles:
