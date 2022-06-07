@@ -34,10 +34,11 @@ spec:
         - ${SVC_IP_INGRESS}
         externalTrafficPolicy: Local
       config:
-        client-header-buffer-size: "128k"
-        large-client-header-buffers: "4 128k"
+        client-body-buffer-size: "32k"
+        client-header-buffer-size: "8k"
+        large-client-header-buffers: "4 32k"
         proxy-body-size: "4096m"
-        proxy-buffer-size: "128k"
+        proxy-buffer-size: "32k"
         proxy-connect-timeout: "600s"
         proxy-read-timeout: "3600s"
         proxy-request-buffering: "off"
