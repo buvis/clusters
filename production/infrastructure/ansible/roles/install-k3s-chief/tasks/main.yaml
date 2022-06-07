@@ -12,39 +12,3 @@
   shell: "curl -sfL https://get.k3s.io | K3S_TOKEN={{ vault_k3s_token }} INSTALL_K3S_EXEC='--cluster-init --no-deploy servicelb --flannel-backend=none --cluster-cidr={{ k3s_cluster_cidr }} --service-cidr={{ k3s_service_cidr }} --disable-network-policy --disable=traefik --disable=metrics-server --disable=local-storage --write-kubeconfig ~/.kube/config --write-kubeconfig-mode 644' sh -"
   args:
     warn: false
-
-- name: wait for k3s configuration
-  become: true
-  wait_for:
-    path: ~/.kube/config
-
-- name: prepare kubernetes local config directory
-  become: false
-  local_action:
-    module: file
-    path: ../.kube
-    state: directory
-    mode: 0700
-
-- name: download cluster config
-  become: true
-  fetch:
-    src: ~/.kube/config
-    dest: ../.kube/config
-    flat: true
-
-- name: secure config
-  become: false
-  local_action:
-    module: file
-    path: ../.kube/config
-    state: file
-    mode: 0700
-
-- name: fix IP address in the config
-  become: false
-  local_action:
-    module: lineinfile
-    dest: ../.kube/config
-    regexp: "^    server"
-    line: "    server: {{ k3s_master_api }}"

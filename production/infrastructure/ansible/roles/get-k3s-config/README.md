@@ -1,7 +1,7 @@
-Install k3s to the first master
-===============================
+Get k3s configuration
+=====================
 
-This role install the first k3s master.
+This role downloads the k3s cluster configuration.
 
 Requirements
 ------------
@@ -28,7 +28,7 @@ Example Playbook
   gather_facts: true
 
   roles:
-  - install-k3s-chief
+  - get-k3s-config
 ```
 
 License
