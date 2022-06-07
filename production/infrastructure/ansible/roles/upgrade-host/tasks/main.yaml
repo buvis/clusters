@@ -8,7 +8,7 @@
   register: pacman_upgrade
   retries: 5
   until: pacman_upgrade is success
-  notify: "reboot"
+  notify: "ask for reboot"
   when: ansible_distribution == "Archlinux"
 
 - name: upgrade by apt
@@ -21,5 +21,5 @@
   register: apt_upgrade
   retries: 5
   until: apt_upgrade is success
-  notify: "reboot"
+  notify: "ask for reboot"
   when: ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
