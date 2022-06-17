@@ -9,6 +9,6 @@
     timeout: 300
 
 - name: install or upgrade k3s as worker
-  shell: "curl -sfL https://get.k3s.io | K3S_URL={{ k3s_master_api }} K3S_TOKEN={{ vault_k3s_token }} sh -"
+  shell: "curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION={{ k3s_version }} K3S_URL={{ k3s_master_api }} K3S_TOKEN={{ vault_k3s_token }} sh -"
   args:
     warn: false
