@@ -43,6 +43,7 @@ spec:
       APP_ENV: production
       APP_KEY: ${SECRET_MONICA_APP_KEY}
       APP_URL: https://crm.buvis.net
+      APP_TRUSTED_PROXIES: "*"
       DB_DATABASE: monica
       DB_HOST: monica-mariadb
       DB_PASSWORD: ${SECRET_MONICA_DB_PASSWORD}
