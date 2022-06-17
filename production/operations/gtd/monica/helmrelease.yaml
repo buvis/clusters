@@ -42,7 +42,7 @@ spec:
     env:
       APP_ENV: production
       APP_KEY: ${SECRET_MONICA_APP_KEY}
-      APP_URL: https://crm.buvis.net
+      APP_URL: https://monica.buvis.net
       DB_DATABASE: monica
       DB_HOST: monica-mariadb
       DB_PASSWORD: ${SECRET_MONICA_DB_PASSWORD}
@@ -73,13 +73,13 @@ spec:
           nginx.ingress.kubernetes.io/client-body-buffer-size: 2M
           nginx.ingress.kubernetes.io/auth-tls-secret: gtd/monica-crt
         hosts:
-        - host: crm.buvis.net
+        - host: monica.buvis.net
           paths:
           - path: /
             pathType: Prefix
         tls:
         - hosts:
-          - crm.buvis.net
+          - monica.buvis.net
           secretName: monica-crt
     probes:
       startup:
