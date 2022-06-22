@@ -16,7 +16,7 @@ jobs:
       id: update
       run: |
         VERSION=$(curl -s https://update.k3s.io/v1-release/channels | jq --raw-output '.data[] | select(.name | test("stable")) | .latest')
-        sed -i -r "s/k3s_version: \"(.*)\"/k3s_version: \"${version}\"/g" ./production/infrastructure/ansible/group_vars/all/all.yaml
+        sed -i -r "s/k3s_version: \"(.*)\"/k3s_version: \"${VERSION}\"/g" ./production/infrastructure/ansible/group_vars/all/all.yaml
         echo "::set-output name=k3s_version::$VERSION"
     - name: Create pull request for k3s update
       uses: peter-evans/create-pull-request@v4
