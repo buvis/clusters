@@ -4,7 +4,7 @@ name: Update flux in production
 on:
   workflow_dispatch:
   schedule:
-  - cron: "0 * * * *"
+  - cron: "44 4 * *"
 
 jobs:
   components:
