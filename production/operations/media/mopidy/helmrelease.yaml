@@ -59,7 +59,9 @@ spec:
         enabled: true
         existingClaim: mopidy-data
     config:
-      snapserverIP: ${SVC_IP_SNAPSERVER}
+      snapserver:
+        ip: ${SVC_IP_SNAPSERVER}
+        port: 4955
       scrobbler:
         username: ${SECRET_LASTFM_USERNAME}
         password: ${SECRET_LASTFM_PASSWORD}
