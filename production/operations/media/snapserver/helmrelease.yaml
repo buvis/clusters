@@ -35,7 +35,7 @@ spec:
         - ${SVC_IP_SNAPSERVER}
         externalTrafficPolicy: Local
         ports:
-          http:
+          control:
             port: 1705
       audio:
         enabled: true
