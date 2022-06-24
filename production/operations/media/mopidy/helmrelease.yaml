@@ -58,3 +58,9 @@ spec:
       data:
         enabled: true
         existingClaim: mopidy-data
+    config:
+      snapserverIP: ${SVC_IP_SNAPSERVER}
+      scrobbler:
+        username: ${SECRET_LASTFM_USERNAME}
+        password: ${SECRET_LASTFM_PASSWORD}
+      enableTidal: true
