@@ -29,6 +29,11 @@ spec:
   values:
     service:
       main:
+        enabled: true
+        type: LoadBalancer
+        externalIPs:
+        - ${SVC_IP_SNAPSERVER}
+        externalTrafficPolicy: Local
         ports:
           http:
             port: 1780
