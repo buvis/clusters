@@ -39,8 +39,8 @@ spec:
         externalTrafficPolicy: Local
         ports:
           http:
-            port: 6600
-      http:
+            port: 6680
+      zeroconf:
         enabled: true
         type: LoadBalancer
         externalIPs:
@@ -48,7 +48,7 @@ spec:
         externalTrafficPolicy: Local
         ports:
           http:
-            port: 6680
+            port: 6600
     persistence:
       media:
         enabled: true
