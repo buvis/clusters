@@ -35,17 +35,17 @@ spec:
         - ${SVC_IP_SNAPSERVER}
         externalTrafficPolicy: Local
         ports:
-          http:
-            port: 1705
-      audio:
+          audio:
+            port: 1704
+      control:
         enabled: true
         type: LoadBalancer
         externalIPs:
         - ${SVC_IP_SNAPSERVER}
         externalTrafficPolicy: Local
         ports:
-          audio:
-            port: 1704
+          control:
+            port: 1705
       web:
         enabled: true
         type: LoadBalancer
@@ -54,7 +54,7 @@ spec:
         externalTrafficPolicy: Local
         ports:
           web:
-            port: 1780
+            port: 80
       stream1:
         enabled: true
         type: LoadBalancer
