@@ -51,7 +51,7 @@ spec:
             port: 6600
     ingress:
       main:
-        enabled: false
+        enabled: enable
         hosts:
         - host: mopidy.buvis.net
           paths:
