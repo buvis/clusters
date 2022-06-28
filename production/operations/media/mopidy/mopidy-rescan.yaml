@@ -48,7 +48,6 @@ spec:
           containers:
           - name: mopidy-rescan
             image: buvis/kube-exec:v24.2.0
-            imagePullPolicy: Always
             env:
             - name: NAMESPACE
               value: media
