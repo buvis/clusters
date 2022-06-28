@@ -62,6 +62,7 @@ spec:
       snapserver:
         ip: ${SVC_IP_SNAPSERVER}
         port: 4955
+      defaultPlaylist: radio-pinguin-on-the-rocks
       scrobbler:
         username: ${SECRET_LASTFM_USERNAME}
         password: ${SECRET_LASTFM_PASSWORD}
