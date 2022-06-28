@@ -20,7 +20,7 @@ metadata:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: job-mopidy-library-rescan-pod-list-exec
+  name: job-mopidy-library-rescan-pods-list-exec
   namespace: media
 subjects:
 - kind: ServiceAccount
