@@ -21,9 +21,9 @@ all:
 
     worker:
       hosts:
+        higgs-worker-1:
         higgs-worker-2:
         higgs-worker-3:
-        higgs-worker-4:
         feynman-worker-2:
         feynman-worker-3:
         feynman-worker-4:
