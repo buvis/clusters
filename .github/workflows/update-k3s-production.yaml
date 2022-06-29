@@ -31,7 +31,7 @@ jobs:
         assignees: "tbouska"
         commit-message: "Update k3s components to ${{ steps.update.outputs.k3s_version }} in production"
         body: |
-          Don't forget to run `buvis-upgrade` when you are back home!
+          After merging, don't forget to run `git pull && buvis-upgrade` in production cluster directory when connected to home network!
 
           Release notes: https://github.com/k3s-io/k3s/releases/tag/${{ steps.update.outputs.k3s_version }}
         labels: k3s/update
