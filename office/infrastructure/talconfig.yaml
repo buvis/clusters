@@ -1,0 +1,113 @@
+clusterName: office
+talosVersion: v1.1.1
+kubernetesVersion: v1.24.2
+endpoint: https://10.8.0.41:6443
+domain: office.local
+allowSchedulingOnMasters: true
+clusterPodNets:
+  - 10.244.0.0/16
+clusterSvcNets:
+  - 10.96.0.0/12
+cniConfig:
+  name: flannel
+nodes:
+  - hostname: office-k8s-01
+    ipAddress: 10.8.0.41
+    controlPlane: true
+    installDisk: /dev/mmcblk0
+    disableSearchDomain: true
+    nameservers:
+      - 1.1.1.1
+      - 9.9.9.9
+    networkInterfaces:
+      - interface: eth0
+        addresses:
+          - 10.8.0.41/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 10.8.0.1
+        mtu: 1500
+    configPatches:
+      - op: add
+        path: /cluster/apiServer/certSANs
+        value:
+          - 10.8.0.41
+          - office-k8s-01
+          - office.cluster.local
+  - hostname: office-k8s-02
+    ipAddress: 10.8.0.42
+    controlPlane: false
+    installDisk: /dev/mmcblk0
+    inlinePatch:
+      machine:
+        network:
+          interfaces:
+            - addresses:
+                - 10.8.0.42/24
+              interface: eth1
+              routes:
+                - gateway: 10.8.0.1
+                  network: 0.0.0.0/0
+  - hostname: office-k8s-03
+    ipAddress: 10.8.0.43
+    controlPlane: false
+    installDisk: /dev/mmcblk0
+    inlinePatch:
+      machine:
+        network:
+          interfaces:
+            - addresses:
+                - 10.8.0.43/24
+              interface: eth1
+              routes:
+                - gateway: 10.8.0.1
+                  network: 0.0.0.0/0
+controlPlane:
+  configPatches:
+    - op: add
+      path: /machine/kubelet/extraArgs
+      value:
+        feature-gates: GracefulNodeShutdown=true,MixedProtocolLBService=true
+        rotate-server-certificates: "true"
+  inlinePatch:
+    cluster:
+      aescbcEncryptionSecret: ${aescbcEncryptionKey}
+      aggregatorCA:
+        crt: ${k8sAggregatorCert}
+        key: ${k8sAggregatorCertKey}
+      ca:
+        crt: ${clusterCert}
+        key: ${clusterCertKey}
+      etcd:
+        ca:
+          crt: ${etcdCert}
+          key: ${etcdCertKey}
+      secret: ${clusterSecret}
+      serviceAccount:
+        key: ${k8sServiceAccountKey}
+      token: ${clusterToken}
+    machine:
+      ca:
+        crt: ${machineCert}
+        key: ${machineCertKey}
+      token: ${machineToken}
+worker:
+  configPatches:
+    - op: add
+      path: /machine/kubelet/extraArgs
+      value:
+        feature-gates: GracefulNodeShutdown=true,MixedProtocolLBService=true
+        rotate-server-certificates: "true"
+  inlinePatch:
+    cluster:
+      aescbcEncryptionSecret: ${aescbcEncryptionKey}
+      ca:
+        crt: ${clusterCert}
+        key: ${clusterCertKey}
+      secret: ${clusterSecret}
+      token: ${clusterToken}
+    machine:
+      ca:
+        crt: ${machineCert}
+        key: ${machineCertKey}
+      token: ${machineToken}

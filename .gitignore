@@ -5,6 +5,6 @@
 .vault-pwd
 Thumbs.db
 bin
-clusters/production/infrastructure/talos/*
+clusters/production/infrastructure/talos/
 terraform-plugin-proxmox.log
 terraform.tfstate*
