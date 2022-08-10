@@ -27,13 +27,13 @@ spec:
         namespace: flux-system
   values:
     controller:
-      hostNetwork: true
+      hostNetwork: false
       service:
         type: LoadBalancer
         externalIPs:
         - ${SVC_IP_INGRESS}
         externalTrafficPolicy: Local
-      replicaCount: 5
+      replicaCount: 3
       metrics:
         enabled: true
         service:

@@ -9,7 +9,7 @@ variable "pm_user" {
 variable "common" {
   type = map(string)
   default = {
-    vm_template   = "talos"
+    vm_template   = "ubuntu-cloudimg"
     ciuser        = "bob"
     cores         = 4
     memory        = 12288
