@@ -39,6 +39,8 @@ spec:
       whitelist-domain: .buvis.net
       cookie-domain: .buvis.net
       provider: github
+    extraEnv:
+      OAUTH2_PROXY_SCOPE: "user:email"
     authenticatedEmailsFile:
       enabled: true
       restricted_access: tomas@buvis.net
