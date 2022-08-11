@@ -40,7 +40,8 @@ spec:
       cookie-domain: .buvis.net
       provider: github
     extraEnv:
-      OAUTH2_PROXY_SCOPE: "user:email"
+    - name: OAUTH2_PROXY_SCOPE
+      value: "user:email"
     authenticatedEmailsFile:
       enabled: true
       restricted_access: tomas@buvis.net
