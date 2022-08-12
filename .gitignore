@@ -6,5 +6,6 @@
 Thumbs.db
 bin
 production/infrastructure/talos/
+home/infrastructure/talos/
 terraform-plugin-proxmox.log
 terraform.tfstate*
