@@ -1,0 +1,34 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: linkace
+  namespace: gtd
+  labels:
+    app.kubernetes.io/name: linkace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: linkace
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: linkace
+    spec:
+      containers:
+      - image: linkace/linkace:v1.10.2-simple
+        name: linkace
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: linkace-env
+          mountPath: /app/.env
+          subPath: env
+      restartPolicy: Always
+      volumes:
+      - name: linkace-env
+        configMap:
+          name: linkace-env
