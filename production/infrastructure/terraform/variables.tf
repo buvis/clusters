@@ -14,7 +14,7 @@ variable "common" {
     cores         = 4
     memory        = 12288
     disk0         = "32G"
-    disk1         = "200G"
+    disk1         = "192G"
   }
 }
 
