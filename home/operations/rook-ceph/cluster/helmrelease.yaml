@@ -12,7 +12,7 @@ spec:
       version: v1.9.9
       sourceRef:
         kind: HelmRepository
-        name: rook-ceph
+        name: rook-release
         namespace: flux-system
   values:
     toolbox:
