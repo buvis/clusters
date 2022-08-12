@@ -10,8 +10,6 @@ spec:
     namespace: kube-system
   - name: cert-manager
     namespace: kube-system
-  - name: flux-system-extras
-    namespace: flux-system
   interval: 5m
   install:
     timeout: 15m
