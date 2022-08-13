@@ -20,7 +20,7 @@ spec:
       enabled: true
       basePath: "/var/openebs/local"
   postRenderers:
-    patches:
+  - patches:
     - patch: |
         - op: add
           path: "/spec/template/spec/hostPID"
