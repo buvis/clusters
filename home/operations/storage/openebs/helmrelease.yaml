@@ -20,7 +20,11 @@ spec:
       enabled: true
       basePath: "/var/openebs/local"
   patches:
-    patch: |
+  - patch: |
       - op: add
         path: "/spec/template/spec/hostPID"
         value: true
+    target:
+      kind: daemonset
+      name: openebs-jiva-csi-node
+      namespace: storage
