@@ -23,3 +23,4 @@ data:
   SVC_IP_PROMTAIL: "10.11.0.33"
   SVC_IP_SNAPSERVER: "10.11.0.190"
   SVC_IP_WIREGUARD: "10.11.0.72"
+  iscsid_pid: "${iscsid_pid}"
