@@ -19,3 +19,8 @@ spec:
     localprovisioner:
       enabled: true
       basePath: "/var/openebs/local"
+  patches:
+    patch: |
+      - op: add
+        path: "/spec/template/spec/hostPID"
+        value: true
