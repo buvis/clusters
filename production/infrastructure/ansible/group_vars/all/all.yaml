@@ -10,7 +10,7 @@ ansible_user: "{{ default_user }}"
 # ansible_password: "{{ vault_default_password }}"
 
 # Global k3s cluster information
-k3s_version: "v1.24.4+k3s1"  # see channels: https://update.k3s.io/v1-release/channels and lookup the latest stable version
+k3s_version: "v1.24.6+k3s1"  # see channels: https://update.k3s.io/v1-release/channels and lookup the latest stable version
 k3s_master_api: "https://10.7.0.51:6443"
 k3s_cluster_cidr: "172.22.0.0/16"
 k3s_service_cidr: "172.24.0.0/16"
