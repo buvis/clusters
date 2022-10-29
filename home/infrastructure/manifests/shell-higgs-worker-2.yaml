@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ubuntu-shell-higgs-worker-2
+  namespace: storage
+spec:
+  nodeName: higgs-worker-2
+  terminationGracePeriodSeconds: 5
+  containers:
+    - name: shell
+      image: ubuntu
+      tty: true
+      stdin: true
+      securityContext:
+        privileged: true
