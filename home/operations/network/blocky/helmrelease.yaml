@@ -62,7 +62,7 @@ spec:
             targetPort: 53
     prometheus:
       serviceMonitor:
-        enabled: true
+        enabled: false
     probes:
       liveness:
         failureThreshold: 5
