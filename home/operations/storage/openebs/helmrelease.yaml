@@ -4,6 +4,8 @@ kind: HelmRelease
 metadata:
   name: openebs
   namespace: storage
+  labels:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
 spec:
   interval: 5m
   chart:
@@ -29,4 +31,15 @@ spec:
         target:
           kind: daemonset
           name: openebs-jiva-csi-node
+          namespace: storage
+      - patch: |
+          - op: replace
+            path: "/data/iscsiadm"
+            value: |
+              #!/bin/sh
+              iscsid_pid=$(pgrep iscsid)
+              nsenter --mount="/proc/${iscsid_pid}/ns/mnt" --net="/proc/${iscsid_pid}/ns/net" -- /usr/local/sbin/iscsiadm "$@"
+        target:
+          kind: configmap
+          name: openebs-jiva-csi-iscsiadm
           namespace: storage
