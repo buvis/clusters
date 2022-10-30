@@ -61,7 +61,7 @@ spec:
         enabled: true
         annotations:
           kubernetes.io/ingress.class: nginx
-          cert-manager.io/cluster-issuer: zerossl
+          cert-manager.io/cluster-issuer: letsencrypt-staging
         hosts:
         - host: cal.buvis.net
           paths:
