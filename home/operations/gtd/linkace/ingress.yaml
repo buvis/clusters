@@ -6,7 +6,7 @@ metadata:
   namespace: gtd
   annotations:
     kubernetes.io/ingress.class: nginx
-    cert-manager.io/cluster-issuer: zerossl
+    cert-manager.io/cluster-issuer: letsencrypt-production
 spec:
   tls:
   - hosts:

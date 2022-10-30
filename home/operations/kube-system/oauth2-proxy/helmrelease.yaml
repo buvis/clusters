@@ -52,7 +52,7 @@ spec:
       - auth.buvis.net
       annotations:
         kubernetes.io/ingress.class: nginx
-        cert-manager.io/cluster-issuer: zerossl
+        cert-manager.io/cluster-issuer: letsencrypt-production
       tls:
       - secretName: oauth2-proxy-https-cert
         hosts:
