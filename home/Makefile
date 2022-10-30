@@ -7,6 +7,7 @@ vms:
 	cd infrastructure/terraform && terraform apply -auto-approve
 
 cluster:
+	talosctl gen config buvis https://$$MASTER1_IP:6443 --output-dir infrastructure/talos --config-patch @infrastructure/talos/patch-all.yaml
 	talosctl apply-config --insecure --nodes $$MASTER1_IP --file infrastructure/talos/controlplane.yaml
 	talosctl apply-config --insecure --nodes $$WORKER2_IP --file infrastructure/talos/worker.yaml
 	talosctl apply-config --insecure --nodes $$WORKER3_IP --file infrastructure/talos/worker.yaml
