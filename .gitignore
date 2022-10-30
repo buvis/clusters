@@ -7,5 +7,7 @@ Thumbs.db
 bin
 production/infrastructure/talos/
 home/infrastructure/talos/
+!home/infrastructure/talos/patch-all.yaml
+home/aws-velero-creds
 terraform-plugin-proxmox.log
 terraform.tfstate*
