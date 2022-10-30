@@ -75,7 +75,7 @@ spec:
         failureThreshold: 30
         periodSeconds: 10
     metrics:
-      enabled: true
+      enabled: false
     affinity:
       podAntiAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
