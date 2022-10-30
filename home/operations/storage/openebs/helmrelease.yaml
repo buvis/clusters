@@ -31,7 +31,6 @@ spec:
         target:
           kind: daemonset
           name: openebs-jiva-csi-node
-          namespace: storage
       - patch: |
           - op: replace
             path: "/data/iscsiadm"
@@ -42,4 +41,3 @@ spec:
         target:
           kind: configmap
           name: openebs-jiva-csi-iscsiadm
-          namespace: storage
