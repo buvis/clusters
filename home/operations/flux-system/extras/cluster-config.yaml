@@ -13,7 +13,7 @@ data:
   NFS_SERVER_IP: "10.7.0.111"
   NFS_SERVER_PATH_LONGHORN_BACKUP: "nfs://10.7.0.111:/mnt/tank/pv/longhorn-backup"
   NFS_SERVER_PATH_BAIKAL: "/mnt/tank/pv/baikal"
-  NFS_SERVER_PATH_KOPIA: "/mnt/tank/pv/kopia"
+  NFS_SERVER_PATH_KOPIA: "/mnt/tank/pv/kopia/snapshots"
   NFS_SERVER_PATH_WIREGUARD: "/mnt/tank/pv/wireguard"
   NFS_SERVER_PATH_MEDIA: "/mnt/tank/media"
   SVC_IP_BITTORRENT: "10.11.0.106"
