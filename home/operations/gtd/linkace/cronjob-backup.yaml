@@ -18,12 +18,6 @@ spec:
         spec:
           automountServiceAccountToken: false
           restartPolicy: OnFailure
-          # Stagger jobs to run randomly within X seconds to avoid bringing down all apps at once
-          initContainers:
-          - name: wait
-            image: ghcr.io/onedr0p/kopia:0.12.1@sha256:e333295b519ce586e7c050c970b2255d87bdb2979298ff87ebdb1113e381ba3b
-            command: ["/scripts/sleep.sh"]
-            args: ["1", "900"]
           containers:
           - name: snapshot
             image: ghcr.io/onedr0p/kopia:0.12.1@sha256:e333295b519ce586e7c050c970b2255d87bdb2979298ff87ebdb1113e381ba3b
@@ -50,7 +44,7 @@ spec:
               printf "\e[1;32m%-6s\e[m\n" "[10/10] Disconnect from repo ..."     && kopia repo disconnect
             volumeMounts:
             - name: data
-              mountPath: "/data/gtd/linkace/linkace-db"
+              mountPath: /data/gtd/linkace/linkace-db
             - name: snapshots
               mountPath: /snapshots
             securityContext:
@@ -62,4 +56,4 @@ spec:
           - name: snapshots
             nfs:
               server: ${NFS_SERVER_IP}
-              path: ${NFS_SERVER_PATH_KOPIA}
+              path: ${NFS_SERVER_PATH_KOPIA}/snapshots

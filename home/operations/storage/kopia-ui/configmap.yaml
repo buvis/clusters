@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kopia
+  name: kopia-ui-config
   namespace: storage
 data:
   repository.config: |
