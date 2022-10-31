@@ -30,7 +30,7 @@ spec:
     controller:
       replicas: 3
     env:
-      TZ: "Europe/Berlin"
+      TZ: "${TIMEZONE}"
     service:
       main:
         ports:
