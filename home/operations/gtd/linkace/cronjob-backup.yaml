@@ -1,8 +1,9 @@
 ---
 apiVersion: batch/v1
 kind: CronJob
-name: linkace-linkace-db-snapshot
-namespace: gtd
+metadata:
+  name: linkace-linkace-db-snapshot
+  namespace: gtd
 data:
   spec:
     schedule: "0 3 * * *"
