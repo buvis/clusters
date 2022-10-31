@@ -79,6 +79,6 @@ spec:
       snapshots:
         enabled: true
         type: nfs
-        server: $NFS_SERVER_IP
-        path: $NFS_SERVER_PATH_KOPIA
+        server: ${NFS_SERVER_IP}
+        path: ${NFS_SERVER_PATH_KOPIA}
         mountPath: /snapshots
