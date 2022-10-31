@@ -10,3 +10,4 @@ spec:
     /*
     # include manifests
     !/**/*.yaml
+    !/**/*.json
