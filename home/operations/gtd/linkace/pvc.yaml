@@ -13,7 +13,6 @@ spec:
   storageClassName: openebs-jiva-csi-default
   csi:
     driver: jiva.csi.openebs.io
-    volumeHandle: linkace-db
     fsType: ext4
 ---
 apiVersion: v1
