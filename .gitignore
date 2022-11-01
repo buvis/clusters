@@ -1,10 +1,10 @@
+.direnv
 .DS_Store
 .envrc
 .kube*
 .terraform*
 .vault-pwd
 Thumbs.db
-bin
 production/infrastructure/talos/
 home/infrastructure/talos/
 !home/infrastructure/talos/patch-all.yaml

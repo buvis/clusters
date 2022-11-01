@@ -1,4 +1,7 @@
-.PHONY: install vms cluster flux update-flux destroy
+.PHONY: prepare install vms cluster flux update-flux destroy
+
+prepare:
+	pip install -r requirements.txt
 
 install: | vms cluster flux
 
