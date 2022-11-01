@@ -10,7 +10,7 @@ vms:
 	cd infrastructure/terraform && terraform apply -auto-approve
 
 cluster:
-	talosctl gen config buvis https://$$MASTER1_IP:6443 --output-dir infrastructure/talos --config-patch @infrastructure/talos/patch-all.yaml
+	talosctl gen config buvis https://$$MASTER1_IP:6443 --output-dir infrastructure/talos --config-patch @infrastructure/talos/patch-all.yaml --config-patch-control-plane @infrastructure/talos/patch-controlplane.yaml
 	timeout 600 bash -c 'while [[ "$$(curl --insecure https://$$MASTER1_IP:50000 -s; echo $$?)" != "35" ]]; do sleep 5; done'
 	talosctl apply-config --insecure --nodes $$MASTER1_IP --file infrastructure/talos/controlplane.yaml
 	timeout 600 bash -c 'while [[ "$$(curl --insecure https://$$WORKER2_IP:50000 -s; echo $$?)" != "35" ]]; do sleep 5; done'
@@ -26,9 +26,7 @@ cluster:
 	timeout 300 bash -c 'while [[ "$$(curl --insecure https://$$MASTER1_IP:6443 -s -o /dev/null; echo $$?)" != "0" ]]; do sleep 5; done'
 	talosctl kubeconfig infrastructure/.kube --force
 	timeout 300 bash -c 'while [[ "$$(kubectl get namespace tigera-operator -o json 2>/dev/null | jq .status.phase -r)" != "Active" ]]; do sleep 5; done'
-	kubectl label namespace tigera-operator pod-security.kubernetes.io/enforce=privileged
 	timeout 300 bash -c 'while [[ "$$(kubectl get namespace calico-system -o json 2>/dev/null | jq .status.phase -r)" != "Active" ]]; do sleep 5; done'
-	kubectl label namespace calico-system pod-security.kubernetes.io/enforce=privileged
 
 flux:
 	kubectl create namespace flux-system --dry-run=client -o yaml | kubectl apply -f -
