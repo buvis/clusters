@@ -3,7 +3,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: linkace-db-snapshot
-  namespace: storage
+  namespace: gtd
 spec:
   schedule: "0 3 * * *"
   suspend: false

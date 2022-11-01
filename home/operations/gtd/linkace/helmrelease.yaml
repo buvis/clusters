@@ -18,9 +18,9 @@ spec:
     cleanupOnFail: true
   dependsOn:
   - name: ingress-nginx
-    namespace: kube-system
+    namespace: kube-tools
   - name: cert-manager
-    namespace: kube-system
+    namespace: kube-tools
   - name: openebs
     namespace: storage
   chart:
