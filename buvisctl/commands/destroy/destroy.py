@@ -1,6 +1,6 @@
 import os
 
-from python_terraform import IsNotFlagged, Terraform
+from terrapyst import TerraformWorkspace
 
 DIR_TERRAFORM = "/infrastructure/terraform"
 
@@ -8,20 +8,20 @@ DIR_TERRAFORM = "/infrastructure/terraform"
 class CommandDestroy:
 
     def __init__(self):
-        self.tf = Terraform()
+        self.tf = TerraformWorkspace(path=f"{os.getcwd()}{DIR_TERRAFORM}")
 
     def execute(self):
-        cwd = os.getcwd()
+        approval = input(
+            "Type yes if you really want to destroy the cluster: ")
 
-        try:
-            os.chdir(cwd + DIR_TERRAFORM)
-        except FileNotFoundError:
-            print(f"No plan was found in {cwd + DIR_TERRAFORM}")
+        if approval == "yes":
+            print("Started destroying VMs.")
+            results, _ = self.tf.destroy(auto_approve=True)
+
+            if not results.successful:
+                print(f"Failed destroying VMs. \n\n {results.stdout}")
+            else:
+                print("Finished destroying VMs")
+
         else:
-            self.tf.destroy(
-                capture_output="yes",
-                no_color=IsNotFlagged,
-                force=IsNotFlagged,
-                auto_approve=False,
-            )
-            os.chdir(cwd)
+            print("Quitting as you changed your mind")

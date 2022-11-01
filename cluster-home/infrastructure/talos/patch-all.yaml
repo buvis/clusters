@@ -23,7 +23,7 @@
     name: custom
     urls:
     - https://docs.projectcalico.org/manifests/tigera-operator.yaml
-    - https://raw.githubusercontent.com/buvis/clusters/main/production/infrastructure/manifests/install-calico.yaml
+    - https://raw.githubusercontent.com/buvis/clusters/main/cluster-home/infrastructure/manifests/install-calico.yaml
 - op: add
   path: /machine/disks
   value:
