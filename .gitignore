@@ -6,9 +6,6 @@ __pycache__
 .terraform*
 .vault-pwd
 Thumbs.db
-production/infrastructure/talos/
-home/infrastructure/talos/
-!home/infrastructure/talos/patch-all.yaml
-home/aws-velero-creds
+cluster-home/infrastructure/talos/generated-config
 terraform-plugin-proxmox.log
 terraform.tfstate*

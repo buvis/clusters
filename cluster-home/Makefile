@@ -10,15 +10,15 @@ vms:
 	cd infrastructure/terraform && terraform apply -auto-approve
 
 cluster:
-	talosctl gen config buvis https://$$MASTER1_IP:6443 --output-dir infrastructure/talos --config-patch @infrastructure/talos/patch-all.yaml --config-patch-control-plane @infrastructure/talos/patch-controlplane.yaml
+	talosctl gen config buvis https://$$MASTER1_IP:6443 --output-dir infrastructure/talos/generated-config --config-patch @infrastructure/talos/patch-all.yaml --config-patch-control-plane @infrastructure/talos/patch-controlplane.yaml
 	timeout 600 bash -c 'while [[ "$$(curl --insecure https://$$MASTER1_IP:50000 -s; echo $$?)" != "35" ]]; do sleep 5; done'
-	talosctl apply-config --insecure --nodes $$MASTER1_IP --file infrastructure/talos/controlplane.yaml
+	talosctl apply-config --insecure --nodes $$MASTER1_IP --file infrastructure/talos/generated-config/controlplane.yaml
 	timeout 600 bash -c 'while [[ "$$(curl --insecure https://$$WORKER2_IP:50000 -s; echo $$?)" != "35" ]]; do sleep 5; done'
-	talosctl apply-config --insecure --nodes $$WORKER2_IP --file infrastructure/talos/worker.yaml
+	talosctl apply-config --insecure --nodes $$WORKER2_IP --file infrastructure/talos/generated-config/worker.yaml
 	timeout 600 bash -c 'while [[ "$$(curl --insecure https://$$WORKER3_IP:50000 -s; echo $$?)" != "35" ]]; do sleep 5; done'
-	talosctl apply-config --insecure --nodes $$WORKER3_IP --file infrastructure/talos/worker.yaml
+	talosctl apply-config --insecure --nodes $$WORKER3_IP --file infrastructure/talos/generated-config/worker.yaml
 	timeout 600 bash -c 'while [[ "$$(curl --insecure https://$$WORKER4_IP:50000 -s; echo $$?)" != "35" ]]; do sleep 5; done'
-	talosctl apply-config --insecure --nodes $$WORKER4_IP --file infrastructure/talos/worker.yaml
+	talosctl apply-config --insecure --nodes $$WORKER4_IP --file infrastructure/talos/generated-config/worker.yaml
 	timeout 600 bash -c 'while [[ "$$(curl --insecure https://$$MASTER1_IP:50001 -s; echo $$?)" != "35" ]]; do sleep 5; done'
 	talosctl config endpoint $$MASTER1_IP
 	talosctl config node $$MASTER1_IP
