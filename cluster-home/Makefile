@@ -1,7 +1,4 @@
-.PHONY: prepare install vms cluster flux update-flux destroy
-
-prepare:
-	cd .. && pip install -r requirements.txt
+.PHONY: install vms cluster flux update-flux 
 
 install: | vms cluster flux
 
@@ -53,6 +50,3 @@ update-flux:
         --path=./cluster-home/operations \
         --branch=main \
         --personal
-
-destroy:
-	cd infrastructure/terraform && terraform destroy
