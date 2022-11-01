@@ -1,8 +1,0 @@
----
-# handler for role upgrade-host
-#
-
-- name: ask for reboot
-  file:
-    path: /var/run/reboot-required
-    state: touch

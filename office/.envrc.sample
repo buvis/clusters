@@ -1,5 +1,0 @@
-export GITHUB_TOKEN=<see password manager>
-export KUBECONFIG=$(expand_path ./infrastructure/.kube/kubeconfig)
-export SOPS_KEY_FINGERPRINT=<see password manager>
-export SLACK_WEBHOOK_URL=<see password manager>
-export TALOSCONFIG=$(expand_path ./infrastructure/clusterconfig/talosconfig)
