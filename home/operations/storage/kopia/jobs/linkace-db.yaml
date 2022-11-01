@@ -63,3 +63,18 @@ spec:
             nfs:
               server: ${NFS_SERVER_IP}
               path: ${NFS_SERVER_PATH_KOPIA}/snapshots
+          # Run on the same node as the application, otherwise backup job can't access the data in PVC
+          affinity:
+            podAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+              - topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchExpressions:
+                  - key: app.kubernetes.io/name
+                    operator: "In"
+                    values:
+                    - mariadb
+                  - key: app.kubernetes.io/instance
+                    operator: "In"
+                    values:
+                    - linkace-db
