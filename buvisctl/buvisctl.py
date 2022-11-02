@@ -1,12 +1,15 @@
+import os
+
 import click
 
 from commands.bootstrap import CommandBootstrap
 from commands.destroy import CommandDestroy
 
 
-@click.group(help="CLI tool to manage full development cycle of projects")
+@click.group(help="CLI tool to manage buvis clusters")
 def cli():
-    pass
+    if not os.path.basename(os.getcwd()).startswith("cluster-"):
+        exit("\nYou are not in cluster directory (cluster-<name>)!\n")
 
 
 @cli.command("bootstrap")

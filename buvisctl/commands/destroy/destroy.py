@@ -1,14 +1,10 @@
-import os
-
-from terrapyst import TerraformWorkspace
-
-DIR_TERRAFORM = "/infrastructure/terraform"
+from adapters import TerraformAdapter
 
 
 class CommandDestroy:
 
     def __init__(self):
-        self.tf = TerraformWorkspace(path=f"{os.getcwd()}{DIR_TERRAFORM}")
+        self.tf = TerraformAdapter()
 
     def execute(self):
         approval = input(
@@ -16,12 +12,11 @@ class CommandDestroy:
 
         if approval == "yes":
             print("Started destroying VMs.")
-            results, _ = self.tf.destroy(auto_approve=True)
+            res = self.tf.destroy()
 
-            if not results.successful:
-                print(f"Failed destroying VMs. \n\n {results.stdout}")
-            else:
+            if res.is_ok():
                 print("Finished destroying VMs")
-
+            else:
+                print(f"Failed destroying VMs. \n\n {res.message}")
         else:
             print("Quitting as you changed your mind")
