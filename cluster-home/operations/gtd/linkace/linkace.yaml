@@ -8,8 +8,15 @@ spec:
   dependsOn:
   - name: linkace-db
   interval: 5m
-  path: "./gtd/linkace"
+  path: "./cluster-home/operations/gtd/linkace"
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
+  postBuild:
+    substitute: {}
+    substituteFrom:
+    - kind: Secret
+      name: cluster-secret-vars
+    - kind: ConfigMap
+      name: cluster-config

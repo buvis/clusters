@@ -5,6 +5,8 @@ metadata:
   name: cert-manager-operators
   namespace: flux-system
 spec:
+  dependsOn:
+  - name: cert-manager
   interval: 10m0s
   path: ./cluster-home/operations/kube-tools/cert-manager/operators
   prune: true
