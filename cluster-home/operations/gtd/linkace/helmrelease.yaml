@@ -17,6 +17,8 @@ spec:
       remediateLastFailure: true
     cleanupOnFail: true
   dependsOn:
+  - name: flux-system-extras
+    namespace: flux-system
   - name: ingress-nginx
     namespace: kube-tools
   - name: cert-manager
