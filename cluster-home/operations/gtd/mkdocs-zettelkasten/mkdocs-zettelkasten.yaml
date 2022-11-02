@@ -1,0 +1,22 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: mkdocs-zettelkasten
+  namespace: flux-system
+spec:
+  dependsOn:
+  - name: flux-system-extras
+  interval: 5m
+  path: ./cluster-home/operations/gtd/mkdocs-zettelkasten
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  postBuild:
+    substitute: {}
+    substituteFrom:
+    - kind: Secret
+      name: cluster-secret-vars
+    - kind: ConfigMap
+      name: cluster-config
