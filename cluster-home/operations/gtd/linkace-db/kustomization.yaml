@@ -5,5 +5,6 @@ metadata:
   name: linkace-db
   namespace: flux-system
 resources:
+- linkace-db.yaml
 - helmrelease.yaml
 - pvc.yaml

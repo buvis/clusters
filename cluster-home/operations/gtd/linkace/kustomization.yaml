@@ -5,6 +5,7 @@ metadata:
   name: linkace
   namespace: flux-system
 resources:
+- linkace.yaml
 - configmap.yaml
 - deployment.yaml
 - ingress.yaml

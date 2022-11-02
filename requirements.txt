@@ -1,3 +1,4 @@
 kubernetes
 click
 terrapyst
+python-gnupg

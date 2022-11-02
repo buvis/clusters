@@ -1,6 +1,8 @@
 import socket
 import time
 
+from kubernetes.client.exceptions import ApiException
+
 
 def wait_for_namespace(api, namespace, timeout=600):
     sleep_count = 0
@@ -16,7 +18,7 @@ def wait_for_namespace(api, namespace, timeout=600):
 
                 if sleep_count > timeout / 5:
                     return False
-        except socket.error:
+        except ApiException:
             time.sleep(5)
             sleep_count = sleep_count + 1
 

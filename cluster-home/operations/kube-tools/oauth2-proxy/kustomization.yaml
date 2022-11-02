@@ -5,4 +5,5 @@ metadata:
   name: oauth2-proxy
   namespace: flux-system
 resources:
+- oauth2-proxy.yaml
 - helmrelease.yaml
