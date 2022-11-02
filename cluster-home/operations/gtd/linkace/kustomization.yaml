@@ -6,7 +6,3 @@ metadata:
   namespace: flux-system
 resources:
 - linkace.yaml
-- configmap.yaml
-- deployment.yaml
-- ingress.yaml
-- service.yaml

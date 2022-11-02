@@ -8,7 +8,7 @@ spec:
   dependsOn:
   - name: linkace-db
   interval: 5m
-  path: "./cluster-home/operations/gtd/linkace"
+  path: "./cluster-home/operations/gtd/linkace/manifests"
   prune: true
   sourceRef:
     kind: GitRepository
