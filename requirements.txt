@@ -1,4 +1,4 @@
-kubernetes
 click
+kubernetes
 terrapyst
-python-gnupg
+rich

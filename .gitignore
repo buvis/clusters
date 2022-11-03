@@ -6,6 +6,7 @@ __pycache__
 .terraform*
 .vault-pwd
 Thumbs.db
+buvisctl.conf.yaml
 cluster-home/infrastructure/talos/generated-config
 terraform-plugin-proxmox.log
 terraform.tfstate*

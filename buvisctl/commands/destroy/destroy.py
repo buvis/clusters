@@ -1,4 +1,4 @@
-from adapters import TerraformAdapter
+from adapters import TerraformAdapter, cfg, console
 
 
 class CommandDestroy:
@@ -7,16 +7,16 @@ class CommandDestroy:
         self.tf = TerraformAdapter()
 
     def execute(self):
-        approval = input(
-            "Type yes if you really want to destroy the cluster: ")
+        if console.confirm(f"Do you want to destroy {cfg.cluster_name}"):
+            with console.status("Destroying Proxmox nodes"):
+                res = self.tf.destroy()
 
-        if approval == "yes":
-            print("Started destroying VMs.")
-            res = self.tf.destroy()
-
-            if res.is_ok():
-                print("Finished destroying VMs")
-            else:
-                print(f"Failed destroying VMs. \n\n {res.message}")
+                if res.is_ok():
+                    console.success(
+                        "Proxmox nodes destroyed. Go to Proxmox UI and remove any leftover VM disks."
+                    )
+                else:
+                    console.panic("Proxmox nodes destruction failed",
+                                  res.message)
         else:
             print("Quitting as you changed your mind")
