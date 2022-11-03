@@ -29,9 +29,9 @@ spec:
             image: ghcr.io/onedr0p/kopia:0.12.1@sha256:d81298982a7f03cf328769c3b6eaf784ee7ea0d1c426b8b57a97eba6fca5c4b4
             env:
             - name: KOPIA_CACHE_DIRECTORY
-              value: /snapshots/gtd/linkace/linkace-db/cache
+              value: /snapshots/gtd/linkace-db/linkace-db/cache
             - name: KOPIA_LOG_DIR
-              value: /snapshots/gtd/linkace/linkace-db/logs
+              value: /snapshots/gtd/linkace-db/linkace-db/logs
             - name: KOPIA_PASSWORD
               value: "none"
             command:
@@ -40,17 +40,17 @@ spec:
             - |-
               printf "\e[1;32m%-6s\e[m\n" "[01/10] Create repo ..."              && [[ ! -f /snapshots/kopia.repository.f ]] && kopia repository create filesystem --path=/snapshots
               printf "\e[1;32m%-6s\e[m\n" "[02/10] Connect to repo ..."          && kopia repo connect filesystem --path=/snapshots --override-hostname=cluster --override-username=root
-              printf "\e[1;32m%-6s\e[m\n" "[03/10] Set policies ..."             && kopia policy set /data/gtd/linkace/linkace-db --compression=zstd --keep-latest 14 --keep-hourly 0 --keep-daily 7 --keep-weekly 2 --keep-monthly 0 --keep-annual 0
-              printf "\e[1;32m%-6s\e[m\n" "[04/10] Freeze linkace-db ..."   && fsfreeze -f /data/gtd/linkace/linkace-db
-              printf "\e[1;32m%-6s\e[m\n" "[05/10] Snapshot linkace-db ..." && kopia snap create /data/gtd/linkace/linkace-db
-              printf "\e[1;32m%-6s\e[m\n" "[06/10] Unfreeze linkace-db ..." && fsfreeze -u /data/gtd/linkace/linkace-db
-              printf "\e[1;32m%-6s\e[m\n" "[07/10] List snapshots ..."           && kopia snap list /data/gtd/linkace/linkace-db
+              printf "\e[1;32m%-6s\e[m\n" "[03/10] Set policies ..."             && kopia policy set /data/gtd/linkace-db/linkace-db --compression=zstd --keep-latest 14 --keep-hourly 0 --keep-daily 7 --keep-weekly 2 --keep-monthly 0 --keep-annual 0
+              printf "\e[1;32m%-6s\e[m\n" "[04/10] Freeze linkace-db ..."   && fsfreeze -f /data/gtd/linkace-db/linkace-db
+              printf "\e[1;32m%-6s\e[m\n" "[05/10] Snapshot linkace-db ..." && kopia snap create /data/gtd/linkace-db/linkace-db
+              printf "\e[1;32m%-6s\e[m\n" "[06/10] Unfreeze linkace-db ..." && fsfreeze -u /data/gtd/linkace-db/linkace-db
+              printf "\e[1;32m%-6s\e[m\n" "[07/10] List snapshots ..."           && kopia snap list /data/gtd/linkace-db/linkace-db
               printf "\e[1;32m%-6s\e[m\n" "[08/10] Show stats ..."               && kopia content stats
               printf "\e[1;32m%-6s\e[m\n" "[09/10] Show maintenance info ..."    && kopia maintenance info
               printf "\e[1;32m%-6s\e[m\n" "[10/10] Disconnect from repo ..."     && kopia repo disconnect
             volumeMounts:
             - name: data
-              mountPath: /data/gtd/linkace/linkace-db
+              mountPath: /data/gtd/linkace-db/linkace-db
             - name: snapshots
               mountPath: /snapshots
             securityContext:
