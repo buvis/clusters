@@ -4,6 +4,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: linkace-db
   namespace: gtd
+  labels:
+    app.kubernetes.io/name: linkace
 spec:
   storageClassName: openebs-jiva-csi-default
   accessModes:
