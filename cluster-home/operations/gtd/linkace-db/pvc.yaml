@@ -5,7 +5,7 @@ metadata:
   name: linkace-db
   namespace: gtd
   labels:
-    app.kubernetes.io/name: linkace
+    app.kubernetes.io/name: linkace-db
 spec:
   storageClassName: openebs-jiva-csi-default
   accessModes:
