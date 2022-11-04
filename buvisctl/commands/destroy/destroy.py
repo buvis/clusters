@@ -13,8 +13,8 @@ class CommandDestroy:
 
                 if res.is_ok():
                     console.success(
-                        "Proxmox nodes destroyed. Go to Proxmox UI and remove any leftover VM disks."
-                    )
+                        "Proxmox nodes destroyed. "
+                        "Go to Proxmox UI and remove any leftover VM disks.")
                 else:
                     console.panic("Proxmox nodes destruction failed",
                                   res.message)

@@ -78,3 +78,61 @@ class FluxAdapter:
         else:
             return AdapterResponse(code=results.returncode,
                                    message=results.stderr.decode())
+
+    def suspend_hr(self, name, namespace):
+
+        flux_suspend_command = ["flux", "suspend", "hr", "-n", namespace, name]
+        results = subprocess.run(flux_suspend_command, capture_output=True)
+
+        if results.stderr.decode().startswith(
+                "✗ no HelmRelease objects found"):
+
+            return AdapterResponse(
+                code=404,
+                message=f"helmrelease {name} not in {namespace} namespace",
+            )
+        else:
+            return AdapterResponse()
+
+    def resume_hr(self, name, namespace):
+
+        flux_resume_command = ["flux", "resume", "hr", "-n", namespace, name]
+        results = subprocess.run(flux_resume_command, capture_output=True)
+
+        if results.stderr.decode().startswith(
+                "✗ no HelmRelease objects found"):
+
+            return AdapterResponse(
+                code=404,
+                message=f"helmrelease {name} not in {namespace} namespace",
+            )
+        else:
+            return AdapterResponse()
+
+    def stop_application(self, app_instance, app_name, namespace):
+        app_stopped = False
+        deployments = self.k8s.get_app_deployment(app_name, app_instance,
+                                                  namespace)
+
+        for d in deployments.items:
+            res = self.k8s.scale_deployment_to_zero(d.metadata.name, namespace)
+
+            if res:
+                app_stopped = True
+
+        stateful_sets = self.k8s.get_app_statefulset(app_name, app_instance,
+                                                     namespace)
+
+        for s in stateful_sets.items:
+            res = self.k8s.scale_stateful_set_to_zero(s.metadata.name,
+                                                      namespace)
+
+            if res:
+                app_stopped = True
+
+        if app_stopped:
+            return AdapterResponse()
+        else:
+            return AdapterResponse(
+                code=1,
+                message=f"Couldn't stop {app_instance}-{app_name} application")

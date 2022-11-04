@@ -1,0 +1,42 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{JOBNAME}}
+  namespace: {{NAMESPACE}}
+spec:
+  ttlSecondsAfterFinished: 3600
+  template:
+    spec:
+      automountServiceAccountToken: false
+      restartPolicy: OnFailure
+      containers:
+        - name: restore
+          image: ghcr.io/onedr0p/kopia:0.12.1@sha256:d81298982a7f03cf328769c3b6eaf784ee7ea0d1c426b8b57a97eba6fca5c4b4
+          env:
+            - name: KOPIA_PASSWORD
+              value: "none"
+          command:
+            - /bin/bash
+            - -c
+            - |-
+              shopt -s dotglob
+              printf "\e[1;32m%-6s\e[m\n" "[01/04] Connect to repo ..."      && kopia repo connect filesystem --path=/snapshots --override-hostname=cluster --override-username=root
+              printf "\e[1;32m%-6s\e[m\n" "[02/04] Remove previous data ..." && rm -rf /data/{{NAMESPACE}}/{{PVC}}/*
+              printf "\e[1;32m%-6s\e[m\n" "[03/04] Restore snapshot ..."     && kopia {{RESTORE_COMMAND}} /data/{{NAMESPACE}}/{{PVC}}
+              printf "\e[1;32m%-6s\e[m\n" "[04/04] Disconnect from repo ..." && kopia repo disconnect
+          volumeMounts:
+            - name: {{PVC}}-data
+              mountPath: /data/{{NAMESPACE}}/{{PVC}}
+            - name: snapshots
+              mountPath: /snapshots
+          securityContext:
+            privileged: true
+      volumes:
+        - name: {{PVC}}-data
+          persistentVolumeClaim:
+            claimName: {{PVC}}
+        - name: snapshots
+          nfs:
+            server: {{NFS_SERVER_IP}}
+            path: {{NFS_SERVER_PATH_KOPIA}}/snapshots

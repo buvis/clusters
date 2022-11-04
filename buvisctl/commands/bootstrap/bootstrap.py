@@ -42,12 +42,11 @@ class CommandBootstrap:
                 console.success("Talos configuration generated")
             else:
                 console.panic("Talos configuration generation failed",
-                                res.message)
+                              res.message)
 
     def configure_talos_nodes(self):
         for node in cfg.nodes:
-            with console.status(
-                    f"Sending Talos configuration to {node.name}"):
+            with console.status(f"Sending Talos configuration to {node.name}"):
                 res = self.talos.configure_node(node)
 
                 if res.is_ok():
@@ -55,7 +54,7 @@ class CommandBootstrap:
                         f"Talos configuration applied to {node.name}")
                 else:
                     console.panic(f"Failed configuring {node.name}",
-                                    res.message)
+                                  res.message)
 
     def bootstrap_talos(self):
         with console.status("Waiting for master node configuration"):
@@ -75,7 +74,7 @@ class CommandBootstrap:
                 self.k8s = KubernetesAdapter()
             else:
                 console.panic("Failed retrieveing cluster's kubeconfig",
-                                res.message)
+                              res.message)
 
     def wait_for_cni(self):
         with console.status("Waiting for CNI deployment"):

@@ -2,3 +2,4 @@ click
 kubernetes
 terrapyst
 rich
+jinja2
