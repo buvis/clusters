@@ -73,7 +73,10 @@ spec:
           cert-manager.io/cluster-issuer: letsencrypt-production
           nginx.ingress.kubernetes.io/server-snippet: |-
             location ~ /\.well-known/(?:carddav|caldav) {
-              return 301 http://$host/dav;
+              return 301 https://$host/dav;
+            }
+            location ~ /^/principals/(.*) {
+              return 301 https://$host/dav/principals/tomas%40buvis.net/$1
             }
         hosts:
         - host: crm.buvis.net
