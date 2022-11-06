@@ -75,9 +75,6 @@ spec:
             location ~ /\.well-known/(?:carddav|caldav) {
               return 301 https://$host/dav;
             }
-            location ~ /\^principals/(.*) {
-              return 301 https://$host/dav/principals/tomas%40buvis.net/$1
-            }
         hosts:
         - host: crm.buvis.net
           paths:
