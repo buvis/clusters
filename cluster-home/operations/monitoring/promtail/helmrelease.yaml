@@ -8,7 +8,7 @@ spec:
   dependsOn:
   - name: loki
     namespace: monitoring
-  - name: kube-prometheus-stack
+  - name: prometheus
     namespace: monitoring
   interval: 5m
   install:

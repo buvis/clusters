@@ -8,7 +8,7 @@ spec:
   dependsOn:
   - name: thanos
     namespace: monitoring
-  - name: kube-prometheus-stack
+  - name: prometheus
     namespace: monitoring
   interval: 5m
   install:

@@ -6,7 +6,7 @@ metadata:
   namespace: monitoring
 spec:
   dependsOn:
-  - name: kube-prometheus-stack
+  - name: prometheus
     namespace: monitoring
   interval: 5m
   install:
