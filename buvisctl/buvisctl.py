@@ -1,8 +1,8 @@
 import click
 
 from adapters import console
-from commands import (CommandBootstrap, CommandCheck, CommandDestroy,
-                      CommandGenerate, CommandRestore)
+from commands import (CommandBackup, CommandBootstrap, CommandCheck,
+                      CommandDestroy, CommandGenerate, CommandRestore)
 
 
 @click.group(help="CLI tool to manage buvis clusters")
@@ -49,6 +49,21 @@ def restore(pvc, namespace, snapshot):
     """
     cmd = CommandRestore()
     cmd.execute(pvc, namespace, snapshot)
+
+
+@cli.command("backup")
+@click.argument("pvc")
+@click.option("-n",
+              "--namespace",
+              default="default",
+              help="Name of PVC's namespace")
+def backup(pvc, namespace):
+    """Backup PVC with Kopia backup cronjob.
+
+    PVC is the name of the persistent volume claim to restore.
+    """
+    cmd = CommandBackup()
+    cmd.execute(pvc, namespace)
 
 
 @cli.command("generate")

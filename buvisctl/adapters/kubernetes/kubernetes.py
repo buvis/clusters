@@ -237,3 +237,27 @@ class KubernetesAdapter:
                 job_name, namespace, propagation_policy="Background")
         except ApiException:
             pass
+
+    def run_job_from_cronjob(self, cron_job_name, job_name, namespace):
+        try:
+            cron_job = self.batch_api.read_namespaced_cron_job(
+                cron_job_name, namespace)
+        except ApiException as e:
+            return AdapterResponse(code=404, message=e)
+
+        job = client.V1Job(
+            api_version="batch/v1",
+            kind="Job",
+            metadata=client.models.V1ObjectMeta(
+                name=job_name,
+                annotations={"cronjob.kubernetes.io/instantiate": "manual"},
+            ),
+            spec=cron_job.spec.job_template.spec,
+        )
+
+        try:
+            self.batch_api.create_namespaced_job(namespace, job)
+
+            return AdapterResponse()
+        except ApiException as e:
+            return AdapterResponse(code=1, message=e)
