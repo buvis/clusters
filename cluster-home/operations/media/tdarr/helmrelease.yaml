@@ -1,0 +1,85 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: tdarr
+  namespace: media
+spec:
+  dependsOn:
+  - name: ingress-nginx
+    namespace: kube-tools
+  - name: cert-manager
+    namespace: kube-tools
+  - name: oauth2-proxy
+    namespace: kube-tools
+  - name: openebs
+    namespace: storage
+  interval: 5m
+  install:
+    timeout: 15m
+    remediation:
+      retries: 5
+  upgrade:
+    timeout: 15m
+    remediation:
+      retries: 5
+      remediateLastFailure: true
+    cleanupOnFail: true
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts
+      chart: tdarr
+      version: 4.6.2
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: haveagitgat/tdarr
+      tag: 2.00.18
+      pullPolicy: IfNotPresent
+    node:
+      enabled: true
+      id: node
+      image:
+        repository: haveagitgat/tdarr_node
+        tag: 2.00.18  # this must be same version as the server
+        pullPolicy: IfNotPresent
+    env:
+      TZ: "Europe/Berlin"
+    persistence:
+      data:
+        enabled: true
+        existingClaim: tdarr-data
+        mountPath: /app/server
+      media:
+        enabled: true
+        existingClaim: nas-media
+        mountPath: /media
+      shared:
+        enabled: true
+        type: pvc
+        existingClaim: tdarr-cache
+        mountPath: /shared
+    podSecurityContext:
+      fsGroup: 1000
+      fsGroupChangePolicy: "OnRootMismatch"
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: nginx
+          cert-manager.io/cluster-issuer: letsencrypt-production
+          nginx.ingress.kubernetes.io/auth-url: "https://auth.buvis.net/oauth2/auth"
+          nginx.ingress.kubernetes.io/auth-signin: "https://auth.buvis.net/oauth2/start?rd=https%3A%2F%2F$host$request_uri"
+        hosts:
+        - host: tdarr.buvis.net
+          paths:
+          - path: /
+            pathType: Prefix
+        tls:
+        - hosts:
+          - tdarr.buvis.net
+          secretName: tdarr-crt
