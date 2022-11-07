@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
-  path: ./production/operations/monitoring/kube-prometheus-stack/rules
+  path: ./cluster-home/operations/monitoring/kube-prometheus-stack/rules
   prune: true
   sourceRef:
     kind: GitRepository
