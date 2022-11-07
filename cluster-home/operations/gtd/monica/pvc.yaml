@@ -4,6 +4,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: monica-config
   namespace: gtd
+  labels:
+    app.kubernetes.io/name: monica
+    app.kubernetes.io/instance: monica
 spec:
   storageClassName: openebs-jiva-csi-default
   accessModes:
@@ -17,6 +20,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: monica-db
   namespace: gtd
+  labels:
+    app.kubernetes.io/name: mariadb
+    app.kubernetes.io/instance: monica
 spec:
   storageClassName: openebs-jiva-csi-default
   accessModes:
