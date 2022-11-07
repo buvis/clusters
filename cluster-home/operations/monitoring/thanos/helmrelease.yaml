@@ -41,6 +41,8 @@ spec:
     image:
       repository: raspbernetes/thanos
       tag: v0.23.1
+    global:
+      storageClass: openebs-jiva-csi-default
     query:
       enabled: true
       replicaLabels:
