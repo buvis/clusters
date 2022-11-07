@@ -20,6 +20,7 @@ spec:
   - hard
   - noatime
   - nodiratime
+  - nolock
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
