@@ -31,16 +31,16 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.bitnami.com/bitnami
       chart: thanos
-      version: 11.5.6
+      version: 11.5.7
       sourceRef:
         kind: HelmRepository
         name: bitnami
         namespace: flux-system
       interval: 5m
   values:
-    image:
-      repository: raspbernetes/thanos
-      tag: v0.23.1
+    #image:
+      #repository: raspbernetes/thanos
+      #tag: v0.23.1
     global:
       storageClass: openebs-jiva-csi-default
     query:
