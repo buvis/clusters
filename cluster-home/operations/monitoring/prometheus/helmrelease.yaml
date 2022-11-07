@@ -37,8 +37,6 @@ spec:
       interval: 5m
   timeout: 20m
   values:
-    fullnameOverride: kps
-    nameOverride: kps
     server:
       resources:
         requests:
@@ -106,6 +104,8 @@ spec:
       alertmanagerSpec:
         storage:
           volumeClaimTemplate:
+            metadata:
+              name: alertmanager-data
             spec:
               storageClassName: openebs-jiva-csi-default
               resources:
@@ -177,6 +177,8 @@ spec:
         walCompression: true
         storageSpec:
           volumeClaimTemplate:
+            metadata:
+              name: prometheus-data
             spec:
               storageClassName: openebs-jiva-csi-default
               resources:
