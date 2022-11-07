@@ -25,7 +25,14 @@ class CommandCheck:
                 f"Missing kubeconfig_dir in {cfg.path_config_file}")
             self.check_failed = True
         else:
-            console.success("Kubeconfig dir")
+            console.success("Kubeconfig directory")
+
+        if _is_missing(cfg.path_backup_manifests_dir):
+            console.failure(
+                f"Missing backup_manifests_dir in {cfg.path_config_file}")
+            self.check_failed = True
+        else:
+            console.success("Backup jobs directory")
 
         if cfg.nodes:
             is_nodes_section_ok = True

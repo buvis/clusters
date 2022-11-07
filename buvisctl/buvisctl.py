@@ -2,7 +2,7 @@ import click
 
 from adapters import console
 from commands import (CommandBootstrap, CommandCheck, CommandDestroy,
-                      CommandRestore)
+                      CommandGenerate, CommandRestore)
 
 
 @click.group(help="CLI tool to manage buvis clusters")
@@ -49,6 +49,15 @@ def restore(pvc, namespace, snapshot):
     """
     cmd = CommandRestore()
     cmd.execute(pvc, namespace, snapshot)
+
+
+@cli.command("generate")
+@click.argument("kind")
+@click.argument("name")
+@click.option("-n", "--namespace", default="default", help="Name of namespace")
+def generate(kind, name, namespace):
+    cmd = CommandGenerate()
+    cmd.execute(kind, name, namespace)
 
 
 def _check_configuration():
