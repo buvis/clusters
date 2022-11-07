@@ -46,3 +46,9 @@ spec:
           cache_location: /data/loki/index_cache
           resync_interval: 5s
           shared_store: s3
+    read:
+      persistence:
+        storageClass: openebs-jiva-csi-default
+    write:
+      persistence:
+        storageClass: openebs-jiva-csi-default
