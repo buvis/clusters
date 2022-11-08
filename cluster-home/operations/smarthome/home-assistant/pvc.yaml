@@ -4,6 +4,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: hass-config
   namespace: smarthome
+  labels:
+    app.kubernetes.io/name: home-assistant
+    app.kubernetes.io/instance: hass
 spec:
   storageClassName: openebs-jiva-csi-default
   accessModes:
