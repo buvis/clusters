@@ -59,6 +59,11 @@ spec:
     - debug
     service:
       main:
+        enabled: true
+        type: LoadBalancer
+        externalIPs:
+        - ${SVC_IP_KOPIA}
+        externalTrafficPolicy: Local
         ports:
           http:
             port: 80
