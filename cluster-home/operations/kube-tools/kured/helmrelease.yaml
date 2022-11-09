@@ -29,7 +29,7 @@ spec:
   values:
     updateStrategy: RollingUpdate
     configuration:
-      timeZone: Europe/Berlin
+      timeZone: ${TIMEZONE}
       period: 10m
       startTime: 0:00
       endTime: 7:00

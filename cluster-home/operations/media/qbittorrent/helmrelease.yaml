@@ -39,7 +39,7 @@ spec:
       interval: 5m
   values:
     env:
-      TZ: Europe/Berlin
+      TZ: ${TIMEZONE}
       UMASK: "022"
       QBT_BitTorrent__Session__DefaultSavePath: "/media/downloads/qbittorrent/complete"
       QBT_BitTorrent__Session__TempPath: "/media/downloads/qbittorrent/incomplete"

@@ -39,7 +39,7 @@ spec:
       interval: 5m
   values:
     env:
-      TZ: Europe/Berlin
+      TZ: ${TIMEZONE}
     podAnnotations:
       setVPNGateway: "true"
     persistence:

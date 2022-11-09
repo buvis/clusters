@@ -48,7 +48,7 @@ spec:
         tag: 2.00.18  # this must be same version as the server
         pullPolicy: IfNotPresent
     env:
-      TZ: "Europe/Berlin"
+      TZ: ${TIMEZONE}
     persistence:
       data:
         enabled: true

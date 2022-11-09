@@ -32,7 +32,7 @@ spec:
   values:
     controllerType: deployment
     env:
-      TZ: Europe/Berlin
+      TZ: ${TIMEZONE}
       PUID: 1001
       PGID: 1001
     podAnnotations:
