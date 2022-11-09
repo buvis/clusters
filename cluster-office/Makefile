@@ -1,6 +1,6 @@
-.PHONY: install nodes cluster flux update-flux
+.PHONY: install nodes cluster cni flux update-flux
 
-install: | nodes cluster flux
+install: | nodes cluster cni flux
 
 nodes:
 	talosctl gen config buvis-office https://$$MASTER_IP:6443 --output-dir infrastructure/talos/generated-config --config-patch @infrastructure/talos/patch-all.yaml --config-patch-control-plane @infrastructure/talos/patch-controlplane.yaml
@@ -9,14 +9,16 @@ nodes:
 	talosctl apply-config --insecure --nodes $$WORKER2_IP --file infrastructure/talos/generated-config/worker.yaml
 
 cluster:
-	timeout 600 bash -c 'while [[ "$$(curl --insecure https://$$MASTER_IP:50001 -s; echo $$?)" != "35" ]]; do sleep 5; done'
+	timeout 900 bash -c 'while [[ "$$(curl --insecure https://$$MASTER_IP:50001 -s; echo $$?)" != "35" ]]; do sleep 5; done'
 	talosctl config endpoint $$MASTER_IP
 	talosctl config node $$MASTER_IP
 	talosctl bootstrap
-	timeout 300 bash -c 'while [[ "$$(curl --insecure https://$$MASTER_IP:6443 -s -o /dev/null; echo $$?)" != "0" ]]; do sleep 5; done'
+
+cni:
+	timeout 900 bash -c 'while [[ "$$(curl --insecure https://$$MASTER_IP:6443 -s -o /dev/null; echo $$?)" != "0" ]]; do sleep 5; done'
 	talosctl kubeconfig infrastructure/.kube --force
-	timeout 300 bash -c 'while [[ "$$(kubectl get namespace tigera-operator -o json 2>/dev/null | jq .status.phase -r)" != "Active" ]]; do sleep 5; done'
-	timeout 300 bash -c 'while [[ "$$(kubectl get namespace calico-system -o json 2>/dev/null | jq .status.phase -r)" != "Active" ]]; do sleep 5; done'
+	timeout 900 bash -c 'while [[ "$$(kubectl get namespace tigera-operator -o json 2>/dev/null | jq .status.phase -r)" != "Active" ]]; do sleep 5; done'
+	timeout 900 bash -c 'while [[ "$$(kubectl get namespace calico-system -o json 2>/dev/null | jq .status.phase -r)" != "Active" ]]; do sleep 5; done'
 
 flux:
 	kubectl create namespace flux-system --dry-run=client -o yaml | kubectl apply -f -
