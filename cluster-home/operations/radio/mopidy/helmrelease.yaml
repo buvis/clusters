@@ -6,8 +6,8 @@ metadata:
   namespace: media
 spec:
   dependsOn:
-  - name: longhorn
-    namespace: longhorn-system
+  - name: openebs
+    namespace: storage
   interval: 5m
   install:
     timeout: 15m
