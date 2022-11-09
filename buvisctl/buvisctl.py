@@ -60,7 +60,7 @@ def restore(pvc, namespace, snapshot):
 def backup(pvc, namespace):
     """Backup PVC with Kopia backup cronjob.
 
-    PVC is the name of the persistent volume claim to restore.
+    PVC is the name of the persistent volume claim to backup.
     """
     cmd = CommandBackup()
     cmd.execute(pvc, namespace)
