@@ -8,11 +8,14 @@
 - op: replace
   path: /cluster/network/podSubnets
   value:
-  - 172.22.0.0/16
+  - 172.42.0.0/16
 - op: replace
   path: /cluster/network/serviceSubnets
   value:
-  - 172.24.0.0/16
+  - 172.44.0.0/16
+- op: replace
+  path: /machine/install/disk
+  value: /dev/mmcblk0
 - op: replace
   path: /machine/install/wipe
   value: true

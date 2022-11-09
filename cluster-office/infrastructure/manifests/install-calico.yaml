@@ -8,13 +8,13 @@ spec:
     # Note: The ipPools section cannot be modified post-install.
     ipPools:
     - blockSize: 26
-      cidr: "172.22.0.0/16"
+      cidr: "172.42.0.0/16"
       encapsulation: None
       natOutgoing: Enabled
       nodeSelector: all()
     nodeAddressAutodetectionV4:
       cidrs:
-      - "10.7.0.0/24"
+      - "10.8.0.0/24"
 ---
 apiVersion: crd.projectcalico.org/v1
 kind: BGPConfiguration
@@ -23,15 +23,15 @@ metadata:
 spec:
   asNumber: 64512
   serviceClusterIPs:
-  - cidr: "172.24.0.0/16"
+  - cidr: "172.44.0.0/16"
   serviceExternalIPs:
-  - cidr: "10.11.0.0/16"
+  - cidr: "10.21.0.0/16"
 ---
 apiVersion: crd.projectcalico.org/v1
 kind: BGPPeer
 metadata:
   name: global
 spec:
-  peerIP: 10.7.0.1
+  peerIP: 10.8.0.1
   asNumber: 64513
   keepOriginalNextHop: true
