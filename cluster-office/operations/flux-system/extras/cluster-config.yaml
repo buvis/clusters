@@ -1,0 +1,24 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-config
+  namespace: flux-system
+data:
+  GATEWAY_IP: "10.7.0.1"
+  NETWORK_CIDR_K8S_CLUSTER: "172.22.0.0/16"
+  NETWORK_CIDR_K8S_SERVICE: "172.24.0.0/16"
+  NETWORK_CIDR_K8S_SERVICE_EXTERNAL: "10.11.0.0/16"
+  NETWORK_CIDR_HOST: "10.7.0.0/24"
+  NFS_SERVER_IP: "10.7.0.111"
+  NFS_SERVER_PATH_BAIKAL: "/mnt/tank/pv/baikal"
+  NFS_SERVER_PATH_KOPIA: "/mnt/tank/pv/kopia"
+  NFS_SERVER_PATH_MEDIA: "/mnt/tank/media"
+  NFS_SERVER_PATH_TDARR_CACHE: "/mnt/tank/pv/tdarr/cache"
+  SVC_IP_BITTORRENT: "10.11.0.106"
+  SVC_IP_BLOCKY: "10.11.0.53"
+  SVC_IP_HASS: "10.11.0.42"
+  SVC_IP_INGRESS: "10.11.0.80"
+  SVC_IP_KOPIA: "10.11.0.44"
+  SVC_IP_SNAPSERVER: "10.11.0.190"
+  TIMEZONE: "Europe/Berlin"

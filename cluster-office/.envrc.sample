@@ -1,0 +1,5 @@
+source_up
+export PM_PASS=<see password manager>
+export KUBECONFIG=$(expand_path .kube/config)
+export TALOSCONFIG=$(expand_path ./infrastructure/talos/talosconfig)
+export GITHUB_TOKEN=<see https://docs.buvis.net/installation/#gitops>
