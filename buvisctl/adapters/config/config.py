@@ -30,8 +30,8 @@ class ConfigAdapter:
             "cluster-", "buvis-")
 
     def _process_config_file(self, config_file):
-        self.path_terraform_workspace = config_file.get(
-            "terraform_workspace", "")
+        self.path_terraform_workspaces = config_file.get(
+            "terraform_workspaces", "")
 
         self.nodes = []
 
@@ -47,7 +47,8 @@ class ConfigAdapter:
         self.flux = FluxConfig(config_file["flux"])
         self.talos = TalosConfig(config_file["talos"])
         self.path_kubeconfig_dir = config_file.get("kubeconfig_dir", "")
-        self.path_backup_manifests_dir = config_file.get("backup_manifests_dir", "")
+        self.path_backup_manifests_dir = config_file.get(
+            "backup_manifests_dir", "")
 
 
 cfg = ConfigAdapter()

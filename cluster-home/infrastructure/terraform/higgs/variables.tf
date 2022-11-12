@@ -45,29 +45,5 @@ variable "nodes" {
       pv_zfs      = "higgs-tank"
       target_node = "higgs"
     },
-    #feynman-master-1 = {
-      #id          = 4012
-      #macaddr     = "02:DE:4D:48:29:01"
-      #pv_zfs      = "feynman-tank"
-      #target_node = "feynman"
-    #},
-    #feynman-worker-2 = {
-      #id          = 4024
-      #macaddr     = "02:DE:4D:48:29:0A"
-      #pv_zfs      = "feynman-tank"
-      #target_node = "feynman"
-    #},
-    #feynman-worker-3 = {
-      #id          = 4025
-      #macaddr     = "02:DE:4D:48:29:0B"
-      #pv_zfs      = "feynman-tank"
-      #target_node = "feynman"
-    #},
-    #feynman-worker-4 = {
-      #id          = 4026
-      #macaddr     = "02:DE:4D:48:29:0C"
-      #pv_zfs      = "feynman-tank"
-      #target_node = "feynman"
-    #},
   }
 }

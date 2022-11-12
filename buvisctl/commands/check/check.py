@@ -13,12 +13,12 @@ class CommandCheck:
         else:
             console.success("Cluster name")
 
-        if _is_missing(cfg.path_terraform_workspace):
+        if _is_missing(cfg.path_terraform_workspaces):
             console.failure(
-                f"Missing terraform_workspace in {cfg.path_config_file}")
+                f"Missing terraform_workspaces in {cfg.path_config_file}")
             self.check_failed = True
         else:
-            console.success("Terraform workspace")
+            console.success("Terraform workspaces")
 
         if _is_missing(cfg.path_kubeconfig_dir):
             console.failure(

@@ -6,7 +6,10 @@ class CommandBootstrap:
 
     def __init__(self):
         self.socket = SocketAdapter()
-        self.tf = TerraformAdapter()
+        self.tf = []
+
+        for p in cfg.path_terraform_workspaces:
+            self.tf.append(TerraformAdapter(p))
         self.talos = TalosAdapter()
         self.k8s = KubernetesAdapter()
         self.flux = FluxAdapter()
@@ -21,18 +24,24 @@ class CommandBootstrap:
         self.deploy_flux()
 
     def infra_create(self):
-        res = self.tf.init()
+        for tf in self.tf:
+            with console.status(f"Initializing terraform for {tf.name}"):
 
-        if res.is_nok():
-            console.panic("Terraform initialization failed!")
+                res = tf.init()
 
-        with console.status("Creating Proxmox nodes"):
-            res = self.tf.apply()
+                if res.is_nok():
+                    console.panic(
+                        f"Terraform for {tf.name} initialization failed!")
 
-            if res.is_ok():
-                console.success("Proxmos nodes created")
-            else:
-                console.panic("Proxmox nodes creation failed", res.message)
+            with console.status(f"Creating Proxmox nodes on {tf.name}"):
+                res = tf.apply()
+
+                if res.is_ok():
+                    console.success(f"Proxmos nodes created on {tf.name}")
+                else:
+                    console.panic(
+                        f"Proxmox nodes creation failed on {tf.name}",
+                        res.message)
 
     def generate_talos_config(self):
         with console.status("Generating Talos configuration"):
