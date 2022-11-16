@@ -134,9 +134,9 @@ spec:
                 - ads
             conditional:
               mapping:
-                buvis.net: udp:${GATEWAY_IP}
+                buvis.net: ${GATEWAY_IP}
             clientLookup:
-              upstream: udp:${GATEWAY_IP}
+              upstream: ${GATEWAY_IP}
             prometheus:
               enable: true
               path: /metrics
