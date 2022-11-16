@@ -91,10 +91,12 @@ spec:
       config:
         enabled: true
         type: configMap
-        name: blocky-config
+        name: &config blocky-config
         subPath: config.yml
         mountPath: /app/config.yml
         readOnly: true
+    podAnnotations:
+      configmap.reloader.stakater.com/reload: *config
     configMaps:
       config:
         enabled: true
