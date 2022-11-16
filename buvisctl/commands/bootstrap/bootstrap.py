@@ -11,8 +11,6 @@ class CommandBootstrap:
         for p in cfg.path_terraform_workspaces:
             self.tf.append(TerraformAdapter(p))
         self.talos = TalosAdapter()
-        self.k8s = KubernetesAdapter()
-        self.flux = FluxAdapter()
 
     def execute(self):
         self.infra_create()
@@ -25,13 +23,16 @@ class CommandBootstrap:
 
     def infra_create(self):
         for tf in self.tf:
-            with console.status(f"Initializing terraform for {tf.name}"):
+            with console.status(f"Initializing {tf.name} Terraform workspace"):
 
                 res = tf.init()
 
-                if res.is_nok():
-                    console.panic(
-                        f"Terraform for {tf.name} initialization failed!")
+                if res.is_ok():
+                    console.success(
+                        f"Terraform workspace initialized for {tf.name}")
+                else:
+                    console.panic(f"Terraform workspace initialization failed "
+                                  f"for {tf.name}!")
 
             with console.status(f"Creating Proxmox nodes on {tf.name}"):
                 res = tf.apply()
@@ -81,6 +82,7 @@ class CommandBootstrap:
             if res.is_ok():
                 console.success("Cluster created and kubeconfig retrieved")
                 self.k8s = KubernetesAdapter()
+                self.flux = FluxAdapter()
             else:
                 console.panic("Failed retrieveing cluster's kubeconfig",
                               res.message)
