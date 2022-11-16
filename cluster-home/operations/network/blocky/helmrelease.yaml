@@ -101,8 +101,8 @@ spec:
         data:
           config.yml: |
             upstream:
-              externalResolvers:
-                - udp:${GATEWAY_IP}
+              default:
+              - udp:${GATEWAY_IP}
             blocking:
               blackLists:
                 ads:
