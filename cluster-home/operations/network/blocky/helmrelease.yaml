@@ -18,51 +18,42 @@ spec:
     cleanupOnFail: true
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      # renovate: registryUrl=https://charts.truecharts.org
       chart: blocky
-      version: 10.5.2
+      version: 4.0.3
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home
+        name: TrueCharts
         namespace: flux-system
       interval: 5m
   values:
     controller:
       replicas: 3
-    env:
-      TZ: "${TIMEZONE}"
     service:
-      main:
-        ports:
-          http:
-            port: 4000
-      dns-tcp:
+      dnstcp:
         enabled: true
-        type: LoadBalancer
-        externalIPs:
-        - ${SVC_IP_BLOCKY}
-        externalTrafficPolicy: Local
         ports:
-          dns-tcp:
+          dnstcp:
             enabled: true
             port: 53
             protocol: TCP
             targetPort: 53
-      dns-udp:
-        enabled: true
         type: LoadBalancer
         externalIPs:
         - ${SVC_IP_BLOCKY}
         externalTrafficPolicy: Local
+      dnsudp:
+        enabled: true
         ports:
-          dns-udp:
+          dnsudp:
             enabled: true
             port: 53
             protocol: UDP
             targetPort: 53
-    prometheus:
-      serviceMonitor:
-        enabled: false
+        type: LoadBalancer
+        externalIPs:
+        - ${SVC_IP_BLOCKY}
+        externalTrafficPolicy: Local
     probes:
       liveness:
         failureThreshold: 5
@@ -76,19 +67,7 @@ spec:
         periodSeconds: 10
     metrics:
       enabled: false
-    affinity:
-      podAntiAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-        - weight: 100
-          podAffinityTerm:
-            labelSelector:
-              matchExpressions:
-              - key: app.kubernetes.io/name
-                operator: In
-                values:
-                - blocky
-            topologyKey: kubernetes.io/hostname
-    config: |
+    blockyConfig: |
       upstream:
         externalResolvers:
           - udp:${GATEWAY_IP}
