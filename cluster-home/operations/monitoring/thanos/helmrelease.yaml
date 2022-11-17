@@ -54,12 +54,7 @@ spec:
           cert-manager.io/cluster-issuer: letsencrypt-production
           nginx.ingress.kubernetes.io/auth-url: "https://auth.buvis.net/oauth2/auth"
           nginx.ingress.kubernetes.io/auth-signin: "https://auth.buvis.net/oauth2/start?rd=https%3A%2F%2F$host$request_uri"
-        hosts:
-        - thanos-query.buvis.net
-        tls:
-        - secretName: thanos-query-crt
-          hosts:
-          - thanos-query.buvis.net
+        hostname: thanos-query.buvis.net
     queryFrontend:
       enabled: false
     bucketweb:
