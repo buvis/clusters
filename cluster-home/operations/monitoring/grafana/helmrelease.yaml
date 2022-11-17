@@ -37,9 +37,7 @@ spec:
       interval: 5m
   values:
     persistence:
-      enabled: true
-      storageClassName: openebs-jiva-csi-default
-      size: 10Gi
+      enabled: false
     env:
       VAR_BLOCKY_URL: "http://blocky.network.svc.cluster.local:4000"
     ingress:
