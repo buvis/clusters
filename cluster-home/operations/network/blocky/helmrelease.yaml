@@ -64,6 +64,13 @@ spec:
             port: 53
             protocol: UDP
             targetPort: 53
+    metrics:
+      enabled: true
+      serviceMonitor:
+        interval: 30s
+        scrapeTimeout: 10s
+      prometheusRule:
+        enabled: true
     probes:
       liveness:
         failureThreshold: 5
