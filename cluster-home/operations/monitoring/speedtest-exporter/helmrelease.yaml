@@ -34,6 +34,7 @@ spec:
       tag: v3.5.3
     env:
       TZ: "${TIMEZONE}"
+      SPEEDTEST_SERVER: "39677"
     service:
       main:
         ports:
