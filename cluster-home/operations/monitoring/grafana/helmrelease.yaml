@@ -116,6 +116,9 @@ spec:
     datasources:
       datasources.yaml:
         apiVersion: 1
+        deleteDatasources:
+        - name: Loki
+          orgId: 1
         datasources:
         - name: Prometheus
           type: prometheus
