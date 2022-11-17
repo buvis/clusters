@@ -97,6 +97,8 @@ spec:
       alertmanagerSpec:
         storage:
           volumeClaimTemplate:
+          - metadata:
+              name: alert
             spec:
               storageClassName: openebs-jiva-csi-default
               resources:
@@ -190,6 +192,8 @@ spec:
         walCompression: true
         storageSpec:
           volumeClaimTemplate:
+          - metadata:
+              name: kps
             spec:
               storageClassName: openebs-jiva-csi-default
               resources:
