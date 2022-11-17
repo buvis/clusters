@@ -142,4 +142,4 @@ spec:
       grafana_net:
         url: https://grafana.net
       auth.basic:
-        disable_login_form: true
+        enable: false
