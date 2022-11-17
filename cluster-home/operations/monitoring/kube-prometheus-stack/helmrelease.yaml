@@ -7,11 +7,11 @@ metadata:
 spec:
   dependsOn:
   - name: ingress-nginx
-    namespace: kube-system
+    namespace: kube-tools
   - name: cert-manager
-    namespace: kube-system
+    namespace: kube-tools
   - name: oauth2-proxy
-    namespace: kube-system
+    namespace: kube-tools
   - name: openebs
     namespace: storage
   interval: 5m
