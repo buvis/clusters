@@ -114,7 +114,7 @@ spec:
         enabled: true
         searchNamespace: ALL
     datasources:
-      datasources.yaml:
+      datasource.yaml:
         apiVersion: 1
         deleteDatasources:
         - name: Loki
