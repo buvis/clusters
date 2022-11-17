@@ -64,6 +64,15 @@ spec:
             port: 53
             protocol: UDP
             targetPort: 53
+    serviceMonitor:
+      main:
+        enabled: true
+        serviceName: blocky
+        endpoints:
+        - interval: 30s
+          path: /metrics
+          port: http
+          scrapeTimeout: 10s
     probes:
       liveness:
         failureThreshold: 5

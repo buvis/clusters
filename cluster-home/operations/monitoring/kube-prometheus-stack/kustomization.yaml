@@ -6,4 +6,4 @@ metadata:
   namespace: storage
 resources:
 - helmrelease.yaml
-- servicemonitors.yaml
+#- servicemonitors.yaml
