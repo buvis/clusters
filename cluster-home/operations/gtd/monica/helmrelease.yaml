@@ -12,6 +12,8 @@ spec:
     namespace: kube-tools
   - name: openebs
     namespace: storage
+  - name: monica-db
+    namespace: gtd
   interval: 5m
   install:
     timeout: 15m
