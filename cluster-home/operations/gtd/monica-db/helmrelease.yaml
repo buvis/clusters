@@ -6,10 +6,6 @@ metadata:
   namespace: gtd
 spec:
   dependsOn:
-  - name: ingress-nginx
-    namespace: kube-tools
-  - name: cert-manager
-    namespace: kube-tools
   - name: openebs
     namespace: storage
   interval: 5m
