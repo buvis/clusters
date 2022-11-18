@@ -47,21 +47,19 @@ spec:
             tag: v3.32
         env:
         - name: VPN_SERVICE_PROVIDER
-          value: ${SECRET_VPN_GATEWAY_SERVICE_PROVIDER}
-        - name: OPENVPN_USER
-          value: ${SECRET_VPN_GATEWAY_OPENVPN_USER}
-        - name: OPENVPN_PASSWORD
-          value: ${SECRET_VPN_GATEWAY_OPENVPN_PASSWORD}
-        - name: SERVER_HOSTNAMES
-          value: ${SECRET_VPN_GATEWAY_HOSTNAMES}
-        resources:
-          requests:
-            cpu: "0.001"
-            memory: 128Mi
-          limits:
-            memory: 512Mi
-        securityContext:
-          privileged: true
+          value: custom
+        - name: VPN_TYPE
+          value: wireguard
+        - name: VPN_ENDPOINT_IP
+          value: ${SECRET_VPN_GATEWAY_ENDPOINT_IP}
+        - name: VPN_ENDPOINT_PORT
+          value: ${SECRET_VPN_GATEWAY_ENDPOINT_PORT}
+        - name: WIREGUARD_PUBLIC_KEY
+          value: ${SECRET_VPN_GATEWAY_WG_PUBLIC_KEY}
+        - name: WIREGUARD_PRIVATE_KEY
+          value: ${SECRET_VPN_GATEWAY_WG_PRIVATE_KEY}
+        - name: WIREGUARD_ADDRESSES
+          value: ${SECRET_VPN_GATEWAY_WG_ADDRESSES}
         networkPolicy:
           enabled: true
           egress:
