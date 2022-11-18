@@ -6,4 +6,5 @@ metadata:
   namespace: monitoring
 resources:
 - helmrelease.yaml
+- kube-prometheus-stack.yaml
 - servicemonitors.yaml
