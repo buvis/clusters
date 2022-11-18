@@ -18,52 +18,64 @@ spec:
     cleanupOnFail: true
   chart:
     spec:
-      # renovate: registryUrl=https://angelnu.github.io/helm-charts
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: pod-gateway
-      version: 6.0.0
+      version: 5.6.2
       sourceRef:
         kind: HelmRepository
-        name: angelnu
+        name: k8s-at-home
         namespace: flux-system
       interval: 5m
   values:
-    image:
-      repository: ghcr.io/angelnu/pod-gateway
-      tag: v1.8.1
+    routed_namespaces:
+    - media
+    publicPorts:
+    - hostname: torr
+      IP: 2
+      ports:
+      - type: tcp
+        port: ${SECRET_VPN_BT_FORWARD_PORT}
+    settings:
+      NOT_ROUTED_TO_GATEWAY_CIDRS: ${NETWORK_CIDR_K8S_CLUSTER} ${NETWORK_CIDR_K8S_SERVICE} ${NETWORK_CIDR_K8S_SERVICE_EXTERNAL} ${NETWORK_CIDR_HOST}
+      VPN_INTERFACE: tun0
+      VPN_BLOCK_OTHER_TRAFFIC: true
+      VPN_TRAFFIC_PORT: ${SECRET_VPN_GATEWAY_PORT}
+      VPN_LOCAL_CIDRS: ${NETWORK_CIDR_K8S_CLUSTER} ${NETWORK_CIDR_K8S_SERVICE} ${NETWORK_CIDR_K8S_SERVICE_EXTERNAL} ${NETWORK_CIDR_HOST}
     webhook:
       image:
-        repository: ghcr.io/angelnu/gateway-admision-controller
-        tag: v3.7.0
+        repository: ghcr.io/k8s-at-home/gateway-admision-controller
+        tag: v3.6.0
       gatewayDefault: false
       gatewayLabel: setVPNGateway
       gatewayAnnotation: setVPNGateway
+    livenessProbe:
+      exec:
+        command:
+        - sh
+        - -c
+        - if [ $(wget -q -O- https://ipinfo.io/country) == '${SECRET_VPN_GATEWAY_COUNTRY}' ]; then exit 0; else exit $?; fi
+      initialDelaySeconds: 30
+      periodSeconds: 60
+      failureThreshold: 1
     addons:
       vpn:
         enabled: true
-        type: gluetun
-        gluetun:
+        type: openvpn
+        openvpn:
           image:
-            repository: qmcgaw/gluetun
-            tag: v3.32
+            repository: dperson/openvpn-client
+            pullPolicy: Always
+            tag: latest
+          auth: ${SECRET_VPN_GATEWAY_AUTH}
         env:
-        - name: VPN_SERVICE_PROVIDER
-          value: custom
-        - name: VPN_TYPE
-          value: wireguard
-        - name: FIREWALL
-          value: "off"
-        - name: DOT
-          value: "off"
-        - name: VPN_ENDPOINT_IP
-          value: ${SECRET_VPN_GATEWAY_ENDPOINT_IP}
-        - name: VPN_ENDPOINT_PORT
-          value: ${SECRET_VPN_GATEWAY_ENDPOINT_PORT}
-        - name: WIREGUARD_PUBLIC_KEY
-          value: ${SECRET_VPN_GATEWAY_WG_PUBLIC_KEY}
-        - name: WIREGUARD_PRIVATE_KEY
-          value: ${SECRET_VPN_GATEWAY_WG_PRIVATE_KEY}
-        - name: WIREGUARD_ADDRESSES
-          value: ${SECRET_VPN_GATEWAY_WG_ADDRESSES}
+          TZ: ${TIMEZONE}
+        configFileSecret: vpn-gateway-openvpn-config
+        resources:
+          requests:
+            cpu: "0.001"
+            memory: 128Mi
+          limits:
+            memory: 512Mi
         securityContext:
           privileged: true
         networkPolicy:
@@ -82,30 +94,3 @@ spec:
                 cidr: ${NETWORK_CIDR_K8S_SERVICE}
             - ipBlock:
                 cidr: ${NETWORK_CIDR_K8S_SERVICE_EXTERNAL}
-            - ipBlock:
-                cidr: ${NETWORK_CIDR_HOST}
-        livenessProbe:
-          exec:
-            command:
-            - sh
-            - -c
-            - if [ $(wget -q -O- https://ipinfo.io/country) == '${SECRET_VPN_GATEWAY_COUNTRY}' ]; then exit 0; else exit $?; fi
-          initialDelaySeconds: 30
-          periodSeconds: 60
-          failureThreshold: 3
-    routed_namespaces:
-    - media
-    settings:
-      #NOT_ROUTED_TO_GATEWAY_CIDRS: ${NETWORK_CIDR_K8S_CLUSTER} ${NETWORK_CIDR_K8S_SERVICE} ${NETWORK_CIDR_K8S_SERVICE_EXTERNAL} ${NETWORK_CIDR_HOST}
-      VPN_INTERFACE: tun0
-      VPN_BLOCK_OTHER_TRAFFIC: true
-      VPN_TRAFFIC_PORT: ${SECRET_VPN_GATEWAY_PORT}
-      VPN_LOCAL_CIDRS: ${NETWORK_CIDR_K8S_CLUSTER} ${NETWORK_CIDR_K8S_SERVICE} ${NETWORK_CIDR_K8S_SERVICE_EXTERNAL} ${NETWORK_CIDR_HOST}
-    publicPorts:
-    - hostname: torr
-      IP: 10
-      ports:
-      - type: udp
-        port: ${SECRET_VPN_BT_FORWARD_PORT}
-      - type: tcp
-        port: ${SECRET_VPN_BT_FORWARD_PORT}
