@@ -60,6 +60,8 @@ spec:
           value: ${SECRET_VPN_GATEWAY_WG_PRIVATE_KEY}
         - name: WIREGUARD_ADDRESSES
           value: ${SECRET_VPN_GATEWAY_WG_ADDRESSES}
+        securityContext:
+          privileged: true
         networkPolicy:
           enabled: true
           egress:
