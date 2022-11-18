@@ -23,18 +23,18 @@ spec:
     cleanupOnFail: true
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: baikal
-      version: 5.1.2
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts/
+      chart: app-template
+      version: 1.0.1
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home
+        name: bjw-s
         namespace: flux-system
       interval: 5m
-  # See https://github.com/k8s-at-home/charts/blob/master/charts/stable/baikal/values.yaml
   values:
     image:
-      tag: nginx
+      repository: ckulka/baikal
+      tag: 0.9.2-nginx
     env:
       TZ: ${TIMEZONE}
     persistence:
@@ -54,8 +54,6 @@ spec:
           nfs:
             server: "${NFS_SERVER_IP}"
             path: "${NFS_SERVER_PATH_BAIKAL}/data"
-    mariadb:
-      enabled: false
     ingress:
       main:
         enabled: true
