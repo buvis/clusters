@@ -40,16 +40,20 @@ spec:
     addons:
       vpn:
         enabled: true
-        type: openvpn
-        openvpn:
+        type: gluetun
+        gluetun:
           image:
-            repository: dperson/openvpn-client
-            pullPolicy: Always
-            tag: latest
-          auth: ${SECRET_VPN_GATEWAY_AUTH}
+            repository: qmcgaw/gluetun
+            tag: v3.32
         env:
-          TZ: ${TIMEZONE}
-        configFileSecret: vpn-gateway-openvpn-config
+        - name: VPN_SERVICE_PROVIDER
+          value: ${SECRET_VPN_GATEWAY_SERVICE_PROVIDER}
+        - name: OPENVPN_USER
+          value: ${SECRET_VPN_GATEWAY_OPENVPN_USER}
+        - name: OPENVPN_PASSWORD
+          value: ${SECRET_VPN_GATEWAY_OPENVPN_PASSWORD}
+        - name: SERVER_HOSTNAMES
+          value: ${SECRET_VPN_GATEWAY_HOSTNAMES}
         resources:
           requests:
             cpu: "0.001"
@@ -74,6 +78,15 @@ spec:
                 cidr: ${NETWORK_CIDR_K8S_SERVICE}
             - ipBlock:
                 cidr: ${NETWORK_CIDR_K8S_SERVICE_EXTERNAL}
+        livenessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - if [ $(wget -q -O- https://ipinfo.io/country) == '${SECRET_VPN_GATEWAY_COUNTRY}' ]; then exit 0; else exit $?; fi
+          initialDelaySeconds: 30
+          periodSeconds: 60
+          failureThreshold: 3
     routed_namespaces:
     - media
     settings:
@@ -88,12 +101,3 @@ spec:
       ports:
       - type: tcp
         port: ${SECRET_VPN_BT_FORWARD_PORT}
-    livenessProbe:
-      exec:
-        command:
-        - sh
-        - -c
-        - if [ $(wget -q -O- https://ipinfo.io/country) == '${SECRET_VPN_GATEWAY_COUNTRY}' ]; then exit 0; else exit $?; fi
-      initialDelaySeconds: 30
-      periodSeconds: 60
-      failureThreshold: 3
