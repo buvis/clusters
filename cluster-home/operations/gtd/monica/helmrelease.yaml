@@ -27,20 +27,18 @@ spec:
     cleanupOnFail: true
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: monica
-      version: 8.1.2
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts/
+      chart: app-template
+      version: 1.0.1
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home
+        name: bjw-s
         namespace: flux-system
       interval: 5m
-  # See https://github.com/k8s-at-home/charts/blob/master/charts/stable/monica/values.yaml
   values:
     image:
       repository: monica
       tag: 3.7.0-apache
-      pullPolicy: IfNotPresent
     env:
       APP_ENV: production
       APP_KEY: ${SECRET_MONICA_APP_KEY}
@@ -56,8 +54,6 @@ spec:
       config:
         enabled: true
         existingClaim: monica-config
-    mariadb:
-      enabled: false
     ingress:
       main:
         enabled: true
