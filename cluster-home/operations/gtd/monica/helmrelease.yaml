@@ -55,16 +55,7 @@ spec:
         enabled: true
         existingClaim: monica-config
     mariadb:
-      enabled: true
-      auth:
-        database: monica
-        username: monica
-        password: ${SECRET_MONICA_DB_PASSWORD}
-        rootPassword: ${SECRET_MONICA_DB_ROOTPASSWORD}
-      primary:
-        persistence:
-          enabled: true
-          existingClaim: monica-db
+      enabled: false
     ingress:
       main:
         enabled: true
