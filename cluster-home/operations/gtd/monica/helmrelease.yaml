@@ -50,6 +50,13 @@ spec:
       DB_USERNAME: monica
       DEFAULT_MAX_UPLOAD_SIZE: 2000
       TZ: ${TIMEZONE}
+      enabled: false
+    service:
+      main:
+        enabled: true
+        ports:
+          http:
+            port: 80
     persistence:
       config:
         enabled: true
@@ -73,10 +80,3 @@ spec:
         - hosts:
           - crm.buvis.net
           secretName: monica-crt
-    probes:
-      startup:
-        spec:
-          initialDelaySeconds: 60
-          timeoutSeconds: 1
-          periodSeconds: 5
-          failureThreshold: 300
