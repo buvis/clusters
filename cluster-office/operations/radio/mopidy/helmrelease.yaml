@@ -61,3 +61,4 @@ spec:
         username: ${SECRET_LASTFM_USERNAME}
         password: ${SECRET_LASTFM_PASSWORD}
       enableTidal: true
+      defaultPlaylist: radio-1-fm-bom-psytrance
