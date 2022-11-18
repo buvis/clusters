@@ -5,9 +5,6 @@ metadata:
   name: linkace-db
   namespace: gtd
 spec:
-  dependsOn:
-  - name: openebs
-    namespace: storage
   interval: 5m
   install:
     timeout: 15m
@@ -19,23 +16,30 @@ spec:
       retries: 5
       remediateLastFailure: true
     cleanupOnFail: true
+  dependsOn:
+  - name: ingress-nginx
+    namespace: kube-tools
+  - name: cert-manager
+    namespace: kube-tools
+  - name: openebs
+    namespace: storage
   chart:
     spec:
-      # renovate: registryUrl=https://charts.bitnami.com/bitnami
+      # renovate: registryUrl=https://groundhog2k.github.io/helm-charts/
       chart: mariadb
-      version: 11.4.0
+      version: 0.6.3
       sourceRef:
         kind: HelmRepository
-        name: bitnami
+        name: groundhog2k
         namespace: flux-system
       interval: 5m
+  # See https://artifacthub.io/packages/helm/groundhog2k/mariadb
   values:
-    auth:
-      database: linkace
-      username: linkace
+    storage:
+      persistentVolumeClaimName: linkace-db
+    userDatabase:
+      name: linkace
+      user: linkace
       password: ${SECRET_LINKACE_DB_PASSWORD}
+    settings:
       rootPassword: ${SECRET_LINKACE_DB_ROOTPASSWORD}
-    primary:
-      persistence:
-        enabled: true
-        existingClaim: linkace-db
