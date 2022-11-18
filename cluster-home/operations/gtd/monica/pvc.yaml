@@ -14,19 +14,3 @@ spec:
   resources:
     requests:
       storage: 1Gi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: monica-db
-  namespace: gtd
-  labels:
-    app.kubernetes.io/name: mariadb
-    app.kubernetes.io/instance: monica
-spec:
-  storageClassName: openebs-jiva-csi-default
-  accessModes:
-  - ReadWriteOnce
-  resources:
-    requests:
-      storage: 10Gi
