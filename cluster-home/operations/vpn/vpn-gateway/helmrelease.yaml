@@ -18,25 +18,45 @@ spec:
     cleanupOnFail: true
   chart:
     spec:
-      # renovate: registryUrl=https://angelnu.github.io/helm-charts
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: pod-gateway
-      version: 6.0.0
+      version: 5.6.2
       sourceRef:
         kind: HelmRepository
-        name: angelnu
+        name: k8s-at-home
         namespace: flux-system
       interval: 5m
   values:
-    image:
-      repository: ghcr.io/angelnu/pod-gateway
-      tag: v1.8.1
+    routed_namespaces:
+    - media
+    publicPorts:
+    - hostname: torr
+      IP: 2
+      ports:
+      - type: tcp
+        port: ${SECRET_VPN_BT_FORWARD_PORT}
+    settings:
+      NOT_ROUTED_TO_GATEWAY_CIDRS: ${NETWORK_CIDR_K8S_CLUSTER} ${NETWORK_CIDR_K8S_SERVICE} ${NETWORK_CIDR_K8S_SERVICE_EXTERNAL} ${NETWORK_CIDR_HOST}
+      VPN_INTERFACE: tun0
+      VPN_BLOCK_OTHER_TRAFFIC: true
+      VPN_TRAFFIC_PORT: ${SECRET_VPN_GATEWAY_PORT}
+      VPN_LOCAL_CIDRS: ${NETWORK_CIDR_K8S_CLUSTER} ${NETWORK_CIDR_K8S_SERVICE} ${NETWORK_CIDR_K8S_SERVICE_EXTERNAL} ${NETWORK_CIDR_HOST}
     webhook:
       image:
-        repository: ghcr.io/angelnu/gateway-admision-controller
-        tag: v3.7.0
+        repository: ghcr.io/k8s-at-home/gateway-admision-controller
+        tag: v3.6.0
       gatewayDefault: false
       gatewayLabel: setVPNGateway
       gatewayAnnotation: setVPNGateway
+    livenessProbe:
+      exec:
+        command:
+        - sh
+        - -c
+        - if [ $(wget -q -O- https://ipinfo.io/country) == '${SECRET_VPN_GATEWAY_COUNTRY}' ]; then exit 0; else exit $?; fi
+      initialDelaySeconds: 30
+      periodSeconds: 60
+      failureThreshold: 1
     addons:
       vpn:
         enabled: true
@@ -58,15 +78,6 @@ spec:
             memory: 512Mi
         securityContext:
           privileged: true
-        livenessProbe:
-          exec:
-            command:
-            - sh
-            - -c
-            - if [ $(wget -q -O- https://ipinfo.io/country) == '${SECRET_VPN_GATEWAY_COUNTRY}' ]; then exit 0; else exit $?; fi
-          initialDelaySeconds: 30
-          periodSeconds: 60
-          failureThreshold: 3
         networkPolicy:
           enabled: true
           egress:
@@ -83,17 +94,3 @@ spec:
                 cidr: ${NETWORK_CIDR_K8S_SERVICE}
             - ipBlock:
                 cidr: ${NETWORK_CIDR_K8S_SERVICE_EXTERNAL}
-    routed_namespaces:
-    - media
-    settings:
-      NOT_ROUTED_TO_GATEWAY_CIDRS: ${NETWORK_CIDR_K8S_CLUSTER} ${NETWORK_CIDR_K8S_SERVICE} ${NETWORK_CIDR_K8S_SERVICE_EXTERNAL} ${NETWORK_CIDR_HOST}
-      VPN_INTERFACE: tun0
-      VPN_BLOCK_OTHER_TRAFFIC: true
-      VPN_TRAFFIC_PORT: ${SECRET_VPN_GATEWAY_PORT}
-      VPN_LOCAL_CIDRS: ${NETWORK_CIDR_K8S_CLUSTER} ${NETWORK_CIDR_K8S_SERVICE} ${NETWORK_CIDR_K8S_SERVICE_EXTERNAL} ${NETWORK_CIDR_HOST}
-    publicPorts:
-    - hostname: torr
-      IP: 2
-      ports:
-      - type: tcp
-        port: ${SECRET_VPN_BT_FORWARD_PORT}
