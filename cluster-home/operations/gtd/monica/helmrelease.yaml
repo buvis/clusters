@@ -47,7 +47,7 @@ spec:
       APP_URL: https://crm.buvis.net
       APP_TRUSTED_PROXIES: "*"
       DB_DATABASE: monica
-      DB_HOST: monica-mariadb
+      DB_HOST: monica-db-mariadb
       DB_PASSWORD: ${SECRET_MONICA_DB_PASSWORD}
       DB_USERNAME: monica
       DEFAULT_MAX_UPLOAD_SIZE: 2000
