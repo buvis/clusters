@@ -73,7 +73,7 @@ spec:
                   - key: app.kubernetes.io/name
                     operator: "In"
                     values:
-                    - home-assistant
+                    - hass
                   - key: app.kubernetes.io/instance
                     operator: "In"
                     values:

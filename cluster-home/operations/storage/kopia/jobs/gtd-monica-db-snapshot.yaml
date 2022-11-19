@@ -77,4 +77,4 @@ spec:
                   - key: app.kubernetes.io/instance
                     operator: "In"
                     values:
-                    - monica
+                    - monica-db
