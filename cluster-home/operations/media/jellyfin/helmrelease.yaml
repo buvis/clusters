@@ -35,11 +35,12 @@ spec:
       interval: 5m
   values:
     image:
-      repository: jellyfin/jellyfin
-      tag: 10.8.7
+      repository: ghcr.io/onedr0p/jellyfin
+      tag: 10.8.7@sha256:e309605c9f9c1fd3810da6159185f2bea96a161341c81af9b4731e43be3d9bb1
     env:
       TZ: ${TIMEZONE}
       JELLYFIN_CACHE_DIR: /config/cache
+      DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
     persistence:
       config:
         enabled: true
@@ -75,12 +76,17 @@ spec:
           - jellyfin.buvis.net
           secretName: jellyfin-crt
     podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: "OnRootMismatch"
       supplementalGroups:
-      - 568
+        - 44
+        - 109
+        - 65539
     resources:
       requests:
-        cpu: 15m
-        memory: 1739M
+        cpu: 100m
+        memory: 4282M
       limits:
-        cpu: 15m
-        memory: 1739M
+        memory: 12G
