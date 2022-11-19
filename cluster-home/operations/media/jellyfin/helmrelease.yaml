@@ -1,0 +1,86 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: jellyfin
+  namespace: media
+spec:
+  interval: 5m
+  install:
+    timeout: 15m
+    remediation:
+      retries: 5
+  upgrade:
+    timeout: 15m
+    remediation:
+      retries: 5
+      remediateLastFailure: true
+    cleanupOnFail: true
+  dependsOn:
+  - name: ingress-nginx
+    namespace: kube-tools
+  - name: cert-manager
+    namespace: kube-tools
+  - name: openebs
+    namespace: storage
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts/
+      chart: app-template
+      version: 1.1.3
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: jellyfin/fellyfin
+      tag: 10.8.7
+    env:
+      TZ: ${TIMEZONE}
+      JELLYFIN_CACHE_DIR: /config/cache
+    persistence:
+      config:
+        enabled: true
+        existingClaim: jellyfin-data
+      media:
+        enabled: true
+        existingClaim: nas-media
+        mountPath: /media
+      transcode:
+        enabled: true
+        type: emptyDir
+    service:
+      main:
+        type: LoadBalancer
+        externalIPs:
+        - ${SVC_IP_JELLYFIN}
+        externalTrafficPolicy: Local
+        ports:
+          http:
+            port: 8096
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: nginx
+          cert-manager.io/cluster-issuer: letsencrypt-production
+        hosts:
+        - host: jellyfin.buvis.net
+          paths:
+          - path: /
+        tls:
+        - hosts:
+          - jellyfin.buvis.net
+          secretName: jellyfin-crt
+    podSecurityContext:
+      supplementalGroups:
+      - 568
+    resources:
+      requests:
+        cpu: 15m
+        memory: 1739M
+      limits:
+        cpu: 15m
+        memory: 1739M
