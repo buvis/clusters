@@ -29,15 +29,18 @@ spec:
     cleanupOnFail: true
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: bazarr
-      version: 10.6.2
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts/
+      chart: app-template
+      version: 1.1.3
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home
+        name: bjw-s
         namespace: flux-system
       interval: 5m
   values:
+    image:
+      repository: ghcr.io/onedr0p/bazarr
+      tag: 1.1.2
     env:
       TZ: ${TIMEZONE}
     podAnnotations:
@@ -51,8 +54,15 @@ spec:
         existingClaim: nas-media
         mountPath: /media
     podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
       fsGroup: 568
       fsGroupChangePolicy: "OnRootMismatch"
+    service:
+      main:
+        ports:
+          http:
+            port: 6767
     ingress:
       main:
         enabled: true
@@ -70,3 +80,10 @@ spec:
         - hosts:
           - bazarr.buvis.net
           secretName: bazarr-crt
+    resources:
+      requests:
+        cpu: 15m
+        memory: 204M
+      limits:
+        cpu: 15m
+        memory: 204M
