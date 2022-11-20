@@ -21,15 +21,18 @@ spec:
     cleanupOnFail: true
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: flaresolverr
-      version: 5.4.2
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts/
+      chart: app-template
+      version: 1.1.3
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home
+        name: bjw-s
         namespace: flux-system
       interval: 5m
   values:
+    image:
+      repository: ghcr.io/flaresolverr/flaresolverr
+      tag: v2.2.10
     controllerType: deployment
     env:
       TZ: ${TIMEZONE}
@@ -37,3 +40,14 @@ spec:
       PGID: 1001
     podAnnotations:
       setVPNGateway: "true"
+    service:
+      main:
+        ports:
+          http:
+            port: 8191
+    resources:
+      requests:
+        cpu: 15m
+        memory: 105Mi
+      limits:
+        memory: 292Mi
