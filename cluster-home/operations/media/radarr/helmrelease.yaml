@@ -43,10 +43,7 @@ spec:
       tag: 4.3.0.6671@sha256:fe42cc40dc92d9710fa03e5f5874baaeb72351c4c278a890b89c8413958323c6
     env:
       TZ: ${TIMEZONE}
-      RADARR__INSTANCE_NAME: Radarr
-      RADARR__PORT: &port 7878
       RADARR__APPLICATION_URL: https://radarr.buvis.net
-      RADARR__LOG_LEVEL: info
     podAnnotations:
       setVPNGateway: "true"
     persistence:
@@ -61,7 +58,7 @@ spec:
       main:
         ports:
           http:
-            port: *port
+            port: 7878
     ingress:
       main:
         enabled: true
