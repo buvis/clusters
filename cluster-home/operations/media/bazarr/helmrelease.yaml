@@ -39,25 +39,23 @@ spec:
       interval: 5m
   values:
     image:
-      repository: ghcr.io/onedr0p/bazarr
+      repository: lscr.io/linuxserver/bazarr
       tag: 1.1.2
     env:
       TZ: ${TIMEZONE}
+      PUID: 1000
+      PGID: 1000
     podAnnotations:
       setVPNGateway: "true"
     persistence:
       config:
         enabled: true
         existingClaim: bazarr-config
+        mountPath: /config
       media:
         enabled: true
         existingClaim: nas-media
-        mountPath: /media
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: "OnRootMismatch"
+        mountPath: /data
     service:
       main:
         ports:
@@ -80,10 +78,3 @@ spec:
         - hosts:
           - bazarr.buvis.net
           secretName: bazarr-crt
-    resources:
-      requests:
-        cpu: 15m
-        memory: 204M
-      limits:
-        cpu: 15m
-        memory: 204M
