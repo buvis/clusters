@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: overseerr-config
+  name: jellyseerr-config
   namespace: media
 spec:
   storageClassName: openebs-jiva-csi-default
@@ -10,4 +10,4 @@ spec:
   - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi
+      storage: 5Gi

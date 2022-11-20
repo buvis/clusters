@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: overseerr
+  name: jellyseerr
   namespace: media
 spec:
   dependsOn:
@@ -39,8 +39,8 @@ spec:
       interval: 5m
   values:
     image:
-      repository: ghcr.io/sct/overseerr
-      tag: 1.30.1
+      repository: docker.io/fallenbagel/jellyseerr
+      tag: 1.2.1
     env:
       TZ: ${TIMEZONE}
       PORT: 80
@@ -49,7 +49,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: overseerr-config
+        existingClaim: jellyseerr-config
         mountPath: /app/config
     service:
       main:
@@ -73,7 +73,8 @@ spec:
           secretName: requests-crt
     resources:
       requests:
-        cpu: 10m
-        memory: 250Mi
+        cpu: 15m
+        memory: 352M
       limits:
-        memory: 2000Mi
+        cpu: 15m
+        memory: 352M
