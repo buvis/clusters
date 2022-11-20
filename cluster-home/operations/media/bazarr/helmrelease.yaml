@@ -40,7 +40,7 @@ spec:
   values:
     image:
       repository: ghcr.io/onedr0p/bazarr
-      tag: 1.1.2
+      tag: 1.1.2@sha256:0089b1c62241ea61a3d020cbd82dcfb3fd7b6b97e6e9d58fcdfd90b779b47193
     env:
       TZ: ${TIMEZONE}
     podAnnotations:
@@ -49,7 +49,6 @@ spec:
       config:
         enabled: true
         existingClaim: bazarr-config
-        mountPath: /config
       media:
         enabled: true
         existingClaim: nas-media
@@ -76,13 +75,13 @@ spec:
         - hosts:
           - bazarr.buvis.net
           secretName: bazarr-crt
-    securityContext:
-      runAsUser: 0
-      runAsGroup: 0
     podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: "OnRootMismatch"
       supplementalGroups:
-      - 100
-      - 568
+      - 985
     resources:
       requests:
         cpu: 100m
