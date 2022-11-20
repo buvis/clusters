@@ -39,12 +39,10 @@ spec:
       interval: 5m
   values:
     image:
-      repository: lscr.io/linuxserver/bazarr
+      repository: ghcr.io/onedr0p/bazarr
       tag: 1.1.2
     env:
       TZ: ${TIMEZONE}
-      PUID: 1000
-      PGID: 1000
     podAnnotations:
       setVPNGateway: "true"
     persistence:
@@ -78,3 +76,17 @@ spec:
         - hosts:
           - bazarr.buvis.net
           secretName: bazarr-crt
+    securityContext:
+      runAsUser: 0
+      runAsGroup: 0
+    podSecurityContext:
+      supplementalGroups:
+      - 100
+      - 568
+    resources:
+      requests:
+        cpu: 100m
+        memory: 400Mi
+      limits:
+        cpu: 500m
+        memory: 600Mi
