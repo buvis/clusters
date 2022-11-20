@@ -71,10 +71,14 @@ spec:
         - hosts:
           - requests.buvis.net
           secretName: requests-crt
+    podSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+      fsGroupChangePolicy: "OnRootMismatch"
     resources:
       requests:
         cpu: 15m
-        memory: 352M
+        memory: 352Mi
       limits:
-        cpu: 15m
-        memory: 352M
+        memory: 500Mi
