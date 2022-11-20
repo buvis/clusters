@@ -43,7 +43,7 @@ spec:
       tag: 1.2.1
     env:
       TZ: ${TIMEZONE}
-      PORT: 80
+      LOG_LEVEL: debug
     podAnnotations:
       setVPNGateway: "true"
     persistence:
@@ -55,7 +55,7 @@ spec:
       main:
         ports:
           http:
-            port: 80
+            port: 5055
     ingress:
       main:
         enabled: true
