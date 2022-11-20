@@ -27,6 +27,7 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    DNSPolicy: ClusterFirst
     routed_namespaces:
     - media
     publicPorts:
