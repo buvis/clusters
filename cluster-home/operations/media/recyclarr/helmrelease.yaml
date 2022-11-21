@@ -50,8 +50,10 @@ spec:
                 - name: render-configs
                   image: ghcr.io/onedr0p/recyclarr:2.6.1@sha256:365025bc338e6941c40f8e7cb545a6847181ff3864cadda50583b46ce9994c87
                   env:
-                    RADARR_APIKEY: ${SECRET_RADARR_APIKEY}
-                    SONARR_APIKEY: ${SECRET_SONARR_APIKEY}
+                  - name: RADARR_APIKEY
+                    value: ${SECRET_RADARR_APIKEY}
+                  - name: SONARR_APIKEY
+                    value: ${SECRET_SONARR_APIKEY}
                   command:
                   - "/bin/bash"
                   - -c
@@ -65,7 +67,8 @@ spec:
                 containers:
                 - name: sonarr
                   env:
-                    TZ: ${TIMEZONE}
+                  - name: TZ
+                    value: ${TIMEZONE}
                   command:
                   - "/bin/bash"
                   - "-c"
@@ -81,7 +84,8 @@ spec:
                 - name: radarr
                   image: ghcr.io/onedr0p/recyclarr:2.6.1@sha256:365025bc338e6941c40f8e7cb545a6847181ff3864cadda50583b46ce9994c87
                   env:
-                    TZ: ${TIMEZONE}
+                  - name: TZ
+                    value: ${TIMEZONE}
                   command:
                   - "/bin/bash"
                   - "-c"
