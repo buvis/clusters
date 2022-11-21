@@ -1,0 +1,102 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: recyclarr
+  namespace: media
+spec:
+  dependsOn:
+  - name: sonarr
+    namespace: media
+  - name: radarr
+    namespace: media
+  interval: 5m
+  install:
+    timeout: 15m
+    remediation:
+      retries: 5
+  upgrade:
+    timeout: 15m
+    remediation:
+      retries: 5
+      remediateLastFailure: true
+    cleanupOnFail: true
+  chart:
+    spec:
+      # renovate: registryUrl=https://dysnix.github.io/charts
+      chart: raw
+      version: v0.3.1
+      sourceRef:
+        kind: HelmRepository
+        name: dysnix
+        namespace: flux-system
+  values:
+    resources:
+    - apiVersion: batch/v1
+      kind: CronJob
+      metadata:
+        name: recyclarr
+        namespace: media
+      spec:
+        schedule: "@daily"
+        jobTemplate:
+          spec:
+            ttlSecondsAfterFinished: 86400
+            template:
+              spec:
+                automountServiceAccountToken: false
+                restartPolicy: OnFailure
+                initContainers:
+                - name: render-configs
+                  image: ghcr.io/onedr0p/recyclarr:2.6.1@sha256:365025bc338e6941c40f8e7cb545a6847181ff3864cadda50583b46ce9994c87
+                  env:
+                    RADARR_APIKEY: ${SECRET_RADARR_APIKEY}
+                    SONARR_APIKEY: ${SECRET_SONARR_APIKEY}
+                  command:
+                  - "/bin/bash"
+                  - -c
+                  args:
+                  - "envsubst < /config/recyclarr.yaml > /shared/recyclarr.yaml"
+                  volumeMounts:
+                  - name: config
+                    mountPath: /config
+                  - name: shared
+                    mountPath: /shared
+                containers:
+                - name: sonarr
+                  env:
+                    TZ: ${TIMEZONE}
+                  command:
+                  - "/bin/bash"
+                  - "-c"
+                  - |
+                      #!/bin/bash
+
+                      /app/recyclarr sonarr --config /config/recyclarr.yaml && curl -fsS -m 10 --retry 5 -o /dev/null https://uptime-kuma.${SECRET_CLUSTER_DOMAIN}/api/push/eaNLvqhfn2?status=up&msg=OK&ping=
+                  volumeMounts:
+                  - name: shared
+                    mountPath: /config/recyclarr.yaml
+                    subPath: recyclarr.yaml
+                    readOnly: true
+                - name: radarr
+                  image: ghcr.io/onedr0p/recyclarr:2.6.1@sha256:365025bc338e6941c40f8e7cb545a6847181ff3864cadda50583b46ce9994c87
+                  env:
+                    TZ: ${TIMEZONE}
+                  command:
+                  - "/bin/bash"
+                  - "-c"
+                  - |
+                      #!/bin/bash
+
+                      /app/recyclarr radarr --config /config/recyclarr.yaml && curl -fsS -m 10 --retry 5 -o /dev/null https://uptime-kuma.${SECRET_CLUSTER_DOMAIN}/api/push/N7OJBSgxD7?status=up&msg=OK&ping=
+                  volumeMounts:
+                  - name: shared
+                    mountPath: /config/recyclarr.yaml
+                    subPath: recyclarr.yaml
+                    readOnly: true
+                volumes:
+                - name: config
+                  configMap:
+                    name: recyclarr-config
+                - name: shared
+                  emptyDir: {}
