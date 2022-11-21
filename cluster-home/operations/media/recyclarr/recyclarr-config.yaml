@@ -5,7 +5,11 @@ metadata:
   name: recyclarr-config
   namespace: media
 data:
-  recyclarr.yaml: >
+  recyclarr.yaml: |
+    ---
+    # For more details on the configuration, see the Configuration Reference on the wiki here:
+    # https://github.com/rcdailey/trash-updater/wiki/Configuration-Reference
+
     sonarr:
     - base_url: http://sonarr.media
       api_key: ${SECRET_SONARR_APIKEY}
@@ -64,6 +68,7 @@ data:
           reset_unmatched_scores: true
         - name: SD
           reset_unmatched_scores: true
+
     radarr:
     - base_url: http://radarr.media
       api_key: ${SECRET_RADARR_APIKEY}
