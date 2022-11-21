@@ -66,6 +66,7 @@ spec:
                     mountPath: /shared
                 containers:
                 - name: sonarr
+                  image: ghcr.io/onedr0p/recyclarr:2.6.1@sha256:365025bc338e6941c40f8e7cb545a6847181ff3864cadda50583b46ce9994c87
                   env:
                   - name: TZ
                     value: ${TIMEZONE}
