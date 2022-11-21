@@ -39,8 +39,8 @@ spec:
       interval: 5m
   values:
     image:
-      repository: ghcr.io/onedr0p/sonarr
-      tag: 3.0.9.1549@sha256:80e51f6f668a65ec49636c50d1acc0613c11d4d5d8c2d37a2e1942347d9fca63
+      repository: ghcr.io/onedr0p/sonarr-develop
+      tag: 4.0.0.164@sha256:46ca30edd76533600e553e1ed76d592ba30f6cb46816a2d2224aae86a03768f5
     env:
       TZ: ${TIMEZONE}
       SONARR__APPLICATION_URL: https://sonarr.buvis.net
