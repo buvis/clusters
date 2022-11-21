@@ -8,5 +8,6 @@ resources:
 - helmrelease.yaml
 configMapGenerator:
 - name: recyclarr-config
+  namespace: media
   files:
   - config/recyclarr.yaml
