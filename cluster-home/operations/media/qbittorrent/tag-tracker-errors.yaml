@@ -23,5 +23,9 @@ spec:
               value: http://qbittorrent.media.svc.cluster.local:8080
             - name: QB_TAG
               value: "Tracker Errors"
+            - name: QB_USERNAME
+              value: ${SECRET_QB_USERNAME}
+            - name: QB_PASSWORD
+              value: ${SECRET_QB_PASSWORD}
             args:
             - "/app/tag-tracker-errors.py"
