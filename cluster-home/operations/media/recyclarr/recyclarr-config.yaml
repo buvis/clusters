@@ -11,7 +11,7 @@ data:
     # https://github.com/rcdailey/trash-updater/wiki/Configuration-Reference
 
     sonarr:
-    - base_url: http://sonarr.media
+    - base_url: http://sonarr.media:8989
       api_key: ${SECRET_SONARR_APIKEY}
       quality_definition: hybrid
       delete_old_custom_formats: true
@@ -70,7 +70,7 @@ data:
           reset_unmatched_scores: true
 
     radarr:
-    - base_url: http://radarr.media
+    - base_url: http://radarr.media:7878
       api_key: ${SECRET_RADARR_APIKEY}
       delete_old_custom_formats: true
       quality_definition:
