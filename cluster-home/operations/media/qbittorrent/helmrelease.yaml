@@ -29,20 +29,23 @@ spec:
     cleanupOnFail: true
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: qbittorrent
-      version: 13.5.2
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts/
+      chart: app-template
+      version: 1.1.3
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home
+        name: bjw-s
         namespace: flux-system
       interval: 5m
   values:
+    image:
+      repository: ghcr.io/onedr0p/qbittorrent
+      tag: 4.4.5@sha256:51153d31dd1dca2ec67256827ace50dc38911cdbef19cc4d318e92bb84a1ea45
     env:
       TZ: ${TIMEZONE}
       UMASK: "022"
-      QBT_BitTorrent__Session__DefaultSavePath: "/media/downloads/qbittorrent/complete"
-      QBT_BitTorrent__Session__TempPath: "/media/downloads/qbittorrent/incomplete"
+      QBITTORRENT__PORT: 8080
+      QBITTORRENT__USE_PROFILE: "true"
     podAnnotations:
       setVPNGateway: "true"
     hostname: torr
@@ -56,9 +59,6 @@ spec:
         enabled: true
         existingClaim: nas-media
         mountPath: /media
-    podSecurityContext:
-      fsGroup: 568
-      fsGroupChangePolicy: "OnRootMismatch"
     service:
       main:
         ports:
@@ -91,9 +91,16 @@ spec:
         - hosts:
           - qb.buvis.net
           secretName: qbittorrent-crt
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: "OnRootMismatch"
+      supplementalGroups:
+      - 985
     resources:
       requests:
-        cpu: "0.3"
-        memory: "1000Mi"
+        cpu: 49m
+        memory: 765Mi
       limits:
-        memory: "4000Mi"
+        memory: 1426Mi
