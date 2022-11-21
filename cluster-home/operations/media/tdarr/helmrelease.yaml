@@ -64,6 +64,10 @@ spec:
     env:
       TZ: ${TIMEZONE}
     persistence:
+      config:
+        enabled: true
+        existingClaim: tdarr-config
+        mountPath: /app/configs
       data:
         enabled: true
         existingClaim: tdarr-data
