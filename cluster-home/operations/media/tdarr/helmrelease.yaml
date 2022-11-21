@@ -43,10 +43,8 @@ spec:
     additionalContainers:
       node:
         name: node
-        image:
-          repository: haveagitgat/tdarr_node
-          tag: 2.00.18
-          pullPolicy: IfNotPresent
+        image: haveagitgat/tdarr_node:2.00.18
+        imagePullPolicy: IfNotPresent
         env:
         - name: TZ
           value: ${TIMEZONE}
