@@ -40,13 +40,27 @@ spec:
       repository: haveagitgat/tdarr
       tag: 2.00.18
       pullPolicy: IfNotPresent
-    node:
-      enabled: true
-      id: node
-      image:
-        repository: haveagitgat/tdarr_node
-        tag: 2.00.18  # this must be same version as the server
-        pullPolicy: IfNotPresent
+    additionalContainers:
+      node:
+        name: node
+        image: haveagitgat/tdarr_node@2.00.18
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: TZ
+          value: ${TIMEZONE}
+        - name: nodeID
+          value: node
+        - name: serverIP
+          value: localhost
+        - name: serverPort
+          value: 8266
+        volumeMounts:
+        - name: config
+          mountPath: /app/configs
+        - name: media
+          mountPath: /media
+        - name: shared
+          mountPath: /shared
     env:
       TZ: ${TIMEZONE}
     persistence:
