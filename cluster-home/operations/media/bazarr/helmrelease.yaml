@@ -81,6 +81,7 @@ spec:
       fsGroup: 568
       fsGroupChangePolicy: "OnRootMismatch"
       supplementalGroups:
+      - 983
       - 985
     resources:
       requests:
