@@ -52,7 +52,7 @@ spec:
       media:
         enabled: true
         existingClaim: nas-media
-        mountPath: /data
+        mountPath: /media
     service:
       main:
         ports:
