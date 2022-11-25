@@ -21,7 +21,7 @@ jobs:
         VERSION="v${UGLY_VERSION#*flux version }"
         flux install --version="${VERSION}" \
           --export > ./cluster-home/operations/flux-system/gotk-components.yaml
-        echo "::set-output name=flux_version::$VERSION"
+        echo "flux_version=${VERSION}" >> $GITHUB_OUTPUT
     - name: Create pull request for Flux update
       uses: peter-evans/create-pull-request@v4
       with:
