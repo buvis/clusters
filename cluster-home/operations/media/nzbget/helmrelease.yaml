@@ -40,7 +40,7 @@ spec:
   values:
     image:
       repository: ghcr.io/onedr0p/nzbget
-      tag: 21.1@sha256:76cee7d3b434f050307290f400fd6b2f17214088201f06e7665df0ac5df336fd
+      tag: 21.1@sha256:4735c87fbc75b781039c958292c485b31078fc886e682b641b86fc09e3621956
     env:
       TZ: ${TIMEZONE}
     podAnnotations:
