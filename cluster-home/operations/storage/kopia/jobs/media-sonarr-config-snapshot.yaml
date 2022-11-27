@@ -1,0 +1,80 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: media-sonarr-config-snapshot
+  namespace: media
+spec:
+  schedule: "0 3 * * *"
+  suspend: false
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      # Keep at least one job in completed state in accordance to the schedule
+      ttlSecondsAfterFinished: 86400
+      template:
+        spec:
+          automountServiceAccountToken: false
+          restartPolicy: OnFailure
+          # Stagger jobs to run randomly within X seconds to avoid bringing down all apps at once
+          initContainers:
+          - name: wait
+            image: ghcr.io/onedr0p/kopia:0.12.1@sha256:d81298982a7f03cf328769c3b6eaf784ee7ea0d1c426b8b57a97eba6fca5c4b4
+            command: ["/scripts/sleep.sh"]
+            args: ["1", "900"]
+          containers:
+          - name: snapshot
+            image: ghcr.io/onedr0p/kopia:0.12.1@sha256:d81298982a7f03cf328769c3b6eaf784ee7ea0d1c426b8b57a97eba6fca5c4b4
+            env:
+            - name: KOPIA_CACHE_DIRECTORY
+              value: /snapshots/media/sonarr-config/cache
+            - name: KOPIA_LOG_DIR
+              value: /snapshots/media/sonarr-config/logs
+            - name: KOPIA_PASSWORD
+              value: "none"
+            command:
+            - /bin/bash
+            - -c
+            - |-
+              printf "\e[1;32m%-6s\e[m\n" "[01/10] Create repo ..."              && [[ ! -f /snapshots/kopia.repository.f ]] && kopia repository create filesystem --path=/snapshots
+              printf "\e[1;32m%-6s\e[m\n" "[02/10] Connect to repo ..."          && kopia repo connect filesystem --path=/snapshots --override-hostname=cluster --override-username=root
+              printf "\e[1;32m%-6s\e[m\n" "[03/10] Set policies ..."             && kopia policy set /data/media/sonarr-config --compression=zstd --keep-latest 14 --keep-hourly 0 --keep-daily 7 --keep-weekly 2 --keep-monthly 0 --keep-annual 0
+              printf "\e[1;32m%-6s\e[m\n" "[04/10] Freeze sonarr-config ..."        && fsfreeze -f /data/media/sonarr-config
+              printf "\e[1;32m%-6s\e[m\n" "[05/10] Snapshot sonarr-config ..."      && kopia snap create /data/media/sonarr-config
+              printf "\e[1;32m%-6s\e[m\n" "[06/10] Unfreeze sonarr-config ..."      && fsfreeze -u /data/media/sonarr-config
+              printf "\e[1;32m%-6s\e[m\n" "[07/10] List snapshots ..."           && kopia snap list /data/media/sonarr-config
+              printf "\e[1;32m%-6s\e[m\n" "[08/10] Show stats ..."               && kopia content stats
+              printf "\e[1;32m%-6s\e[m\n" "[09/10] Show maintenance info ..."    && kopia maintenance info
+              printf "\e[1;32m%-6s\e[m\n" "[10/10] Disconnect from repo ..."     && kopia repo disconnect
+            volumeMounts:
+            - name: data
+              mountPath: /data/media/sonarr-config
+            - name: snapshots
+              mountPath: /snapshots
+            securityContext:
+              privileged: true
+          volumes:
+          - name: data
+            persistentVolumeClaim:
+              claimName: sonarr-config
+          - name: snapshots
+            nfs:
+              server: ${NFS_SERVER_IP}
+              path: ${NFS_SERVER_PATH_KOPIA}/snapshots
+          # Run on the same node as the application, otherwise backup job can't access the data in PVC
+          affinity:
+            podAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+              - topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchExpressions:
+                  - key: app.kubernetes.io/name
+                    operator: "In"
+                    values:
+                    - sonarr
+                  - key: app.kubernetes.io/instance
+                    operator: "In"
+                    values:
+                    - sonarr
