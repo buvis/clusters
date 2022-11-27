@@ -15,6 +15,8 @@ class CommandGenerate:
     def execute(self, kind, name, namespace):
         if kind == "backup-job":
             self._generate_backup_job(name, namespace)
+        else:
+            console.failure(f"I don't know how to generate a { kind }")
 
     def _generate_backup_job(self, pvc, namespace):
         job_name = f"{namespace}-{pvc}-snapshot"
