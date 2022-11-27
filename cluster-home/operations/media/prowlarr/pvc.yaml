@@ -4,6 +4,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: prowlarr-config
   namespace: media
+  labels:
+    app.kubernetes.io/name: prowlarr
+    app.kubernetes.io/instance: prowlarr
 spec:
   storageClassName: openebs-jiva-csi-default
   accessModes:

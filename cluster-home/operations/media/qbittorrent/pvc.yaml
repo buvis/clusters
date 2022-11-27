@@ -4,6 +4,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: qbittorrent-config
   namespace: media
+  labels:
+    app.kubernetes.io/name: qbittorrent
+    app.kubernetes.io/instance: qbittorrent
 spec:
   storageClassName: openebs-jiva-csi-default
   accessModes:

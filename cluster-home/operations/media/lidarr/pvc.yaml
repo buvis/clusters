@@ -4,6 +4,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: lidarr-config
   namespace: media
+  labels:
+    app.kubernetes.io/name: lidarr
+    app.kubernetes.io/instance: lidarr
 spec:
   storageClassName: openebs-jiva-csi-default
   accessModes:

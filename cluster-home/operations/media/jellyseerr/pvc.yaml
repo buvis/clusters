@@ -4,6 +4,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: jellyseerr-config
   namespace: media
+  labels:
+    app.kubernetes.io/name: jellyseerr
+    app.kubernetes.io/instance: jellyseerr
 spec:
   storageClassName: openebs-jiva-csi-default
   accessModes:

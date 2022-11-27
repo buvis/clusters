@@ -4,6 +4,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: bazarr-config
   namespace: media
+  labels:
+    app.kubernetes.io/name: bazarr
+    app.kubernetes.io/instance: bazarr
 spec:
   storageClassName: openebs-jiva-csi-default
   accessModes:
