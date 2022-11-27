@@ -20,6 +20,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: tdarr-data
   namespace: media
+  labels:
+    app.kubernetes.io/name: tdarr
+    app.kubernetes.io/instance: tdarr
 spec:
   storageClassName: openebs-jiva-csi-default
   accessModes:
