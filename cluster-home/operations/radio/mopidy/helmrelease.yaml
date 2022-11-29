@@ -30,6 +30,9 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    image:
+      repository: ghcr.io/buvis/mopidy
+      tag: v3.65.0@sha256:a2d2a4d9cfa15f7912b66335a64cfc7fd98dacb23ea789778fe57b09fba4633a
     service:
       main:
         enabled: true
