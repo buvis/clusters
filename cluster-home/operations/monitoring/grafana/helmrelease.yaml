@@ -117,14 +117,11 @@ spec:
           gnetId: 13665
           revision: 1
           datasource: Prometheus
-        lidarr:
-          url: https://raw.githubusercontent.com/k8s-at-home/grafana-dashboards/main/lidarr.json
-          datasource: Prometheus
         radarr:
-          url: https://raw.githubusercontent.com/k8s-at-home/grafana-dashboards/main/radarr.json
+          gnetId: 12896
           datasource: Prometheus
         sonarr:
-          url: https://raw.githubusercontent.com/k8s-at-home/grafana-dashboards/main/sonarr.json
+          gnetId: 12530
           datasource: Prometheus
     sidecar:
       datasources:
