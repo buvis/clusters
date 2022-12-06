@@ -78,6 +78,10 @@ spec:
           value: "off"
         - name: TZ
           value: ${TIMEZONE}
+        securityContext:
+          capabilities:
+            add:
+            - NET_ADMIN
         networkPolicy:
           enabled: true
           egress:
