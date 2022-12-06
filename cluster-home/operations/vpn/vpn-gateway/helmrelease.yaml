@@ -70,8 +70,6 @@ spec:
           value: ${SECRET_VPN_GATEWAY_PASSWORD}
         - name: SERVER_COUNTRIES
           value: ${SECRET_VPN_GATEWAY_COUNTRIES}
-        - name: FIREWALL
-          value: "off"
         - name: DOT
           value: "off"
         - name: HEALTH_TARGET_ADDRESS
