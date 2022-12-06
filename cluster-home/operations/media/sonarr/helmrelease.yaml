@@ -31,7 +31,7 @@ spec:
     spec:
       # renovate: registryUrl=https://bjw-s.github.io/helm-charts/
       chart: app-template
-      version: 1.1.3
+      version: 1.2.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -40,7 +40,7 @@ spec:
   values:
     image:
       repository: ghcr.io/onedr0p/sonarr-develop
-      tag: 4.0.0.233@sha256:6e31262f35e67427b27acea153ca4c0e215e0a6bb790202bbf850e06a5c84204
+      tag: 4.0.0.237@sha256:3987e531a4c7d4f9e2f81201532c6b9f81a005b6e24b48e747beddea0e319607
     env:
       TZ: ${TIMEZONE}
       SONARR__APPLICATION_URL: https://sonarr.buvis.net
