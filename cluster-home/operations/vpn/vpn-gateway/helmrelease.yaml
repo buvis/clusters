@@ -69,8 +69,6 @@ spec:
           value: ${SECRET_VPN_GATEWAY_COUNTRIES}
         - name: DOT
           value: "off"
-        - name:  FIREWALL
-          value: "off"
         - name: TZ
           value: ${TIMEZONE}
         securityContext:
