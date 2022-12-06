@@ -41,7 +41,7 @@ spec:
         port: ${SECRET_VPN_BT_FORWARD_PORT}
     settings:
       NOT_ROUTED_TO_GATEWAY_CIDRS: ${NETWORK_CIDR_K8S_CLUSTER} ${NETWORK_CIDR_K8S_SERVICE} ${NETWORK_CIDR_K8S_SERVICE_EXTERNAL} ${NETWORK_CIDR_HOST}
-      VPN_INTERFACE: wg0
+      VPN_INTERFACE: tun0
       VPN_TRAFFIC_PORT: ${SECRET_VPN_GATEWAY_ENDPOINT_PORT}
       VPN_BLOCK_OTHER_TRAFFIC: true
       VPN_LOCAL_CIDRS: ${NETWORK_CIDR_K8S_CLUSTER} ${NETWORK_CIDR_K8S_SERVICE} ${NETWORK_CIDR_K8S_SERVICE_EXTERNAL} ${NETWORK_CIDR_HOST}
@@ -59,29 +59,17 @@ spec:
         image: qmcgaw/gluetun:v3.32.0@sha256:70e2b9fe66941d6de31419c3207b525293f2e6a92a3788869bb337a17e0e5ec8
         env:
         - name: VPN_SERVICE_PROVIDER
-          value: custom
+          value: ${SECRET_VPN_GATEWAY_PROVIDER}
         - name: VPN_TYPE
-          value: wireguard
+          value: openvpn
         - name: VPN_INTERFACE
-          value: wg0
-        - name: VPN_ENDPOINT_IP
-          value: ${SECRET_VPN_GATEWAY_ENDPOINT_IP}
-        - name: VPN_ENDPOINT_PORT
-          value: ${SECRET_VPN_GATEWAY_ENDPOINT_PORT}
-        - name: WIREGUARD_PUBLIC_KEY
-          value: ${SECRET_VPN_GATEWAY_WG_PUBLIC_KEY}
-        - name: WIREGUARD_PRIVATE_KEY
-          value: ${SECRET_VPN_GATEWAY_WG_PRIVATE_KEY}
-        - name: WIREGUARD_ADDRESSES
-          value: ${SECRET_VPN_GATEWAY_WG_ADDRESSES}
-        - name: FIREWALL
-          value: "off"
-        - name: DOT
-          value: "off"
-        - name: HEALTH_TARGET_ADDRESS
-          value: "1.1.1.1"
-        - name: HEALTH_VPN_DURATION_INITIAL
-          value: 30s
+          value: tun0
+        - name: OPENVPN_USER
+          value: ${SECRET_VPN_GATEWAY_USER}
+        - name: OPENVPN_PASSWORD
+          value: ${SECRET_VPN_GATEWAY_PASSWORD}
+        - name: SERVER_COUNTRIES
+          value: ${SECRET_VPN_GATEWAY_COUNTRIES}
         - name: TZ
           value: ${TIMEZONE}
         securityContext:
