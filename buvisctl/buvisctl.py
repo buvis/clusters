@@ -2,7 +2,8 @@ import click
 
 from adapters import console
 from commands import (CommandBackup, CommandBootstrap, CommandCheck,
-                      CommandDestroy, CommandGenerate, CommandRestore)
+                      CommandDestroy, CommandGenerate, CommandRestore,
+                      CommandUpdate)
 
 
 @click.group(help="CLI tool to manage buvis clusters")
@@ -21,6 +22,19 @@ def bootstrap():
     _check_configuration()
     cmd = CommandBootstrap()
     cmd.execute()
+
+
+@cli.command("update")
+@click.argument("component")
+def update(component):
+    """Update buvis component
+
+    Supported components:
+    - flux
+    """
+    _check_configuration()
+    cmd = CommandUpdate()
+    cmd.execute(component)
 
 
 @cli.command("destroy")
