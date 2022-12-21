@@ -15,6 +15,7 @@ spec:
     nodeAddressAutodetectionV4:
       cidrs:
       - "10.7.0.0/24"
+  kubeletVolumePluginPath: None
 ---
 apiVersion: crd.projectcalico.org/v1
 kind: BGPConfiguration
