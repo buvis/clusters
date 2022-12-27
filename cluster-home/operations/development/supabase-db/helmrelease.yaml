@@ -5,6 +5,9 @@ metadata:
   name: supabase-db
   namespace: development
 spec:
+  dependsOn:
+  - name: flux-system-extras
+    namespace: flux-system
   interval: 5m
   install:
     timeout: 15m
@@ -45,3 +48,7 @@ spec:
         enabled: true
         existingClaim: supabase-db
         mountPath: /var/lib/postgresql/data
+    podSecurityContext:
+      runAsUser: 1001
+      runAsGroup: 1001
+      fsGroup: 1001
