@@ -98,7 +98,7 @@ spec:
         tag: v0.25.1
       environment:
         DB_HOST: supabase-db.development.svc.cluster.local
-        DB_PORT: 5432
+        DB_PORT: "5432"
         DB_NAME: postgres
         DB_USER: supabase_admin
         DB_PASSWORD: ${SECRET_SUPABASE_DB_PASSWORD}
