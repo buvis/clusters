@@ -28,8 +28,8 @@ spec:
       interval: 5m
   values:
     image:
-      repository: tdeoliv/supabase-bitnami-postgres
-      tag: latest
+      repository: supabase/postgres
+      tag: "15.1.0.18"
     env:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${SECRET_SUPABASE_DB_PASSWORD}
@@ -45,7 +45,3 @@ spec:
         enabled: true
         existingClaim: supabase-db
         mountPath: /var/lib/postgresql/data
-    podSecurityContext:
-      runAsUser: 1001
-      runAsGroup: 1001
-      fsGroup: 1001
