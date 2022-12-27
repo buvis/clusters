@@ -34,7 +34,7 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    database:
+    postgresql:
       enabled: false
     studio:
       environment:
