@@ -122,6 +122,6 @@ spec:
         - hosts:
           - sb-api.buvis.net
           secretName: sb-api-crt
-        credentials:
-          anonKey: ${SECRET_SUPABASE_JWT_ANON_KEY}
-          serviceRoleKey: ${SECRET_SUPABASE_JWT_SERVICE_KEY}
+      credentials:
+        anonKey: ${SECRET_SUPABASE_JWT_ANON_KEY}
+        serviceRoleKey: ${SECRET_SUPABASE_JWT_SERVICE_KEY}
