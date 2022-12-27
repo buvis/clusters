@@ -39,7 +39,7 @@ spec:
     studio:
       environment:
         SUPABASE_URL: https://sb-api.buvis.net
-        STUDIO_PG_META_URL: https://supabase-kong.development.svc.cluster.local:8000/pg
+        STUDIO_PG_META_URL: https://supabase-supabase-kong.development.svc.cluster.local:8000/pg
         SUPABASE_ANON_KEY: ${SECRET_SUPABASE_JWT_ANON_KEY}
         SUPABASE_SERVICE_KEY: ${SECRET_SUPABASE_JWT_SERVICE_KEY}
       ingress:
@@ -99,10 +99,12 @@ spec:
       environment:
         ANON_KEY: ${SECRET_SUPABASE_JWT_ANON_KEY}
         SERVICE_KEY: ${SECRET_SUPABASE_JWT_SERVICE_KEY}
-        POSTGREST_URL: http://supabase-rest.development.svc.cluster.local:3000
+        POSTGREST_URL: http://supabase-supabase-rest.development.svc.cluster.local:3000
         PGRST_JWT_SECRET: ${SECRET_SUPABASE_JWT_SECRET}
         DATABASE_URL: postgres://postgres:${SECRET_SUPABASE_DB_PASSWORD}@supabase-db.development.svc.cluster.local:5432/postgres
         PGOPTIONS: -c search_path=storage,public
+      persistence:
+        storageClassName: openebs-jiva-csi-default
     kong:
       ingress:
         enabled: true
