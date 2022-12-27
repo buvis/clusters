@@ -39,6 +39,7 @@ spec:
     studio:
       environment:
         SUPABASE_URL: https://sb-api.buvis.net
+        SUPABASE_REST_URL: https://sb-api.buvis.net/rest/v1/
         STUDIO_PG_META_URL: http://supabase-supabase-kong.development.svc.cluster.local:8000/pg
         SUPABASE_ANON_KEY: ${SECRET_SUPABASE_JWT_ANON_KEY}
         SUPABASE_SERVICE_KEY: ${SECRET_SUPABASE_JWT_SERVICE_KEY}
