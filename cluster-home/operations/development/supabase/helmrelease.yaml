@@ -37,6 +37,9 @@ spec:
     postgresql:
       enabled: "false"
     studio:
+      image:
+        repository: supabase/studio
+        tag: 20221214-4eecc99
       environment:
         SUPABASE_URL: https://sb-api.buvis.net
         SUPABASE_REST_URL: https://sb-api.buvis.net/rest/v1/
@@ -62,6 +65,9 @@ spec:
           - studio.buvis.net
           secretName: studio-crt
     auth:
+      image:
+        repository: supabase/gotrue
+        tag: v2.31.0
       environment:
         GOTRUE_DB_DATABASE_URL: postgres://postgres:${SECRET_SUPABASE_DB_PASSWORD}@supabase-db.development.svc.cluster.local:5432/postgres?search_path=auth
         GOTRUE_SITE_URL: https://studio.buvis.net
@@ -80,23 +86,35 @@ spec:
         GOTRUE_EXTERNAL_PHONE_ENABLED: "false"
         GOTRUE_SMS_AUTOCONFIRM: "false"
     rest:
+      image:
+        repository: postgrest/postgrest
+        tag: v9.0.1.20220717
       environment:
         PGRST_DB_URI: postgres://postgres:${SECRET_SUPABASE_DB_PASSWORD}@supabase-db.development.svc.cluster.local:5432/postgres
         PGRST_JWT_SECRET: ${SECRET_SUPABASE_JWT_SECRET}
     realtime:
+      image:
+        repository: supabase/realtime
+        tag: v0.25.1
       environment:
         DB_HOST: supabase-db.development.svc.cluster.local
-        DB_PORT: "5432"
+        DB_PORT: 5432
         DB_NAME: postgres
-        DB_USER: postgres
+        DB_USER: supabase_admin
         DB_PASSWORD: ${SECRET_SUPABASE_DB_PASSWORD}
         DB_SSL: "false"
         JWT_SECRET: ${SECRET_SUPABASE_JWT_SECRET}
     meta:
+      image:
+        repository: supabase/postgres-meta
+        tag: v0.52.1
       environment:
         PG_META_DB_HOST: supabase-db.development.svc.cluster.local
         PG_META_DB_PASSWORD: ${SECRET_SUPABASE_DB_PASSWORD}
     storage:
+      image:
+        repository: supabase/storage-api
+        tag: v0.26.1
       environment:
         ANON_KEY: ${SECRET_SUPABASE_JWT_ANON_KEY}
         SERVICE_KEY: ${SECRET_SUPABASE_JWT_SERVICE_KEY}
@@ -107,6 +125,9 @@ spec:
       persistence:
         storageClassName: openebs-jiva-csi-default
     kong:
+      image:
+        repository: kong
+        tag: 2.8.1
       ingress:
         enabled: true
         className: nginx
