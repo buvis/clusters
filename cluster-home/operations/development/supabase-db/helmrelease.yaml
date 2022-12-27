@@ -44,4 +44,6 @@ spec:
       data:
         enabled: true
         existingClaim: supabase-db
-        mountPath: /var/lib/postgresql/data
+        subPath:
+        - path: data
+          mountPath: /var/lib/postgresql/data
