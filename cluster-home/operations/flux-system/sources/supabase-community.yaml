@@ -6,4 +6,4 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  url: https://supabase-community.github.io/supabase-kubernetes
+  url: https://koji-sas.github.io/supabase-kubernetes/

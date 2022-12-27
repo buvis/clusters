@@ -25,7 +25,7 @@ spec:
     cleanupOnFail: true
   chart:
     spec:
-      # renovate: registryUrl=https://supabase-community.github.io/supabase-kubernetes
+      # renovate: registryUrl=https://koji-sas.github.io/supabase-kubernetes/
       chart: supabase
       version: 0.0.1
       sourceRef:
