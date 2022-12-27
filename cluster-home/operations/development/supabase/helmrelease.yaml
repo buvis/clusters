@@ -35,11 +35,11 @@ spec:
       interval: 5m
   values:
     postgresql:
-      enabled: false
+      enabled: "false"
     studio:
       environment:
         SUPABASE_URL: https://sb-api.buvis.net
-        STUDIO_PG_META_URL: https://supabase-supabase-kong.development.svc.cluster.local:8000/pg
+        STUDIO_PG_META_URL: http://supabase-supabase-kong.development.svc.cluster.local:8000/pg
         SUPABASE_ANON_KEY: ${SECRET_SUPABASE_JWT_ANON_KEY}
         SUPABASE_SERVICE_KEY: ${SECRET_SUPABASE_JWT_SERVICE_KEY}
       ingress:
