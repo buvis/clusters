@@ -1,0 +1,127 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: supabase
+  namespace: development
+spec:
+  dependsOn:
+  - name: supabase-db
+    namespace: development
+  - name: ingress-nginx
+    namespace: kube-tools
+  - name: cert-manager
+    namespace: kube-tools
+  interval: 5m
+  install:
+    timeout: 15m
+    remediation:
+      retries: 5
+  upgrade:
+    timeout: 15m
+    remediation:
+      retries: 5
+      remediateLastFailure: true
+    cleanupOnFail: true
+  chart:
+    spec:
+      # renovate: registryUrl=https://supabase-community.github.io/supabase-kubernetes
+      chart: supabase
+      version: 0.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: supabase-community
+        namespace: flux-system
+      interval: 5m
+  values:
+    database:
+      enabled: false
+    studio:
+      environment:
+        SUPABASE_URL: https://sb-api.buvis.net
+        STUDIO_PG_META_URL: https://supabase-kong.development.svc.cluster.local:8000/pg
+        SUPABASE_ANON_KEY: ${SECRET_SUPABASE_JWT_ANON_KEY}
+        SUPABASE_SERVICE_KEY: ${SECRET_SUPABASE_JWT_SERVICE_KEY}
+      ingress:
+        enabled: true
+        className: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/rewrite-target: /
+          cert-manager.io/cluster-issuer: letsencrypt-production
+        hosts:
+        - host: studio.buvis.net
+          paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              serviceName: api
+              servicePort: 3000
+        tls:
+        - hosts:
+          - studio.buvis.net
+          secretName: studio-crt
+    auth:
+      environment:
+        GOTRUE_DB_DATABASE_URL: postgres://postgres:${SECRET_SUPABASE_DB_PASSWORD}@supabase-db.development.svc.cluster.local:5432/postgres?search_path=auth
+        GOTRUE_SITE_URL: https://studio.buvis.net
+        GOTRUE_URI_ALLOW_LIST: ""
+        GOTRUE_DISABLE_SIGNUP: "false"
+        GOTRUE_JWT_SECRET: ${SECRET_SUPABASE_JWT_SECRET}
+        GOTRUE_JWT_EXP: "3600"
+        GOTRUE_EXTERNAL_EMAIL_ENABLED: "true"
+        GOTRUE_MAILER_AUTOCONFIRM: "true"
+        GOTRUE_SMTP_ADMIN_EMAIL: "postman@iron.buvis.net"
+        GOTRUE_SMTP_HOST: "email-smtp.eu-west-1.amazonaws.com"
+        GOTRUE_SMTP_PORT: "465"
+        GOTRUE_SMTP_USER: ${SECRET_SMTP_USERNAME}
+        GOTRUE_SMTP_PASS: ${SECRET_SMTP_PASSWORD}
+        GOTRUE_SMTP_SENDER_NAME: "Supabase Auth Service"
+        GOTRUE_EXTERNAL_PHONE_ENABLED: "false"
+        GOTRUE_SMS_AUTOCONFIRM: "false"
+    rest:
+      environment:
+        PGRST_DB_URI: postgres://postgres:${SECRET_SUPABASE_DB_PASSWORD}@supabase-db.development.svc.cluster.local:5432/postgres
+        PGRST_JWT_SECRET: ${SECRET_SUPABASE_JWT_SECRET}
+    realtime:
+      environment:
+        DB_HOST: supabase-db.development.svc.cluster.local
+        DB_PORT: "5432"
+        DB_NAME: postgres
+        DB_USER: postgres
+        DB_PASSWORD: ${SECRET_SUPABASE_DB_PASSWORD}
+        DB_SSL: "false"
+        JWT_SECRET: ${SECRET_SUPABASE_JWT_SECRET}
+    meta:
+      environment:
+        PG_META_DB_HOST: supabase-db.development.svc.cluster.local
+        PG_META_DB_PASSWORD: ${SECRET_SUPABASE_DB_PASSWORD}
+    storage:
+      environment:
+        ANON_KEY: ${SECRET_SUPABASE_JWT_ANON_KEY}
+        SERVICE_KEY: ${SECRET_SUPABASE_JWT_SERVICE_KEY}
+        POSTGREST_URL: http://supabase-rest.development.svc.cluster.local:3000
+        PGRST_JWT_SECRET: ${SECRET_SUPABASE_JWT_SECRET}
+        DATABASE_URL: postgres://postgres:${SECRET_SUPABASE_DB_PASSWORD}@supabase-db.development.svc.cluster.local:5432/postgres
+        PGOPTIONS: -c search_path=storage,public
+    kong:
+      ingress:
+        enabled: true
+        className: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/rewrite-target: /
+          cert-manager.io/cluster-issuer: letsencrypt-production
+        hosts:
+        - host: sb-api.buvis.net
+          paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              serviceName: api
+              servicePort: 80
+        tls:
+        - hosts:
+          - sb-api.buvis.net
+          secretName: sb-api-crt
+        credentials:
+          anonKey: ${SECRET_SUPABASE_JWT_ANON_KEY}
+          serviceRoleKey: ${SECRET_SUPABASE_JWT_SERVICE_KEY}
