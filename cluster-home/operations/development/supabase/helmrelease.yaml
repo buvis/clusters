@@ -84,6 +84,7 @@ spec:
         tag: v2.31.0
       environment:
         DB_HOST: supabase-supabase-db.development.svc.cluster.local
+        DB_SSL: disable
         GOTRUE_SITE_URL: https://studio.buvis.net
         GOTRUE_SMTP_ADMIN_EMAIL: "postman@iron.buvis.net"
         GOTRUE_SMTP_HOST: "email-smtp.eu-west-1.amazonaws.com"
@@ -99,24 +100,28 @@ spec:
         tag: v9.0.1.20220717
       environment:
         DB_HOST: supabase-supabase-db.development.svc.cluster.local
+        DB_SSL: disable
     realtime:
       image:
         repository: supabase/realtime
         tag: v0.25.1
       environment:
         DB_HOST: supabase-supabase-db.development.svc.cluster.local
+        DB_SSL: disable
     meta:
       image:
         repository: supabase/postgres-meta
         tag: v0.52.1
       environment:
         DB_HOST: supabase-supabase-db.development.svc.cluster.local
+        DB_SSL: disable
     storage:
       image:
         repository: supabase/storage-api
         tag: v0.26.1
       environment:
         DB_HOST: supabase-supabase-db.development.svc.cluster.local
+        DB_SSL: disable
         POSTGREST_URL: http://supabase-supabase-rest.development.svc.cluster.local:3000
       persistence:
         storageClassName: openebs-jiva-csi-default
