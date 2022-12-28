@@ -108,7 +108,7 @@ spec:
         tag: v0.25.1
       environment:
         DB_HOST: supabase-demo-supabase-db.development.svc.cluster.local
-        DB_SSL: disable
+        DB_SSL: "false"
     meta:
       image:
         repository: supabase/postgres-meta
