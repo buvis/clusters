@@ -27,7 +27,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.buvis.net
       chart: supabase
-      version: 0.1.5
+      version: 0.1.6
       sourceRef:
         kind: HelmRepository
         name: buvis
@@ -51,14 +51,9 @@ spec:
       image:
         repository: supabase/studio
         tag: 20221214-4eecc99
-      environment:
-        SUPABASE_URL: https://api.supabase-demo.buvis.net
-        SUPABASE_REST_URL: https://api.supabase-demo.buvis.net/rest/v1/
-        SUPABASE_PUBLIC_URL: https://api.supabase-demo.buvis.net
-        PUBLIC_REST_URL: https://api.supabase-demo.buvis.net/rest/v1/
-        STUDIO_PG_META_URL: http://supabase-demo-supabase-kong.development.svc.cluster.local:8000/pg
-        DEFAULT_ORGANIZATION_NAME: buvis
-        DEFAULT_PROJECT_NAME: supabase-demo
+      apiUrl: "https://api.supabase-demo.buvis.net"
+      organizationName: buvis
+      projectName: supabase-demo
       ingress:
         enabled: true
         className: nginx
