@@ -129,7 +129,7 @@ spec:
     kong:
       image:
         repository: kong
-        tag: 2.8.1
+        tag: 2.8.3
       ingress:
         enabled: true
         className: nginx
