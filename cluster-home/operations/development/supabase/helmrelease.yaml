@@ -6,8 +6,6 @@ metadata:
   namespace: development
 spec:
   dependsOn:
-  - name: supabase-db
-    namespace: development
   - name: ingress-nginx
     namespace: kube-tools
   - name: cert-manager
@@ -25,17 +23,28 @@ spec:
     cleanupOnFail: true
   chart:
     spec:
-      # renovate: registryUrl=https://koji-sas.github.io/supabase-kubernetes/
+      # renovate: registryUrl=https://charts.buvis.net
       chart: supabase
       version: 0.0.1
       sourceRef:
         kind: HelmRepository
-        name: supabase-community
+        name: buvis
         namespace: flux-system
       interval: 5m
   values:
-    postgresql:
-      enabled: "false"
+    db:
+      enabled: true
+      image:
+        repository: supabase/postgres
+        tag: 14.1.0.89
+      volumeMounts:
+      - name: data
+        mountPath: /var/lib/postgresql/data
+        subPath: data
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: supabase-db
     studio:
       image:
         repository: supabase/studio
@@ -46,6 +55,8 @@ spec:
         STUDIO_PG_META_URL: http://supabase-supabase-kong.development.svc.cluster.local:8000/pg
         SUPABASE_ANON_KEY: ${SECRET_SUPABASE_JWT_ANON_KEY}
         SUPABASE_SERVICE_KEY: ${SECRET_SUPABASE_JWT_SERVICE_KEY}
+        DEFAULT_ORGANIZATION_NAME: buvis
+        DEFAULT_PROJECT_NAME: supabase-demo
       ingress:
         enabled: true
         className: nginx
