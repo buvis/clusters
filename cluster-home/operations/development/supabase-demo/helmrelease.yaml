@@ -109,6 +109,7 @@ spec:
       environment:
         DB_HOST: supabase-demo-supabase-db.development.svc.cluster.local
         DB_SSL: disable
+        SECURE_CHANNELS: false
     meta:
       image:
         repository: supabase/postgres-meta
