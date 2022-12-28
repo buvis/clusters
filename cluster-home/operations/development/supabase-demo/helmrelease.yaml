@@ -27,7 +27,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.buvis.net
       chart: supabase
-      version: 0.1.6
+      version: 0.1.7
       sourceRef:
         kind: HelmRepository
         name: buvis
@@ -35,6 +35,8 @@ spec:
       interval: 5m
   values:
     secretName: supabase-demo
+    apiUrl: "https://api.supabase-demo.buvis.net"
+    studioUrl: "https://studio.supabase-demo.buvis.net"
     db:
       image:
         repository: supabase/postgres
@@ -51,7 +53,6 @@ spec:
       image:
         repository: supabase/studio
         tag: 20221214-4eecc99
-      apiUrl: "https://api.supabase-demo.buvis.net"
       organizationName: buvis
       projectName: supabase-demo
       ingress:
@@ -79,15 +80,10 @@ spec:
         repository: supabase/gotrue
         tag: v2.31.0
       environment:
-        GOTRUE_SITE_URL: https://studio.supabase-demo.buvis.net
         GOTRUE_SMTP_ADMIN_EMAIL: "postman@iron.buvis.net"
         GOTRUE_SMTP_HOST: "email-smtp.eu-west-1.amazonaws.com"
         GOTRUE_SMTP_PORT: "465"
         GOTRUE_SMTP_SENDER_NAME: "Supabase Auth Service"
-        GOTRUE_MAILER_URLPATHS_INVITE: "https://api.supabase-demo.buvis.net/auth/v1/verify"
-        GOTRUE_MAILER_URLPATHS_CONFIRMATION: "https://api.supabase-demo.buvis.net/auth/v1/verify"
-        GOTRUE_MAILER_URLPATHS_RECOVERY: "https://api.supabase-demo.buvis.net/auth/v1/verify"
-        GOTRUE_MAILER_URLPATHS_EMAIL_CHANGE: "https://api.supabase-demo.buvis.net/auth/v1/verify"
     rest:
       image:
         repository: postgrest/postgrest
