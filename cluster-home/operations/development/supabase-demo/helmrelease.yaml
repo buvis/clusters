@@ -95,7 +95,7 @@ spec:
     realtime:
       image:
         repository: supabase/realtime
-        tag: v0.25.1
+        tag: v2.0.0
     meta:
       image:
         repository: supabase/postgres-meta
