@@ -57,6 +57,7 @@ spec:
       environment:
         SUPABASE_URL: https://sb-api.buvis.net
         SUPABASE_REST_URL: https://sb-api.buvis.net/rest/v1/
+        PUBLIC_REST_URL: https://sb-api.buvis.net/rest/v1/
         STUDIO_PG_META_URL: http://supabase-supabase-kong.development.svc.cluster.local:8000/pg
         DEFAULT_ORGANIZATION_NAME: buvis
         DEFAULT_PROJECT_NAME: supabase-demo
