@@ -91,7 +91,7 @@ spec:
     rest:
       image:
         repository: postgrest/postgrest
-        tag: v9.0.1.20220717
+        tag: v9.0.1.20220802
     realtime:
       image:
         repository: supabase/realtime
