@@ -10,6 +10,8 @@ spec:
     namespace: kube-tools
   - name: cert-manager
     namespace: kube-tools
+  - name: oauth2-proxy
+    namespace: kube-tools
   interval: 5m
   install:
     timeout: 15m
@@ -68,6 +70,8 @@ spec:
         annotations:
           nginx.ingress.kubernetes.io/rewrite-target: /
           cert-manager.io/cluster-issuer: letsencrypt-production
+          nginx.ingress.kubernetes.io/auth-url: "https://auth.buvis.net/oauth2/auth"
+          nginx.ingress.kubernetes.io/auth-signin: "https://auth.buvis.net/oauth2/start?rd=https%3A%2F%2F$host$request_uri"
         hosts:
         - host: studio.buvis.net
           paths:
