@@ -99,7 +99,7 @@ spec:
     meta:
       image:
         repository: supabase/postgres-meta
-        tag: v0.52.1
+        tag: v0.55.2
     storage:
       image:
         repository: supabase/storage-api
