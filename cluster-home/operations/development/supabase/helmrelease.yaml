@@ -97,6 +97,8 @@ spec:
       image:
         repository: postgrest/postgrest
         tag: v9.0.1.20220717
+      environment:
+        DB_HOST: supabase-supabase-db.development.svc.cluster.local
     realtime:
       image:
         repository: supabase/realtime
