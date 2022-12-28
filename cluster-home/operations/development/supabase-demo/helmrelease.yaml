@@ -27,7 +27,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.buvis.net
       chart: supabase
-      version: 0.1.7
+      version: 0.2.0
       sourceRef:
         kind: HelmRepository
         name: buvis
@@ -38,9 +38,6 @@ spec:
     apiUrl: "https://api.supabase-demo.buvis.net"
     studioUrl: "https://studio.supabase-demo.buvis.net"
     db:
-      image:
-        repository: supabase/postgres
-        tag: 14.1.0.89
       volumeMounts:
       - name: data
         mountPath: /var/lib/postgresql/data
@@ -50,9 +47,6 @@ spec:
         persistentVolumeClaim:
           claimName: supabase-demo-db
     studio:
-      image:
-        repository: supabase/studio
-        tag: 20221214-4eecc99
       organizationName: buvis
       projectName: supabase-demo
       ingress:
@@ -76,36 +70,15 @@ spec:
           - studio.supabase-demo.buvis.net
           secretName: studio-supabase-demo-crt
     auth:
-      image:
-        repository: supabase/gotrue
-        tag: v2.31.0
       environment:
         GOTRUE_SMTP_ADMIN_EMAIL: "postman@iron.buvis.net"
         GOTRUE_SMTP_HOST: "email-smtp.eu-west-1.amazonaws.com"
         GOTRUE_SMTP_PORT: "465"
         GOTRUE_SMTP_SENDER_NAME: "Supabase Auth Service"
-    rest:
-      image:
-        repository: postgrest/postgrest
-        tag: v9.0.1.20220717
-    realtime:
-      image:
-        repository: supabase/realtime
-        tag: v0.25.1
-    meta:
-      image:
-        repository: supabase/postgres-meta
-        tag: v0.52.1
     storage:
-      image:
-        repository: supabase/storage-api
-        tag: v0.26.1
       persistence:
         storageClassName: openebs-jiva-csi-default
     kong:
-      image:
-        repository: kong
-        tag: 2.8.1
       ingress:
         enabled: true
         className: nginx
