@@ -32,8 +32,13 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    jwt:
+      secretName: supabase-jwt
+    smtp:
+      secretName: supabase-smtp
     db:
       enabled: true
+      secretName: supabase-db
       image:
         repository: supabase/postgres
         tag: 14.1.0.89
@@ -53,8 +58,6 @@ spec:
         SUPABASE_URL: https://sb-api.buvis.net
         SUPABASE_REST_URL: https://sb-api.buvis.net/rest/v1/
         STUDIO_PG_META_URL: http://supabase-supabase-kong.development.svc.cluster.local:8000/pg
-        SUPABASE_ANON_KEY: ${SECRET_SUPABASE_JWT_ANON_KEY}
-        SUPABASE_SERVICE_KEY: ${SECRET_SUPABASE_JWT_SERVICE_KEY}
         DEFAULT_ORGANIZATION_NAME: buvis
         DEFAULT_PROJECT_NAME: supabase-demo
       ingress:
@@ -80,59 +83,38 @@ spec:
         repository: supabase/gotrue
         tag: v2.31.0
       environment:
-        GOTRUE_DB_DATABASE_URL: postgres://postgres:${SECRET_SUPABASE_DB_PASSWORD}@supabase-db.development.svc.cluster.local:5432/postgres?search_path=auth
         GOTRUE_SITE_URL: https://studio.buvis.net
-        GOTRUE_URI_ALLOW_LIST: ""
-        GOTRUE_DISABLE_SIGNUP: "false"
-        GOTRUE_JWT_SECRET: ${SECRET_SUPABASE_JWT_SECRET}
-        GOTRUE_JWT_EXP: "3600"
-        GOTRUE_EXTERNAL_EMAIL_ENABLED: "true"
-        GOTRUE_MAILER_AUTOCONFIRM: "true"
         GOTRUE_SMTP_ADMIN_EMAIL: "postman@iron.buvis.net"
         GOTRUE_SMTP_HOST: "email-smtp.eu-west-1.amazonaws.com"
         GOTRUE_SMTP_PORT: "465"
-        GOTRUE_SMTP_USER: ${SECRET_SMTP_USERNAME}
-        GOTRUE_SMTP_PASS: ${SECRET_SMTP_PASSWORD}
         GOTRUE_SMTP_SENDER_NAME: "Supabase Auth Service"
-        GOTRUE_EXTERNAL_PHONE_ENABLED: "false"
-        GOTRUE_SMS_AUTOCONFIRM: "false"
+        GOTRUE_MAILER_URLPATHS_INVITE: "https://sb-api.buvis.net/auth/v1/verify"
+        GOTRUE_MAILER_URLPATHS_CONFIRMATION: "https://sb-api.buvis.net/auth/v1/verify"
+        GOTRUE_MAILER_URLPATHS_RECOVERY: "https://sb-api.buvis.net/auth/v1/verify"
+        GOTRUE_MAILER_URLPATHS_EMAIL_CHANGE: "https://sb-api.buvis.net/auth/v1/verify"
     rest:
       image:
         repository: postgrest/postgrest
         tag: v9.0.1.20220717
-      environment:
-        PGRST_DB_URI: postgres://postgres:${SECRET_SUPABASE_DB_PASSWORD}@supabase-db.development.svc.cluster.local:5432/postgres
-        PGRST_JWT_SECRET: ${SECRET_SUPABASE_JWT_SECRET}
     realtime:
       image:
         repository: supabase/realtime
         tag: v0.25.1
       environment:
         DB_HOST: supabase-db.development.svc.cluster.local
-        DB_PORT: "5432"
-        DB_NAME: postgres
-        DB_USER: supabase_admin
-        DB_PASSWORD: ${SECRET_SUPABASE_DB_PASSWORD}
-        DB_SSL: "false"
-        JWT_SECRET: ${SECRET_SUPABASE_JWT_SECRET}
     meta:
       image:
         repository: supabase/postgres-meta
         tag: v0.52.1
       environment:
-        PG_META_DB_HOST: supabase-db.development.svc.cluster.local
-        PG_META_DB_PASSWORD: ${SECRET_SUPABASE_DB_PASSWORD}
+        DB_HOST: supabase-db.development.svc.cluster.local
     storage:
       image:
         repository: supabase/storage-api
         tag: v0.26.1
       environment:
-        ANON_KEY: ${SECRET_SUPABASE_JWT_ANON_KEY}
-        SERVICE_KEY: ${SECRET_SUPABASE_JWT_SERVICE_KEY}
+        DB_HOST: supabase-db.development.svc.cluster.local
         POSTGREST_URL: http://supabase-supabase-rest.development.svc.cluster.local:3000
-        PGRST_JWT_SECRET: ${SECRET_SUPABASE_JWT_SECRET}
-        DATABASE_URL: postgres://postgres:${SECRET_SUPABASE_DB_PASSWORD}@supabase-db.development.svc.cluster.local:5432/postgres
-        PGOPTIONS: -c search_path=storage,public
       persistence:
         storageClassName: openebs-jiva-csi-default
     kong:
@@ -157,6 +139,3 @@ spec:
         - hosts:
           - sb-api.buvis.net
           secretName: sb-api-crt
-      credentials:
-        anonKey: ${SECRET_SUPABASE_JWT_ANON_KEY}
-        serviceRoleKey: ${SECRET_SUPABASE_JWT_SERVICE_KEY}
