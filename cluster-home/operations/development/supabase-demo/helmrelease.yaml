@@ -27,7 +27,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.buvis.net
       chart: supabase
-      version: 0.1.0
+      version: 0.1.1
       sourceRef:
         kind: HelmRepository
         name: buvis
@@ -84,7 +84,6 @@ spec:
         repository: supabase/gotrue
         tag: v2.31.0
       environment:
-        DB_HOST: supabase-demo-supabase-db.development.svc.cluster.local
         DB_SSL: disable
         GOTRUE_SITE_URL: https://studio.supabase-demo.buvis.net
         GOTRUE_SMTP_ADMIN_EMAIL: "postman@iron.buvis.net"
