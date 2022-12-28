@@ -82,7 +82,7 @@ spec:
     auth:
       image:
         repository: supabase/gotrue
-        tag: v2.31.0
+        tag: v2.40.1
       environment:
         DB_HOST: supabase-demo-supabase-db.development.svc.cluster.local
         DB_SSL: disable
