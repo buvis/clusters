@@ -83,6 +83,7 @@ spec:
         repository: supabase/gotrue
         tag: v2.31.0
       environment:
+        DB_HOST: supabase-db.development.svc.cluster.local
         GOTRUE_SITE_URL: https://studio.buvis.net
         GOTRUE_SMTP_ADMIN_EMAIL: "postman@iron.buvis.net"
         GOTRUE_SMTP_HOST: "email-smtp.eu-west-1.amazonaws.com"
