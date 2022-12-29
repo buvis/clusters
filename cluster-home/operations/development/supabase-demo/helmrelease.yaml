@@ -27,7 +27,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.buvis.net
       chart: supabase
-      version: 0.2.0
+      version: 0.3.0
       sourceRef:
         kind: HelmRepository
         name: buvis
@@ -55,8 +55,8 @@ spec:
         annotations:
           nginx.ingress.kubernetes.io/rewrite-target: /
           cert-manager.io/cluster-issuer: letsencrypt-production
-          nginx.ingress.kubernetes.io/auth-url: "https://auth.buvis.net/oauth2/auth"
-          nginx.ingress.kubernetes.io/auth-signin: "https://auth.buvis.net/oauth2/start?rd=https%3A%2F%2F$host$request_uri"
+          #nginx.ingress.kubernetes.io/auth-url: "https://auth.buvis.net/oauth2/auth"
+          #nginx.ingress.kubernetes.io/auth-signin: "https://auth.buvis.net/oauth2/start?rd=https%3A%2F%2F$host$request_uri"
         hosts:
         - host: studio.supabase-demo.buvis.net
           paths:
