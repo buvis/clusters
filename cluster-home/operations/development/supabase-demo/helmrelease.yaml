@@ -57,6 +57,7 @@ spec:
           cert-manager.io/cluster-issuer: letsencrypt-production
           nginx.ingress.kubernetes.io/auth-url: "https://auth.buvis.net/oauth2/auth"
           nginx.ingress.kubernetes.io/auth-signin: "https://auth.buvis.net/oauth2/start?rd=https%3A%2F%2F$host$request_uri"
+          nginx.ingress.kubernetes.io/cors-allow-origin: "http://studio.supabase-demo.buvis.net"
           nginx.ingress.kubernetes.io/configuration-snippet: |
             add_header Content-Security-Policy "upgrade-insecure-requests";
         hosts:
@@ -87,6 +88,7 @@ spec:
         annotations:
           nginx.ingress.kubernetes.io/rewrite-target: /
           cert-manager.io/cluster-issuer: letsencrypt-production
+          nginx.ingress.kubernetes.io/cors-allow-origin: "http://api.supabase-demo.buvis.net"
           nginx.ingress.kubernetes.io/configuration-snippet: |
             add_header Content-Security-Policy "upgrade-insecure-requests";
         hosts:
