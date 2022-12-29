@@ -27,7 +27,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.buvis.net
       chart: supabase
-      version: 0.3.8
+      version: 0.3.9
       sourceRef:
         kind: HelmRepository
         name: buvis
