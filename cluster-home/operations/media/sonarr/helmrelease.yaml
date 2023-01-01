@@ -40,7 +40,7 @@ spec:
   values:
     image:
       repository: ghcr.io/onedr0p/sonarr-develop
-      tag: 4.0.0.319@sha256:516432613b78c244f652b0bb411ca8e14788f2d4121f2bdcd4211be4e25e853c
+      tag: 4.0.0.328@sha256:8c0ff01a11ccf1149252cdf26fca1a50b2e6debdd9515adfdef36e3c052f89ec
     env:
       TZ: ${TIMEZONE}
       SONARR__APPLICATION_URL: https://sonarr.buvis.net
