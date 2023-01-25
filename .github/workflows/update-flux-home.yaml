@@ -14,6 +14,8 @@ jobs:
       uses: actions/checkout@v3
     - name: Setup Flux CLI
       uses: fluxcd/flux2/action@main
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
     - name: Update Flux components
       id: update
       run: |
