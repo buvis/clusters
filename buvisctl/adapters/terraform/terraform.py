@@ -11,6 +11,11 @@ class TerraformAdapter:
         self.name = os.path.basename(path_workspace)
 
     def destroy(self):
+        init_results = self.workspace.init()
+
+        if not init_results.successful:
+            return AdapterResponse(code=1, message=init_results.stdout)
+
         results, _ = self.workspace.destroy(auto_approve=True)
 
         if results.successful:
