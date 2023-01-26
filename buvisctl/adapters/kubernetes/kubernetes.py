@@ -55,6 +55,8 @@ class KubernetesAdapter:
             except ApiException as e:
                 return AdapterResponse(code=1, message=e)
 
+        return AdapterResponse()
+
     def create_config_map_from_file(self, name, namespace, filename):
         try:
             res = self.api.list_namespaced_config_map(namespace)
