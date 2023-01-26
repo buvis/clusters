@@ -7,8 +7,6 @@ from jinja2 import Environment, PackageLoader
 env = Environment(loader=PackageLoader("commands", "restore"))
 job_template = env.get_template("restore-job-template.j2")
 
-FILENAME_RESTORE_JOB_MANIFEST = "restore-job.yaml"
-
 
 class CommandRestore:
 
@@ -88,7 +86,7 @@ class CommandRestore:
         return (nfs_server_ip, nfs_server_path)
 
     def _generate_restore_job_manifest(self, template_vars):
-        with open(FILENAME_RESTORE_JOB_MANIFEST, "w") as restore_job_manifest:
+        with open(template_vars["JOBNAME"], "w") as restore_job_manifest:
             restore_job_manifest.write(job_template.render(template_vars))
 
     def _stop_application(self, app_instance, app_name, namespace):
@@ -119,7 +117,7 @@ class CommandRestore:
 
     def _submit_restore_job(self, pvc, namespace, job_name):
         with console.status(f"Restoring {pvc} data"):
-            self.k8s.create_from_file(FILENAME_RESTORE_JOB_MANIFEST)
+            self.k8s.create_from_file(job_name)
             time.sleep(5)
 
             if self.k8s.wait_job_complete(job_name, namespace):
@@ -127,4 +125,4 @@ class CommandRestore:
             else:
                 console.failure(f"Couldn't restore {pvc} data")
 
-        os.remove(FILENAME_RESTORE_JOB_MANIFEST)
+        os.remove(job_name)
