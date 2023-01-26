@@ -187,7 +187,7 @@ spec:
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
         retention: 7d
-        retentionSize: 20GB
+        retentionSize: 4GB
         enableAdminAPI: true
         walCompression: true
         storageSpec:
@@ -198,7 +198,7 @@ spec:
               storageClassName: openebs-jiva-csi-default
               resources:
                 requests:
-                  storage: 25Gi
+                  storage: 5Gi
         resources:
           requests:
             cpu: 10m
