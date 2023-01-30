@@ -1,5 +1,12 @@
-from adapters import (FluxAdapter, KubernetesAdapter, SocketAdapter,
-                      TalosAdapter, TerraformAdapter, cfg, console)
+from adapters import (
+    FluxAdapter,
+    KubernetesAdapter,
+    SocketAdapter,
+    TalosAdapter,
+    TerraformAdapter,
+    cfg,
+    console,
+)
 
 
 class CommandBootstrap:
