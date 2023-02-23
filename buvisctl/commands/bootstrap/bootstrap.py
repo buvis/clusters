@@ -11,7 +11,7 @@ from adapters import (
 
 class CommandBootstrap:
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.socket = SocketAdapter()
         self.tf = []
 
@@ -38,8 +38,9 @@ class CommandBootstrap:
                     console.success(
                         f"Terraform workspace initialized for {tf.name}")
                 else:
-                    console.panic(f"Terraform workspace initialization failed "
-                                  f"for {tf.name}!")
+                    console.panic(
+                        f"Terraform workspace initialization failed "
+                        f"for {tf.name}!", )
 
             with console.status(f"Creating Proxmox nodes on {tf.name}"):
                 res = tf.apply()
@@ -49,7 +50,8 @@ class CommandBootstrap:
                 else:
                     console.panic(
                         f"Proxmox nodes creation failed on {tf.name}",
-                        res.message)
+                        res.message,
+                    )
 
     def generate_talos_config(self):
         with console.status("Generating Talos configuration"):
