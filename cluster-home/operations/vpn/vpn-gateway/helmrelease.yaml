@@ -20,7 +20,7 @@ spec:
     spec:
       # renovate: registryUrl=https://angelnu.github.io/helm-charts
       chart: pod-gateway
-      version: 6.0.0
+      version: 6.2.0
       sourceRef:
         kind: HelmRepository
         name: angelnu
@@ -50,7 +50,7 @@ spec:
     webhook:
       image:
         repository: ghcr.io/angelnu/gateway-admision-controller
-        tag: v3.7.0
+        tag: v3.8.0
       gatewayDefault: false
       gatewayLabel: setVPNGateway
       gatewayAnnotation: setVPNGateway
