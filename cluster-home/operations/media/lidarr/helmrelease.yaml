@@ -40,7 +40,7 @@ spec:
   values:
     image:
       repository: ghcr.io/onedr0p/lidarr
-      tag: 1.0.2.2592@sha256:5b012597e69e4540bf700b7519b663e9180e8a2b3e30b3f7b59e03f48ceae9eb
+      tag: 1.0.2.2592@sha256:1b2c820402c2de828144ba32e9f1a75d88e2dd06097d0e6df2ad8eed13cdcac2
     env:
       TZ: ${TIMEZONE}
     podAnnotations:
