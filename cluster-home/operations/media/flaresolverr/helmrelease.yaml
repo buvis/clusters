@@ -32,7 +32,7 @@ spec:
   values:
     image:
       repository: ghcr.io/flaresolverr/flaresolverr
-      tag: v3.0.2
+      tag: v3.0.4
     controllerType: deployment
     env:
       TZ: ${TIMEZONE}
