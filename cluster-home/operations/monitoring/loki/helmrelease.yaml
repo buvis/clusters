@@ -32,6 +32,7 @@ spec:
   values:
     loki:
       enabled: true
+      isDefault: false
       persistence:
         enabled: true
         storageClassName: openebs-jiva-csi-default
