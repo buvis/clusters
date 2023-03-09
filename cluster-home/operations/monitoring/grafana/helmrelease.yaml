@@ -50,8 +50,16 @@ spec:
       GF_DATE_FORMATS_INTERVAL_DAY: "DD/MM"
       GF_DATE_FORMATS_INTERVAL_MONTH: "MM-YYYY"
       GF_DATE_FORMATS_INTERVAL_YEAR: "YYYY"
+      GF_PATHS_DATA: /var/lib/grafana/data
+      GF_PATHS_LOGS: /var/log/grafana
+      GF_PATHS_PLUGINS: /var/lib/grafana/plugins
+      GF_PATHS_PROVISIONING: /etc/grafana/provisioning
       VAR_BLOCKY_URL: "http://blocky.network.svc.cluster.local:4000"
     adminPassword: "${SECRET_GRAFANA_ADMIN_PASSWORD}"
+    plugins:
+    - grafana-clock-panel
+    - grafana-piechart-panel
+    - grafana-worldmap-panel
     ingress:
       enabled: true
       pathType: Prefix
