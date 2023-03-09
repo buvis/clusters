@@ -36,10 +36,11 @@ spec:
       replicaCount: 3
       metrics:
         enabled: true
-        service:
-          annotations:
-            prometheus.io/port: "10254"
-            prometheus.io/scrape: "true"
+        serviceMonitor:
+          enabled: true
+          namespace: kube-tools
+          namespaceSelector:
+            any: true
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
