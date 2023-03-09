@@ -28,3 +28,8 @@ spec:
       interval: 5m
   values:
     installCRDs: true
+    prometheus:
+      enabled: true
+      servicemonitor:
+        enabled: true
+        prometheusInstance: monitoring
