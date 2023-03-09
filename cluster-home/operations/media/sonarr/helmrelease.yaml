@@ -44,6 +44,7 @@ spec:
     env:
       TZ: ${TIMEZONE}
       SONARR__APPLICATION_URL: https://sonarr.buvis.net
+      SONARR__API_KEY: ${SECRET_SONARR_API_KEY}
     podAnnotations:
       setVPNGateway: "true"
     persistence:

@@ -139,6 +139,9 @@ spec:
         kubernetes-pods:
           url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
           datasource: Prometheus
+        lidarr:
+          url: https://github.com/k8s-at-home/grafana-dashboards/blob/main/lidarr.json
+          datasource: Prometheus
         loki:
           gnetId: 13407
           revision: 1
@@ -151,14 +154,14 @@ spec:
           url: https://raw.githubusercontent.com/billimek/k8s-gitops/master/monitoring/grafana/dashboards/prometheus_exporter_summary.json
           datasource: Prometheus
         sonarr:
-          gnetId: 12530
+          url: https://github.com/k8s-at-home/grafana-dashboards/blob/main/sonarr.json
           datasource: Prometheus
         speedtest:
           gnetId: 13665
           revision: 1
           datasource: Prometheus
         radarr:
-          gnetId: 12896
+          url: https://github.com/k8s-at-home/grafana-dashboards/blob/main/radarr.json
           datasource: Prometheus
     sidecar:
       datasources:
