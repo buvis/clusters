@@ -44,6 +44,7 @@ spec:
     env:
       TZ: ${TIMEZONE}
       RADARR__APPLICATION_URL: https://radarr.buvis.net
+      RADARR__API_KEY: ${SECRET_RADARR_API_KEY}
     podAnnotations:
       setVPNGateway: "true"
     persistence:
