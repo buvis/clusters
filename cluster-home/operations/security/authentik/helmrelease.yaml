@@ -1,0 +1,70 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: authentik
+  namespace: authentik
+spec:
+  dependsOn:
+  - name: ingress-nginx
+    namespace: kube-tools
+  - name: cert-manager
+    namespace: kube-tools
+  interval: 5m
+  install:
+    timeout: 15m
+    remediation:
+      retries: 5
+  upgrade:
+    timeout: 15m
+    remediation:
+      retries: 5
+      remediateLastFailure: true
+    cleanupOnFail: true
+  chart:
+    spec:
+      # renovate: registryUrl=https://charts.goauthentik.io
+      chart: authentik
+      version: 2023.3.1
+      sourceRef:
+        kind: HelmRepository
+        name: authentik
+        namespace: flux-system
+  values:
+    replicas: 2
+    ingress:
+      enabled: true
+      path: /
+      hosts:
+      - authentik.buvis.net
+      annotations:
+        kubernetes.io/ingress.class: nginx
+        cert-manager.io/cluster-issuer: letsencrypt-production
+      tls:
+      - secretName: authentik-https-cert
+        hosts:
+        - authentik.buvis.net
+    postgresql:
+      enabled: true
+      persistence:
+        existingClaim: authentik-db
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
+      postgresqlMaxConnections: 500
+    redis:
+      enabled: true
+      architecture: standalone
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
+    prometheus:
+      serviceMonitor:
+        create: true
+    authentik:
+      postgresql:
+        name: authentik
+        user: authentik
+        password: ${SECRET_AUTHENTIK_DB_PASSWORD}
