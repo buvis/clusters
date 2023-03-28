@@ -2,11 +2,11 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: authentik-outpost
+  name: sonarr-outpost
   namespace: security
 spec:
   rules:
-  - host: auth.buvis.net
+  - host: sonarr.buvis.net
     http:
       paths:
       - pathType: Prefix
