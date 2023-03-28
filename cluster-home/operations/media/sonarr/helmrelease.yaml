@@ -79,6 +79,13 @@ spec:
           paths:
           - path: /
             pathType: Prefix
+          - path: /outpost.goauthentik.io
+            pathType: Prefix
+            backend:
+              service:
+                name: authentik
+                port:
+                  number: 80
         tls:
         - hosts:
           - sonarr.buvis.net
