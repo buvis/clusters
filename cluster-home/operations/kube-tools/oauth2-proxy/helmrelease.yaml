@@ -57,4 +57,4 @@ spec:
       tls:
       - secretName: oauth2-proxy-https-cert
         hosts:
-        - auth.buvis.net
+        - oauth-proxy.buvis.net
