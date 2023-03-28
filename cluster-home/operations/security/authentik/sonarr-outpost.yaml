@@ -3,7 +3,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: sonarr-outpost
-  namespace: security
+  namespace: media
   annotations:
     kubernetes.io/ingress.class: nginx
 spec:
