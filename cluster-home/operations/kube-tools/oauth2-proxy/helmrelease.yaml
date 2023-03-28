@@ -39,6 +39,7 @@ spec:
       whitelist-domain: .buvis.net
       cookie-domain: .buvis.net
       provider: github
+      skip-jwt-bearer-tokens: true
     extraEnv:
     - name: OAUTH2_PROXY_SCOPE
       value: "user:email"
