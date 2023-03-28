@@ -50,7 +50,7 @@ spec:
       enabled: true
       path: /
       hosts:
-      - auth.buvis.net
+      - oauth-proxy.buvis.net
       annotations:
         kubernetes.io/ingress.class: nginx
         cert-manager.io/cluster-issuer: letsencrypt-production

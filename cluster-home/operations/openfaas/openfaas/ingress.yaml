@@ -14,8 +14,8 @@ metadata:
     nginx.ingress.kubernetes.io/cors-allow-origin: "*"
     nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
     nginx.ingress.kubernetes.io/cors-max-age: "3600"
-    nginx.ingress.kubernetes.io/auth-url: "https://auth.buvis.net/oauth2/auth"
-    nginx.ingress.kubernetes.io/auth-signin: "https://auth.buvis.net/oauth2/start?rd=https%3A%2F%2F$host$request_uri"
+    nginx.ingress.kubernetes.io/auth-url: "https://oauth-proxy.buvis.net/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://oauth-proxy.buvis.net/oauth2/start?rd=https%3A%2F%2F$host$request_uri"
 spec:
   tls:
   - hosts:

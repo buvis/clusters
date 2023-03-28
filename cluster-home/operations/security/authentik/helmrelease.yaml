@@ -36,7 +36,7 @@ spec:
       enabled: true
       ingressClassName: nginx
       hosts:
-      - host: authentik.buvis.net
+      - host: auth.buvis.net
         paths:
         - path: /
           pathType: Prefix

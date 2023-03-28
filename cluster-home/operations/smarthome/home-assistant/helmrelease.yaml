@@ -85,8 +85,8 @@ spec:
           enabled: true
           annotations:
             kubernetes.io/ingress.class: "nginx"
-            nginx.ingress.kubernetes.io/auth-url: "https://auth.buvis.net/oauth2/auth"
-            nginx.ingress.kubernetes.io/auth-signin: "https://auth.buvis.net/oauth2/start?rd=https%3A%2F%2F$host$request_uri"
+            nginx.ingress.kubernetes.io/auth-url: "https://oauth-proxy.buvis.net/oauth2/auth"
+            nginx.ingress.kubernetes.io/auth-signin: "https://oauth-proxy.buvis.net/oauth2/start?rd=https%3A%2F%2F$host$request_uri"
           hosts:
           - host: hass-editor.buvis.net
             paths:
