@@ -8,10 +8,11 @@ spec:
   rules:
   - host: auth.buvis.net
     http:
-      paths: /outpost.goauthentik.io
-      pathType: Prefix
-      backend:
-        service:
-          name: authentik
-          port:
-            number: 80
+      paths:
+      - pathType: Prefix
+        path: /outpost.goauthentik.io
+        backend:
+          service:
+            name: authentik
+            port:
+              number: 80
