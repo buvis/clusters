@@ -69,6 +69,7 @@ spec:
       serviceMonitor:
         create: true
     authentik:
+      secret_key: ${SECRET_AUTHENTIK_SECRET_KEY}
       postgresql:
         name: authentik
         user: authentik
