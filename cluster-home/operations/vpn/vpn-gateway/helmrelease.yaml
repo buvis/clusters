@@ -50,7 +50,7 @@ spec:
     webhook:
       image:
         repository: ghcr.io/angelnu/gateway-admision-controller
-        tag: v3.8.0
+        tag: v3.9.0
       gatewayDefault: false
       gatewayLabel: setVPNGateway
       gatewayAnnotation: setVPNGateway
