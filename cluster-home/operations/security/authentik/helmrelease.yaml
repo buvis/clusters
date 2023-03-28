@@ -45,7 +45,7 @@ spec:
       tls:
       - secretName: authentik-https-cert
         hosts:
-        - authentik.buvis.net
+        - auth.buvis.net
     postgresql:
       enabled: true
       persistence:
