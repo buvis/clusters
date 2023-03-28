@@ -59,7 +59,7 @@ spec:
     redis:
       enabled: true
       architecture: standalone
-      persistence:
+      global:
         storageClass: openebs-jiva-csi-default
       metrics:
         enabled: true
