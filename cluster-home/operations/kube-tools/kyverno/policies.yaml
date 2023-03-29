@@ -5,6 +5,8 @@ metadata:
   name: kyverno-policies
   namespace: flux-system
 spec:
+  dependsOn:
+  - name: kyverno
   interval: 10m0s
   path: ./cluster-home/operations/kube-tools/kyverno/policies
   prune: true
