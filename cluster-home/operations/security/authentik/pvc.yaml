@@ -5,7 +5,7 @@ metadata:
   name: authentik-db
   namespace: security
   labels:
-    app.kubernetes.io/name: authentik
+    app.kubernetes.io/name: postgresql
     app.kubernetes.io/instance: authentik
 spec:
   storageClassName: openebs-jiva-csi-default
