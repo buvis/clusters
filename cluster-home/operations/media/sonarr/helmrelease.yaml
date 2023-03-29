@@ -67,7 +67,7 @@ spec:
           kubernetes.io/ingress.class: nginx
           cert-manager.io/cluster-issuer: letsencrypt-production
           nginx.ingress.kubernetes.io/auth-url: |-
-            http://ak-outpost-media-sonarr.security.svc.cluster.local/outpost.goauthentik.io/auth/nginx
+            http://ak-outpost-media-sonarr.security.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
           nginx.ingress.kubernetes.io/auth-signin: |-
             https://sonarr.buvis.net/outpost.goauthentik.io/start?rd=$escaped_request_uri
           nginx.ingress.kubernetes.io/auth-response-headers: |-
