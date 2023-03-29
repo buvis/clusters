@@ -7,10 +7,10 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
 spec:
-  tls:
-  - hosts:
-    - sonarr.buvis.net
-    secretName: sonarr-crt
+  #tls:
+  #- hosts:
+    #- sonarr.buvis.net
+    #secretName: sonarr-crt
   rules:
   - host: sonarr.buvis.net
     http:
