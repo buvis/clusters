@@ -6,4 +6,5 @@ metadata:
   namespace: kube-tools
 resources:
 - helmrelease.yaml
+- kyverno.yaml
 - policies.yaml
