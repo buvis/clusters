@@ -64,7 +64,7 @@ spec:
         annotations:
           kubernetes.io/ingress.class: nginx
           cert-manager.io/cluster-issuer: letsencrypt-production
-          authentik.home.arpa/enabled: true
+          authentik.home.arpa/enabled: "true"
         hosts:
         - host: bazarr.buvis.net
           paths:
