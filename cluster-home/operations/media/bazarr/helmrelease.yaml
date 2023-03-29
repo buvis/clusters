@@ -10,8 +10,8 @@ spec:
     namespace: kube-tools
   - name: cert-manager
     namespace: kube-tools
-  - name: oauth2-proxy
-    namespace: kube-tools
+  - name: authentik
+    namespace: security
   - name: vpn-gateway
     namespace: vpn
   - name: openebs
