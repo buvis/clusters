@@ -19,7 +19,7 @@ spec:
   tls:
   - hosts:
     - fn.buvis.net
-    secretName: openfaas-crt
+    secretName: fn-crt
   rules:
   - host: fn.buvis.net
     http:
