@@ -3,6 +3,9 @@ resource "authentik_outpost" "proxy_outpost" {
   type               = "proxy"
   service_connection = authentik_service_connection_kubernetes.local.id
   protocol_providers = [
+    resource.authentik_provider_proxy.media_lidarr.id,
+    resource.authentik_provider_proxy.media_prowlarr.id,
+    resource.authentik_provider_proxy.media_radarr.id,
     resource.authentik_provider_proxy.media_sonarr.id,
     resource.authentik_provider_proxy.openfaas.id,
   ]

@@ -25,8 +25,8 @@ resource "authentik_group" "openfaas_admins" {
   is_superuser = false
   users        = [authentik_user.bob.id]
   attributes = jsonencode({
-    username = data.sops_file.secrets.data["openfaas_username"]
-    password = data.sops_file.secrets.data["openfaas_password"]
+    openfaas_username = data.sops_file.secrets.data["openfaas_username"]
+    openfaas_password = data.sops_file.secrets.data["openfaas_password"]
   })
 }
 
@@ -37,8 +37,8 @@ resource "authentik_provider_proxy" "openfaas" {
   authorization_flow = data.authentik_flow.default_authorization_flow.id
   access_token_validity = "hours=24"
   basic_auth_enabled = true
-  basic_auth_username_attribute = "username"
-  basic_auth_password_attribute = "password"
+  basic_auth_username_attribute = "openfaas_username"
+  basic_auth_password_attribute = "openfaas_password"
 }
 
 resource "authentik_application" "openfaas" {
@@ -47,7 +47,7 @@ resource "authentik_application" "openfaas" {
   group             = "Openfaas"
   protocol_provider = resource.authentik_provider_proxy.openfaas.id
   meta_icon         = "https://avatars.githubusercontent.com/u/27013154?s=200&v=4"
-  meta_description  = "openfaas"
+  meta_description  = "B.U.V.I.S. Functions"
   open_in_new_tab   = true
 }
 
