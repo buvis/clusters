@@ -4,6 +4,7 @@ resource "authentik_outpost" "proxy_outpost" {
   service_connection = authentik_service_connection_kubernetes.local.id
   protocol_providers = [
     resource.authentik_provider_proxy.media_sonarr.id,
+    resource.authentik_provider_proxy.openfaas.id,
   ]
   config = jsonencode({
     authentik_host          = "https://auth.buvis.net",
