@@ -6,12 +6,8 @@ metadata:
   namespace: media
 spec:
   dependsOn:
-  - name: ingress-nginx
-    namespace: kube-tools
-  - name: cert-manager
-    namespace: kube-tools
-  - name: oauth2-proxy
-    namespace: kube-tools
+  - name: lidarr
+    namespace: media
   - name: kube-prometheus-stack
     namespace: monitoring
   interval: 5m
