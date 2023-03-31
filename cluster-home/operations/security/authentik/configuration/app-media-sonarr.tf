@@ -15,7 +15,7 @@ resource "authentik_provider_proxy" "media_sonarr" {
   authorization_flow = data.authentik_flow.default_authorization_flow.id
   access_token_validity = "hours=24"
   basic_auth_enabled = true
-  basic_auth_username_attribute = "sonarr_password"
+  basic_auth_username_attribute = "sonarr_username"
   basic_auth_password_attribute = "sonarr_password"
 }
 
