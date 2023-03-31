@@ -9,8 +9,9 @@ resource "authentik_user" "openfaas_api" {
 }
 
 resource "authentik_token" "openfaas_api" {
-  identifier = "openfaas-api"
+  identifier = "service-account-openfaas-api-password"
   user = authentik_user.openfaas_api.id
+  intent = "app_password"
 }
 
 resource "authentik_group" "openfaas_users" {
