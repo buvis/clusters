@@ -6,6 +6,12 @@ metadata:
   namespace: radio
 spec:
   dependsOn:
+  - name: ingress-nginx
+    namespace: kube-tools
+  - name: cert-manager
+    namespace: kube-tools
+  - name: authentik
+    namespace: security
   - name: openebs
     namespace: storage
   interval: 5m

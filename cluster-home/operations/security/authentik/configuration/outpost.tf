@@ -20,6 +20,7 @@ resource "authentik_outpost" "proxy_outpost" {
     resource.authentik_provider_proxy.monitoring_thanos.id,
     resource.authentik_provider_proxy.openfaas.id,
     resource.authentik_provider_proxy.radio_home.id,
+    resource.authentik_provider_proxy.storage_kopia.id,
     resource.authentik_provider_proxy.smarthome_hass_editor.id,
   ]
   config = jsonencode({
