@@ -52,6 +52,22 @@ spec:
         ports:
           http:
             port: 6600
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: nginx
+          cert-manager.io/cluster-issuer: letsencrypt-production
+          authentik.home.arpa/enabled: "true"
+        hosts:
+        - host: radio-home.buvis.net
+          paths:
+          - path: /
+            pathType: Prefix
+        tls:
+        - hosts:
+          - radio-home.buvis.net
+          secretName: radio-home-crt
     persistence:
       media:
         enabled: true
