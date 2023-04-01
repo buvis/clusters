@@ -15,7 +15,7 @@ resource "authentik_provider_proxy" "radio_home" {
 resource "authentik_application" "radio_home" {
   name              = "Mopidy"
   slug              = "mopidy"
-  group             = "radio"
+  group             = "Radio"
   protocol_provider = resource.authentik_provider_proxy.radio_home.id
   meta_icon         = "https://raw.githubusercontent.com/maschhoff/docker/master/mopidy/mopidy.png"
   meta_description  = "Radio at home"

@@ -15,7 +15,7 @@ resource "authentik_provider_proxy" "storage_kopia" {
 resource "authentik_application" "storage_kopia" {
   name              = "Kopia"
   slug              = "kopia"
-  group             = "storage"
+  group             = "Storage"
   protocol_provider = resource.authentik_provider_proxy.storage_kopia.id
   meta_icon         = "https://github.com/kopia/kopia/raw/master/app/assets/icon.ico"
   meta_description  = "Backups"
