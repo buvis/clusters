@@ -3,11 +3,18 @@ resource "authentik_outpost" "proxy_outpost" {
   type               = "proxy"
   service_connection = authentik_service_connection_kubernetes.local.id
   protocol_providers = [
+    resource.authentik_provider_proxy.gtd_zettelkasten.id,
+    resource.authentik_provider_proxy.media_bazarr.id,
+    resource.authentik_provider_proxy.media_jellyseerr.id,
     resource.authentik_provider_proxy.media_lidarr.id,
+    resource.authentik_provider_proxy.media_nzbget.id,
     resource.authentik_provider_proxy.media_prowlarr.id,
+    resource.authentik_provider_proxy.media_qb.id,
     resource.authentik_provider_proxy.media_radarr.id,
     resource.authentik_provider_proxy.media_sonarr.id,
+    resource.authentik_provider_proxy.media_tdarr.id,
     resource.authentik_provider_proxy.openfaas.id,
+    resource.authentik_provider_proxy.smarthome_hass_editor.id,
   ]
   config = jsonencode({
     authentik_host          = "https://auth.buvis.net",
