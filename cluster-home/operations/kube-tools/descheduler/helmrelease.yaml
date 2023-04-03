@@ -74,7 +74,3 @@ spec:
               excludeOwnerKinds:
               - "Job"
               minPodLifeTimeSeconds: 3600
-        PodLifeTime:
-          enabled: true
-          params:
-            MaxPodLifeTimeSeconds: 604800
