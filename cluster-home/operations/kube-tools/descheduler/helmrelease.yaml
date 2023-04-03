@@ -77,4 +77,4 @@ spec:
         PodLifeTime:
           enabled: true
           params:
-            maxPodLifeTimeSeconds: 604800
+            MaxPodLifeTimeSeconds: 604800
