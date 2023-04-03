@@ -39,7 +39,7 @@ spec:
           enabled: true
           params:
             nodeFit: true
-        RemovePodsViolatingInterPodAffinity:
+        RemovePodsViolatingNodeAffinity:
           enabled: true
           params:
             nodeAffinityType:
