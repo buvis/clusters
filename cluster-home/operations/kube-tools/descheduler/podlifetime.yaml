@@ -1,0 +1,17 @@
+---
+apiVersion: "descheduler/v1alpha2"
+kind: "DeschedulerPolicy"
+profiles:
+- name: ProfileName
+  pluginConfig:
+  - name: "DefaultEvictor"
+  - name: "PodLifeTime"
+    args:
+      maxPodLifeTimeSeconds: 604800
+  plugins:
+    evict:
+      enabled:
+      - "DefaultEvictor"
+    deschedule:
+      enabled:
+      - "PodLifeTime"

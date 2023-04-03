@@ -27,7 +27,10 @@ spec:
         namespace: flux-system
       interval: 10m
   values:
-    schedule: "*/5 * * * *"
+    kind: Deployment
+    replicas: 2
+    leaderElection:
+      enabled: true
     deschedulerPolicy:
       strategies:
         RemoveDuplicates:
@@ -35,8 +38,16 @@ spec:
         RemovePodsViolatingInterPodAntiAffinity:
           enabled: true
           params:
+            nodeFit: true
+        RemovePodsViolatingInterPodAffinity:
+          enabled: true
+          params:
             nodeAffinityType:
             - requiredDuringSchedulingIgnoredDuringExecution
+        RemovePodsViolatingTopologySpreadConstraint:
+          enabled: true
+          params:
+            includeSoftConstraints: true
         LowNodeUtilization:
           enabled: true
           params:
@@ -53,14 +64,12 @@ spec:
           enabled: true
           params:
             podsHavingTooManyRestarts:
-              podRestartThreshold: 70
+              podRestartThreshold: 50
               includingInitContainers: true
         RemoveFailedPods:
           enabled: true
           params:
             failedPods:
-              reasons:
-              - "NodeAffinity"
               includingInitContainers: true
               excludeOwnerKinds:
               - "Job"
