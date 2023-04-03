@@ -38,12 +38,12 @@ spec:
   values:
     image:
       repository: haveagitgat/tdarr
-      tag: 2.00.19
+      tag: 2.00.20
       pullPolicy: IfNotPresent
     additionalContainers:
       node:
         name: node
-        image: haveagitgat/tdarr_node:2.00.19
+        image: haveagitgat/tdarr_node:2.00.20
         imagePullPolicy: IfNotPresent
         env:
         - name: TZ
