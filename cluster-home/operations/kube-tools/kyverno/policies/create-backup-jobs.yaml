@@ -29,29 +29,29 @@ spec:
               snapshot.home.arpa/enabled: "true"
               app.kubernetes.io/name: "*"
               app.kubernetes.io/instance: "*"
-      context:
-      - name: appName
-        variable:
-          jmesPath: "request.object.metadata.labels.\"app.kubernetes.io/name\""
-      - name: claimName
-        variable:
-          jmesPath: "request.object.metadata.name"
-      - name: namespace
-        variable:
-          jmesPath: "request.object.metadata.namespace"
-      - name: nodeAffinity
-        variable:
-          value:
-            ignored: "{{ (request.object.metadata.labels.\"snapshot.home.arpa/ignoreAffinity\" || 'false') == 'false' }}"
-            labels:
-            - key: app.kubernetes.io/name
-              operator: "In"
-              values:
-              - "{{ request.object.metadata.labels.\"app.kubernetes.io/name\" }}"
-            - key: app.kubernetes.io/instance
-              operator: "In"
-              values:
-              - "{{ request.object.metadata.labels.\"app.kubernetes.io/instance\" }}"
+    context:
+    - name: appName
+      variable:
+        jmesPath: "request.object.metadata.labels.\"app.kubernetes.io/name\""
+    - name: claimName
+      variable:
+        jmesPath: "request.object.metadata.name"
+    - name: namespace
+      variable:
+        jmesPath: "request.object.metadata.namespace"
+    - name: nodeAffinity
+      variable:
+        value:
+          ignored: "{{ (request.object.metadata.labels.\"snapshot.home.arpa/ignoreAffinity\" || 'false') == 'false' }}"
+          labels:
+          - key: app.kubernetes.io/name
+            operator: "In"
+            values:
+            - "{{ request.object.metadata.labels.\"app.kubernetes.io/name\" }}"
+          - key: app.kubernetes.io/instance
+            operator: "In"
+            values:
+            - "{{ request.object.metadata.labels.\"app.kubernetes.io/instance\" }}"
       generate:
         synchronize: true
         apiVersion: batch/v1
