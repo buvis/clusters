@@ -49,7 +49,6 @@ spec:
       DB_PASSWORD: ${SECRET_MONICA_DB_PASSWORD}
       DB_USERNAME: monica
       DEFAULT_MAX_UPLOAD_SIZE: 2000
-      TZ: ${TIMEZONE}
       enabled: false
     service:
       main:

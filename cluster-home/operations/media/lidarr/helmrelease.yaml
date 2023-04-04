@@ -42,7 +42,6 @@ spec:
       repository: ghcr.io/onedr0p/lidarr
       tag: 1.0.2.2592@sha256:1b2c820402c2de828144ba32e9f1a75d88e2dd06097d0e6df2ad8eed13cdcac2
     env:
-      TZ: ${TIMEZONE}
       LIDARR_API_KEY: ${SECRET_LIDARR_API_KEY}
     podAnnotations:
       setVPNGateway: "true"

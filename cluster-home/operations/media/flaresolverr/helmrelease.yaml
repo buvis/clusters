@@ -35,7 +35,6 @@ spec:
       tag: v3.1.2
     controllerType: deployment
     env:
-      TZ: ${TIMEZONE}
       PUID: 1001
       PGID: 1001
     podAnnotations:

@@ -42,7 +42,6 @@ spec:
       repository: ghcr.io/onedr0p/sonarr-develop
       tag: 4.0.0.425@sha256:2cb38576ff8e92a39716956cce2c0e89ed901840a93992fadb28272e888e213d
     env:
-      TZ: ${TIMEZONE}
       SONARR__APPLICATION_URL: https://sonarr.buvis.net
       SONARR__API_KEY: ${SECRET_SONARR_API_KEY}
     podAnnotations:

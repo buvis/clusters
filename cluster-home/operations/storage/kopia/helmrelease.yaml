@@ -51,7 +51,6 @@ spec:
       repository: ghcr.io/onedr0p/kopia
       tag: 0.12.1@sha256:42b06533d804eab5fdfa7846599a87aca20eb51ff96ce4dabd8c1b1f1e858b0d
     env:
-      TZ: "${TIMEZONE}"
       KOPIA_PASSWORD: "none"
     command: kopia
     args:

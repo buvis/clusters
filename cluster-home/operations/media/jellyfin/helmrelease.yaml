@@ -38,7 +38,6 @@ spec:
       repository: ghcr.io/onedr0p/jellyfin
       tag: 10.8.9@sha256:01a6497a1290b73f63251aebe6d01327c15b3413c3e1013c2a396ffe116ced4d
     env:
-      TZ: ${TIMEZONE}
       JELLYFIN_CACHE_DIR: /config/cache
       DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
     persistence:

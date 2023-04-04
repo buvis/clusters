@@ -35,8 +35,6 @@ spec:
     image:
       repository: ckulka/baikal
       tag: 0.9.3-nginx
-    env:
-      TZ: ${TIMEZONE}
     service:
       main:
         ports:

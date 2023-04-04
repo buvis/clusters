@@ -46,8 +46,6 @@ spec:
         image: haveagitgat/tdarr_node:2.00.20
         imagePullPolicy: IfNotPresent
         env:
-        - name: TZ
-          value: ${TIMEZONE}
         - name: nodeID
           value: node
         - name: serverIP
@@ -61,8 +59,6 @@ spec:
           mountPath: /media
         - name: shared
           mountPath: /shared
-    env:
-      TZ: ${TIMEZONE}
     persistence:
       config:
         enabled: true

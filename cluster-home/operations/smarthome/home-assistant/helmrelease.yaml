@@ -39,8 +39,6 @@ spec:
     image:
       repository: ghcr.io/home-assistant/home-assistant
       tag: 2023.3.6
-    env:
-      TZ: ${TIMEZONE}
     persistence:
       config:
         enabled: true

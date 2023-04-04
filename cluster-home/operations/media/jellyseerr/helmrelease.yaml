@@ -42,7 +42,6 @@ spec:
       repository: docker.io/fallenbagel/jellyseerr
       tag: 1.4.1
     env:
-      TZ: ${TIMEZONE}
       LOG_LEVEL: debug
     podAnnotations:
       setVPNGateway: "true"

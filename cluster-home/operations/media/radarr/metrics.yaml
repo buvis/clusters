@@ -38,7 +38,6 @@ spec:
       repository: ghcr.io/onedr0p/exportarr
       tag: v1.1.0
     env:
-      TZ: ${TIMEZONE}
       PORT: "7373"
       URL: "http://radarr.media.svc.cluster.local:7878"
       ENABLE_ADDITIONAL_METRICS: "false"

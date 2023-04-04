@@ -42,7 +42,6 @@ spec:
       repository: ghcr.io/onedr0p/qbittorrent
       tag: 4.5.2@sha256:a4a66d66ed11c5e3570078daf4e4adeb8a7f88b000a64aa760d46ef12fa7a4c6
     env:
-      TZ: ${TIMEZONE}
       UMASK: "022"
       QBITTORRENT__PORT: 8080
       QBITTORRENT__USE_PROFILE: "true"

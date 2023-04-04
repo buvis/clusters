@@ -32,8 +32,6 @@ spec:
       tag: v0.21
     controller:
       replicas: 3
-    env:
-      TZ: "${TIMEZONE}"
     service:
       main:
         enabled: true
