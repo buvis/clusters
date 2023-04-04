@@ -8,3 +8,4 @@ resources:
 - helmrelease.yaml
 - kyverno.yaml
 - policies.yaml
+- rbac.yaml
