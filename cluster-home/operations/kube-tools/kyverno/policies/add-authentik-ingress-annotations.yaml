@@ -2,7 +2,7 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: authentik-ingress-annotations
+  name: add-authentik-ingress-annotations
   namespace: kube-system
   annotations:
     policies.kyverno.io/title: Authentik ingress annotations
