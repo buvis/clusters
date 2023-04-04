@@ -1,0 +1,32 @@
+---
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: validate-one-ingress-host
+  annotations:
+    policies.kyverno.io/title: Validate One Ingress Host
+    policies.kyverno.io/subject: Ingress
+    policies.kyverno.io/description: >-
+      An Ingress host is a URL at which services may be made available externally.
+      This policy checks an incoming Ingress resource to ensure that only a single
+      host is specified in a given manifest.
+spec:
+  validationFailureAction: audit
+  mutateExistingOnPolicyUpdate: true
+  rules:
+  - name: deny-multiple-hosts
+    match:
+      resources:
+        kinds:
+        - Ingress
+    preconditions:
+      all:
+      - key: "{{ request.operation }}"
+        operator: Equals
+        value: CREATE
+      - key: "{{ request.object.spec.rules[].host | length(@)}}"
+        operator: GreaterThan
+        value: 1
+    validate:
+      message: "An Ingress resource may only contain a single host entry."
+      deny: {}
