@@ -47,7 +47,7 @@ spec:
             - mountPath: /etc/localtime
               name: timezone
               readOnly: true
-              subPath: &timezone {{TIMEZONE}}
+              subPath: &timezone ${TIMEZONE}
             - mountPath: /usr/share/zoneinfo
               name: timezone
               readOnly: true
