@@ -5,6 +5,7 @@ metadata:
   name: prowlarr-config
   namespace: media
   labels:
+    snapshot.home.arpa/enabled: "true"
     app.kubernetes.io/name: prowlarr
     app.kubernetes.io/instance: prowlarr
 spec:

@@ -5,6 +5,7 @@ metadata:
   name: tdarr-config
   namespace: media
   labels:
+    snapshot.home.arpa/enabled: "true"
     app.kubernetes.io/name: tdarr
     app.kubernetes.io/instance: tdarr
 spec:
@@ -21,6 +22,7 @@ metadata:
   name: tdarr-data
   namespace: media
   labels:
+    snapshot.home.arpa/enabled: "true"
     app.kubernetes.io/name: tdarr
     app.kubernetes.io/instance: tdarr
 spec:

@@ -5,6 +5,7 @@ metadata:
   name: linkace-db
   namespace: gtd
   labels:
+    snapshot.home.arpa/enabled: "true"
     app.kubernetes.io/name: mariadb
     app.kubernetes.io/instance: linkace-db
 spec:

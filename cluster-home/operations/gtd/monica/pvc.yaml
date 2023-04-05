@@ -5,6 +5,7 @@ metadata:
   name: monica-config
   namespace: gtd
   labels:
+    snapshot.home.arpa/enabled: "true"
     app.kubernetes.io/name: monica
     app.kubernetes.io/instance: monica
 spec:
