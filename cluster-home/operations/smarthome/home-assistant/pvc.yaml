@@ -6,7 +6,7 @@ metadata:
   namespace: smarthome
   labels:
     snapshot.home.arpa/enabled: "true"
-    app.kubernetes.io/name: home-assistant
+    app.kubernetes.io/name: hass
     app.kubernetes.io/instance: hass
 spec:
   storageClassName: openebs-jiva-csi-default
