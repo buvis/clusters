@@ -36,7 +36,7 @@ spec:
       persistence:
         enabled: true
         storageClassName: openebs-jiva-csi-default
-        size: 2Gi
+        size: 5Gi
       config:
         table_manager:
           retention_deletes_enabled: true
