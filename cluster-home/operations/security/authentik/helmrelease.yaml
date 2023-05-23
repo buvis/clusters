@@ -12,11 +12,11 @@ spec:
     namespace: kube-tools
   interval: 5m
   install:
-    timeout: 15m
+    timeout: 25m
     remediation:
       retries: 5
   upgrade:
-    timeout: 15m
+    timeout: 25m
     remediation:
       retries: 5
       remediateLastFailure: true
