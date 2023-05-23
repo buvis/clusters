@@ -8,4 +8,4 @@ resources:
 - helmrelease.yaml
 - cert-manager.yaml
 - operators.yaml
-- prometheusrule.yaml
+- prometheus-rules.yaml
