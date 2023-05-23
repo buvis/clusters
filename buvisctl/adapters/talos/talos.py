@@ -21,6 +21,7 @@ class TalosAdapter:
             "config",
             cfg.cluster_name,
             f"https://{cfg.ip_master}:{PORT_K8S_API}",
+            "--force",
             "--output-dir",
             f"{cfg.talos.dir_generated_configuration}",
             "--config-patch",

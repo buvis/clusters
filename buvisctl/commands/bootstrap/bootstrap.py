@@ -31,7 +31,6 @@ class CommandBootstrap:
     def infra_create(self):
         for tf in self.tf:
             with console.status(f"Initializing {tf.name} Terraform workspace"):
-
                 res = tf.init()
 
                 if res.is_ok():
