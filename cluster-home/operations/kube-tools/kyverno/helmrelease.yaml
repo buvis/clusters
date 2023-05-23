@@ -32,19 +32,19 @@ spec:
     grafana:
       enabled: true
     serviceMonitor:
-      enabled: false
+      enabled: true
       interval: 1m
     backgroundController:
       serviceMonitor:
-        enabled: false
+        enabled: true
         interval: 1m
     cleanupController:
       serviceMonitor:
-        enabled: false
+        enabled: true
         interval: 1m
     reportsController:
       serviceMonitor:
-        enabled: false
+        enabled: true
         interval: 1m
     topologySpreadConstraints:
     - maxSkew: 1

@@ -54,7 +54,7 @@ spec:
       metrics:
         enabled: true
         serviceMonitor:
-          enabled: false
+          enabled: true
       postgresqlMaxConnections: 500
       postgresqlPassword: ${SECRET_AUTHENTIK_DB_PASSWORD}
     redis:
@@ -65,10 +65,10 @@ spec:
       metrics:
         enabled: true
         serviceMonitor:
-          enabled: false
+          enabled: true
     prometheus:
       serviceMonitor:
-        create: false
+        create: true
     authentik:
       secret_key: ${SECRET_AUTHENTIK_SECRET_KEY}
       postgresql:
