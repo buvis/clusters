@@ -29,7 +29,7 @@
 - op: add
   path: /machine/install/diskSelector
   value:
-    busPath: /pci0000:00/0000:00:05.0/virtio1/host0/target0:0:0/0:0:0:0/
+    size: <100GB
 - op: add
   path: /machine/kubelet
   value:
