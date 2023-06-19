@@ -12,7 +12,6 @@ metadata:
       host is specified in a given manifest.
 spec:
   validationFailureAction: audit
-  mutateExistingOnPolicyUpdate: true
   rules:
   - name: deny-multiple-hosts
     match:
