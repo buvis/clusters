@@ -47,6 +47,10 @@ spec:
       - qbittorrent.media.svc.cluster.local
       - -p
       - "8080"
+      - -U
+      - ${SECRET_QB_USERNAME}
+      - -P
+      - ${SECRET_QB_PASSWORD}
     service:
       main:
         enabled: false
