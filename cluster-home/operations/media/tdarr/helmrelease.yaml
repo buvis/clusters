@@ -38,7 +38,7 @@ spec:
   values:
     image:
       repository: haveagitgat/tdarr
-      tag: 2.00.24
+      tag: 2.00.25
       pullPolicy: IfNotPresent
     additionalContainers:
       node:
