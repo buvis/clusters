@@ -39,8 +39,8 @@ spec:
       interval: 5m
   values:
     image:
-      repository: ghcr.io/onedr0p/nzbget
-      tag: 21.1@sha256:4735c87fbc75b781039c958292c485b31078fc886e682b641b86fc09e3621956
+      repository: lscr.io/linuxserver/nzbget
+      tag: latest@sha256:63a1ce6e1ce00687c957603b032b591e194a9bbf91f4a9e83f06d94dad66c0c8
     podAnnotations:
       setVPNGateway: "true"
     persistence:
