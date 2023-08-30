@@ -29,7 +29,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.buvis.net
       chart: mopidy
-      version: 0.5.2
+      version: 0.5.3
       sourceRef:
         kind: HelmRepository
         name: buvis
@@ -38,7 +38,7 @@ spec:
   values:
     image:
       repository: ghcr.io/buvis/mopidy
-      tag: v3.67.0@sha256:3d2e5f0b9b47921e35b9345b0fa4639797c88ede9dc5630d60d464b6b27a2f85
+      tag: v3.68.0@sha256:f4e3e0810dac2f6cc2d70dd622b2e877822ad5e3062f6ca1c023de58c6617213
     service:
       main:
         enabled: true
