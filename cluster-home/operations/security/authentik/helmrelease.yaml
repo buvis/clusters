@@ -25,7 +25,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.goauthentik.io
       chart: authentik
-      version: 2023.8.1
+      version: 2023.6.3
       sourceRef:
         kind: HelmRepository
         name: authentik
@@ -57,8 +57,6 @@ spec:
           enabled: true
       postgresqlMaxConnections: 500
       postgresqlPassword: ${SECRET_AUTHENTIK_DB_PASSWORD}
-      auth:
-        postgresPassword: ${SECRET_AUTHENTIK_DB_POSTGRES_PASSWORD}
     redis:
       enabled: true
       architecture: standalone
