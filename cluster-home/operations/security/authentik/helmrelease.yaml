@@ -57,8 +57,6 @@ spec:
           enabled: true
       postgresqlMaxConnections: 500
       postgresqlPassword: ${SECRET_AUTHENTIK_DB_PASSWORD}
-      image:
-        tag: 15.2.0-debian-11-r26
     redis:
       enabled: true
       architecture: standalone
