@@ -40,7 +40,7 @@ spec:
   values:
     image:
       repository: ghcr.io/onedr0p/sonarr-develop
-      tag: 4.0.0.655@sha256:6d38becb362bd7f1786a284ee94fe7b7d695598d5555c52902e81ad5a34a22ea
+      tag: 4.0.0.657@sha256:7cad79cd0c852ac74c0f8088235bcd8ed50623db10090d38be680db31c4183d0
     env:
       SONARR__APPLICATION_URL: https://sonarr.buvis.net
       SONARR__API_KEY: ${SECRET_SONARR_API_KEY}
