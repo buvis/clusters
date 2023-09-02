@@ -49,6 +49,7 @@ spec:
       DB_PASSWORD: ${SECRET_MONICA_DB_PASSWORD}
       DB_USERNAME: monica
       DEFAULT_MAX_UPLOAD_SIZE: 2000
+      DEFAULT_MAX_STORAGE_SIZE: 2048
       enabled: false
     service:
       main:
@@ -60,6 +61,10 @@ spec:
       config:
         enabled: true
         existingClaim: monica-config
+      storage:
+        enabled: true
+        existingClaim: monica-storage
+        mountPath: /var/www/html/storage
     ingress:
       main:
         enabled: true
