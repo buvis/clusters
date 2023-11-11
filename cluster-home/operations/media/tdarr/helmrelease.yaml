@@ -38,7 +38,7 @@ spec:
   values:
     image:
       repository: haveagitgat/tdarr
-      tag: 2.14.02@sha256:0324970c6019e6c64e6393f483c4b9131700710a903dea741f71e3104220ec72
+      tag: 2.15.01@sha256:1a468d09e1713728751f285f63c8ca52695c365a2b8fc0994cd632d1ea870f97
       pullPolicy: IfNotPresent
     additionalContainers:
       node:
