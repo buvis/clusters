@@ -29,7 +29,7 @@ spec:
   values:
     image:
       repository: ghcr.io/angelnu/pod-gateway
-      tag: v1.8.1
+      tag: v1.9.0
     DNS: 172.16.1.1
     routed_namespaces:
     - media
