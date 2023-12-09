@@ -73,8 +73,8 @@ spec:
           value: ${SECRET_VPN_GATEWAY_USER}
         - name: OPENVPN_PASSWORD
           value: ${SECRET_VPN_GATEWAY_PASSWORD}
-        - name: SERVER_COUNTRIES
-          value: ${SECRET_VPN_GATEWAY_COUNTRIES}
+        #- name: SERVER_COUNTRIES
+          #value: ${SECRET_VPN_GATEWAY_COUNTRIES}
         - name: FIREWALL
           value: "off"
         - name: DOT
