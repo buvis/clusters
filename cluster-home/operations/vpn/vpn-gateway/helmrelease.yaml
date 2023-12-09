@@ -66,15 +66,15 @@ spec:
         - name: VPN_SERVICE_PROVIDER
           value: ${SECRET_VPN_GATEWAY_PROVIDER}
         - name: VPN_TYPE
-          value: wireguard
-        - name: WIREGUARD_PRIVATE_KEY
-          value: ${SECRET_VPN_GATEWAY_TOKEN}
+          value: openvpn
+        #- name: WIREGUARD_PRIVATE_KEY
+          #value: ${SECRET_VPN_GATEWAY_TOKEN}
         #- name: VPN_INTERFACE
           #value: tun0
-        #- name: OPENVPN_USER
-          #value: ${SECRET_VPN_GATEWAY_USER}
-        #- name: OPENVPN_PASSWORD
-          #value: ${SECRET_VPN_GATEWAY_PASSWORD}
+        - name: OPENVPN_USER
+          value: ${SECRET_VPN_GATEWAY_USER}
+        - name: OPENVPN_PASSWORD
+          value: ${SECRET_VPN_GATEWAY_PASSWORD}
         #- name: SERVER_COUNTRIES
           #value: ${SECRET_VPN_GATEWAY_COUNTRIES}
         #- name: FIREWALL
