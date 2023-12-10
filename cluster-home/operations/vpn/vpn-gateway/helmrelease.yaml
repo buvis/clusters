@@ -41,7 +41,7 @@ spec:
         port: ${SECRET_VPN_BT_FORWARD_PORT}
     settings:
       NOT_ROUTED_TO_GATEWAY_CIDRS: ${NETWORK_CIDR_K8S_CLUSTER} ${NETWORK_CIDR_K8S_SERVICE} ${NETWORK_CIDR_K8S_SERVICE_EXTERNAL} ${NETWORK_CIDR_HOST}
-      VPN_INTERFACE: tun0
+      VPN_INTERFACE: wg0
       VPN_TRAFFIC_PORT: ${SECRET_VPN_GATEWAY_PORT}
       VPN_BLOCK_OTHER_TRAFFIC: true
       VPN_LOCAL_CIDRS: ${NETWORK_CIDR_K8S_CLUSTER} ${NETWORK_CIDR_K8S_SERVICE} ${NETWORK_CIDR_K8S_SERVICE_EXTERNAL} ${NETWORK_CIDR_HOST}
@@ -64,26 +64,27 @@ spec:
             tag: v3.36.0
         env:
         - name: VPN_SERVICE_PROVIDER
-          value: ${SECRET_VPN_GATEWAY_PROVIDER}
+          value: custom
         - name: VPN_TYPE
-          value: openvpn
+          value: wireguard
         - name: VPN_INTERFACE
-          value: tun0
-        - name: OPENVPN_USER
-          value: ${SECRET_VPN_GATEWAY_USER}
-        - name: OPENVPN_PASSWORD
-          value: ${SECRET_VPN_GATEWAY_PASSWORD}
-        # BUG: https://github.com/qdm12/gluetun/issues/1599
-        #- name: SERVER_COUNTRIES
-          #value: ${SECRET_VPN_GATEWAY_COUNTRIES}
-        - name: FIREWALL
-          value: "off"
-        - name: DOT
-          value: "off"
-        - name: HEALTH_TARGET_ADDRESS
-          value: "1.1.1.1"
-        - name: HEALTH_VPN_DURATION_INITIAL
-          value: 30s
+          value: wg0
+        - name: WIREGUARD_PUBLIC_KEY
+          value: ${SECRET_VPN_GATEWAY_WG_PUBKEY}
+        - name: WIREGUARD_PRIVATE_KEY
+          value: ${SECRET_VPN_GATEWAY_WG_PRIVKEY}
+        - name: WIREGUARD_ADDRESSES
+          value: 10.2.0.2/32
+        - name: VPN_ENDPOINT_IP
+          value: ${SECRET_VPN_GATEWAY_ENDPOINT_IP}
+        - name: VPN_ENDPOINT_PORT
+          valu: ${SECRET_VPN_GATEWAY_ENDPOINT_PORT}
+        - name: VPN_DNS_ADDRESS
+          value: 10.2.0.1
+        - name: VPN_PORT_FORWARDING_PROVIDER
+          value: ${SECRET_VPN_GATEWAY_PROVIDER}
+        - name: VPN_PORT_FORWARDING
+          value: on
         - name: TZ
           value: ${TIMEZONE}
         securityContext:
