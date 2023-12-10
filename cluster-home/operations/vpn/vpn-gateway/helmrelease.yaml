@@ -77,8 +77,8 @@ spec:
           value: ${SECRET_VPN_GATEWAY_PASSWORD}
         - name: SERVER_COUNTRIES
           value: ${SECRET_VPN_GATEWAY_COUNTRIES}
-        #- name: FIREWALL_OUTBOUND_SUBNETS
-          #value: ${NETWORK_CIDR_K8S_SERVICE}
+        - name: FIREWALL_OUTBOUND_SUBNETS
+          value: ${NETWORK_CIDR_K8S_CLUSTER},${NETWORK_CIDR_K8S_SERVICE},${NETWORK_CIDR_K8S_SERVICE_EXTERNAL},${NETWORK_CIDR_HOST}
         #- name: DOT
           #value: off
         - name: TZ
