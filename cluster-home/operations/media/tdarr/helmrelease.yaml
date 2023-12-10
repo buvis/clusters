@@ -43,7 +43,7 @@ spec:
     additionalContainers:
       node:
         name: node
-        image: haveagitgat/tdarr_node:2.16.01@sha256:b79a5705be433c3d2d66e0856438ed5bdddfa3298413834f64b0d47cb28f2d80
+        image: haveagitgat/tdarr_node:2.17.01@sha256:3ff0913202ddabce321ef99cd944a5cb65946c33677324dd7bd4fd706f0e5682
         imagePullPolicy: IfNotPresent
         env:
         - name: nodeID
