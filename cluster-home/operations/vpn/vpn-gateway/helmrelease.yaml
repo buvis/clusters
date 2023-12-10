@@ -80,7 +80,7 @@ spec:
         - name: LOG_LEVEL
           value: debug
         - name: FIREWALL_OUTBOUND_SUBNETS
-          value: ${NETWORK_CIDR_K8S_CLUSTER} ${NETWORK_CIDR_K8S_SERVICE} ${NETWORK_CIDR_K8S_SERVICE_EXTERNAL} ${NETWORK_CIDR_HOST}
+          value: ${NETWORK_CIDR_K8S_CLUSTER},${NETWORK_CIDR_K8S_SERVICE},${NETWORK_CIDR_K8S_SERVICE_EXTERNAL},${NETWORK_CIDR_HOST}
         - name: DOT
           value: off
         - name: HEALTH_TARGET_ADDRESS
