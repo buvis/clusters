@@ -78,7 +78,7 @@ spec:
         - name: VPN_ENDPOINT_IP
           value: ${SECRET_VPN_GATEWAY_ENDPOINT_IP}
         - name: VPN_ENDPOINT_PORT
-          valu: ${SECRET_VPN_GATEWAY_ENDPOINT_PORT}
+          value: ${SECRET_VPN_GATEWAY_ENDPOINT_PORT}
         - name: VPN_DNS_ADDRESS
           value: 10.2.0.1
         - name: VPN_PORT_FORWARDING_PROVIDER
