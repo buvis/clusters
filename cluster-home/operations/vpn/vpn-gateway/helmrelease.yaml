@@ -75,10 +75,10 @@ spec:
           value: ${SECRET_VPN_GATEWAY_USER}
         - name: OPENVPN_PASSWORD
           value: ${SECRET_VPN_GATEWAY_PASSWORD}
-        - name: SERVER_COUNTRIES
-          value: ${SECRET_VPN_GATEWAY_COUNTRIES}
         - name: FIREWALL_OUTBOUND_SUBNETS
           value: ${NETWORK_CIDR_K8S_CLUSTER}
+        - name: VPN_PORT_FORWARDING_LISTENING_PORT
+          value: ${SECRET_VPN_BT_FORWARD_PORT}
         - name: DOT
           value: off
         - name: TZ
