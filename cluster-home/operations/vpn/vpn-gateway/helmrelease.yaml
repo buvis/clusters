@@ -60,33 +60,17 @@ spec:
         type: gluetun
         gluetun:
           image:
-            repository: docker.io/qmcgaw/gluetun
-            tag: v3.36.0
+            repository: ghcr.io/qdm12/gluetun
+            tag: latest@sha256:729e54e9ac781f634157d43b564e02b0f3d8cb60aa70234f20db70f3c8abd566
         env:
         - name: VPN_SERVICE_PROVIDER
           value: ${SECRET_VPN_GATEWAY_PROVIDER}
-        - name: VPN_TYPE
-          value: openvpn
         - name: VPN_INTERFACE
           value: tun0
-        - name: OPENVPN_VERBOSITY
-          value: 3
-        - name: LOG_LEVEL
-          value: debug
         - name: OPENVPN_USER
           value: ${SECRET_VPN_GATEWAY_USER}
         - name: OPENVPN_PASSWORD
           value: ${SECRET_VPN_GATEWAY_PASSWORD}
-        - name: FIREWALL
-          value: off
-        - name: DOT
-          value: off
-        - name: HEALTH_TARGET_ADDRESS
-          value: 1.1.1.1
-        - name: HEALTH_VPN_DURATION_INITIAL
-          value: 30s
-        - name: TZ
-          value: ${TIMEZONE}
         securityContext:
           capabilities:
             add:
