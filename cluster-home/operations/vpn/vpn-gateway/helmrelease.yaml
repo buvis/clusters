@@ -81,16 +81,8 @@ spec:
           value: debug
         - name: FIREWALL_OUTBOUND_SUBNETS
           value: ${NETWORK_CIDR_K8S_SERVICE}
-        - name: DNS_KEEP_NAMESERVER
-          value: off
-        - name: DNS_ADDRESS
-          value: 172.24.0.10
         - name: DOT
           value: off
-        - name: HEALTH_TARGET_ADDRESS
-          value: 1.1.1.1
-        - name: HEALTH_VPN_DURATION_INITIAL
-          value: 30s
         - name: TZ
           value: ${TIMEZONE}
         securityContext:
