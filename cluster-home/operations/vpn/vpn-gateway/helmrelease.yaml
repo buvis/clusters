@@ -74,13 +74,15 @@ spec:
         - name: OPENVPN_PASSWORD
           value: ${SECRET_VPN_GATEWAY_PASSWORD}
         - name: FIREWALL
-          value: "off"
+          value: off
         - name: DOT
-          value: "off"
+          value: off
+        - name: FIREWALL_OUTBOUND_SUBNETS
+          value: 10.0.0.0/8
         - name: DNS_PLAINTEXT_ADDRESS
-          value: "1.1.1.1"
+          value: 172.24.0.10
         - name: HEALTH_TARGET_ADDRESS
-          value: "1.1.1.1"
+          value: 1.1.1.1
         - name: HEALTH_VPN_DURATION_INITIAL
           value: 30s
         - name: TZ
