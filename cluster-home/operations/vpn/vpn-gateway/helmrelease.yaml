@@ -85,6 +85,14 @@ spec:
           value: ${SECRET_VPN_GATEWAY_PROVIDER}
         - name: VPN_PORT_FORWARDING
           value: on
+        - name: FIREWALL
+          value: "off"
+        - name: DOT
+          value: "off"
+        - name: HEALTH_TARGET_ADDRESS
+          value: "1.1.1.1"
+        - name: HEALTH_VPN_DURATION_INITIAL
+          value: 30s
         - name: TZ
           value: ${TIMEZONE}
         securityContext:
