@@ -75,14 +75,12 @@ spec:
           value: ${SECRET_VPN_GATEWAY_USER}
         - name: OPENVPN_PASSWORD
           value: ${SECRET_VPN_GATEWAY_PASSWORD}
-        #- name: SERVER_COUNTRIES
-          #value: ${SECRET_VPN_GATEWAY_COUNTRIES}
-        - name: LOG_LEVEL
-          value: debug
-        - name: FIREWALL_OUTBOUND_SUBNETS
-          value: ${NETWORK_CIDR_K8S_SERVICE}
-        - name: DOT
-          value: off
+        - name: SERVER_COUNTRIES
+          value: ${SECRET_VPN_GATEWAY_COUNTRIES}
+        #- name: FIREWALL_OUTBOUND_SUBNETS
+          #value: ${NETWORK_CIDR_K8S_SERVICE}
+        #- name: DOT
+          #value: off
         - name: TZ
           value: ${TIMEZONE}
         securityContext:
