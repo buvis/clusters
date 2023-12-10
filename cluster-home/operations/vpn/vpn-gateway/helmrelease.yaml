@@ -65,12 +65,26 @@ spec:
         env:
         - name: VPN_SERVICE_PROVIDER
           value: ${SECRET_VPN_GATEWAY_PROVIDER}
+        - name: VPN_TYPE
+          value: openvpn
         - name: VPN_INTERFACE
           value: tun0
         - name: OPENVPN_USER
           value: ${SECRET_VPN_GATEWAY_USER}
         - name: OPENVPN_PASSWORD
           value: ${SECRET_VPN_GATEWAY_PASSWORD}
+        - name: SERVER_COUNTRIES
+          value: ${SECRET_VPN_GATEWAY_COUNTRIES}
+        - name: FIREWALL
+          value: off
+        - name: DOT
+          value: off
+        - name: HEALTH_TARGET_ADDRESS
+          value: 1.1.1.1
+        - name: HEALTH_VPN_DURATION_INITIAL
+          value: 30s
+        - name: TZ
+          value: ${TIMEZONE}
         securityContext:
           capabilities:
             add:
