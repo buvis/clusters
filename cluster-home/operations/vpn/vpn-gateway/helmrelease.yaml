@@ -69,6 +69,8 @@ spec:
           value: ${SECRET_VPN_GATEWAY_PROVIDER}
         - name: VPN_TYPE
           value: openvpn
+        - name: OPENVPN_PROTOCOL
+          value: tcp
         - name: VPN_INTERFACE
           value: tun0
         - name: OPENVPN_USER
