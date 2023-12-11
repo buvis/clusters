@@ -62,7 +62,6 @@ spec:
         enabled: true
         existingClaim: bazarr-config
       media:
-        enabled: true
         existingClaim: nas-media
         globalMounts:
           - path: /media
