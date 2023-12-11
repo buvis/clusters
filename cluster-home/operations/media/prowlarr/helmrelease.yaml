@@ -38,6 +38,14 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    defaultPodOptions:
+      annotations:
+        setVPNGateway: "true"
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: "OnRootMismatch"
     controllers:
       main:
         strategy: Recreate
@@ -51,18 +59,10 @@ spec:
               PROWLARR__PORT: &port 9696
               PROWLARR__LOG_LEVEL: info
               PROWLARR__ANALYTICS_ENABLED: "False"
-    pod:
-      annotations:
-        setVPNGateway: "true"
     persistence:
       config:
         enabled: true
         existingClaim: prowlarr-config
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: "OnRootMismatch"
     hostname: prowlarr
     service:
       main:
