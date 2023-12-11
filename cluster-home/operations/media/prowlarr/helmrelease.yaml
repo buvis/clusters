@@ -38,14 +38,19 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    image:
-      repository: ghcr.io/onedr0p/prowlarr-nightly
-      tag: 1.11.1.4143@sha256:5f82c09cbe1b21e0815b98c9b34b6b427b609a572b748115fb9a970ff3b7cfe0
-    env:
-      PROWLARR__INSTANCE_NAME: Prowlarr
-      PROWLARR__PORT: &port 9696
-      PROWLARR__LOG_LEVEL: info
-      PROWLARR__ANALYTICS_ENABLED: "False"
+    controllers:
+      main:
+        strategy: Recreate
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/prowlarr-nightly
+              tag: 1.11.1.4143@sha256:5f82c09cbe1b21e0815b98c9b34b6b427b609a572b748115fb9a970ff3b7cfe0
+            env:
+              PROWLARR__INSTANCE_NAME: Prowlarr
+              PROWLARR__PORT: &port 9696
+              PROWLARR__LOG_LEVEL: info
+              PROWLARR__ANALYTICS_ENABLED: "False"
     podAnnotations:
       setVPNGateway: "true"
     persistence:
