@@ -48,7 +48,6 @@ spec:
         fsGroupChangePolicy: "OnRootMismatch"
     controllers:
       main:
-        strategy: Recreate
         containers:
           main:
             image:

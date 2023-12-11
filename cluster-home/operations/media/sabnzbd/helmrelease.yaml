@@ -47,10 +47,9 @@ spec:
         fsGroup: 1001
     controllers:
       main:
+        type: statefulset
         annotations:
           reloader.stakater.com/auto: "true"
-        strategy: Recreate
-        type: statefulset
         containers:
           main:
             image:

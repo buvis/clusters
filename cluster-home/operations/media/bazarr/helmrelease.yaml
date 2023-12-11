@@ -51,7 +51,6 @@ spec:
         - 985
     controllers:
       main:
-        strategy: Recreate
         containers:
           main:
             image:
