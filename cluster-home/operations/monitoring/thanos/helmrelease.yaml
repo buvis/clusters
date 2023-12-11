@@ -12,8 +12,6 @@ spec:
     namespace: kube-tools
   - name: authentik
     namespace: security
-  - name: kube-prometheus-stack
-    namespace: monitoring
   interval: 5m
   install:
     timeout: 15m
