@@ -33,6 +33,10 @@ spec:
         name: bjw-s
         namespace: flux-system
   values:
+    defaultPodOptions:
+      securityContext:
+        supplementalGroups:
+        - 100
     initContainers:
       wait-for-repo:
         image: ghcr.io/onedr0p/kopia:0.13.0@sha256:ee6608635237c9ddf3ec5b456122cb60f0195c5cad84b06e945498f2338bff59
@@ -47,23 +51,27 @@ spec:
         volumeMounts:
         - name: snapshots
           mountPath: /snapshots
-    image:
-      repository: ghcr.io/onedr0p/kopia
-      tag: 0.13.0@sha256:ee6608635237c9ddf3ec5b456122cb60f0195c5cad84b06e945498f2338bff59
-    env:
-      KOPIA_PASSWORD: "none"
-    command: kopia
-    args:
-    - server
-    - start
-    - --insecure
-    - --address
-    - 0.0.0.0:80
-    - --metrics-listen-addr
-    - 0.0.0.0:8080
-    - --without-password
-    - --log-level
-    - debug
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/kopia
+              tag: 0.13.0@sha256:ee6608635237c9ddf3ec5b456122cb60f0195c5cad84b06e945498f2338bff59
+            env:
+              KOPIA_PASSWORD: "none"
+            command: kopia
+            args:
+            - server
+            - start
+            - --insecure
+            - --address
+            - 0.0.0.0:80
+            - --metrics-listen-addr
+            - 0.0.0.0:8080
+            - --without-password
+            - --log-level
+            - debug
     service:
       main:
         enabled: true
@@ -89,24 +97,26 @@ spec:
           paths:
           - path: /
             pathType: Prefix
+            service:
+              name: main
+              port: http
         tls:
         - hosts:
           - kopia.buvis.net
           secretName: kopia-crt
-    podSecurityContext:
-      supplementalGroups:
-      - 100
     persistence:
       config:
         enabled: true
         type: configMap
         name: kopia-ui-config
-        subPath: repository.config
-        mountPath: /config/repository.config
+        globalMounts:
+        - path: /config/repository.config
+          subPath: repository.config
         readOnly: true
       snapshots:
         enabled: true
         type: nfs
         server: ${NFS_SERVER_IP}
         path: ${NFS_SERVER_PATH_KOPIA}/snapshots
-        mountPath: /snapshots
+        globalMounts:
+        - path: /snapshots

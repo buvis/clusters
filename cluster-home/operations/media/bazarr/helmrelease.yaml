@@ -70,7 +70,7 @@ spec:
       media:
         existingClaim: nas-media
         globalMounts:
-          - path: /media
+        - path: /media
     service:
       main:
         ports:
