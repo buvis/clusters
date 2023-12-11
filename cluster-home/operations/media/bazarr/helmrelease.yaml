@@ -56,6 +56,13 @@ spec:
             image:
               repository: ghcr.io/onedr0p/bazarr
               tag: 1.4.0@sha256:c81c4d9cbec093d5a999cfa3cd1af01d3f00d6292d6f5c33608510cef0ed83c7
+            resources:
+              requests:
+                cpu: 350m
+                memory: 400Mi
+              limits:
+                cpu: 1000m
+                memory: 600Mi
     persistence:
       config:
         enabled: true
@@ -88,10 +95,3 @@ spec:
         - hosts:
           - bazarr.buvis.net
           secretName: bazarr-crt
-    resources:
-      requests:
-        cpu: 350m
-        memory: 400Mi
-      limits:
-        cpu: 1000m
-        memory: 600Mi
