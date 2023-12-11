@@ -31,8 +31,8 @@ spec:
       annotations:
         configmap.reloader.stakater.com/reload: blocky-config
     controllers:
-      replicas: 3
       main:
+        replicas: 3
         containers:
           main:
             image:
