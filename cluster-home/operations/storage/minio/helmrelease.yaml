@@ -35,6 +35,8 @@ spec:
       enabled: true
       existingClaim: minio-buckets
     ingress:
+      enabled: false
+    consoleIngress:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: nginx
@@ -43,8 +45,8 @@ spec:
       - minio.buvis.net
       tls:
       - secretName: minio-cert
-          hosts:
-          - minio.buvis.net
+        hosts:
+        - minio.buvis.net
     consoleIngress:
       enabled: false
     resources:
