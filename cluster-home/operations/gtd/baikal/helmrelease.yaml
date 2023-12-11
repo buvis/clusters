@@ -32,9 +32,13 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    image:
-      repository: ckulka/baikal
-      tag: 0.9.3-nginx
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ckulka/baikal
+              tag: 0.9.3-nginx
     service:
       main:
         ports:
@@ -51,6 +55,9 @@ spec:
           paths:
           - path: /
             pathType: Prefix
+            service:
+              name: main
+              port: http
         tls:
         - hosts:
           - cal.buvis.net
@@ -58,7 +65,8 @@ spec:
     persistence:
       config:
         enabled: true
-        mountPath: /var/www/baikal/config
+        globalMounts:
+        - path: /var/www/baikal/config
         type: custom
         volumeSpec:
           nfs:
@@ -66,7 +74,8 @@ spec:
             path: "${NFS_SERVER_PATH_BAIKAL}/config"
       data:
         enabled: true
-        mountPath: /var/www/baikal/Specific
+        globalMounts:
+        - path: /var/www/baikal/Specific
         type: custom
         volumeSpec:
           nfs:
