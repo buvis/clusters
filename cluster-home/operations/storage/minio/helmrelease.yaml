@@ -47,8 +47,6 @@ spec:
       - secretName: minio-cert
         hosts:
         - minio.buvis.net
-    consoleIngress:
-      enabled: false
     resources:
       requests:
         memory: 350Mi
