@@ -52,7 +52,7 @@ spec:
     serviceMonitor:
       main:
         enabled: true
-        serviceName: main
+        serviceName: speedtest-exporter
         endpoints:
         - port: http
           scheme: http
