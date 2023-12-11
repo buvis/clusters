@@ -29,7 +29,7 @@ spec:
     spec:
       # renovate: registryUrl=https://bjw-s.github.io/helm-charts/
       chart: app-template
-      version: 2.3.0
+      version: 2.4.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -38,12 +38,12 @@ spec:
   values:
     image:
       repository: haveagitgat/tdarr
-      tag: 2.16.01@sha256:085dcb1bab426782e9a7a6697d698633ade39acb5de85e0445bb98a3ae824f0a
+      tag: 2.17.01@sha256:dc1c17ebeee83583fa74df90a96017869fe4a9448cd066be8482720a3798d319
       pullPolicy: IfNotPresent
     additionalContainers:
       node:
         name: node
-        image: haveagitgat/tdarr_node:2.16.01@sha256:b79a5705be433c3d2d66e0856438ed5bdddfa3298413834f64b0d47cb28f2d80
+        image: haveagitgat/tdarr_node:2.17.01@sha256:3ff0913202ddabce321ef99cd944a5cb65946c33677324dd7bd4fd706f0e5682
         imagePullPolicy: IfNotPresent
         env:
         - name: nodeID
