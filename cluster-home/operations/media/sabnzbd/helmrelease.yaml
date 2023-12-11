@@ -41,6 +41,17 @@ spec:
     defaultPodOptions:
       annotations:
         setVPNGateway: "true"
+      nodeSelector:
+        node-role.kubernetes.io/worker: "true"
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app.kubernetes.io/name
+                    operator: In
+                    values: ["qbittorrent"]
+              topologyKey: kubernetes.io/hostname
       securityContext:
         runAsUser: 1001
         runAsGroup: 1001
@@ -64,6 +75,12 @@ spec:
                 sabnzbd.media.svc.cluster,
                 sabnzbd.media.svc.cluster.local,
                 sabnzbd.buvis.net
+            resources:
+              requests:
+                cpu: 10m
+                memory: 250Mi
+              limits:
+                memory: 8000Mi
             probes:
               liveness: &probes
                 enabled: true
@@ -114,20 +131,3 @@ spec:
         - hosts:
           - sabnzbd.buvis.net
           secretName: sabnzbd-crt
-    nodeSelector:
-      node-role.kubernetes.io/worker: "true"
-    affinity:
-      podAntiAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-                - key: app.kubernetes.io/name
-                  operator: In
-                  values: ["qbittorrent"]
-            topologyKey: kubernetes.io/hostname
-    resources:
-      requests:
-        cpu: 10m
-        memory: 250Mi
-      limits:
-        memory: 8000Mi
