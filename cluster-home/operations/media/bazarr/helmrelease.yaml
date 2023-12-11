@@ -38,11 +38,25 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    image:
-      repository: ghcr.io/onedr0p/bazarr
-      tag: 1.4.0@sha256:c81c4d9cbec093d5a999cfa3cd1af01d3f00d6292d6f5c33608510cef0ed83c7
-    podAnnotations:
-      setVPNGateway: "true"
+    defaultPodOptions:
+      annotations:
+        setVPNGateway: "true"
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: "OnRootMismatch"
+        supplementalGroups:
+        - 983
+        - 985
+    controllers:
+      main:
+        strategy: Recreate
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/bazarr
+              tag: 1.4.0@sha256:c81c4d9cbec093d5a999cfa3cd1af01d3f00d6292d6f5c33608510cef0ed83c7
     persistence:
       config:
         enabled: true
@@ -50,7 +64,8 @@ spec:
       media:
         enabled: true
         existingClaim: nas-media
-        mountPath: /media
+        globalMounts:
+          - path: /media
     service:
       main:
         ports:
@@ -68,18 +83,13 @@ spec:
           paths:
           - path: /
             pathType: Prefix
+            service:
+              name: main
+              port: http
         tls:
         - hosts:
           - bazarr.buvis.net
           secretName: bazarr-crt
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: "OnRootMismatch"
-      supplementalGroups:
-      - 983
-      - 985
     resources:
       requests:
         cpu: 350m
