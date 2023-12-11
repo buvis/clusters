@@ -1,0 +1,62 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: minio
+  namespace: storage
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: minio
+      # renovate: registryUrl=https://charts.min.io/
+      version: 5.0.14
+      sourceRef:
+        kind: HelmRepository
+        name: minio
+        namespace: flux-system
+  values:
+    image:
+      repository: quay.io/minio/minio
+      tag: RELEASE.2023-12-06T09-09-22Z@sha256:e6833eb7d59b285017b97dfee9216ee9dba88b733682140341cf8be9f93448ad
+      pullPolicy: IfNotPresent
+    mcImage:
+      repository: quay.io/minio/mc
+      tag: RELEASE.2023-01-11T03-14-16Z
+      pullPolicy: IfNotPresent
+    mode: standalone
+    rootUser: root
+    rootPassword: ${SECRET_MINIO_ROOT_PASSWORD}
+    users:
+    - accessKey: thanos
+      secretKey: ${SECRET_MINIO_THANOS_SECRET_KEY}
+      policy: readwrite
+    persistence:
+      enabled: true
+      existingClaim: minio-buckets
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: nginx
+          cert-manager.io/cluster-issuer: letsencrypt-production
+        hosts:
+        - host: minio.buvis.net
+          paths:
+          - path: /
+            pathType: Prefix
+        tls:
+        - hosts:
+          - minio.buvis.net
+          secretName: minio-crt
+    consoleIngress:
+      enabled: false
+    resources:
+      requests:
+        memory: 350Mi
+        cpu: 25m
+      limits:
+        memory: 1500Mi
+    metrics:
+      serviceMonitor:
+        enabled: true
