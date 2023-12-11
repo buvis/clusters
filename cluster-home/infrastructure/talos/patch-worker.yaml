@@ -1,0 +1,4 @@
+- op: add
+  path: /machine/nodeLabels
+  value:
+    node-role.kubernetes.io/worker: true

@@ -28,6 +28,8 @@ class TalosAdapter:
             f"@{cfg.talos.path_patch_all}",
             "--config-patch-control-plane",
             f"@{cfg.talos.path_patch_controlplane}",
+            "--config-patch-worker",
+            f"@{cfg.talos.path_patch_worker}",
         ]
 
         results = subprocess.run(cmd, capture_output=True)

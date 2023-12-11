@@ -6,3 +6,5 @@ class TalosConfig:
         self.path_patch_all = config_dict.get("path_patch_all", "")
         self.path_patch_controlplane = config_dict.get(
             "path_patch_controlplane", "")
+        self.path_patch_worker = config_dict.get(
+            "path_patch_worker", "")
