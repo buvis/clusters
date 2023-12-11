@@ -58,7 +58,7 @@ spec:
         enabled: true
     buckets:
       - name: thanos
-        policy: none
+        policy: public
         purge: true
         versioning: false
         objectlocking: false
