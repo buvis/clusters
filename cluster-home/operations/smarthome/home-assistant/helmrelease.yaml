@@ -43,6 +43,20 @@ spec:
             image:
               repository: ghcr.io/home-assistant/home-assistant
               tag: 2023.12.1
+          codeserver:
+            image:
+              repository: codercom/code-server
+              tag: 4.19.1
+            workingDir: "/config"
+            args:
+            - --auth
+            - "none"
+            - --user-data-dir
+            - "/config/.vscode"
+            - --extensions-dir
+            - "/config/.vscode"
+            - --port
+            - "12321"
     persistence:
       config:
         enabled: true
@@ -56,6 +70,14 @@ spec:
         ports:
           http:
             port: 8123
+      codeserver:
+        type: ClusterIP
+        controller: main
+        ports:
+          http:
+            enabled: true
+            port: 12321
+            protocol: TCP
     ingress:
       main:
         enabled: true
@@ -74,35 +96,21 @@ spec:
         - hosts:
           - hass.buvis.net
           secretName: hass-crt
-    addons:
       codeserver:
         enabled: true
-        image:
-          repository: codercom/code-server
-          tag: 4.19.1
-        workingDir: "/config"
-        args:
-        - --auth
-        - "none"
-        - --user-data-dir
-        - "/config/.vscode"
-        - --extensions-dir
-        - "/config/.vscode"
-        ingress:
-          enabled: true
-          annotations:
-            kubernetes.io/ingress.class: "nginx"
-            cert-manager.io/cluster-issuer: letsencrypt-production
-            authentik.home.arpa/enabled: "true"
-          hosts:
-          - host: hass-editor.buvis.net
-            paths:
-            - path: /
-              pathType: Prefix
-          tls:
-          - hosts:
-            - hass-editor.buvis.net
-            secretName: hass-editor-crt
-        volumeMounts:
-        - name: config
-          mountPath: /config
+        annotations:
+          kubernetes.io/ingress.class: "nginx"
+          cert-manager.io/cluster-issuer: letsencrypt-production
+          authentik.home.arpa/enabled: "true"
+        hosts:
+        - host: hass-editor.buvis.net
+          paths:
+          - path: /
+            pathType: Prefix
+            service:
+              name: codeserver
+              port: http
+        tls:
+        - hosts:
+          - hass-editor.buvis.net
+          secretName: hass-editor-crt
