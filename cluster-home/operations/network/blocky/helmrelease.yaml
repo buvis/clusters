@@ -29,7 +29,7 @@ spec:
   values:
     defaultPodOptions:
       annotations:
-        configmap.reloader.stakater.com/reload: *config
+        configmap.reloader.stakater.com/reload: blocky-config
     controllers:
       replicas: 3
       main:
@@ -95,7 +95,7 @@ spec:
       config:
         enabled: true
         type: configMap
-        name: &config blocky-config
+        name: blocky-config
         subPath: config.yml
         mountPath: /app/config.yml
         readOnly: true
