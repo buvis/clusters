@@ -27,11 +27,28 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    image:
-      repository: ghcr.io/0xerr0r/blocky
-      tag: v0.22
-    controller:
+    defaultPodOptions:
+      annotations:
+        configmap.reloader.stakater.com/reload: *config
+    controllers:
       replicas: 3
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/0xerr0r/blocky
+              tag: v0.22
+            probes:
+              liveness:
+                failureThreshold: 5
+                periodSeconds: 10
+              readiness:
+                failureThreshold: 5
+                periodSeconds: 10
+              startup:
+                initialDelaySeconds: 5
+                failureThreshold: 30
+                periodSeconds: 10
     service:
       main:
         enabled: true
@@ -62,17 +79,6 @@ spec:
             port: 53
             protocol: UDP
             targetPort: 53
-    probes:
-      liveness:
-        failureThreshold: 5
-        periodSeconds: 10
-      readiness:
-        failureThreshold: 5
-        periodSeconds: 10
-      startup:
-        initialDelaySeconds: 5
-        failureThreshold: 30
-        periodSeconds: 10
     affinity:
       podAntiAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
@@ -93,8 +99,6 @@ spec:
         subPath: config.yml
         mountPath: /app/config.yml
         readOnly: true
-    podAnnotations:
-      configmap.reloader.stakater.com/reload: *config
     configMaps:
       config:
         enabled: true
