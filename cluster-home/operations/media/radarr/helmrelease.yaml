@@ -38,14 +38,49 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    image:
-      repository: ghcr.io/onedr0p/radarr-develop
-      tag: 5.2.4.8328@sha256:9908d5e7ef16122cfdf80fa0d1fefef743cc598346bc12c3408e645d99012c74
-    env:
-      RADARR__APPLICATION_URL: https://radarr.buvis.net
-      RADARR__API_KEY: ${SECRET_RADARR_API_KEY}
-    podAnnotations:
-      setVPNGateway: "true"
+    defaultPodOptions:
+      annotations:
+        setVPNGateway: "true"
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: "OnRootMismatch"
+        supplementalGroups:
+        - 985
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/radarr-develop
+              tag: 5.2.4.8328@sha256:9908d5e7ef16122cfdf80fa0d1fefef743cc598346bc12c3408e645d99012c74
+            env:
+              RADARR__APPLICATION_URL: https://radarr.buvis.net
+              RADARR__API_KEY: ${SECRET_RADARR_API_KEY}
+            resources:
+              requests:
+                cpu: 10m
+                memory: 250Mi
+              limits:
+                memory: 2000Mi
+          exporter:
+            image:
+              repository: ghcr.io/onedr0p/exportarr
+              tag: v1.1.0
+            env:
+              PORT: "7373"
+              URL: "http://radarr.media.svc.cluster.local:7878"
+              ENABLE_ADDITIONAL_METRICS: "false"
+              ENABLE_UNKNOWN_QUEUE_ITEMS: "false"
+              APIKEY: ${SECRET_RADARR_API_KEY}
+            args: ["radarr"]
+            resources:
+              requests:
+                cpu: 100m
+                memory: 100Mi
+              limits:
+                memory: 250Mi
     persistence:
       config:
         enabled: true
@@ -53,12 +88,17 @@ spec:
       media:
         enabled: true
         existingClaim: nas-media
-        mountPath: /media
+        globalMounts:
+        - path: /media
     service:
       main:
         ports:
           http:
             port: 7878
+      exporter:
+        ports:
+          http:
+            port: 7373
     ingress:
       main:
         enabled: true
@@ -71,20 +111,20 @@ spec:
           paths:
           - path: /
             pathType: Prefix
+            service:
+              name: main
+              port: http
         tls:
         - hosts:
           - radarr.buvis.net
           secretName: radarr-crt
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: "OnRootMismatch"
-      supplementalGroups:
-      - 985
-    resources:
-      requests:
-        cpu: 10m
-        memory: 250Mi
-      limits:
-        memory: 2000Mi
+    serviceMonitor:
+      main:
+        enabled: true
+        serviceName: exporter
+        endpoints:
+        - port: http
+          scheme: http
+          path: /metrics
+          interval: 1m
+          scrapeTimeout: 10s
