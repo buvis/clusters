@@ -123,7 +123,7 @@ spec:
     serviceMonitor:
       main:
         enabled: true
-        serviceName: exporter
+        serviceName: radarr-exporter
         endpoints:
         - port: http
           scheme: http
