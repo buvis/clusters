@@ -29,11 +29,21 @@ spec:
         name: bjw-s
         namespace: flux-system
   values:
-    image:
-      repository: ghcr.io/miguelndecarvalho/speedtest-exporter
-      tag: v3.5.4
-    env:
-      SPEEDTEST_SERVER: "39677"
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/miguelndecarvalho/speedtest-exporter
+              tag: v3.5.4
+            env:
+              SPEEDTEST_SERVER: "39677"
+            resources:
+              requests:
+                cpu: 15m
+                memory: 50M
+              limits:
+                memory: 100M
     service:
       main:
         ports:
@@ -42,15 +52,10 @@ spec:
     serviceMonitor:
       main:
         enabled: true
+        serviceName: main
         endpoints:
         - port: http
           scheme: http
           path: /metrics
           interval: 30m
           scrapeTimeout: 3m
-    resources:
-      requests:
-        cpu: 15m
-        memory: 50M
-      limits:
-        memory: 100M
