@@ -30,6 +30,18 @@ spec:
     defaultPodOptions:
       annotations:
         configmap.reloader.stakater.com/reload: blocky-config
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                  - blocky
+              topologyKey: kubernetes.io/hostname
     controllers:
       main:
         replicas: 3
@@ -81,18 +93,6 @@ spec:
             port: 53
             protocol: UDP
             targetPort: 53
-    affinity:
-      podAntiAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-        - weight: 100
-          podAffinityTerm:
-            labelSelector:
-              matchExpressions:
-              - key: app.kubernetes.io/name
-                operator: In
-                values:
-                - blocky
-            topologyKey: kubernetes.io/hostname
     persistence:
       config:
         enabled: true
