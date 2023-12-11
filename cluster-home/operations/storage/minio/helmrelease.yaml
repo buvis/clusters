@@ -60,3 +60,9 @@ spec:
     metrics:
       serviceMonitor:
         enabled: true
+    buckets:
+      - name: thanos
+        policy: none
+        purge: true
+        versioning: false
+        objectlocking: false
