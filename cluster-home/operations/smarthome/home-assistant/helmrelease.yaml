@@ -36,9 +36,14 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    image:
-      repository: ghcr.io/home-assistant/home-assistant
-      tag: 2023.12.1
+    controllers:
+      main:
+        strategy: Recreate
+        containers:
+          main:
+            image:
+              repository: ghcr.io/home-assistant/home-assistant
+              tag: 2023.12.1
     persistence:
       config:
         enabled: true
@@ -63,6 +68,9 @@ spec:
         - host: hass.buvis.net
           paths:
           - path: /
+            service:
+              name: main
+              port: http
         tls:
         - hosts:
           - hass.buvis.net
