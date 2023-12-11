@@ -57,6 +57,7 @@ spec:
             port: 4000
       dns-tcp:
         enabled: true
+        controller: main
         type: LoadBalancer
         externalIPs:
         - ${SVC_IP_BLOCKY}
@@ -69,6 +70,7 @@ spec:
             targetPort: 53
       dns-udp:
         enabled: true
+        controller: main
         type: LoadBalancer
         externalIPs:
         - ${SVC_IP_BLOCKY}
