@@ -38,15 +38,33 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    image:
-      repository: ghcr.io/onedr0p/qbittorrent
-      tag: 4.6.2@sha256:fedb62126c82ae0c7192e9052633411294a27e9c233613c03b0a8d168d160040
-    env:
-      UMASK: "022"
-      QBITTORRENT__PORT: 8080
-      QBITTORRENT__USE_PROFILE: "true"
-    podAnnotations:
-      setVPNGateway: "true"
+    defaultPodOptions:
+      annotations:
+        setVPNGateway: "true"
+      securityContext::
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: "OnRootMismatch"
+        supplementalGroups:
+        - 985
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/qbittorrent
+              tag: 4.6.2@sha256:fedb62126c82ae0c7192e9052633411294a27e9c233613c03b0a8d168d160040
+            env:
+              UMASK: "022"
+              QBITTORRENT__PORT: 8080
+              QBITTORRENT__USE_PROFILE: "true"
+            resources:
+              requests:
+                cpu: 49m
+                memory: 765Mi
+              limits:
+                memory: 1426Mi
     hostname: torr
     settings:
       automaticPortSetup: false
@@ -57,7 +75,6 @@ spec:
       media:
         enabled: true
         existingClaim: nas-media
-        mountPath: /media
     service:
       main:
         ports:
@@ -87,20 +104,10 @@ spec:
           paths:
           - path: /
             pathType: Prefix
+            service:
+              name: main
+              port: http
         tls:
         - hosts:
           - qb.buvis.net
           secretName: qbittorrent-crt
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: "OnRootMismatch"
-      supplementalGroups:
-      - 985
-    resources:
-      requests:
-        cpu: 49m
-        memory: 765Mi
-      limits:
-        memory: 1426Mi
