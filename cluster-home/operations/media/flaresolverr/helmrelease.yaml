@@ -32,7 +32,7 @@ spec:
   values:
     image:
       repository: ghcr.io/flaresolverr/flaresolverr
-      tag: v3.3.10
+      tag: v3.3.11
     controllerType: deployment
     env:
       PUID: 1001
