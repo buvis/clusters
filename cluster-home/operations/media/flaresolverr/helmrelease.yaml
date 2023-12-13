@@ -30,23 +30,28 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    image:
-      repository: ghcr.io/flaresolverr/flaresolverr
-      tag: v3.3.11
-    controllerType: deployment
-    env:
-      PUID: 1001
-      PGID: 1001
-    podAnnotations:
-      setVPNGateway: "true"
+    defaultPodOptions:
+      annotations:
+        setVPNGateway: "true"
+    controllers:
+      main:
+        controllerType: deployment
+        containers:
+          main:
+            image:
+              repository: ghcr.io/flaresolverr/flaresolverr
+              tag: v3.3.11
+            env:
+              PUID: 1001
+              PGID: 1001
+            resources:
+              requests:
+                cpu: 15m
+                memory: 105Mi
+              limits:
+                memory: 292Mi
     service:
       main:
         ports:
           http:
             port: 8191
-    resources:
-      requests:
-        cpu: 15m
-        memory: 105Mi
-      limits:
-        memory: 292Mi
