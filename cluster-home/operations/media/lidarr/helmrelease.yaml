@@ -112,7 +112,7 @@ spec:
             pathType: Prefix
             service:
               name: main
-              port: httm
+              port: http
         tls:
         - hosts:
           - lidarr.buvis.net
