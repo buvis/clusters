@@ -38,18 +38,35 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    image:
-      repository: docker.io/fallenbagel/jellyseerr
-      tag: 1.7.0
-    env:
-      LOG_LEVEL: debug
-    podAnnotations:
-      setVPNGateway: "true"
+    defaultPodOptions:
+      annotations:
+        setVPNGateway: "true"
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: docker.io/fallenbagel/jellyseerr
+              tag: 1.7.0
+            env:
+              LOG_LEVEL: debug
+            resources:
+              requests:
+                cpu: 15m
+                memory: 352Mi
+              limits:
+                memory: 500Mi
     persistence:
       config:
         enabled: true
         existingClaim: jellyseerr-config
-        mountPath: /app/config
+        globalMounts:
+        - path: /app/config
     service:
       main:
         ports:
@@ -67,18 +84,10 @@ spec:
           paths:
           - path: /
             pathType: Prefix
+            service:
+              name: main
+              port: http
         tls:
         - hosts:
           - requests.buvis.net
           secretName: requests-crt
-    podSecurityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
-      fsGroup: 1000
-      fsGroupChangePolicy: "OnRootMismatch"
-    resources:
-      requests:
-        cpu: 15m
-        memory: 352Mi
-      limits:
-        memory: 500Mi
