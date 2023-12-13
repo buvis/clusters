@@ -38,13 +38,48 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    image:
-      repository: ghcr.io/onedr0p/lidarr
-      tag: 2.0.7.3849@sha256:baba272ee36cfb14103256a9b173a161c5a45ca2959c26dcd170f32cdc57c406
-    env:
-      LIDARR_API_KEY: ${SECRET_LIDARR_API_KEY}
-    podAnnotations:
-      setVPNGateway: "true"
+    defaultPodOptions:
+      annotations:
+        setVPNGateway: "true"
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: "OnRootMismatch"
+        supplementalGroups:
+        - 985
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/lidarr
+              tag: 2.0.7.3849@sha256:baba272ee36cfb14103256a9b173a161c5a45ca2959c26dcd170f32cdc57c406
+            env:
+              LIDARR_API_KEY: ${SECRET_LIDARR_API_KEY}
+            resources:
+              requests:
+                cpu: 10m
+                memory: 250Mi
+              limits:
+                memory: 2000Mi
+          exporter:
+            image:
+              repository: ghcr.io/onedr0p/exportarr
+              tag: v1.1.0
+            env:
+              PORT: "7373"
+              URL: "http://lidarr.media.svc.cluster.local:8686"
+              ENABLE_ADDITIONAL_METRICS: "false"
+              ENABLE_UNKNOWN_QUEUE_ITEMS: "false"
+              APIKEY: ${SECRET_LIDARR_API_KEY}
+            args: ["lidarr"]
+            resources:
+              requests:
+                cpu: 100m
+                memory: 100Mi
+              limits:
+                memory: 250Mi
     persistence:
       config:
         enabled: true
@@ -52,12 +87,15 @@ spec:
       media:
         enabled: true
         existingClaim: nas-media
-        mountPath: /media
     service:
       main:
         ports:
           http:
             port: 8686
+      exporter:
+        ports:
+          http:
+            port: 7373
     ingress:
       main:
         enabled: true
@@ -70,20 +108,20 @@ spec:
           paths:
           - path: /
             pathType: Prefix
+            service:
+              name: main
+              port: httm
         tls:
         - hosts:
           - lidarr.buvis.net
           secretName: lidarr-crt
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: "OnRootMismatch"
-      supplementalGroups:
-      - 985
-    resources:
-      requests:
-        cpu: 10m
-        memory: 250Mi
-      limits:
-        memory: 2000Mi
+    serviceMonitor:
+      main:
+        enabled: true
+        serviceName: lidarr-exporter
+        endpoints:
+        - port: http
+          scheme: http
+          path: /metrics
+          interval: 1m
+          scrapeTimeout: 10s
