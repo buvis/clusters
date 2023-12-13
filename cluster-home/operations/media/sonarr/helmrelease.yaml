@@ -94,6 +94,8 @@ spec:
           http:
             port: 8989
       exporter:
+        enabled: true
+        controller: main
         ports:
           http:
             port: 7373
