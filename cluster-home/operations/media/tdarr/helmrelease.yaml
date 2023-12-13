@@ -36,47 +36,46 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    image:
-      repository: haveagitgat/tdarr
-      tag: 2.17.01@sha256:dc1c17ebeee83583fa74df90a96017869fe4a9448cd066be8482720a3798d319
-      pullPolicy: IfNotPresent
-    additionalContainers:
-      node:
-        name: node
-        image: haveagitgat/tdarr_node:2.17.01@sha256:3ff0913202ddabce321ef99cd944a5cb65946c33677324dd7bd4fd706f0e5682
-        imagePullPolicy: IfNotPresent
-        env:
-        - name: nodeID
-          value: node
-        - name: serverIP
-          value: localhost
-        - name: serverPort
-          value: 8266
-        volumeMounts:
-        - name: config
-          mountPath: /app/configs
-        - name: media
-          mountPath: /media
-        - name: shared
-          mountPath: /shared
+    defaultPodOptions:
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: haveagitgat/tdarr
+              tag: 2.17.01@sha256:dc1c17ebeee83583fa74df90a96017869fe4a9448cd066be8482720a3798d319
+          node:
+            image:
+              repository: haveagitgat/tdarr_node
+              tag: 2.17.01@sha256:3ff0913202ddabce321ef99cd944a5cb65946c33677324dd7bd4fd706f0e5682
+            env:
+            - name: nodeID
+              value: node
+            - name: serverIP
+              value: localhost
+            - name: serverPort
+              value: 8266
     persistence:
       config:
         enabled: true
         existingClaim: tdarr-config
-        mountPath: /app/configs
+        globalMounts:
+        - path: /app/configs
       data:
         enabled: true
         existingClaim: tdarr-data
-        mountPath: /app/server
+        globalMounts:
+        - path: /app/server
       media:
         enabled: true
         existingClaim: nas-media
-        mountPath: /media
       shared:
         enabled: true
         type: pvc
         existingClaim: tdarr-cache
-        mountPath: /shared
     service:
       main:
         ports:
@@ -98,10 +97,10 @@ spec:
           paths:
           - path: /
             pathType: Prefix
+            service:
+              name: main
+              port: http
         tls:
         - hosts:
           - tdarr.buvis.net
           secretName: tdarr-crt
-    podSecurityContext:
-      fsGroup: 1000
-      fsGroupChangePolicy: "OnRootMismatch"
