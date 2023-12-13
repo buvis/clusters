@@ -74,7 +74,6 @@ spec:
         existingClaim: nas-media
       shared:
         enabled: true
-        type: pvc
         existingClaim: tdarr-cache
     service:
       main:
