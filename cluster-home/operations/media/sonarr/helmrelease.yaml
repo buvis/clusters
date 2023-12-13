@@ -38,14 +38,49 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    image:
-      repository: ghcr.io/onedr0p/sonarr-develop
-      tag: 4.0.0.734@sha256:e4506ae2e3f787daeeac3219b726618cfc41f5011a8f69d1323349f22a363f0e
-    env:
-      SONARR__APPLICATION_URL: https://sonarr.buvis.net
-      SONARR__API_KEY: ${SECRET_SONARR_API_KEY}
-    podAnnotations:
-      setVPNGateway: "true"
+    defaultPodOptions:
+      annotations:
+        setVPNGateway: "true"
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: "OnRootMismatch"
+        supplementalGroups:
+        - 985
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/sonarr-develop
+              tag: 4.0.0.734@sha256:e4506ae2e3f787daeeac3219b726618cfc41f5011a8f69d1323349f22a363f0e
+            env:
+              SONARR__APPLICATION_URL: https://sonarr.buvis.net
+              SONARR__API_KEY: ${SECRET_SONARR_API_KEY}
+            resources:
+              requests:
+                cpu: 10m
+                memory: 250Mi
+              limits:
+                memory: 2000Mi
+          exporter:
+            image:
+              repository: ghcr.io/onedr0p/exportarr
+              tag: v1.1.0
+            env:
+              PORT: "7373"
+              URL: "http://sonarr.media.svc.cluster.local:8989"
+              ENABLE_ADDITIONAL_METRICS: "false"
+              ENABLE_UNKNOWN_QUEUE_ITEMS: "false"
+              APIKEY: ${SECRET_SONARR_API_KEY}
+            args: ["sonarr"]
+            resources:
+              requests:
+                cpu: 100m
+                memory: 100Mi
+              limits:
+                memory: 250Mi
     persistence:
       config:
         enabled: true
@@ -53,12 +88,15 @@ spec:
       media:
         enabled: true
         existingClaim: nas-media
-        mountPath: /media
     service:
       main:
         ports:
           http:
             port: 8989
+      exporter:
+        ports:
+          http:
+            port: 7373
     ingress:
       main:
         enabled: true
@@ -71,20 +109,20 @@ spec:
           paths:
           - path: /
             pathType: Prefix
+            service:
+              name: main
+              port: http
         tls:
         - hosts:
           - sonarr.buvis.net
           secretName: sonarr-crt
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: "OnRootMismatch"
-      supplementalGroups:
-      - 985
-    resources:
-      requests:
-        cpu: 10m
-        memory: 250Mi
-      limits:
-        memory: 2000Mi
+    serviceMonitor:
+      main:
+        enabled: true
+        serviceName: sonarr-exporter
+        endpoints:
+        - port: http
+          scheme: http
+          path: /metrics
+          interval: 1m
+          scrapeTimeout: 10s
