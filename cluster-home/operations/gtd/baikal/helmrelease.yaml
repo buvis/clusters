@@ -38,7 +38,7 @@ spec:
           main:
             image:
               repository: ckulka/baikal
-              tag: 0.9.3-nginx
+              tag: 0.9.4-nginx
     service:
       main:
         ports:
