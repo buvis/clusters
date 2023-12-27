@@ -1,5 +1,5 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: reloader
@@ -20,7 +20,7 @@ spec:
     spec:
       # renovate: registryUrl=https://stakater.github.io/stakater-charts
       chart: reloader
-      version: 1.0.54
+      version: 1.0.58
       sourceRef:
         kind: HelmRepository
         name: stakater

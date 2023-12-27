@@ -1,5 +1,5 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: hass
@@ -48,11 +48,11 @@ spec:
           main:
             image:
               repository: ghcr.io/home-assistant/home-assistant
-              tag: 2023.12.1
+              tag: 2023.12.4
           codeserver:
             image:
               repository: codercom/code-server
-              tag: 4.19.1
+              tag: 4.20.0
             workingDir: "/config"
             args:
             - --auth
