@@ -14,7 +14,7 @@ spec:
     server: ${NFS_SERVER_IP}
     path: ${NFS_SERVER_PATH_MEDIA}/music
   mountOptions:
-  - nfsvers=3
+  - nfsvers=4
   - tcp
   - intr
   - hard
