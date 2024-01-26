@@ -14,6 +14,7 @@ data:
   NFS_SERVER_PATH_BAIKAL: "/mnt/tank/pv/baikal"
   NFS_SERVER_PATH_KOPIA: "/mnt/tank/pv/kopia"
   NFS_SERVER_PATH_MEDIA: "/mnt/tank/media"
+  NFS_SERVER_PATH_PV: "/mnt/tank/pv"
   NFS_SERVER_PATH_TDARR_CACHE: "/mnt/tank/pv/tdarr/cache"
   SVC_IP_BITTORRENT: "10.11.0.106"
   SVC_IP_BLOCKY: "10.11.0.53"
