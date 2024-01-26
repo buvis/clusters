@@ -68,10 +68,10 @@ spec:
         existingClaim: nas-pv-gtd
         globalMounts:
         - path: /var/www/baikal/config
-          subPath: baikal/config
+          subPath: gtd/baikal/config
       data:
         enabled: true
         existingClaim: nas-pv-gtd
         globalMounts:
         - path: /var/www/baikal/Specific
-          subPath: baikal/data
+          subPath: gtd/baikal/data
