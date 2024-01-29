@@ -87,9 +87,7 @@ spec:
         existingClaim: radarr-config
       media:
         enabled: true
-        existingClaim: nas-media
-        globalMounts:
-        - path: /media
+        existingClaim: nas-media-videos
     service:
       main:
         ports:

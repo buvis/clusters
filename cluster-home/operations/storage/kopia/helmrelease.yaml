@@ -117,6 +117,6 @@ spec:
         enabled: true
         type: nfs
         server: ${NFS_SERVER_IP}
-        path: ${NFS_SERVER_PATH_KOPIA}/snapshots
+        path: ${NFS_SERVER_PATH_PV}/storage/kopia/snapshots
         globalMounts:
         - path: /snapshots

@@ -66,7 +66,7 @@ spec:
         existingClaim: jellyfin-data
       media:
         enabled: true
-        existingClaim: nas-media
+        existingClaim: nas-media-videos
       transcode:
         enabled: true
         type: emptyDir

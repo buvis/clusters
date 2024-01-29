@@ -128,7 +128,7 @@ spec:
                   - name: snapshots
                     nfs:
                       server: ${NFS_SERVER_IP}
-                      path: ${NFS_SERVER_PATH_KOPIA}/snapshots
+                      path: ${NFS_SERVER_PATH_PV}/storage/kopia/snapshots
                   # Run on the same node as the application, otherwise backup job can't access the data in PVC
                   affinity:
                     podAffinity:

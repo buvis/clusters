@@ -87,7 +87,7 @@ spec:
         existingClaim: sonarr-config
       media:
         enabled: true
-        existingClaim: nas-media
+        existingClaim: nas-media-videos
     service:
       main:
         ports:

@@ -71,7 +71,7 @@ spec:
         - path: /app/server
       media:
         enabled: true
-        existingClaim: nas-media
+        existingClaim: nas-media-videos
       shared:
         enabled: true
         existingClaim: nas-pv-media

@@ -86,7 +86,7 @@ spec:
         existingClaim: lidarr-config
       media:
         enabled: true
-        existingClaim: nas-media
+        existingClaim: nas-media-music
     service:
       main:
         ports:

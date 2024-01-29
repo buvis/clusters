@@ -74,7 +74,7 @@ spec:
         existingClaim: qbittorrent-config
       media:
         enabled: true
-        existingClaim: nas-media
+        existingClaim: nas-media-downloads
     service:
       main:
         ports:
