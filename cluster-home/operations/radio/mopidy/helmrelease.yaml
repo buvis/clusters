@@ -77,7 +77,7 @@ spec:
     persistence:
       media:
         enabled: true
-        existingClaim: nas-music
+        existingClaim: nas-media-music-radio
       data:
         enabled: true
         existingClaim: mopidy-data
