@@ -12,7 +12,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: ${NFS_SERVER_IP}
-    path: ${NFS_SERVER_PATH_PV}
+    path: ${NFS_SERVER_PATH_PV}/gtd
   mountOptions:
   - nfsvers=4
   - tcp
