@@ -76,7 +76,7 @@ spec:
         enabled: true
         existingClaim: nas-pv-media
         globalMounts:
-        - subPath: media/tdarr/cache
+        - subPath: tdarr/cache
     service:
       main:
         ports:
