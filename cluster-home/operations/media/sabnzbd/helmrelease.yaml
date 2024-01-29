@@ -100,7 +100,7 @@ spec:
       config:
         enabled: true
         existingClaim: sabnzbd-config
-      media:
+      downloads:
         enabled: true
         existingClaim: nas-media-downloads
       incomplete:

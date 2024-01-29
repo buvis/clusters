@@ -72,7 +72,7 @@ spec:
       config:
         enabled: true
         existingClaim: qbittorrent-config
-      media:
+      downloads:
         enabled: true
         existingClaim: nas-media-downloads
     service:
