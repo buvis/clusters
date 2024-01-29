@@ -67,6 +67,8 @@ spec:
       media:
         enabled: true
         existingClaim: nas-media-videos
+        globalMounts:
+        - path: /media/videos
       transcode:
         enabled: true
         type: emptyDir

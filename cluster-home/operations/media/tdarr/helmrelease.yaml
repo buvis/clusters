@@ -72,6 +72,8 @@ spec:
       media:
         enabled: true
         existingClaim: nas-media-videos
+        globalMounts:
+        - path: /media/videos
       shared:
         enabled: true
         existingClaim: nas-pv-media

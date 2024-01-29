@@ -88,6 +88,8 @@ spec:
       media:
         enabled: true
         existingClaim: nas-media-videos
+        globalMounts:
+        - path: /media/videos
       downloads:
         enabled: true
         existingClaim: nas-media-downloads
