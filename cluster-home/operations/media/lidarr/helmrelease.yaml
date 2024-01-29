@@ -87,6 +87,8 @@ spec:
       media:
         enabled: true
         existingClaim: nas-media-music
+        globalMounts:
+        - path: /media/music
       downloads:
         enabled: true
         existingClaim: nas-media-downloads
