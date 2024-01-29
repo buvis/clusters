@@ -87,6 +87,9 @@ spec:
       media:
         enabled: true
         existingClaim: nas-media-music
+      downloads:
+        enabled: true
+        existingClaim: nas-media-downloads
     service:
       main:
         ports:

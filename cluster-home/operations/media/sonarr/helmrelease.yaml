@@ -88,6 +88,9 @@ spec:
       media:
         enabled: true
         existingClaim: nas-media-videos
+      downloads:
+        enabled: true
+        existingClaim: nas-media-downloads
     service:
       main:
         ports:
