@@ -4,7 +4,7 @@ if [[ $TALOS_VERSION == v* ]]; then
     for node_ip in ${NODE_IPS//,/ }
     do
         echo -e "\n[Node $node_ip upgrade to Talos $TALOS_VERSION started]\n"
-        talosctl upgrade --nodes $node_ip --image ghcr.io/siderolabs/installer:$TALOS_VERSION --preserve
+        talosctl upgrade --nodes $node_ip --image factory.talos.dev/installer/$TALOS_SCHEMATIC_ID:$TALOS_VERSION --preserve
         echo -e "\n[Node $node_ip upgrade to Talos $TALOS_VERSION finished]"
     done
 else

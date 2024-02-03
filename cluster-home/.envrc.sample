@@ -3,4 +3,5 @@ export PM_PASS=<see password manager>
 export NODE_IPS=<comma separated list of nodes' IPs>
 export KUBECONFIG=$(expand_path .kube/config)
 export TALOSCONFIG=$(expand_path ./infrastructure/talos/talosconfig)
+export TALOS_SCHEMATIC_ID=c9078f9419961640c712a8bf2bb9174933dfcf1da383fd8ea2b7dc21493f8bac
 export GITHUB_TOKEN=<see https://docs.buvis.net/installation/#gitops>
