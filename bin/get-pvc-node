@@ -1,1 +1,9 @@
-echo PVC $1 runs at $(kubectl get node -o 'jsonpath={.status.addresses[?(@.type=="InternalIP")].address}' $(kubectl get jivavolumes -n storage -l openebs.io/persistent-volume-claim=$1 -o 'jsonpath={.items[0].metadata.labels.nodeID}'))
+#!/usr/bin/env bash
+PVC_NODE_IP=$(kubectl get node -o 'jsonpath={.status.addresses[?(@.type=="InternalIP")].address}' $(kubectl get jivavolumes -n storage -l openebs.io/persistent-volume-claim=$1 -o 'jsonpath={.items[0].metadata.labels.nodeID}'))
+echo PVC $1 runs at $PVC_NODE_IP
+printf "\n"
+read -n1 -p "Do you want to restart the node? [y,n] " is_restart_requested
+case $is_restart_requested in  
+  y|Y) talosctl reboot -n $PVC_NODE_IP ;; 
+esac
+printf "\n"
