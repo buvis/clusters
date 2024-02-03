@@ -27,7 +27,7 @@ class CommandRestore:
         self.k8s.delete_job(job_name, namespace)
         self._generate_restore_job_manifest({
             "NFS_SERVER_IP": nfs_server_ip,
-            "NFS_SERVER_PATH_KOPIA": nfs_server_path,
+            "NFS_SERVER_PATH_KOPIA": f"{nfs_server_path}/storage/kopia",
             "JOBNAME": job_name,
             "NAMESPACE": namespace,
             "PVC": pvc,
@@ -78,7 +78,7 @@ class CommandRestore:
             console.panic("Can't determine backups location")
 
         nfs_server_ip = cluster_config.get("NFS_SERVER_IP", "")
-        nfs_server_path = cluster_config.get("NFS_SERVER_PATH_KOPIA", "")
+        nfs_server_path = cluster_config.get("NFS_SERVER_PATH_PV", "")
 
         if not (nfs_server_ip and nfs_server_path):
             console.panic("Can't determine backups location")
