@@ -52,7 +52,7 @@ spec:
           codeserver:
             image:
               repository: codercom/code-server
-              tag: 4.21.1
+              tag: 4.21.2
             workingDir: "/config"
             args:
             - --auth
