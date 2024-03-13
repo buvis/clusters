@@ -25,7 +25,7 @@ spec:
     spec:
       # renovate: registryUrl=https://openfaas.github.io/faas-netes/
       chart: openfaas
-      version: 14.2.27
+      version: 14.2.28
       sourceRef:
         kind: HelmRepository
         name: openfaas
