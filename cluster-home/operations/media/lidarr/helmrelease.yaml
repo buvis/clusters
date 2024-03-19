@@ -31,7 +31,7 @@ spec:
     spec:
       # renovate: registryUrl=https://bjw-s.github.io/helm-charts/
       chart: app-template
-      version: 2.5.0
+      version: 2.6.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -54,7 +54,7 @@ spec:
           main:
             image:
               repository: ghcr.io/onedr0p/lidarr
-              tag: 2.0.7.3849@sha256:baba272ee36cfb14103256a9b173a161c5a45ca2959c26dcd170f32cdc57c406
+              tag: 2.1.7.4030@sha256:4a0dfb39265d7950e2b4ddded7f5b3ea35eb43803761f97faa0432e20fa738c0
             env:
               LIDARR_API_KEY: ${SECRET_LIDARR_API_KEY}
             resources:
@@ -66,7 +66,7 @@ spec:
           exporter:
             image:
               repository: ghcr.io/onedr0p/exportarr
-              tag: v1.6.1
+              tag: v2.0.0
             env:
               PORT: "7373"
               URL: "http://lidarr.media.svc.cluster.local:8686"

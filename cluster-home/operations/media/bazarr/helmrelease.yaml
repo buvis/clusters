@@ -31,7 +31,7 @@ spec:
     spec:
       # renovate: registryUrl=https://bjw-s.github.io/helm-charts/
       chart: app-template
-      version: 2.5.0
+      version: 2.6.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -55,7 +55,7 @@ spec:
           main:
             image:
               repository: ghcr.io/onedr0p/bazarr
-              tag: 1.4.1@sha256:4a9584435db5881306fa477115363db0ff79a3c70c7f67b5fe0c2e62978252a5
+              tag: 1.4.2@sha256:113035f37f289f190781d9d728f2ebf56c895b972921820f5d30408427c837d9
             resources:
               requests:
                 cpu: 350m

@@ -31,7 +31,7 @@ spec:
     spec:
       # renovate: registryUrl=https://bjw-s.github.io/helm-charts/
       chart: app-template
-      version: 2.5.0
+      version: 2.6.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -54,7 +54,7 @@ spec:
           main:
             image:
               repository: ghcr.io/onedr0p/radarr-develop
-              tag: 5.3.3.8535@sha256:26828804d18717b6420b55e02f42a59024e3e2170457ae8b381a51f55229056a
+              tag: 5.4.3.8677@sha256:5af64ec397048c9c86a306b18072aa4c1ce60cd7ce6674c111ef59517ea96ea0
             env:
               RADARR__APPLICATION_URL: https://radarr.buvis.net
               RADARR__API_KEY: ${SECRET_RADARR_API_KEY}
@@ -67,7 +67,7 @@ spec:
           exporter:
             image:
               repository: ghcr.io/onedr0p/exportarr
-              tag: v1.6.1
+              tag: v2.0.0
             env:
               PORT: "7373"
               URL: "http://radarr.media.svc.cluster.local:7878"

@@ -31,7 +31,7 @@ spec:
     spec:
       # renovate: registryUrl=https://bjw-s.github.io/helm-charts/
       chart: app-template
-      version: 2.5.0
+      version: 2.6.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -52,7 +52,7 @@ spec:
           main:
             image:
               repository: ghcr.io/onedr0p/prowlarr-nightly
-              tag: 1.13.2.4251@sha256:fc0045b252e35d72e7d61ef5f2f4f83446abb918fa0e8e2ab87398d4ca8323f5
+              tag: 1.15.0.4339@sha256:55a1874fb28a7a5c08c5191f4d4a2b194b0e23789074854d06e73c6517ab632d
             env:
               PROWLARR__INSTANCE_NAME: Prowlarr
               PROWLARR__PORT: &port 9696
