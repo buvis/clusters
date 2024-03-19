@@ -56,7 +56,8 @@ spec:
         serviceMonitor:
           enabled: true
       postgresqlMaxConnections: 500
-      postgresqlPassword: ${SECRET_AUTHENTIK_DB_PASSWORD}
+      auth:
+        password: ${SECRET_AUTHENTIK_DB_PASSWORD}
     redis:
       enabled: true
       architecture: standalone
