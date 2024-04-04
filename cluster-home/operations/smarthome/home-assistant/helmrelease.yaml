@@ -48,7 +48,7 @@ spec:
           main:
             image:
               repository: ghcr.io/home-assistant/home-assistant
-              tag: 2024.3.3
+              tag: 2024.4.0
           codeserver:
             image:
               repository: codercom/code-server
