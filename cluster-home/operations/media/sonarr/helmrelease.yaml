@@ -67,7 +67,7 @@ spec:
           exporter:
             image:
               repository: ghcr.io/onedr0p/exportarr
-              tag: v2.0.0
+              tag: v2.0.1
             env:
               PORT: "7373"
               URL: "http://sonarr.media.svc.cluster.local:8989"
