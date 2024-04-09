@@ -3,7 +3,7 @@
   value:
     name: custom
     urls:
-    - https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/tigera-operator.yaml
+    - https://raw.githubusercontent.com/projectcalico/calico/release-v3.27/manifests/tigera-operator.yaml
     - https://raw.githubusercontent.com/buvis/clusters/main/cluster-home/infrastructure/manifests/install-calico.yaml
 - op: replace
   path: /cluster/network/podSubnets
