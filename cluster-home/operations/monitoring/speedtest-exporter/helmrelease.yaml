@@ -30,9 +30,9 @@ spec:
         namespace: flux-system
   values:
     controllers:
-      main:
+      speedtestExporter:
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/miguelndecarvalho/speedtest-exporter
               tag: v3.5.4
@@ -45,7 +45,8 @@ spec:
               limits:
                 memory: 100M
     service:
-      main:
+      app:
+        controller: speedtestExporter
         ports:
           http:
             port: 9798
