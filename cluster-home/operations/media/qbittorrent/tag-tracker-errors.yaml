@@ -44,7 +44,7 @@ spec:
       - --last-activity
       - --tracker-down
       - -s
-      - qbittorrent.media.svc.cluster.local
+      - qbittorrent-app.media.svc.cluster.local
       - -p
       - "8080"
       - -U
