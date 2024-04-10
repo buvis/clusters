@@ -145,8 +145,8 @@ spec:
             subPath: config.yaml
             readOnly: true
       media:
-        existingClaim: nas-pv-media
+        existingClaim: nas-media-downloads
         advancedMounts:
           orphaned:
             app:
-            - path: /media
+            - path: /downloads
