@@ -37,10 +37,7 @@ spec:
         enabled: true
         ingressClassName: nginx
         hosts:
-        - host: auth.buvis.net
-          paths:
-          - path: /
-            pathType: Prefix
+        - auth.buvis.net
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-production
         tls:
