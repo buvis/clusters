@@ -49,9 +49,9 @@ spec:
         supplementalGroups:
         - 985
     controllers:
-      main:
+      lidarr:
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/onedr0p/lidarr
               tag: 2.1.7.4030@sha256:29c7a9cae2bc0530083a4aa66f4e827ace24096d0909cd1e58d679e78cfea84b
@@ -93,34 +93,33 @@ spec:
         enabled: true
         existingClaim: nas-media-downloads
     service:
-      main:
+      app:
+        controller: lidarr
         ports:
           http:
             port: 8686
       exporter:
-        enabled: true
-        controller: main
+        controller: lidarr
         ports:
           http:
             port: 7373
     ingress:
-      main:
-        enabled: true
+      app:
+        className: nginx
         annotations:
-          kubernetes.io/ingress.class: nginx
           cert-manager.io/cluster-issuer: letsencrypt-production
           authentik.home.arpa/enabled: "true"
         hosts:
-        - host: lidarr.buvis.net
+        - host: &hostName lidarr.buvis.net
           paths:
           - path: /
             pathType: Prefix
             service:
-              name: main
+              identifier: app
               port: http
         tls:
         - hosts:
-          - lidarr.buvis.net
+          - *hostName
           secretName: lidarr-crt
     serviceMonitor:
       main:

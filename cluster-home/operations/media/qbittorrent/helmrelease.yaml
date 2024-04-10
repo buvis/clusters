@@ -41,7 +41,7 @@ spec:
     defaultPodOptions:
       annotations:
         setVPNGateway: "true"
-      securityContext::
+      securityContext:
         runAsUser: 568
         runAsGroup: 568
         fsGroup: 568
@@ -49,9 +49,9 @@ spec:
         supplementalGroups:
         - 985
     controllers:
-      main:
+      qbittorrent:
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/onedr0p/qbittorrent
               tag: 4.6.4@sha256:cb8a7df4e63bf410834af7846b6d5eee4f10748d03819ee7218015c5b0332a29
@@ -76,13 +76,13 @@ spec:
         enabled: true
         existingClaim: nas-media-downloads
     service:
-      main:
+      app:
+        controller: qbittorrent
         ports:
           http:
             port: 8080
       bittorrent:
-        enabled: true
-        controller: main
+        controller: qbittorrent
         type: LoadBalancer
         externalIPs:
         - ${SVC_IP_BITTORRENT}
@@ -94,21 +94,20 @@ spec:
             protocol: TCP
             targetPort: ${SECRET_VPN_BT_FORWARD_PORT}
     ingress:
-      main:
-        enabled: true
+      app:
+        className: nginx
         annotations:
-          kubernetes.io/ingress.class: nginx
           cert-manager.io/cluster-issuer: letsencrypt-production
           authentik.home.arpa/enabled: "true"
         hosts:
-        - host: qb.buvis.net
+        - host: &hostName qb.buvis.net
           paths:
           - path: /
             pathType: Prefix
             service:
-              name: main
+              identifier: app
               port: http
         tls:
         - hosts:
-          - qb.buvis.net
+          - *hostName
           secretName: qbittorrent-crt
