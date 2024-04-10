@@ -49,9 +49,9 @@ spec:
         supplementalGroups:
         - 985
     controllers:
-      main:
+      radarr:
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/onedr0p/radarr-develop
               tag: 5.4.5.8715@sha256:70c1f8ad136803e0a525d0a274a9f0e4788ef2b9e1215410469b27e91f5ee423
@@ -94,34 +94,33 @@ spec:
         enabled: true
         existingClaim: nas-media-downloads
     service:
-      main:
+      app:
+        controller: radarr
         ports:
           http:
             port: 7878
       exporter:
-        enabled: true
-        controller: main
+        controller: radarr
         ports:
           http:
             port: 7373
     ingress:
-      main:
-        enabled: true
+      app:
+        className: nginx
         annotations:
-          kubernetes.io/ingress.class: nginx
           cert-manager.io/cluster-issuer: letsencrypt-production
           authentik.home.arpa/enabled: "true"
         hosts:
-        - host: radarr.buvis.net
+        - host: &hostName radarr.buvis.net
           paths:
           - path: /
             pathType: Prefix
             service:
-              name: main
+              identifier: app
               port: http
         tls:
         - hosts:
-          - radarr.buvis.net
+          - *hostName
           secretName: radarr-crt
     serviceMonitor:
       main:

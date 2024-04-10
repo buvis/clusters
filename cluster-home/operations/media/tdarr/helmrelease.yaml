@@ -41,9 +41,9 @@ spec:
         fsGroup: 1000
         fsGroupChangePolicy: "OnRootMismatch"
     controllers:
-      main:
+      tdarr:
         containers:
-          main:
+          app:
             image:
               repository: haveagitgat/tdarr
               tag: 2.17.01@sha256:dc1c17ebeee83583fa74df90a96017869fe4a9448cd066be8482720a3798d319
@@ -80,7 +80,8 @@ spec:
         globalMounts:
         - subPath: tdarr/cache
     service:
-      main:
+      app:
+        controller: tdarr
         ports:
           http:
             port: 8265
@@ -89,21 +90,20 @@ spec:
             protocol: TCP
             port: 8266
     ingress:
-      main:
-        enabled: true
+      app:
+        className: nginx
         annotations:
-          kubernetes.io/ingress.class: nginx
           cert-manager.io/cluster-issuer: letsencrypt-production
           authentik.home.arpa/enabled: "true"
         hosts:
-        - host: tdarr.buvis.net
+        - host: &hostName tdarr.buvis.net
           paths:
           - path: /
             pathType: Prefix
             service:
-              name: main
+              identifier: app
               port: http
         tls:
         - hosts:
-          - tdarr.buvis.net
+          - *hostName
           secretName: tdarr-crt

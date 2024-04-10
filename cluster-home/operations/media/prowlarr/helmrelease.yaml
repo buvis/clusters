@@ -47,9 +47,9 @@ spec:
         fsGroup: 568
         fsGroupChangePolicy: "OnRootMismatch"
     controllers:
-      main:
+      prowlarr:
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/onedr0p/prowlarr-nightly
               tag: 1.16.1.4404@sha256:23fac9c142bb1a30f30b13afd1ec06ceefd7488ff7e416cd729c3fd3a84ddb0d
@@ -70,26 +70,26 @@ spec:
         existingClaim: prowlarr-config
     hostname: prowlarr
     service:
-      main:
+      app:
+        controller: prowlarr
         ports:
           http:
             port: *port
     ingress:
-      main:
-        enabled: true
+      app:
+        className: nginx
         annotations:
-          kubernetes.io/ingress.class: nginx
           cert-manager.io/cluster-issuer: letsencrypt-production
           authentik.home.arpa/enabled: "true"
         hosts:
-        - host: prowlarr.buvis.net
+        - host: &hostName prowlarr.buvis.net
           paths:
           - path: /
             pathType: Prefix
             service:
-              name: main
+              identifier: app
               port: http
         tls:
         - hosts:
-          - prowlarr.buvis.net
+          - *hostName
           secretName: prowlarr-crt
