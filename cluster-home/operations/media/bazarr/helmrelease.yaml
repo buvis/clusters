@@ -50,9 +50,9 @@ spec:
         - 983
         - 985
     controllers:
-      main:
+      bazarr:
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/onedr0p/bazarr
               tag: 1.4.2@sha256:5f73fa193ab4aa10b559b4693cc021f7edec57b20677e550f7bebf5ac8f70a13
@@ -73,26 +73,26 @@ spec:
         globalMounts:
         - path: /media/videos
     service:
-      main:
+      app:
+        controller: bazarr
         ports:
           http:
             port: 6767
     ingress:
-      main:
-        enabled: true
+      app:
+        className: nginx
         annotations:
-          kubernetes.io/ingress.class: nginx
           cert-manager.io/cluster-issuer: letsencrypt-production
           authentik.home.arpa/enabled: "true"
         hosts:
-        - host: bazarr.buvis.net
+        - host: &hostName bazarr.buvis.net
           paths:
           - path: /
             pathType: Prefix
             service:
-              name: main
+              identifier: app
               port: http
         tls:
         - hosts:
-          - bazarr.buvis.net
+          - *hostName
           secretName: bazarr-crt
