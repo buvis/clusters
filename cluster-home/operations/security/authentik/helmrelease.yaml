@@ -31,7 +31,6 @@ spec:
         name: authentik
         namespace: flux-system
   values:
-    replicas: 2
     kubernetesIntegration: true
     ingress:
       enabled: true
