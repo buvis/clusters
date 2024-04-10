@@ -32,20 +32,21 @@ spec:
         namespace: flux-system
   values:
     kubernetesIntegration: true
-    ingress:
-      enabled: true
-      ingressClassName: nginx
-      hosts:
-      - host: auth.buvis.net
-        paths:
-        - path: /
-          pathType: Prefix
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-production
-      tls:
-      - secretName: authentik-https-cert
+    server:
+      ingress:
+        enabled: true
+        ingressClassName: nginx
         hosts:
-        - auth.buvis.net
+        - host: auth.buvis.net
+          paths:
+          - path: /
+            pathType: Prefix
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-production
+        tls:
+        - secretName: authentik-https-cert
+          hosts:
+          - auth.buvis.net
     postgresql:
       enabled: true
       persistence:
