@@ -51,8 +51,8 @@ spec:
               "--unregistered",
               "--server", "qbittorrent-app.media",
               "--port", "8080",
-              "--username", ${SECRET_QB_USERNAME},
-              "--password", ${SECRET_QB_PASSWORD},
+              "--username", "${SECRET_QB_USERNAME}",
+              "--password", "${SECRET_QB_PASSWORD}",
               "--config", "/config/config.yaml"
             ]
             resources: &resources
@@ -72,8 +72,8 @@ spec:
               "--include-tag", "unregistered",
               "--server", "qbittorrent-app.media",
               "--port", "8080",
-              "--username", ${SECRET_QB_USERNAME},
-              "--password", ${SECRET_QB_PASSWORD},
+              "--username", "${SECRET_QB_USERNAME}",
+              "--password", "${SECRET_QB_PASSWORD}",
             ]
             resources: *resources
           expired:
@@ -88,8 +88,8 @@ spec:
               "--include-tag", "added:7d",
               "--server", "qbittorrent-app.media",
               "--port", "8080",
-              "--username", ${SECRET_QB_USERNAME},
-              "--password", ${SECRET_QB_PASSWORD},
+              "--username", "${SECRET_QB_USERNAME}",
+              "--password", "${SECRET_QB_PASSWORD}",
             ]
             resources: *resources
         pod:
@@ -113,8 +113,8 @@ spec:
               "--exclude-pattern", "*/music.import/*",
               "--server", "qbittorrent-app.media",
               "--port", "8080",
-              "--username", ${SECRET_QB_USERNAME},
-              "--password", ${SECRET_QB_PASSWORD},
+              "--username", "${SECRET_QB_USERNAME}",
+              "--password", "${SECRET_QB_PASSWORD}",
               "--dry-run",
             ]
             resources: *resources
@@ -130,8 +130,8 @@ spec:
               "--process-seeding",
               "--server", "qbittorrent-app.media",
               "--port", "8080",
-              "--username", ${SECRET_QB_USERNAME},
-              "--password", ${SECRET_QB_PASSWORD},
+              "--username", "${SECRET_QB_USERNAME}",
+              "--password", "${SECRET_QB_PASSWORD}",
             ]
             resources: *resources
         pod:
