@@ -43,9 +43,9 @@ spec:
         fsGroup: 0
         fsGroupChangePolicy: OnRootMismatch
     controllers:
-      main:
+      hass:
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/home-assistant/home-assistant
               tag: 2024.4.2
@@ -68,7 +68,8 @@ spec:
         enabled: true
         existingClaim: hass-config
     service:
-      main:
+      app:
+        controller: hass
         type: LoadBalancer
         externalIPs:
         - ${SVC_IP_HASS}
@@ -78,45 +79,43 @@ spec:
             port: 8123
       codeserver:
         type: ClusterIP
-        controller: main
+        controller: hass
         ports:
           http:
             enabled: true
             port: 12321
             protocol: TCP
     ingress:
-      main:
-        enabled: true
+      app:
+        className: nginx
         annotations:
-          kubernetes.io/ingress.class: nginx
           cert-manager.io/cluster-issuer: letsencrypt-production
           nginx.org/websocket-services: hass
         hosts:
-        - host: hass.buvis.net
+        - host: &hostName hass.buvis.net
           paths:
           - path: /
             service:
-              name: main
+              identifier: app
               port: http
         tls:
         - hosts:
-          - hass.buvis.net
+          - *hostName
           secretName: hass-crt
       codeserver:
-        enabled: true
+        className: nginx
         annotations:
-          kubernetes.io/ingress.class: "nginx"
           cert-manager.io/cluster-issuer: letsencrypt-production
           authentik.home.arpa/enabled: "true"
         hosts:
-        - host: hass-editor.buvis.net
+        - host: &hostNameEditor hass-editor.buvis.net
           paths:
           - path: /
             pathType: Prefix
             service:
-              name: codeserver
+              identifier: codeserver
               port: http
         tls:
         - hosts:
-          - hass-editor.buvis.net
+          - *hostNameEditor
           secretName: hass-editor-crt
