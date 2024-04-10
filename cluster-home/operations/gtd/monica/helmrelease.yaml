@@ -37,9 +37,9 @@ spec:
       interval: 5m
   values:
     controllers:
-      main:
+      monica:
         containers:
-          main:
+          app:
             image:
               repository: monica
               tag: 4.0.0-apache
@@ -55,8 +55,8 @@ spec:
               DEFAULT_MAX_UPLOAD_SIZE: 2000
               DEFAULT_MAX_STORAGE_SIZE: 2048
     service:
-      main:
-        enabled: true
+      app:
+        controller: monica
         ports:
           http:
             port: 80
@@ -70,24 +70,22 @@ spec:
         globalMounts:
         - path: /var/www/html/storage
     ingress:
-      main:
-        enabled: true
+      app:
+        className: nginx
         annotations:
-          kubernetes.io/ingress.class: nginx
           cert-manager.io/cluster-issuer: letsencrypt-production
           nginx.ingress.kubernetes.io/server-snippet: |-
             location ~ /\.well-known/(?:carddav|caldav) {
               return 301 https://$host/dav;
             }
         hosts:
-        - host: crm.buvis.net
+        - host: &hostName crm.buvis.net
           paths:
           - path: /
             pathType: Prefix
             service:
-              name: main
+              identifier: app
               port: http
         tls:
         - hosts:
-          - crm.buvis.net
-          secretName: monica-crt
+          - *hostName
