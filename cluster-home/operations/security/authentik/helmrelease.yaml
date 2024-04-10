@@ -50,10 +50,6 @@ spec:
       enabled: true
       persistence:
         existingClaim: authentik-db
-      metrics:
-        enabled: true
-        serviceMonitor:
-          enabled: true
       postgresqlMaxConnections: 500
       auth:
         password: ${SECRET_AUTHENTIK_DB_PASSWORD}
@@ -62,16 +58,11 @@ spec:
       architecture: standalone
       global:
         storageClass: openebs-jiva-csi-default
-      metrics:
-        enabled: true
-        serviceMonitor:
-          enabled: true
-    prometheus:
-      serviceMonitor:
-        create: true
     authentik:
       secret_key: ${SECRET_AUTHENTIK_SECRET_KEY}
       postgresql:
         name: authentik
         user: authentik
         password: ${SECRET_AUTHENTIK_DB_PASSWORD}
+    global:
+      addPrometheusAnnotations: true
