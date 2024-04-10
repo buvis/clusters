@@ -115,7 +115,7 @@ spec:
               "--port", "8080",
               "--username", "${SECRET_QB_USERNAME}",
               "--password", "${SECRET_QB_PASSWORD}",
-              "--dry-run",
+              # "--dry-run",
             ]
             resources: *resources
         pod:
