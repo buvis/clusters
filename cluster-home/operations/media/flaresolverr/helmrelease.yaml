@@ -35,7 +35,7 @@ spec:
         setVPNGateway: "true"
     controllers:
       flaresolverr:
-        controllerType: deployment
+        type: deployment
         containers:
           app:
             image:
