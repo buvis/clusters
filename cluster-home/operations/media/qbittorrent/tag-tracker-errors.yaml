@@ -34,8 +34,8 @@ spec:
       cronjob:
         schedule: "@hourly"
     image:
-      repository: ghcr.io/buroa/qbittools
-      tag: v0.1.0
+      repository: ghcr.io/buroa/qbtools
+      tag: latest@sha256:dc8957554902738837d1d0a6b4c4af5e27e1454341b0d9df5992be51cc1ecd65
     args:
       - tagging
       - --not-working
