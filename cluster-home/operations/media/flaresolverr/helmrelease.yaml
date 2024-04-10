@@ -34,10 +34,10 @@ spec:
       annotations:
         setVPNGateway: "true"
     controllers:
-      main:
+      flaresolverr:
         controllerType: deployment
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/flaresolverr/flaresolverr
               tag: v3.3.16
@@ -51,7 +51,8 @@ spec:
               limits:
                 memory: 292Mi
     service:
-      main:
+      app:
+        controller: flaresolverr
         ports:
           http:
             port: 8191

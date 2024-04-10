@@ -45,9 +45,9 @@ spec:
         - 109
         - 65539
     controllers:
-      main:
+      jellyfin:
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/onedr0p/jellyfin
               tag: 10.8.11@sha256:926e2a9f6677a0c7b12feba29f36c954154869318d6a52df72f72ff9c74cf494
@@ -73,7 +73,8 @@ spec:
         enabled: true
         type: emptyDir
     service:
-      main:
+      app:
+        controller: jellyfin
         type: LoadBalancer
         externalIPs:
         - ${SVC_IP_JELLYFIN}
@@ -82,19 +83,18 @@ spec:
           http:
             port: 8096
     ingress:
-      main:
-        enabled: true
+      app:
+        className: nginx
         annotations:
-          kubernetes.io/ingress.class: nginx
           cert-manager.io/cluster-issuer: letsencrypt-production
         hosts:
-        - host: jellyfin.buvis.net
+        - host: &hostName jellyfin.buvis.net
           paths:
           - path: /
             service:
-              name: main
+              identifier: app
               port: http
         tls:
         - hosts:
-          - jellyfin.buvis.net
+          - *hostName
           secretName: jellyfin-crt
