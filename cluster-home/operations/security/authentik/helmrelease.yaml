@@ -46,9 +46,9 @@ spec:
           - auth.buvis.net
     postgresql:
       enabled: true
-      persistence:
-        existingClaim: authentik-db
-      postgresqlMaxConnections: 500
+      primary:
+        persistence:
+          existingClaim: authentik-db
       auth:
         password: ${SECRET_AUTHENTIK_DB_PASSWORD}
     redis:
