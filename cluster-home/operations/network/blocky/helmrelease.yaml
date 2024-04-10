@@ -43,33 +43,35 @@ spec:
                   - blocky
               topologyKey: kubernetes.io/hostname
     controllers:
-      main:
+      blocky:
         replicas: 3
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/0xerr0r/blocky
               tag: v0.23
             probes:
               liveness:
-                failureThreshold: 5
-                periodSeconds: 10
+                spec:
+                  failureThreshold: 5
+                  periodSeconds: 10
               readiness:
-                failureThreshold: 5
-                periodSeconds: 10
+                spec:
+                  failureThreshold: 5
+                  periodSeconds: 10
               startup:
-                initialDelaySeconds: 5
-                failureThreshold: 30
-                periodSeconds: 10
+                spec:
+                  initialDelaySeconds: 5
+                  failureThreshold: 30
+                  periodSeconds: 10
     service:
-      main:
-        enabled: true
+      app:
+        controller: blocky
         ports:
           http:
             port: 4000
       dns-tcp:
-        enabled: true
-        controller: main
+        controller: blocky
         type: LoadBalancer
         externalIPs:
         - ${SVC_IP_BLOCKY}
@@ -81,8 +83,7 @@ spec:
             protocol: TCP
             targetPort: 53
       dns-udp:
-        enabled: true
-        controller: main
+        controller: blocky
         type: LoadBalancer
         externalIPs:
         - ${SVC_IP_BLOCKY}
@@ -110,8 +111,8 @@ spec:
         name: blocky-config
         globalMounts:
         - path: /app/config.yml
+          readOnly: true
           subPath: config.yml
-        readOnly: true
     configMaps:
       config:
         enabled: true
