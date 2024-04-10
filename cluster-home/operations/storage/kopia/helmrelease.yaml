@@ -52,9 +52,9 @@ spec:
         - name: snapshots
           mountPath: /snapshots
     controllers:
-      main:
+      kopia:
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/onedr0p/kopia
               tag: 0.13.0@sha256:ee6608635237c9ddf3ec5b456122cb60f0195c5cad84b06e945498f2338bff59
@@ -73,8 +73,8 @@ spec:
             - --log-level
             - debug
     service:
-      main:
-        enabled: true
+      app:
+        controller: kopia
         type: LoadBalancer
         externalIPs:
         - ${SVC_IP_KOPIA}
@@ -86,23 +86,22 @@ spec:
             enabled: true
             port: 8080
     ingress:
-      main:
-        enabled: true
+      app:
+        className: nginx
         annotations:
-          kubernetes.io/ingress.class: nginx
           cert-manager.io/cluster-issuer: letsencrypt-production
           authentik.home.arpa/enabled: "true"
         hosts:
-        - host: kopia.buvis.net
+        - host: &hostName kopia.buvis.net
           paths:
           - path: /
             pathType: Prefix
             service:
-              name: main
+              identifier: app
               port: http
         tls:
         - hosts:
-          - kopia.buvis.net
+          - *hostName
           secretName: kopia-crt
     persistence:
       config:
@@ -111,8 +110,8 @@ spec:
         name: kopia-ui-config
         globalMounts:
         - path: /config/repository.config
+          readOnly: true
           subPath: repository.config
-        readOnly: true
       snapshots:
         enabled: true
         type: nfs
