@@ -33,34 +33,34 @@ spec:
       interval: 5m
   values:
     controllers:
-      main:
+      baikal:
         containers:
-          main:
+          app:
             image:
               repository: ckulka/baikal
               tag: 0.9.4-nginx
     service:
-      main:
+      app:
+        controller: baikal
         ports:
           http:
             port: 80
     ingress:
-      main:
-        enabled: true
+      app:
+        className: nginx
         annotations:
-          kubernetes.io/ingress.class: nginx
           cert-manager.io/cluster-issuer: letsencrypt-production
         hosts:
-        - host: cal.buvis.net
+        - host: &hostName cal.buvis.net
           paths:
           - path: /
             pathType: Prefix
             service:
-              name: main
+              identifier: app
               port: http
         tls:
         - hosts:
-          - cal.buvis.net
+          - *hostName
           secretName: cal-crt
     persistence:
       config:
