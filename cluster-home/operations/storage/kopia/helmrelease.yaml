@@ -39,7 +39,7 @@ spec:
         - 100
     initContainers:
       wait-for-repo:
-        image: docker.io/kopia/kopia:0.16.1@sha256:827a11a37c8e161b49a086dd0de948ed16205a5262667f009f212df077696ed7
+        image: docker.io/kopia/kopia:20240412.0.225911@sha256:e2b4780bab171b0acf7f21a0a27bc5998390c11d18c3a7ea005d674ca071e2d4
         command:
         - /bin/bash
         - -c
@@ -57,7 +57,7 @@ spec:
           app:
             image:
               repository: docker.io/kopia/kopia
-              tag: 0.16.1@sha256:827a11a37c8e161b49a086dd0de948ed16205a5262667f009f212df077696ed7
+              tag: 20240412.0.225911@sha256:e2b4780bab171b0acf7f21a0a27bc5998390c11d18c3a7ea005d674ca071e2d4
             env:
               KOPIA_PASSWORD: "none"
             command: kopia
