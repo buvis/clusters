@@ -84,7 +84,7 @@ spec:
                   # Stagger jobs to run randomly within X seconds to avoid bringing down all apps at once
                   initContainers:
                   - name: wait
-                    image: docker.io/kopia/kopia:20240412.0.225911@sha256:e2b4780bab171b0acf7f21a0a27bc5998390c11d18c3a7ea005d674ca071e2d4
+                    image: docker.io/kopia/kopia:20240412.0.225911@sha256:71f87ac0abe4c34808016394635b45eec63a5a934f0baab266516e93ca40fb3e
                     command: ["/scripts/sleep.sh"]
                     args: ["1", "900"]
                     env:
@@ -92,7 +92,7 @@ spec:
                       value: ${TIMEZONE}
                   containers:
                   - name: snapshot
-                    image: docker.io/kopia/kopia:20240412.0.225911@sha256:e2b4780bab171b0acf7f21a0a27bc5998390c11d18c3a7ea005d674ca071e2d4
+                    image: docker.io/kopia/kopia:20240412.0.225911@sha256:71f87ac0abe4c34808016394635b45eec63a5a934f0baab266516e93ca40fb3e
                     env:
                     - name: KOPIA_CACHE_DIRECTORY
                       value: /snapshots/{{ namespace }}/{{ claimName }}/cache
