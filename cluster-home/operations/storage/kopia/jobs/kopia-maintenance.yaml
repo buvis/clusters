@@ -19,7 +19,7 @@ spec:
           restartPolicy: OnFailure
           initContainers:
           - name: wait-for-repo
-            image: docker.io/kopia/kopia:20240412.0.225911@sha256:e2b4780bab171b0acf7f21a0a27bc5998390c11d18c3a7ea005d674ca071e2d4
+            image: docker.io/kopia/kopia:20240412.0.225911@sha256:71f87ac0abe4c34808016394635b45eec63a5a934f0baab266516e93ca40fb3e
             command:
             - /bin/bash
             - -c
@@ -33,7 +33,7 @@ spec:
               mountPath: /snapshots
           containers:
           - name: maintenance
-            image: docker.io/kopia/kopia:20240412.0.225911@sha256:e2b4780bab171b0acf7f21a0a27bc5998390c11d18c3a7ea005d674ca071e2d4
+            image: docker.io/kopia/kopia:20240412.0.225911@sha256:71f87ac0abe4c34808016394635b45eec63a5a934f0baab266516e93ca40fb3e
             env:
             - name: TZ
               value: ${TIMEZONE}
