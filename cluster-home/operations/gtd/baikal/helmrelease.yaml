@@ -51,7 +51,7 @@ spec:
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-production
         hosts:
-        - host: &hostName cal.buvis.net
+        - host: &hostName dav.buvis.net
           paths:
           - path: /
             pathType: Prefix
@@ -61,7 +61,7 @@ spec:
         tls:
         - hosts:
           - *hostName
-          secretName: cal-crt
+          secretName: dav-crt
     persistence:
       config:
         enabled: true
