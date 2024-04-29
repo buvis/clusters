@@ -65,17 +65,11 @@ spec:
     persistence:
       config:
         enabled: true
-        type: nfs
-        server: ${NFS_SERVER_IP}
-        path: ${NFS_SERVER_PATH_PV}/gtd/baikal
+        existingClaim: baikal-config
         globalMounts:
         - path: /var/www/baikal/config
-          subPath: config
       data:
         enabled: true
-        type: nfs
-        server: ${NFS_SERVER_IP}
-        path: ${NFS_SERVER_PATH_PV}/gtd/baikal
+        existingClaim: baikal-data
         globalMounts:
         - path: /var/www/baikal/Specific
-          subPath: data
