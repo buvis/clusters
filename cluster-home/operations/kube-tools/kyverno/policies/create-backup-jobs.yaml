@@ -102,7 +102,7 @@ spec:
                     - |-
                       printf "\e[1;32m%-6s\e[m\n" "[01/10] Create repo ..."              && [[ ! -f /snapshots/kopia.repository.f ]] && kopia repository create filesystem --path=/snapshots
                       printf "\e[1;32m%-6s\e[m\n" "[02/10] Connect to repo ..."          && kopia repo connect filesystem --path=/snapshots --override-hostname=cluster --override-username=root
-                      printf "\e[1;32m%-6s\e[m\n" "[03/10] Set policies ..."             && kopia policy set /data/{{ namespace }}/{{ claimName }} --compression=zstd --keep-latest 14 --keep-hourly 0 --keep-daily 7 --keep-weekly 2 --keep-monthly 0 --keep-annual 0
+                      printf "\e[1;32m%-6s\e[m\n" "[03/10] Set policies ..."             && kopia policy set /data/{{ namespace }}/{{ claimName }} --compression=zstd --keep-latest 25 --keep-hourly 0 --keep-daily 10 --keep-weekly 9 --keep-monthly 6 --keep-annual 0
                       printf "\e[1;32m%-6s\e[m\n" "[04/10] Freeze {{ claimName }} ..."   && fsfreeze -f /data/{{ namespace }}/{{ claimName }}
                       printf "\e[1;32m%-6s\e[m\n" "[05/10] Snapshot {{ claimName }} ..." && kopia snap create /data/{{ namespace }}/{{ claimName }}
                       printf "\e[1;32m%-6s\e[m\n" "[06/10] Unfreeze {{ claimName }} ..." && fsfreeze -u /data/{{ namespace }}/{{ claimName }}
