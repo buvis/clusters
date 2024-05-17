@@ -46,7 +46,7 @@ spec:
           app:
             image:
               repository: haveagitgat/tdarr
-              tag: 2.17.01@sha256:dc1c17ebeee83583fa74df90a96017869fe4a9448cd066be8482720a3798d319
+              tag: 2.18.02@sha256:fd1b63bce97269f145a99dfe8209faffbf1cc46f5d5f27561c8310bc99755f20
           node:
             image:
               repository: haveagitgat/tdarr_node
