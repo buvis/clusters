@@ -1,5 +1,5 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: bazarr
@@ -31,7 +31,7 @@ spec:
     spec:
       # renovate: registryUrl=https://bjw-s.github.io/helm-charts/
       chart: app-template
-      version: 3.1.0
+      version: 3.2.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -55,7 +55,7 @@ spec:
           app:
             image:
               repository: ghcr.io/onedr0p/bazarr
-              tag: 1.4.2@sha256:62558b2f9210b288f01e96753c99699dc2fab7c27f9e678f994bd0068bc6d41e
+              tag: 1.4.2@sha256:d67bf3863db168aff960344d3c85f8518aa69cc7182dc55b2a43ae38bc8d3235
             resources:
               requests:
                 cpu: 350m

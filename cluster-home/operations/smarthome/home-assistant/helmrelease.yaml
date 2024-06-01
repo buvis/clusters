@@ -1,5 +1,5 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: hass
@@ -29,7 +29,7 @@ spec:
     spec:
       # renovate: registryUrl=https://bjw-s.github.io/helm-charts/
       chart: app-template
-      version: 3.1.0
+      version: 3.2.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -48,11 +48,11 @@ spec:
           app:
             image:
               repository: ghcr.io/home-assistant/home-assistant
-              tag: 2024.5.3
+              tag: 2024.5.5
           codeserver:
             image:
               repository: codercom/code-server
-              tag: 4.89.0
+              tag: 4.89.1
             workingDir: "/config"
             args:
             - --auth

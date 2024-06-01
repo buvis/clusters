@@ -1,5 +1,5 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: radarr
@@ -31,7 +31,7 @@ spec:
     spec:
       # renovate: registryUrl=https://bjw-s.github.io/helm-charts/
       chart: app-template
-      version: 3.1.0
+      version: 3.2.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -54,7 +54,7 @@ spec:
           app:
             image:
               repository: ghcr.io/onedr0p/radarr-develop
-              tag: 5.5.2.8781@sha256:4b7de43df00613272532de7ecfc6a3207cb0a74fdcb2b05dd110ec2ebb493352
+              tag: 5.6.0.8846@sha256:b3137a2b451683d834627bf6997460f26eb864757b1ffb5eb6544a8ba6d432ef
             env:
               RADARR__APPLICATION_URL: https://radarr.buvis.net
               RADARR__API_KEY: ${SECRET_RADARR_API_KEY}

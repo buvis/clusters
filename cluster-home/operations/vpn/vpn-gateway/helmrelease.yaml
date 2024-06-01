@@ -1,5 +1,5 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: vpn-gateway
@@ -63,7 +63,7 @@ spec:
         gluetun:
           image:
             repository: ghcr.io/qdm12/gluetun
-            tag: latest@sha256:fab09c582118ab650e7a8b8371ca95ff604376ce0c8fdc346c5fef382afd85d1
+            tag: latest@sha256:f501359827a9c8523d78add8ce68791a31634c146c8eef0fd8700a68b8160cfd
         env:
         - name: VPN_SERVICE_PROVIDER
           value: ${SECRET_VPN_GATEWAY_PROVIDER}
