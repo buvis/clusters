@@ -3,29 +3,29 @@
   value:
     name: custom
     urls:
-    - https://raw.githubusercontent.com/projectcalico/calico/release-v3.27/manifests/tigera-operator.yaml
-    - https://raw.githubusercontent.com/buvis/clusters/main/cluster-home/infrastructure/manifests/install-calico.yaml
+      - https://raw.githubusercontent.com/projectcalico/calico/release-v3.28/manifests/tigera-operator.yaml
+      - https://raw.githubusercontent.com/buvis/clusters/main/cluster-home/infrastructure/manifests/install-calico.yaml
 - op: replace
   path: /cluster/network/podSubnets
   value:
-  - 172.22.0.0/16
+    - 172.22.0.0/16
 - op: replace
   path: /cluster/network/serviceSubnets
   value:
-  - 172.24.0.0/16
+    - 172.24.0.0/16
 - op: add
   path: /machine/disks
   value:
-  - device: /dev/sdb
-    partitions:
-    - mountpoint: /var/openebs/local
+    - device: /dev/sdb
+      partitions:
+        - mountpoint: /var/openebs/local
 - op: replace
   path: /machine/install/wipe
   value: true
 - op: add
   path: /machine/install/extensions
   value:
-  - image: "ghcr.io/siderolabs/iscsi-tools:v0.1.4@sha256:3ab305068aa28513b26ab3c5b1f2937dbe3f63b9c50abe290287cc58eb454bb9"  # https://github.com/siderolabs/extensions/issues/237
+    - image: "ghcr.io/siderolabs/iscsi-tools:v0.1.4@sha256:3ab305068aa28513b26ab3c5b1f2937dbe3f63b9c50abe290287cc58eb454bb9" # https://github.com/siderolabs/extensions/issues/237
 - op: add
   path: /machine/install/diskSelector
   value:
@@ -34,19 +34,19 @@
   path: /machine/kubelet
   value:
     extraMounts:
-    - destination: /var/openebs/local
-      type: bind
-      source: /var/openebs/local
-      options:
-      - bind
-      - rshared
-      - rw
+      - destination: /var/openebs/local
+        type: bind
+        source: /var/openebs/local
+        options:
+          - bind
+          - rshared
+          - rw
 - op: add
   path: /machine/time
   value:
     disabled: false
     servers:
-    - 'time.cloudflare.com'
-    - 'time.google.com'
-    - 'pool.ntp.org'
+      - "time.cloudflare.com"
+      - "time.google.com"
+      - "pool.ntp.org"
     bootTimeout: 2m0s
