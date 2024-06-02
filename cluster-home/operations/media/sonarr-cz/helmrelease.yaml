@@ -1,0 +1,135 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: sonarr-cz
+  namespace: media
+spec:
+  dependsOn:
+    - name: ingress-nginx
+      namespace: kube-tools
+    - name: cert-manager
+      namespace: kube-tools
+    - name: authentik
+      namespace: security
+    - name: vpn-gateway
+      namespace: vpn
+    - name: openebs
+      namespace: storage
+  interval: 5m
+  install:
+    timeout: 15m
+    remediation:
+      retries: 5
+  upgrade:
+    timeout: 15m
+    remediation:
+      retries: 5
+      remediateLastFailure: true
+    cleanupOnFail: true
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts/
+      chart: app-template
+      version: 3.2.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    defaultPodOptions:
+      annotations:
+        setVPNGateway: "true"
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: "OnRootMismatch"
+        supplementalGroups:
+          - 985
+    controllers:
+      sonarr-cz:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/onedr0p/sonarr-develop
+              tag: 4.0.5.1719@sha256:0fc7fff53bad288cdad69ab2b05fc53b5f16066215aa98bb2f2886d984e1eaf7
+            env:
+              SONARR__APPLICATION_URL: https://sonarr-cz.buvis.net
+              SONARR__API_KEY: ${SECRET_SONARR_CZ_API_KEY}
+            resources:
+              requests:
+                cpu: 10m
+                memory: 250Mi
+              limits:
+                memory: 2000Mi
+          exporter:
+            image:
+              repository: ghcr.io/onedr0p/exportarr
+              tag: v2.0.1
+            env:
+              PORT: "7373"
+              URL: "http://sonarr-cz.media.svc.cluster.local:8989"
+              ENABLE_ADDITIONAL_METRICS: "false"
+              ENABLE_UNKNOWN_QUEUE_ITEMS: "false"
+              APIKEY: ${SECRET_SONARR_CZ_API_KEY}
+            args: ["sonarr"]
+            resources:
+              requests:
+                cpu: 100m
+                memory: 100Mi
+              limits:
+                memory: 250Mi
+    persistence:
+      config:
+        enabled: true
+        existingClaim: sonarr-cz-config
+      media:
+        enabled: true
+        existingClaim: nas-media-videos
+        globalMounts:
+          - path: /media/videos
+      downloads:
+        enabled: true
+        existingClaim: nas-media-downloads
+    service:
+      app:
+        controller: sonarr-cz
+        ports:
+          http:
+            port: 8989
+      exporter:
+        controller: sonarr-cz
+        ports:
+          http:
+            port: 7373
+    ingress:
+      app:
+        className: nginx
+        annotations:
+          kubernetes.io/ingress.class: nginx
+          cert-manager.io/cluster-issuer: letsencrypt-production
+          authentik.home.arpa/enabled: "true"
+        hosts:
+          - host: &hostName sonarr-cz.buvis.net
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - *hostName
+            secretName: sonarr-cz-crt
+    serviceMonitor:
+      main:
+        enabled: true
+        serviceName: sonarr-cz-exporter
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 10s

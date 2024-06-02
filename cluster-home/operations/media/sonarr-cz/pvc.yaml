@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sonarr-cz-config
+  namespace: media
+  labels:
+    snapshot.home.arpa/enabled: "true"
+    app.kubernetes.io/name: sonarr-cz
+    app.kubernetes.io/instance: sonarr-cz
+spec:
+  storageClassName: openebs-jiva-csi-default
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
