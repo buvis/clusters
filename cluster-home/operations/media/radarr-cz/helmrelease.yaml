@@ -57,7 +57,7 @@ spec:
               tag: 5.6.0.8846@sha256:b3137a2b451683d834627bf6997460f26eb864757b1ffb5eb6544a8ba6d432ef
             env:
               RADARR__APPLICATION_URL: https://radarr-cz.buvis.net
-              RADARR__API_KEY: ${SECRET_RADARR-CZ_API_KEY}
+              RADARR__API_KEY: ${SECRET_RADARR_CZ_API_KEY}
             resources:
               requests:
                 cpu: 10m
@@ -73,7 +73,7 @@ spec:
               URL: "http://radarr-cz.media.svc.cluster.local:7878"
               ENABLE_ADDITIONAL_METRICS: "false"
               ENABLE_UNKNOWN_QUEUE_ITEMS: "false"
-              APIKEY: ${SECRET_RADARR-CZ_API_KEY}
+              APIKEY: ${SECRET_RADARR_CZ_API_KEY}
             args: ["radarr"]
             resources:
               requests:
