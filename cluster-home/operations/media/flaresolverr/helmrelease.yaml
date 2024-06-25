@@ -40,7 +40,7 @@ spec:
           app:
             image:
               repository: ghcr.io/flaresolverr/flaresolverr
-              tag: v3.3.19
+              tag: v3.3.20
             env:
               PUID: 1001
               PGID: 1001
