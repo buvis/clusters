@@ -89,6 +89,9 @@ spec:
               - NET_ADMIN
         networkPolicy:
           enabled: true
+          ingress:
+            - from:
+                - podSelector: {}
           egress:
             - to:
                 - ipBlock:
