@@ -32,13 +32,13 @@ spec:
       tag: v1.10.0
     DNS: 172.16.1.1
     routed_namespaces:
-    - media
+      - media
     publicPorts:
-    - hostname: torr
-      IP: 2
-      ports:
-      - type: tcp
-        port: ${SECRET_VPN_BT_FORWARD_PORT}
+      - hostname: torr
+        IP: 2
+        ports:
+          - type: tcp
+            port: ${SECRET_VPN_BT_FORWARD_PORT}
     settings:
       NOT_ROUTED_TO_GATEWAY_CIDRS: ${NETWORK_CIDR_K8S_CLUSTER} ${NETWORK_CIDR_K8S_SERVICE} ${NETWORK_CIDR_K8S_SERVICE_EXTERNAL} ${NETWORK_CIDR_HOST}
       VPN_INTERFACE: tun0
@@ -62,49 +62,49 @@ spec:
         type: gluetun
         gluetun:
           image:
-            repository: ghcr.io/qdm12/gluetun
-            tag: latest@sha256:d2ad195e725c8874e2d38014f82df1daaa615dad893360fed5185609e316c3dd
+            repository: docker.io/qmcgaw/gluetun
+            tag: latest@sha256:49fe8e1d3bc2f770e0b4ea94b93cd7a5bb6bad812e64d94d3a2cfc567474e8ad
         env:
-        - name: VPN_SERVICE_PROVIDER
-          value: ${SECRET_VPN_GATEWAY_PROVIDER}
-        - name: VPN_TYPE
-          value: openvpn
-        - name: VPN_INTERFACE
-          value: tun0
-        - name: OPENVPN_USER
-          value: ${SECRET_VPN_GATEWAY_USER}
-        - name: OPENVPN_PASSWORD
-          value: ${SECRET_VPN_GATEWAY_PASSWORD}
-        - name: VPN_PORT_FORWARDING_LISTENING_PORT
-          value: ${SECRET_VPN_BT_FORWARD_PORT}
-        - name: FIREWALL
-          value: off
-        - name: DOT
-          value: off
-        - name: TZ
-          value: ${TIMEZONE}
+          - name: VPN_SERVICE_PROVIDER
+            value: ${SECRET_VPN_GATEWAY_PROVIDER}
+          - name: VPN_TYPE
+            value: openvpn
+          - name: VPN_INTERFACE
+            value: tun0
+          - name: OPENVPN_USER
+            value: ${SECRET_VPN_GATEWAY_USER}
+          - name: OPENVPN_PASSWORD
+            value: ${SECRET_VPN_GATEWAY_PASSWORD}
+          - name: VPN_PORT_FORWARDING_LISTENING_PORT
+            value: ${SECRET_VPN_BT_FORWARD_PORT}
+          - name: FIREWALL
+            value: off
+          - name: DOT
+            value: off
+          - name: TZ
+            value: ${TIMEZONE}
         securityContext:
           capabilities:
             add:
-            - NET_ADMIN
+              - NET_ADMIN
         networkPolicy:
           enabled: true
           egress:
-          - to:
-            - ipBlock:
-                cidr: 0.0.0.0/0
-            ports:
-            - port: ${SECRET_VPN_GATEWAY_PORT}
-              protocol: UDP
-          - to:
-            - ipBlock:
-                cidr: ${NETWORK_CIDR_K8S_CLUSTER}
-          - to:
-            - ipBlock:
-                cidr: ${NETWORK_CIDR_K8S_SERVICE}
-          - to:
-            - ipBlock:
-                cidr: ${NETWORK_CIDR_K8S_SERVICE_EXTERNAL}
-          - to:
-            - ipBlock:
-                cidr: ${NETWORK_CIDR_HOST}
+            - to:
+                - ipBlock:
+                    cidr: 0.0.0.0/0
+              ports:
+                - port: ${SECRET_VPN_GATEWAY_PORT}
+                  protocol: UDP
+            - to:
+                - ipBlock:
+                    cidr: ${NETWORK_CIDR_K8S_CLUSTER}
+            - to:
+                - ipBlock:
+                    cidr: ${NETWORK_CIDR_K8S_SERVICE}
+            - to:
+                - ipBlock:
+                    cidr: ${NETWORK_CIDR_K8S_SERVICE_EXTERNAL}
+            - to:
+                - ipBlock:
+                    cidr: ${NETWORK_CIDR_HOST}
