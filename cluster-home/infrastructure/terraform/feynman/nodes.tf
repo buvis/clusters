@@ -23,22 +23,27 @@ resource "proxmox_vm_qemu" "kube-master" {
     bridge   = "vmbr0"
   }
 
-  disk {
-    type    = "scsi"
-    storage = "local-lvm"
-    size    = var.common.disk0
-    format  = "raw"
-    ssd     = 1
-    discard = true
-  }
-
-  disk {
-    type    = "scsi"
-    storage = each.value.pv_zfs
-    size    = var.common.disk1
-    format  = "raw"
-    ssd     = 1
-    discard = true
+  disks {
+    scsi {
+      scsi0 {
+        disk {
+          storage = "local-lvm"
+          size    = var.common.disk0
+          format  = "raw"
+          emulatessd = true
+          discard = true
+        }
+      }
+      scsi1 {
+        disk {
+          storage = each.value.pv_zfs
+          size    = var.common.disk1
+          format  = "raw"
+          emulatessd     = true
+          discard = true
+        }
+      }
+    }
   }
 
   serial {
