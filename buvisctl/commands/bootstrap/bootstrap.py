@@ -10,7 +10,6 @@ from adapters import (
 
 
 class CommandBootstrap:
-
     def __init__(self) -> None:
         self.socket = SocketAdapter()
         self.tf = []
@@ -34,12 +33,11 @@ class CommandBootstrap:
                 res = tf.init()
 
                 if res.is_ok():
-                    console.success(
-                        f"Terraform workspace initialized for {tf.name}")
+                    console.success(f"Terraform workspace initialized for {tf.name}")
                 else:
                     console.panic(
-                        f"Terraform workspace initialization failed "
-                        f"for {tf.name}!", )
+                        f"Terraform workspace initialization failed " f"for {tf.name}!",
+                    )
 
             with console.status(f"Creating Proxmox nodes on {tf.name}"):
                 res = tf.apply()
@@ -59,8 +57,7 @@ class CommandBootstrap:
             if res.is_ok():
                 console.success("Talos configuration generated")
             else:
-                console.panic("Talos configuration generation failed",
-                              res.message)
+                console.panic("Talos configuration generation failed", res.message)
 
     def configure_talos_nodes(self):
         for node in cfg.nodes:
@@ -68,11 +65,9 @@ class CommandBootstrap:
                 res = self.talos.configure_node(node)
 
                 if res.is_ok():
-                    console.success(
-                        f"Talos configuration applied to {node.name}")
+                    console.success(f"Talos configuration applied to {node.name}")
                 else:
-                    console.panic(f"Failed configuring {node.name}",
-                                  res.message)
+                    console.panic(f"Failed configuring {node.name}", res.message)
 
     def bootstrap_talos(self):
         with console.status("Waiting for master node configuration"):
@@ -92,8 +87,7 @@ class CommandBootstrap:
                 self.k8s = KubernetesAdapter()
                 self.flux = FluxAdapter()
             else:
-                console.panic("Failed retrieveing cluster's kubeconfig",
-                              res.message)
+                console.panic("Failed retrieveing cluster's kubeconfig", res.message)
 
     def wait_for_cni(self):
         with console.status("Waiting for CNI deployment"):
