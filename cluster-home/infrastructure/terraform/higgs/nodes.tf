@@ -29,7 +29,7 @@ resource "proxmox_vm_qemu" "kube-master" {
     size    = var.common.disk0
     format  = "raw"
     ssd     = 1
-    discard = "on"
+    discard = true
   }
 
   disk {
@@ -38,7 +38,7 @@ resource "proxmox_vm_qemu" "kube-master" {
     size    = var.common.disk1
     format  = "raw"
     ssd     = 1
-    discard = "on"
+    discard = true
   }
 
   serial {
