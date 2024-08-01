@@ -32,25 +32,25 @@ spec:
       service:
         type: LoadBalancer
         externalIPs:
-        - ${SVC_IP_INGRESS}
+          - ${SVC_IP_INGRESS}
         externalTrafficPolicy: Local
       replicaCount: 3
       metrics:
         enabled: true
         serviceMonitor:
-          enabled: true
+          enabled: false
           namespace: kube-tools
           namespaceSelector:
             any: true
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              labelSelector:
-                matchExpressions:
-                - key: app.kubernetes.io/name
-                  operator: In
-                  values:
-                  - ingress-nginx
-              topologyKey: kubernetes.io/hostname
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values:
+                        - ingress-nginx
+                topologyKey: kubernetes.io/hostname
