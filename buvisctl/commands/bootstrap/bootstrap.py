@@ -43,7 +43,7 @@ class CommandBootstrap:
                 res = tf.apply()
 
                 if res.is_ok():
-                    console.success(f"Proxmos nodes created on {tf.name}")
+                    console.success(f"Proxmox nodes created on {tf.name}")
                 else:
                     console.panic(
                         f"Proxmox nodes creation failed on {tf.name}",
