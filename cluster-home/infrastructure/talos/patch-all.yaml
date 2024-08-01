@@ -25,7 +25,8 @@
 - op: add
   path: /machine/install/extensions
   value:
-    - image: "ghcr.io/siderolabs/iscsi-tools:v0.1.4@sha256:3ab305068aa28513b26ab3c5b1f2937dbe3f63b9c50abe290287cc58eb454bb9" # https://github.com/siderolabs/extensions/issues/237
+    - image: "ghcr.io/siderolabs/iscsi-tools:v0.1.5@sha256:571f4e94f38f32ca716c3f9f701c59f47c226eca4e2f9adfbb8b931b01fa1442"
+    # - image: "ghcr.io/siderolabs/iscsi-tools:v0.1.4@sha256:3ab305068aa28513b26ab3c5b1f2937dbe3f63b9c50abe290287cc58eb454bb9" # https://github.com/siderolabs/extensions/issues/237
 - op: add
   path: /machine/install/diskSelector
   value:
