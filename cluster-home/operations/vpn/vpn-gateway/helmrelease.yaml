@@ -79,6 +79,8 @@ spec:
             value: ${SECRET_VPN_BT_FORWARD_PORT}
           - name: FIREWALL
             value: off
+          - name: DNS_KEEP_NAMESERVER
+            value: on
           - name: DOT
             value: off
           - name: TZ
