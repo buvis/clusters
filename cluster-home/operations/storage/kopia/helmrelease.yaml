@@ -6,12 +6,12 @@ metadata:
   namespace: storage
 spec:
   dependsOn:
-  - name: ingress-nginx
-    namespace: kube-tools
-  - name: cert-manager
-    namespace: kube-tools
-  - name: authentik
-    namespace: security
+    - name: ingress-nginx
+      namespace: kube-tools
+    - name: cert-manager
+      namespace: kube-tools
+    - name: authentik
+      namespace: security
   interval: 5m
   install:
     timeout: 15m
@@ -36,21 +36,21 @@ spec:
     defaultPodOptions:
       securityContext:
         supplementalGroups:
-        - 100
+          - 100
     initContainers:
       wait-for-repo:
         image: docker.io/kopia/kopia:20240412.0.225911@sha256:71f87ac0abe4c34808016394635b45eec63a5a934f0baab266516e93ca40fb3e
         command:
-        - /bin/bash
-        - -c
-        - |-
-          until [ -f /snapshots/kopia.repository.f ]; do
-              printf "\e[1;32m%-6s\e[m\n" "Waiting for the Kopia repo to become ready ..."
-              sleep 1
-          done
+          - /bin/bash
+          - -c
+          - |-
+            until [ -f /snapshots/kopia.repository.f ]; do
+                printf "\e[1;32m%-6s\e[m\n" "Waiting for the Kopia repo to become ready ..."
+                sleep 1
+            done
         volumeMounts:
-        - name: snapshots
-          mountPath: /snapshots
+          - name: snapshots
+            mountPath: /snapshots
     controllers:
       kopia:
         containers:
@@ -62,23 +62,22 @@ spec:
               KOPIA_PASSWORD: "none"
             command: kopia
             args:
-            - server
-            - start
-            - --insecure
-            - --address
-            - 0.0.0.0:80
-            - --metrics-listen-addr
-            - 0.0.0.0:8080
-            - --without-password
-            - --log-level
-            - debug
+              - server
+              - start
+              - --insecure
+              - --address
+              - 0.0.0.0:80
+              - --metrics-listen-addr
+              - 0.0.0.0:8080
+              - --without-password
+              - --log-level
+              - debug
     service:
       app:
         controller: kopia
         type: LoadBalancer
-        externalIPs:
-        - ${SVC_IP_KOPIA}
-        externalTrafficPolicy: Local
+        annotations:
+          lbipam.cilium.io/ips: ${SVC_IP_KOPIA}
         ports:
           http:
             port: 80
@@ -92,30 +91,30 @@ spec:
           cert-manager.io/cluster-issuer: letsencrypt-production
           authentik.home.arpa/enabled: "true"
         hosts:
-        - host: &hostName kopia.buvis.net
-          paths:
-          - path: /
-            pathType: Prefix
-            service:
-              identifier: app
-              port: http
+          - host: &hostName kopia.buvis.net
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+                  port: http
         tls:
-        - hosts:
-          - *hostName
-          secretName: kopia-crt
+          - hosts:
+              - *hostName
+            secretName: kopia-crt
     persistence:
       config:
         enabled: true
         type: configMap
         name: kopia-ui-config
         globalMounts:
-        - path: /config/repository.config
-          readOnly: true
-          subPath: repository.config
+          - path: /config/repository.config
+            readOnly: true
+            subPath: repository.config
       snapshots:
         enabled: true
         type: nfs
         server: ${NFS_SERVER_IP}
         path: ${NFS_SERVER_PATH_PV}/storage/kopia/snapshots
         globalMounts:
-        - path: /snapshots
+          - path: /snapshots

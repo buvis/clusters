@@ -67,9 +67,8 @@ spec:
       app:
         controller: jellyseerr
         type: LoadBalancer
-        externalIPs:
-          - ${SVC_IP_JELLYSEERR}
-        externalTrafficPolicy: Local
+        annotations:
+          lbipam.cilium.io/ips: ${SVC_IP_JELLYSEERR}
         ports:
           http:
             port: 5055

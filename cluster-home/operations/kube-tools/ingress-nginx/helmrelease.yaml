@@ -32,8 +32,7 @@ spec:
       service:
         type: LoadBalancer
         annotations:
-          "lbipam.cilium.io/ips": ${SVC_IP_INGRESS}
-        externalTrafficPolicy: Local
+          lbipam.cilium.io/ips: ${SVC_IP_INGRESS}
       replicaCount: 3
       metrics:
         enabled: true

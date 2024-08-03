@@ -82,9 +82,8 @@ spec:
       bittorrent:
         controller: qbittorrent
         type: LoadBalancer
-        externalIPs:
-          - ${SVC_IP_BITTORRENT}
-        externalTrafficPolicy: Local
+        annotations:
+          lbipam.cilium.io/ips: ${SVC_IP_BITTORRENT}
         ports:
           bittorrent:
             enabled: true

@@ -6,14 +6,14 @@ metadata:
   namespace: radio
 spec:
   dependsOn:
-  - name: ingress-nginx
-    namespace: kube-tools
-  - name: cert-manager
-    namespace: kube-tools
-  - name: authentik
-    namespace: security
-  - name: openebs
-    namespace: storage
+    - name: ingress-nginx
+      namespace: kube-tools
+    - name: cert-manager
+      namespace: kube-tools
+    - name: authentik
+      namespace: security
+    - name: openebs
+      namespace: storage
   interval: 5m
   install:
     timeout: 15m
@@ -43,20 +43,12 @@ spec:
       main:
         enabled: true
         type: LoadBalancer
-        externalIPs:
-        - ${SVC_IP_MOPIDY}
-        externalTrafficPolicy: Local
+        annotations:
+          lbipam.cilium.io/ips: ${SVC_IP_MOPIDY}
         ports:
           http:
             port: 6680
-      zeroconf:
-        enabled: true
-        type: LoadBalancer
-        externalIPs:
-        - ${SVC_IP_MOPIDY}
-        externalTrafficPolicy: Local
-        ports:
-          http:
+          zeroconf:
             port: 6600
     ingress:
       main:
@@ -66,14 +58,14 @@ spec:
           cert-manager.io/cluster-issuer: letsencrypt-production
           authentik.home.arpa/enabled: "true"
         hosts:
-        - host: radio-home.buvis.net
-          paths:
-          - path: /
-            pathType: Prefix
+          - host: radio-home.buvis.net
+            paths:
+              - path: /
+                pathType: Prefix
         tls:
-        - hosts:
-          - radio-home.buvis.net
-          secretName: radio-home-crt
+          - hosts:
+              - radio-home.buvis.net
+            secretName: radio-home-crt
     persistence:
       media:
         enabled: true
