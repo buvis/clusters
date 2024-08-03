@@ -33,15 +33,15 @@ spec:
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              labelSelector:
-                matchExpressions:
-                - key: app.kubernetes.io/name
-                  operator: In
-                  values:
-                  - blocky
-              topologyKey: kubernetes.io/hostname
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values:
+                        - blocky
+                topologyKey: kubernetes.io/hostname
     controllers:
       blocky:
         replicas: 3
@@ -73,8 +73,8 @@ spec:
       dns-tcp:
         controller: blocky
         type: LoadBalancer
-        externalIPs:
-        - ${SVC_IP_BLOCKY}
+        annotations:
+          lbipam.cilium.io/ips: ${SVC_IP_BLOCKY}
         externalTrafficPolicy: Local
         ports:
           dns-tcp:
@@ -85,8 +85,8 @@ spec:
       dns-udp:
         controller: blocky
         type: LoadBalancer
-        externalIPs:
-        - ${SVC_IP_BLOCKY}
+        annotations:
+          lbipam.cilium.io/ips: ${SVC_IP_BLOCKY}
         externalTrafficPolicy: Local
         ports:
           dns-udp:
@@ -99,20 +99,20 @@ spec:
         enabled: true
         serviceName: blocky
         endpoints:
-        - port: http
-          scheme: http
-          path: /metrics
-          interval: 30s
-          scrapeTimeout: 10s
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 30s
+            scrapeTimeout: 10s
     persistence:
       config:
         enabled: true
         type: configMap
         name: blocky-config
         globalMounts:
-        - path: /app/config.yml
-          readOnly: true
-          subPath: config.yml
+          - path: /app/config.yml
+            readOnly: true
+            subPath: config.yml
     configMaps:
       config:
         enabled: true
