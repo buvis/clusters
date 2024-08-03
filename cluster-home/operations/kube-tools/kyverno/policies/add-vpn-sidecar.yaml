@@ -2,12 +2,12 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: inject-sidecar-gluetun-by-annotations
+  name: add-vpn-sidecar
   annotations:
-    policies.kyverno.io/title: Inject Sidecar Container Gluetun
+    policies.kyverno.io/title: Add VPN client sidecar
 spec:
   rules:
-    - name: inject-sidecar-gluetun-by-annotations
+    - name: add-vpn-sidecar
       match:
         any:
           - resources:
@@ -28,7 +28,7 @@ spec:
                       tag: latest@sha256:45d2345407ae91fc5e9de86d2ac09c00d949ce5a38582b9ba476e2446b2e3216
                     env:
                       - name: FIREWALL_OUTBOUND_SUBNETS
-                        value: ${NETWORK_CIDR_K8S_CLUSTER} ${NETWORK_CIDR_K8S_SERVICE} ${NETWORK_CIDR_K8S_SERVICE_EXTERNAL} ${NETWORK_CIDR_HOST}
+                        value: "${NETWORK_CIDR_K8S_CLUSTER},${NETWORK_CIDR_K8S_SERVICE},${NETWORK_CIDR_K8S_SERVICE_EXTERNAL},${NETWORK_CIDR_HOST}"
                       - name: VPN_SERVICE_PROVIDER
                         value: ${SECRET_VPN_GATEWAY_PROVIDER}
                       - name: OPENVPN_USER
