@@ -5,9 +5,6 @@ metadata:
   name: flaresolverr
   namespace: media
 spec:
-  dependsOn:
-  - name: vpn-gateway
-    namespace: vpn
   interval: 5m
   install:
     timeout: 15m
@@ -32,7 +29,7 @@ spec:
   values:
     defaultPodOptions:
       annotations:
-        setVPNGateway: "true"
+        vpn/gluetun-inject: "true"
     controllers:
       flaresolverr:
         type: deployment

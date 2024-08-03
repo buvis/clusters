@@ -1,18 +1,18 @@
 - op: replace
   path: /cluster/apiServer/admissionControl
   value:
-  - name: PodSecurity
-    configuration:
-      apiVersion: pod-security.admission.config.k8s.io/v1alpha1
-      defaults:
-        enforce: "privileged"
-        enforce-version: "latest"
-        audit: "privileged"
-        audit-version: "latest"
-        warn: "privileged"
-        warn-version: "latest"
-      exemptions:
-        namespaces: []
-        runtimeClasses: []
-        usernames: []
-      kind: PodSecurityConfiguration
+    - name: PodSecurity
+      configuration:
+        apiVersion: pod-security.admission.config.k8s.io/v1alpha1
+        defaults:
+          enforce: "privileged"
+          enforce-version: "latest"
+          audit: "privileged"
+          audit-version: "latest"
+          warn: "privileged"
+          warn-version: "latest"
+        exemptions:
+          namespaces: []
+          runtimeClasses: []
+          usernames: []
+        kind: PodSecurityConfiguration

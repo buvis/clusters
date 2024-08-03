@@ -12,8 +12,6 @@ spec:
       namespace: kube-tools
     - name: authentik
       namespace: security
-    - name: vpn-gateway
-      namespace: vpn
     - name: openebs
       namespace: storage
   interval: 5m
@@ -39,8 +37,6 @@ spec:
       interval: 5m
   values:
     defaultPodOptions:
-      annotations:
-        setVPNGateway: "true"
       securityContext:
         runAsUser: 568
         runAsGroup: 568

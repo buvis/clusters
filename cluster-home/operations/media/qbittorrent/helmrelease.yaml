@@ -6,16 +6,14 @@ metadata:
   namespace: media
 spec:
   dependsOn:
-  - name: ingress-nginx
-    namespace: kube-tools
-  - name: cert-manager
-    namespace: kube-tools
-  - name: authentik
-    namespace: security
-  - name: vpn-gateway
-    namespace: vpn
-  - name: openebs
-    namespace: storage
+    - name: ingress-nginx
+      namespace: kube-tools
+    - name: cert-manager
+      namespace: kube-tools
+    - name: authentik
+      namespace: security
+    - name: openebs
+      namespace: storage
   interval: 5m
   install:
     timeout: 15m
@@ -40,14 +38,14 @@ spec:
   values:
     defaultPodOptions:
       annotations:
-        setVPNGateway: "true"
+        vpn/gluetun-inject: "true"
       securityContext:
         runAsUser: 568
         runAsGroup: 568
         fsGroup: 568
         fsGroupChangePolicy: "OnRootMismatch"
         supplementalGroups:
-        - 985
+          - 985
     controllers:
       qbittorrent:
         containers:
@@ -85,7 +83,7 @@ spec:
         controller: qbittorrent
         type: LoadBalancer
         externalIPs:
-        - ${SVC_IP_BITTORRENT}
+          - ${SVC_IP_BITTORRENT}
         externalTrafficPolicy: Local
         ports:
           bittorrent:
@@ -100,14 +98,14 @@ spec:
           cert-manager.io/cluster-issuer: letsencrypt-production
           authentik.home.arpa/enabled: "true"
         hosts:
-        - host: &hostName qb.buvis.net
-          paths:
-          - path: /
-            pathType: Prefix
-            service:
-              identifier: app
-              port: http
+          - host: &hostName qb.buvis.net
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+                  port: http
         tls:
-        - hosts:
-          - *hostName
-          secretName: qbittorrent-crt
+          - hosts:
+              - *hostName
+            secretName: qbittorrent-crt

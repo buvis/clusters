@@ -6,16 +6,14 @@ metadata:
   namespace: media
 spec:
   dependsOn:
-  - name: ingress-nginx
-    namespace: kube-tools
-  - name: cert-manager
-    namespace: kube-tools
-  - name: authentik
-    namespace: security
-  - name: vpn-gateway
-    namespace: vpn
-  - name: openebs
-    namespace: storage
+    - name: ingress-nginx
+      namespace: kube-tools
+    - name: cert-manager
+      namespace: kube-tools
+    - name: authentik
+      namespace: security
+    - name: openebs
+      namespace: storage
   interval: 5m
   install:
     timeout: 15m
@@ -39,8 +37,6 @@ spec:
       interval: 5m
   values:
     defaultPodOptions:
-      annotations:
-        setVPNGateway: "true"
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000
@@ -66,13 +62,13 @@ spec:
         enabled: true
         existingClaim: jellyseerr-config
         globalMounts:
-        - path: /app/config
+          - path: /app/config
     service:
       app:
         controller: jellyseerr
         type: LoadBalancer
         externalIPs:
-        - ${SVC_IP_JELLYSEERR}
+          - ${SVC_IP_JELLYSEERR}
         externalTrafficPolicy: Local
         ports:
           http:
@@ -84,14 +80,14 @@ spec:
           cert-manager.io/cluster-issuer: letsencrypt-production
           authentik.home.arpa/enabled: "true"
         hosts:
-        - host: &hostName requests.buvis.net
-          paths:
-          - path: /
-            pathType: Prefix
-            service:
-              identifier: app
-              port: http
+          - host: &hostName requests.buvis.net
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+                  port: http
         tls:
-        - hosts:
-          - *hostName
-          secretName: requests-crt
+          - hosts:
+              - *hostName
+            secretName: requests-crt

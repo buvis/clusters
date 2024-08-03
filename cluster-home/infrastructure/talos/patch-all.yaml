@@ -1,10 +1,11 @@
 - op: add
   path: /cluster/network/cni
   value:
-    name: custom
-    urls:
-      - https://raw.githubusercontent.com/projectcalico/calico/release-v3.28/manifests/tigera-operator.yaml
-      - https://raw.githubusercontent.com/buvis/clusters/main/cluster-home/infrastructure/manifests/install-calico.yaml
+    name: none
+- op: add
+  path: /cluster/proxy
+  value:
+    disabled: true
 - op: replace
   path: /cluster/network/podSubnets
   value:
