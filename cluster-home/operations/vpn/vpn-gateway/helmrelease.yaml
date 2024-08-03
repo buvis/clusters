@@ -89,25 +89,12 @@ spec:
               - NET_ADMIN
         networkPolicy:
           enabled: true
-          ingress:
-            - from:
-                - podSelector: {}
           egress:
             - to:
                 - ipBlock:
-                    cidr: 0.0.0.0/0
+                  cidr: 0.0.0.0/0
               ports:
                 - port: ${SECRET_VPN_GATEWAY_PORT}
                   protocol: UDP
             - to:
-                - ipBlock:
-                    cidr: ${NETWORK_CIDR_K8S_CLUSTER}
-            - to:
-                - ipBlock:
-                    cidr: ${NETWORK_CIDR_K8S_SERVICE}
-            - to:
-                - ipBlock:
-                    cidr: ${NETWORK_CIDR_K8S_SERVICE_EXTERNAL}
-            - to:
-                - ipBlock:
-                    cidr: ${NETWORK_CIDR_HOST}
+                - namespaceSelector: {}
