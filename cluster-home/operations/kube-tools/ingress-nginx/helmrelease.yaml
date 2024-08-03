@@ -31,8 +31,8 @@ spec:
       hostNetwork: false
       service:
         type: LoadBalancer
-        externalIPs:
-          - ${SVC_IP_INGRESS}
+        annotations:
+          "lbipam.cilium.io/ips": ${SVC_IP_INGRESS}
         externalTrafficPolicy: Local
       replicaCount: 3
       metrics:
