@@ -1,0 +1,46 @@
+---
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: inject-sidecar-gluetun-by-annotations
+  annotations:
+    policies.kyverno.io/title: Inject Sidecar Container Gluetun
+spec:
+  rules:
+    - name: inject-sidecar-gluetun-by-annotations
+      match:
+        any:
+          - resources:
+              kinds:
+                - Deployment
+      mutate:
+        patchStrategicMerge:
+          spec:
+            template:
+              metadata:
+                annotations:
+                  (vpn/gluetun-inject): "true"
+              spec:
+                containers:
+                  - name: gluetun
+                    image:
+                      repository: ghcr.io/qdm12/gluetun
+                      tag: latest@sha256:45d2345407ae91fc5e9de86d2ac09c00d949ce5a38582b9ba476e2446b2e3216
+                    env:
+                      - name: FIREWALL_OUTBOUND_SUBNETS
+                        value: ${NETWORK_CIDR_K8S_CLUSTER} ${NETWORK_CIDR_K8S_SERVICE} ${NETWORK_CIDR_K8S_SERVICE_EXTERNAL} ${NETWORK_CIDR_HOST}
+                      - name: VPN_SERVICE_PROVIDER
+                        value: ${SECRET_VPN_GATEWAY_PROVIDER}
+                      - name: OPENVPN_USER
+                        value: ${SECRET_VPN_GATEWAY_USER}
+                      - name: OPENVPN_PASSWORD
+                        value: ${SECRET_VPN_GATEWAY_PASSWORD}
+                      - name: VPN_PORT_FORWARDING_LISTENING_PORT
+                        value: ${SECRET_VPN_BT_FORWARD_PORT}
+                      - name: TZ
+                        value: ${TIMEZONE}
+                    securityContext:
+                      capabilities:
+                        add:
+                          - NET_ADMIN
+                          - SYS_MODULE
