@@ -70,30 +70,20 @@ spec:
         ports:
           http:
             port: 4000
-      dns-tcp:
+      dns:
         controller: blocky
         type: LoadBalancer
         annotations:
           lbipam.cilium.io/ips: ${SVC_IP_BLOCKY}
-        externalTrafficPolicy: Local
         ports:
           dns-tcp:
             enabled: true
             port: 53
             protocol: TCP
-            targetPort: 53
-      dns-udp:
-        controller: blocky
-        type: LoadBalancer
-        annotations:
-          lbipam.cilium.io/ips: ${SVC_IP_BLOCKY}
-        externalTrafficPolicy: Local
-        ports:
           dns-udp:
             enabled: true
             port: 53
             protocol: UDP
-            targetPort: 53
     serviceMonitor:
       main:
         enabled: true
