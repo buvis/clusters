@@ -270,3 +270,13 @@ class KubernetesAdapter:
             return AdapterResponse()
         except ApiException as e:
             return AdapterResponse(code=1, message=e)
+
+    def label_node(self, node, label):
+        label_name, label_value = label.split(": ")
+        body = {"metadata": {"labels": {label_name: label_value}}}
+        try:
+            self.api.patch_node(node.name, body)
+        except ApiException as e:
+            return AdapterResponse(code=1, message=e)
+
+        return AdapterResponse()

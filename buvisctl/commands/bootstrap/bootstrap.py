@@ -27,6 +27,7 @@ class CommandBootstrap:
         self.bootstrap_talos()
         self.get_cluster_config()
         self.wait_for_cni()
+        self.label_workers()
         self.deploy_flux()
 
     def infra_create(self):
@@ -70,6 +71,19 @@ class CommandBootstrap:
                     console.success(f"Talos configuration applied to {node.name}")
                 else:
                     console.panic(f"Failed configuring {node.name}", res.message)
+
+    def label_workers(self):
+        with console.status("Labeling worker nodes"):
+            for node in cfg.nodes:
+                if node.role == "worker":
+                    res = self.k8s.label_node(
+                        node, "node-role.kubernetes.io/worker: true"
+                    )
+
+                    if res.is_ok():
+                        console.success(f"Worker label applied to {node.name}")
+                    else:
+                        console.panic(f"Failed labeling {node.name}", res.message)
 
     def bootstrap_talos(self):
         with console.status("Waiting for master node configuration"):
