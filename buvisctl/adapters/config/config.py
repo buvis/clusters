@@ -12,7 +12,6 @@ CONFIG_FILENAME = "buvisctl.conf.yaml"
 
 
 class ConfigAdapter:
-
     def __init__(self):
         if not os.path.basename(os.getcwd()).startswith("cluster-"):
             console.panic("You are not in cluster directory (cluster-<name>)!")
@@ -26,12 +25,10 @@ class ConfigAdapter:
         else:
             console.panic(f"Configuration file {CONFIG_FILENAME} not found!")
 
-        self.cluster_name = os.path.basename(os.getcwd()).replace(
-            "cluster-", "buvis-")
+        self.cluster_name = os.path.basename(os.getcwd()).replace("cluster-", "buvis-")
 
     def _process_config_file(self, config_file):
-        self.path_terraform_workspaces = config_file.get(
-            "terraform_workspaces", "")
+        self.path_terraform_workspaces = config_file.get("terraform_workspaces", "")
 
         self.nodes = []
 
@@ -47,8 +44,8 @@ class ConfigAdapter:
         self.flux = FluxConfig(config_file["flux"])
         self.talos = TalosConfig(config_file["talos"])
         self.path_kubeconfig_dir = config_file.get("kubeconfig_dir", "")
-        self.path_backup_manifests_dir = config_file.get(
-            "backup_manifests_dir", "")
+        self.path_config_cni = Path(config_file["cilium_cfg"])
+        self.path_backup_manifests_dir = config_file.get("backup_manifests_dir", "")
 
 
 cfg = ConfigAdapter()

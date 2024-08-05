@@ -1,4 +1,5 @@
 from adapters import (
+    CiliumAdapter,
     FluxAdapter,
     KubernetesAdapter,
     SocketAdapter,
@@ -17,6 +18,7 @@ class CommandBootstrap:
         for p in cfg.path_terraform_workspaces:
             self.tf.append(TerraformAdapter(p))
         self.talos = TalosAdapter()
+        self.cilium = CiliumAdapter()
 
     def execute(self):
         self.infra_create()
@@ -91,21 +93,12 @@ class CommandBootstrap:
 
     def wait_for_cni(self):
         with console.status("Waiting for CNI deployment"):
-            res = self.k8s.is_namespace_active("tigera-operator")
+            while True:
+                res = self.cilium.wait_for_install()
 
-            if res.is_ok():
-                console.success("Namespace tigera-operator is active")
-            else:
-                console.panic("CNI deployment failed", res.message)
-
-            res = self.k8s.is_namespace_active("calico-system")
-
-            if res.is_ok():
-                console.success("Namespace calico-system is active")
-            else:
-                console.panic("CNI deployment failed", res.message)
-
-        console.success("CNI deployed")
+                if res.is_ok():
+                    console.success("CNI is active")
+                    return
 
     def deploy_flux(self):
         with console.status("Deploying Flux"):

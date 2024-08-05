@@ -8,7 +8,6 @@ from kubernetes.client.exceptions import ApiException
 
 
 class KubernetesAdapter:
-
     def __init__(self):
         config.load_kube_config()
         self.api = client.CoreV1Api()
@@ -46,8 +45,7 @@ class KubernetesAdapter:
         namespaces = self.api.list_namespace()
 
         if not any(ns.metadata.name == name for ns in namespaces.items):
-            new_namespace = client.V1Namespace(metadata=client.V1ObjectMeta(
-                name=name))
+            new_namespace = client.V1Namespace(metadata=client.V1ObjectMeta(name=name))
             try:
                 self.api.create_namespace(new_namespace)
 
@@ -79,6 +77,17 @@ class KubernetesAdapter:
 
         return AdapterResponse()
 
+    def apply_manifest(self, filename):
+        try:
+            utils.create_from_yaml(
+                self.client,
+                filename,
+            )
+        except ApiException as e:
+            return AdapterResponse(code=1, message=e)
+
+        return AdapterResponse()
+
     def create_secret(self, name, namespace, data=""):
         try:
             res = self.api.list_namespaced_secret(namespace)
@@ -107,8 +116,9 @@ class KubernetesAdapter:
                     data=data,
                 )
             try:
-                self.api.create_namespaced_secret(namespace="flux-system",
-                                                  body=new_secret)
+                self.api.create_namespaced_secret(
+                    namespace="flux-system", body=new_secret
+                )
             except ApiException as e:
                 return AdapterResponse(code=1, message=e)
 
@@ -120,8 +130,7 @@ class KubernetesAdapter:
 
     def get_config_map_data(self, name, namespace):
         try:
-            cms = self.dynamic_client.resources.get(api_version="v1",
-                                                    kind="ConfigMap")
+            cms = self.dynamic_client.resources.get(api_version="v1", kind="ConfigMap")
             selected_cm = cms.get(name=name, namespace=namespace)
 
             return selected_cm.data
@@ -131,7 +140,8 @@ class KubernetesAdapter:
     def get_pvc(self, name, namespace):
         try:
             pvcs = self.dynamic_client.resources.get(
-                api_version="v1", kind="PersistentVolumeClaim")
+                api_version="v1", kind="PersistentVolumeClaim"
+            )
             selected_pvc = pvcs.get(name=name, namespace=namespace)
 
             return selected_pvc
@@ -142,8 +152,10 @@ class KubernetesAdapter:
         try:
             dps = self.apps_api.list_namespaced_deployment(
                 namespace=namespace,
-                label_selector=(f"app.kubernetes.io/name={app_name},"
-                                f"app.kubernetes.io/instance={app_instance}"),
+                label_selector=(
+                    f"app.kubernetes.io/name={app_name},"
+                    f"app.kubernetes.io/instance={app_instance}"
+                ),
             )
 
             return dps
@@ -154,8 +166,10 @@ class KubernetesAdapter:
         try:
             sts = self.apps_api.list_namespaced_stateful_set(
                 namespace=namespace,
-                label_selector=(f"app.kubernetes.io/name={app_name},"
-                                f"app.kubernetes.io/instance={app_instance}"),
+                label_selector=(
+                    f"app.kubernetes.io/name={app_name},"
+                    f"app.kubernetes.io/instance={app_instance}"
+                ),
             )
 
             return sts
@@ -170,11 +184,7 @@ class KubernetesAdapter:
             self.apps_api.patch_namespaced_stateful_set_scale(
                 name,
                 namespace,
-                [{
-                    "op": "replace",
-                    "path": "/spec/replicas",
-                    "value": 0
-                }],
+                [{"op": "replace", "path": "/spec/replicas", "value": 0}],
             )
 
             return True
@@ -186,11 +196,7 @@ class KubernetesAdapter:
             self.apps_api.patch_namespaced_deployment_scale(
                 name,
                 namespace,
-                [{
-                    "op": "replace",
-                    "path": "/spec/replicas",
-                    "value": 0
-                }],
+                [{"op": "replace", "path": "/spec/replicas", "value": 0}],
             )
 
             return True
@@ -198,21 +204,23 @@ class KubernetesAdapter:
             return False
 
     def wait_pod_delete(self, app_instance, app_name, namespace):
-        label_selector = (f"app.kubernetes.io/name={app_name},"
-                          f"app.kubernetes.io/instance={app_instance}")
+        label_selector = (
+            f"app.kubernetes.io/name={app_name},"
+            f"app.kubernetes.io/instance={app_instance}"
+        )
         current_pods = self.api.list_namespaced_pod(
-            namespace=namespace, label_selector=label_selector)
+            namespace=namespace, label_selector=label_selector
+        )
 
         if len(current_pods.items) == 0:
             return True
 
         for event in self.watch.stream(
-                func=self.api.list_namespaced_pod,
-                namespace=namespace,
-                label_selector=label_selector,
-                timeout_seconds=1200,
+            func=self.api.list_namespaced_pod,
+            namespace=namespace,
+            label_selector=label_selector,
+            timeout_seconds=1200,
         ):
-
             if event["type"] == "DELETED":
                 return True
 
@@ -220,12 +228,11 @@ class KubernetesAdapter:
 
     def wait_job_complete(self, job_name, namespace):
         for event in self.watch.stream(
-                func=self.api.list_namespaced_pod,
-                namespace=namespace,
-                label_selector=f"job-name={job_name}",
-                timeout_seconds=1200,
+            func=self.api.list_namespaced_pod,
+            namespace=namespace,
+            label_selector=f"job-name={job_name}",
+            timeout_seconds=1200,
         ):
-
             if event["object"].status.phase == "Succeeded":
                 return True
             elif event["object"].status.phase == "Failed":
@@ -236,14 +243,14 @@ class KubernetesAdapter:
     def delete_job(self, job_name, namespace):
         try:
             self.batch_api.delete_namespaced_job(
-                job_name, namespace, propagation_policy="Background")
+                job_name, namespace, propagation_policy="Background"
+            )
         except ApiException:
             pass
 
     def run_job_from_cronjob(self, cron_job_name, job_name, namespace):
         try:
-            cron_job = self.batch_api.read_namespaced_cron_job(
-                cron_job_name, namespace)
+            cron_job = self.batch_api.read_namespaced_cron_job(cron_job_name, namespace)
         except ApiException as e:
             return AdapterResponse(code=404, message=e)
 
