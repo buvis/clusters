@@ -7,7 +7,6 @@ from adapters.response import AdapterResponse
 
 
 class FluxAdapter:
-
     def __init__(self):
         self.k8s = KubernetesAdapter()
         self.gpg = GPGAdapter()
@@ -49,10 +48,7 @@ class FluxAdapter:
         res = self.k8s.create_secret(
             "slack-url",
             "flux-system",
-            {
-                "address": self.k8s.encode_secret_data(
-                    cfg.flux.url_slack_webhook)
-            },
+            {"address": self.k8s.encode_secret_data(cfg.flux.url_slack_webhook)},
         )
 
         if res.is_nok():
@@ -76,17 +72,15 @@ class FluxAdapter:
         if results.returncode == 0:
             return AdapterResponse()
         else:
-            return AdapterResponse(code=results.returncode,
-                                   message=results.stderr.decode())
+            return AdapterResponse(
+                code=results.returncode, message=results.stderr.decode()
+            )
 
     def suspend_hr(self, name, namespace):
-
         flux_suspend_command = ["flux", "suspend", "hr", "-n", namespace, name]
         results = subprocess.run(flux_suspend_command, capture_output=True)
 
-        if results.stderr.decode().startswith(
-                "✗ no HelmRelease objects found"):
-
+        if results.stderr.decode().startswith("✗ no HelmRelease objects found"):
             return AdapterResponse(
                 code=404,
                 message=f"helmrelease {name} not in {namespace} namespace",
@@ -95,13 +89,10 @@ class FluxAdapter:
             return AdapterResponse()
 
     def resume_hr(self, name, namespace):
-
         flux_resume_command = ["flux", "resume", "hr", "-n", namespace, name]
         results = subprocess.run(flux_resume_command, capture_output=True)
 
-        if results.stderr.decode().startswith(
-                "✗ no HelmRelease objects found"):
-
+        if results.stderr.decode().startswith("✗ no HelmRelease objects found"):
             return AdapterResponse(
                 code=404,
                 message=f"helmrelease {name} not in {namespace} namespace",
@@ -111,8 +102,8 @@ class FluxAdapter:
 
     def stop_application(self, app_instance, app_name, namespace):
         app_stopped = False
-        deployments = self.k8s.get_app_deployment(app_name, app_instance,
-                                                  namespace)
+        # TODO: I need to keep track of everything stopped for later starts
+        deployments = self.k8s.get_app_deployment(app_name, app_instance, namespace)
 
         for d in deployments.items:
             res = self.k8s.scale_deployment_to_zero(d.metadata.name, namespace)
@@ -120,12 +111,10 @@ class FluxAdapter:
             if res:
                 app_stopped = True
 
-        stateful_sets = self.k8s.get_app_statefulset(app_name, app_instance,
-                                                     namespace)
+        stateful_sets = self.k8s.get_app_statefulset(app_name, app_instance, namespace)
 
         for s in stateful_sets.items:
-            res = self.k8s.scale_stateful_set_to_zero(s.metadata.name,
-                                                      namespace)
+            res = self.k8s.scale_stateful_set_to_zero(s.metadata.name, namespace)
 
             if res:
                 app_stopped = True
@@ -134,5 +123,5 @@ class FluxAdapter:
             return AdapterResponse()
         else:
             return AdapterResponse(
-                code=1,
-                message=f"Couldn't stop {app_instance}-{app_name} application")
+                code=1, message=f"Couldn't stop {app_instance}-{app_name} application"
+            )
