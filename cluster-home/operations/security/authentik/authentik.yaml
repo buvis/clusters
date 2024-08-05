@@ -1,0 +1,22 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: authentik
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: flux-system-extras
+  interval: 5m
+  path: "./cluster-home/operations/security/authentik"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  postBuild:
+    substitute: {}
+    substituteFrom:
+      - kind: Secret
+        name: cluster-secret-vars
+      - kind: ConfigMap
+        name: cluster-config
