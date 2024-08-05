@@ -6,10 +6,12 @@ metadata:
   namespace: security
 spec:
   dependsOn:
-  - name: ingress-nginx
-    namespace: kube-tools
-  - name: cert-manager
-    namespace: kube-tools
+    - name: flux-system-extras
+      namespace: flux-system
+    - name: ingress-nginx
+      namespace: kube-tools
+    - name: cert-manager
+      namespace: kube-tools
   interval: 5m
   install:
     timeout: 25m
@@ -37,13 +39,13 @@ spec:
         enabled: true
         ingressClassName: nginx
         hosts:
-        - auth.buvis.net
+          - auth.buvis.net
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-production
         tls:
-        - secretName: authentik-https-cert
-          hosts:
-          - auth.buvis.net
+          - secretName: authentik-https-cert
+            hosts:
+              - auth.buvis.net
     postgresql:
       enabled: true
       primary:
