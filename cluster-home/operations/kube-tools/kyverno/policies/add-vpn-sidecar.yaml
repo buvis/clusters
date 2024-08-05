@@ -13,6 +13,7 @@ spec:
           - resources:
               kinds:
                 - Deployment
+                - StatefulSet
       mutate:
         patchStrategicMerge:
           spec:
