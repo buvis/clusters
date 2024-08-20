@@ -52,7 +52,7 @@ spec:
           app:
             image:
               repository: ghcr.io/onedr0p/qbittorrent
-              tag: 4.6.5@sha256:c019af23966ebafcaf1713d4553bc043246858b711a7d57d8bee358a89990a3e
+              tag: 4.6.6@sha256:b53bb17a0120c31c19a44b2ec987dfb05f6b70078ebbe51077b4e9feb3e3d737
             env:
               UMASK: "022"
               QBITTORRENT__PORT: 8080
