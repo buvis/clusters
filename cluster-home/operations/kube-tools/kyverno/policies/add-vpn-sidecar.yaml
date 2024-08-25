@@ -24,7 +24,7 @@ spec:
               spec:
                 containers:
                   - name: gluetun
-                    image: ghcr.io/qdm12/gluetun@sha256:97082faa51ec5f4dcb3921a5b70e74570761d05fd6841c4b853ffecb7b701943
+                    image: ghcr.io/qdm12/gluetun@sha256:3968a849725534cba47b0a3b9edc16949e5b93bec8cea8cd16b629378d759ad0
                     env:
                       - name: FIREWALL_INPUT_PORTS
                         value: "6767,8191,8096,5055,8686,7373,9696,6881,7878,7373,8989,8265,8266,8080"
