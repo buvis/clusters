@@ -53,7 +53,7 @@ spec:
           app:
             image:
               repository: ghcr.io/onedr0p/bazarr
-              tag: 1.4.3@sha256:24a93e1727f46d48f983213b76b2e99d9a0899abe405ada3a5797b0dd2d281d3
+              tag: 1.4.3@sha256:4fab44133c913d3988d7b8b38b22170117db128201eb7e2ca99ca63c56dd9d08
             resources:
               requests:
                 cpu: 350m
