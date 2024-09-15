@@ -50,7 +50,7 @@ spec:
           node:
             image:
               repository: haveagitgat/tdarr_node
-              tag: 2.25.01@sha256:55d919052339b165ad4b3ba6186b9548fce23f8b4602057717b483bcd8eff3d8
+              tag: 2.25.01@sha256:0db274f4183804e94bdfb506174642e095d664c9c8411b3c305eaea4f16a883a
             env:
             - name: nodeID
               value: node
