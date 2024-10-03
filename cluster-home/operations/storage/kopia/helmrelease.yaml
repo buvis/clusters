@@ -114,7 +114,7 @@ spec:
       snapshots:
         enabled: true
         type: nfs
-        server: ${NFS_SERVER_IP}
-        path: ${NFS_SERVER_PATH_PV}/storage/kopia/snapshots
+        server: ${FAST_NAS_SERVER_IP}
+        path: ${FAST_NAS_PATH_PV}/storage/kopia/snapshots
         globalMounts:
           - path: /snapshots
