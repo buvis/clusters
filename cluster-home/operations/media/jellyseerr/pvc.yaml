@@ -5,13 +5,13 @@ metadata:
   name: jellyseerr-config
   namespace: media
   labels:
-    snapshot.home.arpa/enabled: "true"
+    snapshot.home.arpa/enabled: "false"
     app.kubernetes.io/name: jellyseerr
     app.kubernetes.io/instance: jellyseerr
 spec:
   storageClassName: openebs-jiva-csi-default
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   resources:
     requests:
       storage: 512Mi

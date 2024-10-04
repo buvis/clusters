@@ -5,13 +5,13 @@ metadata:
   name: bazarr-config
   namespace: media
   labels:
-    snapshot.home.arpa/enabled: "true"
+    snapshot.home.arpa/enabled: "false"
     app.kubernetes.io/name: bazarr
     app.kubernetes.io/instance: bazarr
 spec:
   storageClassName: openebs-jiva-csi-default
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   resources:
     requests:
       storage: 15Gi

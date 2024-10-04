@@ -5,13 +5,13 @@ metadata:
   name: hass-config
   namespace: smarthome
   labels:
-    snapshot.home.arpa/enabled: "true"
+    snapshot.home.arpa/enabled: "false"
     app.kubernetes.io/name: hass
     app.kubernetes.io/instance: hass
 spec:
   storageClassName: openebs-jiva-csi-default
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   resources:
     requests:
       storage: 2Gi

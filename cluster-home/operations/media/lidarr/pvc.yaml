@@ -5,13 +5,13 @@ metadata:
   name: lidarr-config
   namespace: media
   labels:
-    snapshot.home.arpa/enabled: "true"
+    snapshot.home.arpa/enabled: "false"
     app.kubernetes.io/name: lidarr
     app.kubernetes.io/instance: lidarr
 spec:
   storageClassName: openebs-jiva-csi-default
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   resources:
     requests:
       storage: 20Gi

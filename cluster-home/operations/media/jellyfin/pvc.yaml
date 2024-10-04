@@ -5,13 +5,13 @@ metadata:
   name: jellyfin-data
   namespace: media
   labels:
-    snapshot.home.arpa/enabled: "true"
+    snapshot.home.arpa/enabled: "false"
     app.kubernetes.io/name: jellyfin
     app.kubernetes.io/instance: jellyfin
 spec:
   storageClassName: openebs-jiva-csi-default
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   resources:
     requests:
       storage: 5Gi

@@ -5,13 +5,13 @@ metadata:
   name: prowlarr-config
   namespace: media
   labels:
-    snapshot.home.arpa/enabled: "true"
+    snapshot.home.arpa/enabled: "false"
     app.kubernetes.io/name: prowlarr
     app.kubernetes.io/instance: prowlarr
 spec:
   storageClassName: openebs-jiva-csi-default
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   resources:
     requests:
       storage: 512Mi
