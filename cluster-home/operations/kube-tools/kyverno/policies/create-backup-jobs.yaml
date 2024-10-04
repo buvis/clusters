@@ -16,7 +16,6 @@ metadata:
       if the pod is guaranteed to not run during the time of this jobs execution
 spec:
   generateExisting: true
-  generateExistingOnPolicyUpdate: true
   rules:
     - name: create-snapshot-cronjob
       match:
