@@ -15,6 +15,7 @@ metadata:
       An optional label of "snapshot.home.arpa/ignoreAffinity" may be set on the PVC
       if the pod is guaranteed to not run during the time of this jobs execution
 spec:
+  generateExisting: true
   generateExistingOnPolicyUpdate: true
   rules:
     - name: create-snapshot-cronjob
