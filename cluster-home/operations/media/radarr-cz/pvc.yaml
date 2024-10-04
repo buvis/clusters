@@ -5,7 +5,7 @@ metadata:
   name: radarr-cz-config
   namespace: media
   labels:
-    snapshot.home.arpa/enabled: "false"
+    snapshot.home.arpa/enabled: "true"
     app.kubernetes.io/name: radarr-cz
     app.kubernetes.io/instance: radarr-cz
 spec:

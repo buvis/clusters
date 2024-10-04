@@ -11,7 +11,7 @@ metadata:
 spec:
   storageClassName: openebs-jiva-csi-default
   accessModes:
-    - ReadWriteOnce
+  - ReadWriteOnce
   resources:
     requests:
       storage: 512Mi
@@ -22,13 +22,13 @@ metadata:
   name: baikal-data
   namespace: gtd
   labels:
-    snapshot.home.arpa/enabled: "false"
+    snapshot.home.arpa/enabled: "true"
     app.kubernetes.io/name: baikal
     app.kubernetes.io/instance: baikal
 spec:
   storageClassName: openebs-jiva-csi-default
   accessModes:
-    - ReadWriteOnce
+  - ReadWriteOnce
   resources:
     requests:
       storage: 512Mi

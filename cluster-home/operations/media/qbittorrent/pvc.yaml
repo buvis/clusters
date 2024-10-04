@@ -5,13 +5,13 @@ metadata:
   name: qbittorrent-config
   namespace: media
   labels:
-    snapshot.home.arpa/enabled: "false"
+    snapshot.home.arpa/enabled: "true"
     app.kubernetes.io/name: qbittorrent
     app.kubernetes.io/instance: qbittorrent
 spec:
   storageClassName: openebs-jiva-csi-default
   accessModes:
-    - ReadWriteOnce
+  - ReadWriteOnce
   resources:
     requests:
       storage: 512Mi

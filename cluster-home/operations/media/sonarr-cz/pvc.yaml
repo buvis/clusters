@@ -5,7 +5,7 @@ metadata:
   name: sonarr-cz-config
   namespace: media
   labels:
-    snapshot.home.arpa/enabled: "false"
+    snapshot.home.arpa/enabled: "true"
     app.kubernetes.io/name: sonarr-cz
     app.kubernetes.io/instance: sonarr-cz
 spec:
