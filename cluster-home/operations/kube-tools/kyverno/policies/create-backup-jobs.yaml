@@ -84,7 +84,7 @@ spec:
                     # Stagger jobs to run randomly within 0-900 seconds to avoid bringing down all apps at once
                     initContainers:
                       - name: wait
-                        image: busybox:1.36
+                        image: busybox:1.37
                         command:
                           [
                             "sh",
