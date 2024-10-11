@@ -67,6 +67,9 @@ spec:
       config:
         enabled: true
         existingClaim: hass-config
+      control:
+        enabled: true
+        existingClaim: syno-control
     service:
       app:
         controller: hass
