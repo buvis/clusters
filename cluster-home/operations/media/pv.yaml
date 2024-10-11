@@ -8,19 +8,19 @@ spec:
   capacity:
     storage: 1Mi
   accessModes:
-  - ReadWriteMany
+    - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: ${NFS_SERVER_IP}
     path: ${NFS_SERVER_PATH_MEDIA}/downloads
   mountOptions:
-  - nfsvers=4
-  - tcp
-  - intr
-  - hard
-  - noatime
-  - nodiratime
-  - nolock
+    - nfsvers=4
+    - tcp
+    - intr
+    - hard
+    - noatime
+    - nodiratime
+    - nolock
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -30,7 +30,7 @@ metadata:
 spec:
   storageClassName: nas-media-downloads
   accessModes:
-  - ReadWriteMany
+    - ReadWriteMany
   resources:
     requests:
       storage: 1Mi
@@ -44,19 +44,19 @@ spec:
   capacity:
     storage: 1Mi
   accessModes:
-  - ReadWriteMany
+    - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: ${NFS_SERVER_IP}
     path: ${NFS_SERVER_PATH_MEDIA}/music
   mountOptions:
-  - nfsvers=4
-  - tcp
-  - intr
-  - hard
-  - noatime
-  - nodiratime
-  - nolock
+    - nfsvers=4
+    - tcp
+    - intr
+    - hard
+    - noatime
+    - nodiratime
+    - nolock
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -66,7 +66,7 @@ metadata:
 spec:
   storageClassName: nas-media-music
   accessModes:
-  - ReadWriteMany
+    - ReadWriteMany
   resources:
     requests:
       storage: 1Mi
@@ -80,19 +80,19 @@ spec:
   capacity:
     storage: 1Mi
   accessModes:
-  - ReadWriteMany
+    - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: ${NFS_SERVER_IP}
     path: ${NFS_SERVER_PATH_MEDIA}/videos
   mountOptions:
-  - nfsvers=4
-  - tcp
-  - intr
-  - hard
-  - noatime
-  - nodiratime
-  - nolock
+    - nfsvers=4
+    - tcp
+    - intr
+    - hard
+    - noatime
+    - nodiratime
+    - nolock
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -102,7 +102,7 @@ metadata:
 spec:
   storageClassName: nas-media-videos
   accessModes:
-  - ReadWriteMany
+    - ReadWriteMany
   resources:
     requests:
       storage: 1Mi
@@ -116,19 +116,19 @@ spec:
   capacity:
     storage: 100Gi
   accessModes:
-  - ReadWriteMany
+    - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: ${NFS_SERVER_IP}
-    path: ${NFS_SERVER_PATH_PV}/media
+    server: ${FAST_NAS_SERVER_IP}
+    path: ${FAST_NAS_PATH_PV}/media
   mountOptions:
-  - nfsvers=4
-  - tcp
-  - intr
-  - hard
-  - noatime
-  - nodiratime
-  - nolock
+    - nfsvers=4
+    - tcp
+    - intr
+    - hard
+    - noatime
+    - nodiratime
+    - nolock
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -138,7 +138,7 @@ metadata:
 spec:
   storageClassName: nas-pv-media
   accessModes:
-  - ReadWriteMany
+    - ReadWriteMany
   resources:
     requests:
       storage: 100Gi
