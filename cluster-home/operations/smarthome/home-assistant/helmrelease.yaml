@@ -81,6 +81,8 @@ spec:
             port: 8123
           coiot:
             port: 5683
+          https:
+            port: 443
       codeserver:
         type: ClusterIP
         controller: hass
