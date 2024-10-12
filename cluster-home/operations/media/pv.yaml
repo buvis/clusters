@@ -11,8 +11,8 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: ${NFS_SERVER_IP}
-    path: ${NFS_SERVER_PATH_MEDIA}/downloads
+    server: ${FAST_NAS_SERVER_IP}
+    path: ${FAST_NAS_PATH_MEDIA}/downloads
   mountOptions:
     - nfsvers=4
     - tcp
@@ -47,8 +47,8 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: ${NFS_SERVER_IP}
-    path: ${NFS_SERVER_PATH_MEDIA}/music
+    server: ${FAST_NAS_SERVER_IP}
+    path: ${FAST_NAS_PATH_MEDIA}/music
   mountOptions:
     - nfsvers=4
     - tcp
