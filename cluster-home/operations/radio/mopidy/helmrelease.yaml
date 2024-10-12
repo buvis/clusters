@@ -47,8 +47,10 @@ spec:
           lbipam.cilium.io/ips: ${SVC_IP_MOPIDY}
         ports:
           http:
+            enabled: true
             port: 6680
           mpd:
+            enabled: true
             port: 6600
     ingress:
       main:
