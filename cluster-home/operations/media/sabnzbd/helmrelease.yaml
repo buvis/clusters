@@ -107,6 +107,9 @@ spec:
     service:
       app:
         controller: sabnzbd
+        type: LoadBalancer
+        annotations:
+          lbipam.cilium.io/ips: ${SVC_IP_SABNZBD}
         ports:
           http:
             port: *port
