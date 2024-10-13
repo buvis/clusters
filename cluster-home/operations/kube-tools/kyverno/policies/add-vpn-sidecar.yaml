@@ -27,7 +27,7 @@ spec:
                     image: ghcr.io/qdm12/gluetun@sha256:d2db2b0846ad542bdec08831bf80fc847f089a8fca02d244b7700eac8c220898
                     env:
                       - name: DNS_ADDRESS
-                        value: "1.1.1.1"
+                        value: "${CLUSTER_DNS}"
                       - name: FIREWALL_INPUT_PORTS
                         value: "6767,8191,8096,5055,8686,7373,9696,6881,7878,7373,8989,8265,8266,8080"
                       - name: FIREWALL_OUTBOUND_SUBNETS
