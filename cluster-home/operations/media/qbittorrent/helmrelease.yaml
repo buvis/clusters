@@ -55,8 +55,8 @@ spec:
               tag: 5.0.0@sha256:1cc1878d06fafe6a1a1294f1547203634e729e3386324b7a63c8fde68554d705
             env:
               UMASK: "022"
-              QBITTORRENT__PORT: 8080
-              QBITTORRENT__USE_PROFILE: "true"
+              QBT_TORRENTING_PORT: ${SECRET_VPN_BT_FORWARD_PORT}
+              QBT_WEBUI_PORT: 8080
             resources:
               requests:
                 cpu: 49m
