@@ -76,15 +76,15 @@ spec:
     service:
       app:
         controller: qbittorrent
-        ports:
-          http:
-            port: 8080
-      bittorrent:
-        controller: qbittorrent
         type: LoadBalancer
         annotations:
           lbipam.cilium.io/ips: ${SVC_IP_BITTORRENT}
         ports:
+          http:
+            enabled: true
+            port: 8080
+            protocol: TCP
+            targetPort: 8080
           bittorrent:
             enabled: true
             port: ${SECRET_VPN_BT_FORWARD_PORT}
