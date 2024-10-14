@@ -42,19 +42,25 @@ spec:
             image: &image
               repository: ghcr.io/buroa/qbtools
               tag: v0.15.1@sha256:dc8957554902738837d1d0a6b4c4af5e27e1454341b0d9df5992be51cc1ecd65
-            args: [
-              "tagging",
-              "--added-on",
-              "--expired",
-              "--last-activity",
-              "--sites",
-              "--unregistered",
-              "--server", "qbittorrent-app.media",
-              "--port", "8080",
-              "--username", "${SECRET_QB_USERNAME}",
-              "--password", "${SECRET_QB_PASSWORD}",
-              "--config", "/config/config.yaml"
-            ]
+            args:
+              [
+                "tagging",
+                "--added-on",
+                "--expired",
+                "--last-activity",
+                "--sites",
+                "--unregistered",
+                "--server",
+                "qbittorrent.media",
+                "--port",
+                "8080",
+                "--username",
+                "${SECRET_QB_USERNAME}",
+                "--password",
+                "${SECRET_QB_PASSWORD}",
+                "--config",
+                "/config/config.yaml",
+              ]
             resources: &resources
               requests:
                 memory: 250Mi
@@ -64,33 +70,53 @@ spec:
         containers:
           unregistered:
             image: *image
-            args: [
-              "prune",
-              "--exclude-category", "manual",
-              "--exclude-category", "music",
-              "--exclude-category", "music.import",
-              "--include-tag", "unregistered",
-              "--server", "qbittorrent-app.media",
-              "--port", "8080",
-              "--username", "${SECRET_QB_USERNAME}",
-              "--password", "${SECRET_QB_PASSWORD}",
-            ]
+            args:
+              [
+                "prune",
+                "--exclude-category",
+                "manual",
+                "--exclude-category",
+                "music",
+                "--exclude-category",
+                "music.import",
+                "--include-tag",
+                "unregistered",
+                "--server",
+                "qbittorrent-app.media",
+                "--port",
+                "8080",
+                "--username",
+                "${SECRET_QB_USERNAME}",
+                "--password",
+                "${SECRET_QB_PASSWORD}",
+              ]
             resources: *resources
           expired:
             image: *image
-            args: [
-              "prune",
-              "--exclude-category", "manual",
-              "--exclude-category", "music",
-              "--exclude-category", "music.import",
-              "--exclude-category", "overlord",
-              "--include-tag", "expired",
-              "--include-tag", "added:7d",
-              "--server", "qbittorrent-app.media",
-              "--port", "8080",
-              "--username", "${SECRET_QB_USERNAME}",
-              "--password", "${SECRET_QB_PASSWORD}",
-            ]
+            args:
+              [
+                "prune",
+                "--exclude-category",
+                "manual",
+                "--exclude-category",
+                "music",
+                "--exclude-category",
+                "music.import",
+                "--exclude-category",
+                "overlord",
+                "--include-tag",
+                "expired",
+                "--include-tag",
+                "added:7d",
+                "--server",
+                "qbittorrent-app.media",
+                "--port",
+                "8080",
+                "--username",
+                "${SECRET_QB_USERNAME}",
+                "--password",
+                "${SECRET_QB_PASSWORD}",
+              ]
             resources: *resources
         pod:
           restartPolicy: OnFailure
@@ -107,16 +133,23 @@ spec:
           app:
             image: *image
             args: [
-              "orphaned",
-              "--exclude-pattern", "*_unpackerred*",
-              "--exclude-pattern", "*/manual/*",
-              "--exclude-pattern", "*/music.import/*",
-              "--server", "qbittorrent-app.media",
-              "--port", "8080",
-              "--username", "${SECRET_QB_USERNAME}",
-              "--password", "${SECRET_QB_PASSWORD}",
-              # "--dry-run",
-            ]
+                "orphaned",
+                "--exclude-pattern",
+                "*_unpackerred*",
+                "--exclude-pattern",
+                "*/manual/*",
+                "--exclude-pattern",
+                "*/music.import/*",
+                "--server",
+                "qbittorrent-app.media",
+                "--port",
+                "8080",
+                "--username",
+                "${SECRET_QB_USERNAME}",
+                "--password",
+                "${SECRET_QB_PASSWORD}",
+                # "--dry-run",
+              ]
             resources: *resources
         pod:
           restartPolicy: OnFailure
@@ -125,14 +158,19 @@ spec:
         containers:
           app:
             image: *image
-            args: [
-              "reannounce",
-              "--process-seeding",
-              "--server", "qbittorrent-app.media",
-              "--port", "8080",
-              "--username", "${SECRET_QB_USERNAME}",
-              "--password", "${SECRET_QB_PASSWORD}",
-            ]
+            args:
+              [
+                "reannounce",
+                "--process-seeding",
+                "--server",
+                "qbittorrent-app.media",
+                "--port",
+                "8080",
+                "--username",
+                "${SECRET_QB_USERNAME}",
+                "--password",
+                "${SECRET_QB_PASSWORD}",
+              ]
             resources: *resources
         pod:
           securityContext: *securityContext
@@ -149,4 +187,4 @@ spec:
         advancedMounts:
           orphaned:
             app:
-            - path: /downloads
+              - path: /downloads
