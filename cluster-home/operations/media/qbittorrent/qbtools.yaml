@@ -163,7 +163,7 @@ spec:
                 "reannounce",
                 "--process-seeding",
                 "--server",
-                "qbittorrent-app.media",
+                "qbittorrent.media",
                 "--port",
                 "8080",
                 "--username",
