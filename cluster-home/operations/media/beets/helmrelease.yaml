@@ -77,7 +77,7 @@ spec:
                   failureThreshold: 3
               readiness: *probes
     persistence:
-      config:
+      config-file:
         enabled: true
         type: configMap
         name: beets-config
@@ -85,7 +85,7 @@ spec:
           - path: /config/config.yml
             readOnly: true
             subPath: config.yml
-      data:
+      config:
         enabled: true
         existingClaim: beets-data
       media:
@@ -102,7 +102,7 @@ spec:
           config.yml: |
             ---
             directory: /media/music
-            library: /data/beets.db
+            library: /config/library.db
             import:
               move: true
               from_scratch: true
