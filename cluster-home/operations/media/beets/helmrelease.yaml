@@ -65,10 +65,10 @@ spec:
         type: configMap
         name: beets-config
         globalMounts:
-          - path: /config/config.yml
+          - path: /config/config.yaml
             readOnly: true
-            subPath: config.yml
-      config:
+            subPath: config.yaml
+      data:
         enabled: true
         existingClaim: beets-data
       media:
@@ -82,10 +82,10 @@ spec:
       config:
         enabled: true
         data:
-          config.yml: |
+          config.yaml: |
             ---
             directory: /media/music
-            library: /config/library.db
+            library: /data/library.db
             import:
               move: true
               from_scratch: true
