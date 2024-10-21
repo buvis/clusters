@@ -37,8 +37,6 @@ spec:
       interval: 5m
   values:
     defaultPodOptions:
-      annotations:
-        vpn/gluetun-inject: "true"
       securityContext:
         runAsUser: 568
         runAsGroup: 568
