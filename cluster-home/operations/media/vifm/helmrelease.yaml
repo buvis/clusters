@@ -41,7 +41,7 @@ spec:
           app:
             image:
               repository: ghcr.io/buvis/vifm
-              tag: v0.13@sha256:be08351c1ec58d13c7ebd00cb21603efc1e1b8f986f27c58c4339afdec5a43b5
+              tag: v0.13@sha256:f29263ca2665d7566fc3e0cdd26cc9573ab893d642ca73718635a4e8341e8fea
     persistence:
       media:
         enabled: true
