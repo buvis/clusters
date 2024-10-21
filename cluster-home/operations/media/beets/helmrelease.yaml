@@ -60,6 +60,9 @@ spec:
               limits:
                 memory: 4096Mi
     persistence:
+      config:
+        enabled: true
+        existingClaim: beets-config
       config-file:
         enabled: true
         type: configMap
@@ -68,9 +71,6 @@ spec:
           - path: /config/config.yaml
             readOnly: true
             subPath: config.yaml
-      config:
-        enabled: true
-        existingClaim: beets-config
       data:
         enabled: true
         existingClaim: beets-data
