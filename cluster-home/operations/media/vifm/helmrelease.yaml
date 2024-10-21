@@ -43,7 +43,7 @@ spec:
           app:
             image:
               repository: amritanshu16/vifm
-              tag: sha256:f12173d7a309e0600759c12273d18fee730223c9317245d1f99ae5efea43aafe
+              tag: latest@sha256:f12173d7a309e0600759c12273d18fee730223c9317245d1f99ae5efea43aafe
     persistence:
       media:
         enabled: true
