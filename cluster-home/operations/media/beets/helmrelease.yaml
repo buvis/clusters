@@ -53,6 +53,19 @@ spec:
             image:
               repository: ghcr.io/frantathefranta/beets-custom
               tag: 2.0.0@sha256:56ba0fdba662cf0af31484b32bfa777e426b86aa09f2701d003ca3c0cc77898b
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /stats
+                    port: &port 8337
+                  initialDelaySeconds: 0
+                  periodSeconds: 60
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *probes
             resources:
               requests:
                 cpu: 15m
@@ -111,6 +124,7 @@ spec:
               - missing # https://beets.readthedocs.io/en/stable/plugins/missing.html
               - mbsync # https://beets.readthedocs.io/en/stable/plugins/mbsync.html
               - scrub # https://beets.readthedocs.io/en/stable/plugins/scrub.html
+              - web # https://beets.readthedocs.io/en/stable/plugins/web.html
             discogs:
               source_weight: 0.0
             fetchart:
