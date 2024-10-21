@@ -50,7 +50,7 @@ spec:
           app:
             image:
               repository: ghcr.io/onedr0p/prowlarr-nightly
-              tag: 1.25.2.4792@sha256:4c37685a7df23eb96ce8b5429f088787afdf158eed81d248fc1f241c70c701cd
+              tag: 1.25.4.4817@sha256:5335c2759589b2faf3e68f5d19163799c7174d13c370ac353241557f30432822
             env:
               PROWLARR__INSTANCE_NAME: Prowlarr
               PROWLARR__PORT: &port 9696
