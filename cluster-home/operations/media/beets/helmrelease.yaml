@@ -55,27 +55,12 @@ spec:
             image:
               repository: ghcr.io/frantathefranta/beets-custom
               tag: 2.0.0@sha256:56ba0fdba662cf0af31484b32bfa777e426b86aa09f2701d003ca3c0cc77898b
-            env:
-              LIDARR_API_KEY: ${SECRET_LIDARR_API_KEY}
             resources:
               requests:
                 cpu: 15m
                 memory: 1024Mi
               limits:
                 memory: 4096Mi
-            probes:
-              liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /stats
-                    port: &port 8337
-                  initialDelaySeconds: 0
-                  periodSeconds: 60
-                  timeoutSeconds: 5
-                  failureThreshold: 3
-              readiness: *probes
     persistence:
       config-file:
         enabled: true
