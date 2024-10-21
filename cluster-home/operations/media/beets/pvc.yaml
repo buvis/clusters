@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: beets-data
+  namespace: media
+  labels:
+    snapshot.home.arpa/enabled: "true"
+    app.kubernetes.io/name: beets
+    app.kubernetes.io/instance: beets
+spec:
+  storageClassName: openebs-jiva-csi-default
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 512Mi

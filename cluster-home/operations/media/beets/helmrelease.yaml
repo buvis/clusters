@@ -1,0 +1,162 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: beets
+  namespace: media
+spec:
+  dependsOn:
+    - name: ingress-nginx
+      namespace: kube-tools
+    - name: cert-manager
+      namespace: kube-tools
+    - name: authentik
+      namespace: security
+    - name: openebs
+      namespace: storage
+  interval: 5m
+  install:
+    timeout: 15m
+    remediation:
+      retries: 5
+  upgrade:
+    timeout: 15m
+    remediation:
+      retries: 5
+      remediateLastFailure: true
+    cleanupOnFail: true
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts/
+      chart: app-template
+      version: 3.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    defaultPodOptions:
+      annotations:
+        vpn/gluetun-inject: "true"
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: "OnRootMismatch"
+        supplementalGroups:
+          - 985
+    controllers:
+      beets:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/frantathefranta/beets-custom
+              tag: 2.0.0@sha256:56ba0fdba662cf0af31484b32bfa777e426b86aa09f2701d003ca3c0cc77898b
+            env:
+              LIDARR_API_KEY: ${SECRET_LIDARR_API_KEY}
+            resources:
+              requests:
+                cpu: 15m
+                memory: 1024Mi
+              limits:
+                memory: 4096Mi
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /stats
+                    port: &port 8337
+                  initialDelaySeconds: 0
+                  periodSeconds: 60
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *probes
+    persistence:
+      config:
+        enabled: true
+        type: configMap
+        name: beets-config
+        globalMounts:
+          - path: /config/config.yml
+            readOnly: true
+            subPath: config.yml
+      data:
+        enabled: true
+        existingClaim: beets-data
+      media:
+        enabled: true
+        existingClaim: nas-media-music
+        globalMounts:
+          - path: /media/music
+      tmp:
+        type: emptyDir
+    configMaps:
+      config:
+        enabled: true
+        data:
+          config.yml: |
+            ---
+            directory: /media/music
+            library: /data/beets.db
+            import:
+              move: true
+              from_scratch: true
+            asciify_paths: true
+            group_albums: true
+            per_disc_numbering: true
+            paths:
+              default: "$albumartist/[%if{$year,$year,0000}] $album%aunique{}/%if{$multidisc,$disc-}$track - $title"
+              albumtype:soundtrack: "000-soundtracks/$album [%if{$year,$year,0000}]%aunique{}/%if{$multidisc,$disc-}$track - $title"
+              comp: "000-compilations/$album [%if{$year,$year,0000}]%aunique{}/%if{$multidisc,$disc-}$track - %if{$artist,$artist - }$title"
+              singleton: "000-non-album/$artist/$title"
+            plugins:
+              - albumtypes # https://beets.readthedocs.io/en/stable/plugins/albumtypes.html
+              - discogs # https://beets.readthedocs.io/en/stable/plugins/discogs.html
+              - duplicates # https://beets.readthedocs.io/en//stable/plugins/duplicates.html
+              - fetchart # https://beets.readthedocs.io/en/stable/plugins/fetchart.html
+              - ftintitle # https://beets.readthedocs.io/en/stable/plugins/ftintitle.html
+              - inline # https://beets.readthedocs.io/en/stable/plugins/inline.html
+              - lastgenre # https://beets.readthedocs.io/en/stable/plugins/lastgenre.html
+              - missing # https://beets.readthedocs.io/en/stable/plugins/missing.html
+              - mbsync # https://beets.readthedocs.io/en/stable/plugins/mbsync.html
+              - scrub # https://beets.readthedocs.io/en/stable/plugins/scrub.html
+            discogs:
+              source_weight: 0.0
+            fetchart:
+              cautious: true
+              sources: itunes *
+            item_fields:
+              multidisc: 1 if disctotal > 1 else 0
+            fuzzy:
+            web:
+              reverse_proxy: true
+              host: 0.0.0.0
+    service:
+      app:
+        controller: beets
+        ports:
+          http:
+            port: *port
+    ingress:
+      app:
+        className: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-production
+          authentik.home.arpa/enabled: "true"
+        hosts:
+          - host: &hostName beets.buvis.net
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - *hostName
+            secretName: beets-crt
