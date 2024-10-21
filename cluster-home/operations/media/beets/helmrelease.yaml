@@ -126,7 +126,7 @@ spec:
         controller: beets
         ports:
           http:
-            port: *port
+            port: 8337
     ingress:
       app:
         className: nginx
