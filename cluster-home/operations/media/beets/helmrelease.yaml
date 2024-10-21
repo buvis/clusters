@@ -68,6 +68,9 @@ spec:
           - path: /config/config.yaml
             readOnly: true
             subPath: config.yaml
+      config:
+        enabled: true
+        existingClaim: beets-config
       data:
         enabled: true
         existingClaim: beets-data
