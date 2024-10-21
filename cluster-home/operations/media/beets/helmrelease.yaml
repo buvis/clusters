@@ -130,7 +130,8 @@ spec:
               source_weight: 0.0
             extrafiles:
               patterns:
-                  all: '*.*'
+                  all:
+                    - '*.*'
             fetchart:
               cautious: true
               sources: itunes *
