@@ -117,6 +117,7 @@ spec:
               - albumtypes # https://beets.readthedocs.io/en/stable/plugins/albumtypes.html
               - discogs # https://beets.readthedocs.io/en/stable/plugins/discogs.html
               - duplicates # https://beets.readthedocs.io/en//stable/plugins/duplicates.html
+              - extrafiles # https://github.com/Holzhaus/beets-extrafiles
               - fetchart # https://beets.readthedocs.io/en/stable/plugins/fetchart.html
               - ftintitle # https://beets.readthedocs.io/en/stable/plugins/ftintitle.html
               - inline # https://beets.readthedocs.io/en/stable/plugins/inline.html
@@ -127,6 +128,9 @@ spec:
               - web # https://beets.readthedocs.io/en/stable/plugins/web.html
             discogs:
               source_weight: 0.0
+            extrafiles:
+              patterns:
+                  all: '*.*'
             fetchart:
               cautious: true
               sources: itunes *
