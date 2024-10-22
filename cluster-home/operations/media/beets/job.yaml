@@ -15,7 +15,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: scheduled-task
-  namespace: default
+  namespace: media
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -25,7 +25,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: scheduled-task
-    namespace: default
+    namespace: media
 roleRef:
   kind: ClusterRole
   name: pods-list-exec
