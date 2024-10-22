@@ -45,6 +45,11 @@ spec:
             stdin: true
             tty: true
     persistence:
+      downloads:
+        enabled: true
+        existingClaim: nas-media-downloads
+        globalMounts:
+          - path: /media/downloads
       music:
         enabled: true
         existingClaim: nas-media-music
