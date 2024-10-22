@@ -45,8 +45,13 @@ spec:
             stdin: true
             tty: true
     persistence:
-      media:
+      music:
         enabled: true
         existingClaim: nas-media-music
         globalMounts:
           - path: /media/music
+      inbox:
+        enabled: true
+        existingClaim: nas-media-music-inbox
+        globalMounts:
+          - path: /media/music-inbox
