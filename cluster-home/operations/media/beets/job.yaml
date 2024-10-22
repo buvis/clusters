@@ -52,7 +52,7 @@ spec:
                 - name: NAMESPACE
                   value: media
                 - name: LABEL
-                  value: "app.kubernetes.io/name=beets-update"
+                  value: "app.kubernetes.io/name=beets"
                 - name: COMMAND
                   value: 'find /media/music -type d -name "_LIDARR_ADDITIONS" | sort | xargs -I {} beet import -q "{}" && beet update && beet move'
           serviceAccountName: scheduled-task
