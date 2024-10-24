@@ -54,6 +54,6 @@ spec:
                 - name: LABEL
                   value: "app.kubernetes.io/name=beets"
                 - name: COMMAND
-                  value: 'find /media/music -type d -name "_LIDARR_ADDITIONS" | sort | xargs -I {} beet import -q "{}" && beet update && beet move'
+                  value: 'beet import -q "/media/music/-_import_-" && find /media/music -type d -name "_LIDARR_ADDITIONS" | sort | xargs -I {} beet import -q "{}" && beet update && beet move'
           serviceAccountName: scheduled-task
           restartPolicy: OnFailure
