@@ -139,6 +139,8 @@ spec:
             item_fields:
               multidisc: 1 if disctotal > 1 else 0
             lyrics:
+              fallback: ''
+              synced: true
             fuzzy:
             web:
               reverse_proxy: true
