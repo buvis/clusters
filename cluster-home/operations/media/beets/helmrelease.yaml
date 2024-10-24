@@ -122,6 +122,7 @@ spec:
               - ftintitle # https://beets.readthedocs.io/en/stable/plugins/ftintitle.html
               - inline # https://beets.readthedocs.io/en/stable/plugins/inline.html
               - lastgenre # https://beets.readthedocs.io/en/stable/plugins/lastgenre.html
+              - lyrics # https://beets.readthedocs.io/en/stable/plugins/lyrics.html
               - missing # https://beets.readthedocs.io/en/stable/plugins/missing.html
               - mbsync # https://beets.readthedocs.io/en/stable/plugins/mbsync.html
               - scrub # https://beets.readthedocs.io/en/stable/plugins/scrub.html
@@ -137,6 +138,7 @@ spec:
               sources: itunes *
             item_fields:
               multidisc: 1 if disctotal > 1 else 0
+            lyrics:
             fuzzy:
             web:
               reverse_proxy: true
