@@ -55,6 +55,11 @@ spec:
         existingClaim: nas-media-music
         globalMounts:
           - path: /media/music
+      videos:
+        enabled: true
+        existingClaim: nas-media-videos
+        globalMounts:
+          - path: /media/videos
       inbox:
         enabled: true
         existingClaim: nas-media-music-inbox
