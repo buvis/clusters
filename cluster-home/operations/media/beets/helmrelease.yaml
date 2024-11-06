@@ -52,7 +52,7 @@ spec:
           app:
             image:
               repository: ghcr.io/frantathefranta/beets-custom
-              tag: 2.0.0@sha256:56ba0fdba662cf0af31484b32bfa777e426b86aa09f2701d003ca3c0cc77898b
+              tag: 2.0.0@sha256:7f8107db0efb926366eacd2ab08ea4fb9bdb860859655be77edfb457e82388f2
             probes:
               liveness: &probes
                 enabled: true
