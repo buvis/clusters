@@ -25,9 +25,7 @@ spec:
               spec:
                 containers:
                   - name: gluetun
-                    image:
-                      repository: ghcr.io/qdm12/gluetun
-                      tag: v3.39.1
+                    image: ghcr.io/qdm12/gluetun@sha256:637a3a9daf56975942a1479ca44f574f96812a90e2150334704e2bbd7aa9321d
                     env:
                       - name: DNS_ADDRESS
                         value: "${CLUSTER_DNS}"
@@ -41,10 +39,10 @@ spec:
                         value: ${SECRET_VPN_GATEWAY_USER}
                       - name: OPENVPN_PASSWORD
                         value: ${SECRET_VPN_GATEWAY_PASSWORD}
-                      - name: VPN_PORT_FORWARDING_LISTENING_PORT
-                        value: "'${SECRET_VPN_BT_FORWARD_PORT}'"
                       - name: VPN_INTERFACE
                         value: tun
+                      - name: VPN_PORT_FORWARDING_LISTENING_PORT
+                        value: "'${SECRET_VPN_BT_FORWARD_PORT}'"
                       - name: TZ
                         value: ${TIMEZONE}
                     securityContext:
