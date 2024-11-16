@@ -11,43 +11,43 @@ metadata:
       environment variable so the container will have the correct
       time.
 spec:
-  generateExistingOnPolicyUpdate: true
+  generateExisting: true
   rules:
-  - name: inject-timezone
-    match:
-      any:
-      - resources:
-          kinds:
-          - Pod
-    mutate:
-      patchStrategicMerge:
-        spec:
-          initContainers:
-          - name: provide-timezone
-            image: quay.io/k8tz/k8tz:0.17.1@sha256:597d63f997b8821dfce156633cadfa6253685702f9064b21a4d6b4e435f55dc4
-            imagePullPolicy: IfNotPresent
-            resources:
-              requests:
-                cpu: 10m
-                memory: 100Mi
-            volumeMounts:
-            - mountPath: /mnt/zoneinfo
-              name: timezone
-            args:
-            - bootstrap
-          containers:
-          - (name): "*"
-            volumeMounts:
-            - mountPath: /etc/localtime
-              name: timezone
-              readOnly: true
-              subPath: &timezone ${TIMEZONE}
-            - mountPath: /usr/share/zoneinfo
-              name: timezone
-              readOnly: true
-            env:
-            - name: TZ
-              value: *timezone
-          volumes:
-          - name: timezone
-            emptyDir: {}
+    - name: inject-timezone
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+      mutate:
+        patchStrategicMerge:
+          spec:
+            initContainers:
+              - name: provide-timezone
+                image: quay.io/k8tz/k8tz:0.17.1@sha256:597d63f997b8821dfce156633cadfa6253685702f9064b21a4d6b4e435f55dc4
+                imagePullPolicy: IfNotPresent
+                resources:
+                  requests:
+                    cpu: 10m
+                    memory: 100Mi
+                volumeMounts:
+                  - mountPath: /mnt/zoneinfo
+                    name: timezone
+                args:
+                  - bootstrap
+            containers:
+              - (name): "*"
+                volumeMounts:
+                  - mountPath: /etc/localtime
+                    name: timezone
+                    readOnly: true
+                    subPath: &timezone ${TIMEZONE}
+                  - mountPath: /usr/share/zoneinfo
+                    name: timezone
+                    readOnly: true
+                env:
+                  - name: TZ
+                    value: *timezone
+            volumes:
+              - name: timezone
+                emptyDir: {}
