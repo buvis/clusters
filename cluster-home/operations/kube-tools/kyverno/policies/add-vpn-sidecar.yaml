@@ -47,3 +47,10 @@ spec:
                       capabilities:
                         add:
                           - NET_ADMIN
+                    volumeMounts:
+                      - name: tun
+                        mountPath: /dev/net
+                  volumes:
+                    - name: tun
+                      hostPath:
+                        path: /dev/net
