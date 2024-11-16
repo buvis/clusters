@@ -39,14 +39,13 @@ spec:
                         value: ${SECRET_VPN_GATEWAY_USER}
                       - name: OPENVPN_PASSWORD
                         value: ${SECRET_VPN_GATEWAY_PASSWORD}
-                      - name: VPN_INTERFACE
-                        value: tun
                       - name: VPN_PORT_FORWARDING_LISTENING_PORT
                         value: "'${SECRET_VPN_BT_FORWARD_PORT}'"
                       - name: TZ
                         value: ${TIMEZONE}
                     securityContext:
                       privileged: true
+                      runAsUser: 0
                       capabilities:
                         add:
                           - NET_ADMIN
