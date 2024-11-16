@@ -44,6 +44,8 @@ spec:
                       - name: TZ
                         value: ${TIMEZONE}
                     securityContext:
+                      allowPrivilegeEscalation: true
+                      runAsNonRoot: false
                       runAsUser: 0
                       capabilities:
                         add:
