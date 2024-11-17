@@ -9,7 +9,6 @@ job_template = env.get_template("restore-job-template.j2")
 
 
 class CommandRestore:
-
     def __init__(self):
         self.k8s = KubernetesAdapter()
         self.flux = FluxAdapter()
@@ -25,14 +24,16 @@ class CommandRestore:
             restore_command = f"snap restore {snapshot}"
 
         self.k8s.delete_job(job_name, namespace)
-        self._generate_restore_job_manifest({
-            "NFS_SERVER_IP": nfs_server_ip,
-            "NFS_SERVER_PATH_KOPIA": f"{nfs_server_path}/storage/kopia",
-            "JOBNAME": job_name,
-            "NAMESPACE": namespace,
-            "PVC": pvc,
-            "RESTORE_COMMAND": restore_command,
-        })
+        self._generate_restore_job_manifest(
+            {
+                "NFS_SERVER_IP": nfs_server_ip,
+                "NFS_SERVER_PATH_KOPIA": f"{nfs_server_path}/storage/kopia",
+                "JOBNAME": job_name,
+                "NAMESPACE": namespace,
+                "PVC": pvc,
+                "RESTORE_COMMAND": restore_command,
+            }
+        )
         console.success(f"Gathered all information needed to restore {pvc}")
         res = self.flux.suspend_hr(app_instance, namespace)
 
@@ -50,7 +51,8 @@ class CommandRestore:
             else:
                 console.panic(
                     f"Can't resume {app_instance} helmrelease. "
-                    f"Run `kubectl describe hr -n {namespace} {app_instance}`")
+                    f"Run `kubectl describe hr -n {namespace} {app_instance}`"
+                )
 
     def _get_app_labels_from_pvc(self, pvc, namespace):
         pvc_resource = self.k8s.get_pvc(pvc, namespace)
@@ -59,26 +61,27 @@ class CommandRestore:
             console.panic(f"PVC {pvc} doesn't exist in {namespace} namespace")
 
         app_instance = pvc_resource.metadata.labels.get(
-            "app.kubernetes.io/instance", "")
-        app_name = pvc_resource.metadata.labels.get("app.kubernetes.io/name",
-                                                    "")
+            "app.kubernetes.io/instance", ""
+        )
+        app_name = pvc_resource.metadata.labels.get("app.kubernetes.io/name", "")
 
         if not (app_instance and app_name):
-            console.panic("Can't determine application name from PVC. "
-                          "Please add app.kubernetes.io/name and "
-                          "app.kubernetes.io/instance labels to it.")
+            console.panic(
+                "Can't determine application name from PVC. "
+                "Please add app.kubernetes.io/name and "
+                "app.kubernetes.io/instance labels to it."
+            )
 
         return (app_instance, app_name)
 
     def _get_nfs_backup_location(self):
-        cluster_config = self.k8s.get_config_map_data("cluster-config",
-                                                      "flux-system")
+        cluster_config = self.k8s.get_config_map_data("cluster-config", "flux-system")
 
         if cluster_config is None:
             console.panic("Can't determine backups location")
 
-        nfs_server_ip = cluster_config.get("NFS_SERVER_IP", "")
-        nfs_server_path = cluster_config.get("NFS_SERVER_PATH_PV", "")
+        nfs_server_ip = cluster_config.get("FAST_NAS_SERVER_IP", "")
+        nfs_server_path = cluster_config.get("FAST_NAS_PATH_PV", "")
 
         if not (nfs_server_ip and nfs_server_path):
             console.panic("Can't determine backups location")
@@ -97,8 +100,7 @@ class CommandRestore:
 
             if res.is_ok():
                 if self.k8s.wait_pod_delete(app_instance, app_name, namespace):
-                    console.success(
-                        f"Stopped {app_instance}-{app_name} application")
+                    console.success(f"Stopped {app_instance}-{app_name} application")
                 else:
                     manual_stop_required = True
             else:
@@ -109,11 +111,14 @@ class CommandRestore:
                 f"Can't stop application {app_instance}-{app_name} application"
             )
             manual_stop = console.confirm(
-                f"Can you stop {app_instance}-{app_name} application, please?")
+                f"Can you stop {app_instance}-{app_name} application, please?"
+            )
 
             if not manual_stop:
-                console.panic("It isn't safe to proceed with restore while "
-                              "application is running")
+                console.panic(
+                    "It isn't safe to proceed with restore while "
+                    "application is running"
+                )
 
     def _submit_restore_job(self, pvc, namespace, job_name):
         with console.status(f"Restoring {pvc} data"):
