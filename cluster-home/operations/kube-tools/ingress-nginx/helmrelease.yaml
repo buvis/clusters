@@ -29,6 +29,8 @@ spec:
     controller:
       allowSnippetAnnotations: true
       hostNetwork: false
+      config:
+        annotations-risk-level: Critical
       service:
         type: LoadBalancer
         annotations:
