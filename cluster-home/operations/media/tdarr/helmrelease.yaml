@@ -41,14 +41,39 @@ spec:
         fsGroup: 1000
         fsGroupChangePolicy: "OnRootMismatch"
     controllers:
-      tdarr:
+      server:
         containers:
-          app:
+          server:
             image:
               repository: haveagitgat/tdarr
               tag: 2.27.02@sha256:921cd981fd49004468c67116861f16e825dd0337b067275d9e0d47422036f41a
+      node:
+        replicas: 4
+        pod:
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: app.kubernetes.io/name
+                        operator: In
+                        values:
+                          - jellyfin
+                  topologyKey: "kubernetes.io/hostname"
+        containers:
+          node:
+            image:
+              repository: haveagitgat/tdarr_node
+              tag: 2.27.02@sha256:fcf8f5d30c718c72d1db099b2b9cfd58a77c85a61b0c26edab4cba057ddc4023
             env:
-              internalNode: true
+              serverIP: tdarr.media.svc.cluster.local
+              ffmpegPath: "/usr/local/bin/ffmpeg"
+              nodeName:
+                valueFrom:
+                  fieldRef:
+                    fieldPath: spec.nodeName
+            securityContext:
+              allowPrivilegeEscalation: true
     persistence:
       config:
         enabled: true
@@ -65,15 +90,18 @@ spec:
         existingClaim: nas-media-videos
         globalMounts:
           - path: /media/videos
+      transcode:
+        type: hostPath
+        hostPath: /tmp
+        globalMounts:
+          - path: /transcode
     service:
-      app:
-        controller: tdarr
+      tdarr:
+        controller: server
         ports:
           http:
             port: 8265
           server:
-            enabled: true
-            protocol: TCP
             port: 8266
     ingress:
       app:
