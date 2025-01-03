@@ -104,7 +104,7 @@ spec:
           server:
             port: 8266
     ingress:
-      app:
+      tdarr:
         className: nginx
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-production
@@ -115,7 +115,7 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  identifier: app
+                  identifier: tdarr
                   port: http
         tls:
           - hosts:
