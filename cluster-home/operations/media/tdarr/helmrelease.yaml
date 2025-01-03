@@ -78,13 +78,11 @@ spec:
       config:
         enabled: true
         existingClaim: tdarr-config
-        globalMounts:
-          - path: /app/configs
-      data:
-        enabled: true
-        existingClaim: tdarr-data
-        globalMounts:
-          - path: /app/server
+        advancedMounts:
+          server:
+            server:
+              - path: /app/server
+                subPath: server
       media:
         enabled: true
         existingClaim: nas-media-videos
