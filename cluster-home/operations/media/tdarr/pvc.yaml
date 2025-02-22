@@ -11,7 +11,7 @@ metadata:
 spec:
   storageClassName: openebs-jiva-csi-default
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   resources:
     requests:
       storage: 512Mi
@@ -19,7 +19,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: tdarr-data
+  name: tdarr-cache
   namespace: media
   labels:
     snapshot.home.arpa/enabled: "true"
@@ -28,7 +28,7 @@ metadata:
 spec:
   storageClassName: openebs-jiva-csi-default
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   resources:
     requests:
-      storage: 512Mi
+      storage: 100Gi
