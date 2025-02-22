@@ -48,18 +48,6 @@ spec:
               repository: haveagitgat/tdarr
               tag: 2.31.02@sha256:4df313a6ed3caf1c235e81443a34ee5f4cc0a1f510b4a5a84da650e2d6871917
       node:
-        replicas: 4
-        pod:
-          affinity:
-            podAntiAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                - labelSelector:
-                    matchExpressions:
-                      - key: app.kubernetes.io/name
-                        operator: In
-                        values:
-                          - jellyfin
-                  topologyKey: "kubernetes.io/hostname"
         containers:
           node:
             image:
@@ -68,12 +56,8 @@ spec:
             env:
               serverIP: tdarr.media.svc.cluster.local
               ffmpegPath: "/usr/local/bin/ffmpeg"
-              nodeName:
-                valueFrom:
-                  fieldRef:
-                    fieldPath: spec.nodeName
-            securityContext:
-              allowPrivilegeEscalation: true
+              nodeName: tdarr-node
+              nodeID: tdarr-node
     persistence:
       config:
         enabled: true
@@ -88,11 +72,11 @@ spec:
         existingClaim: nas-media-videos
         globalMounts:
           - path: /media/videos
-      transcode:
-        type: hostPath
-        hostPath: /tmp
+      cache:
+        enabled: true
+        existingClaim: tdarr-cache
         globalMounts:
-          - path: /transcode
+          - path: /cache
     service:
       tdarr:
         controller: server
