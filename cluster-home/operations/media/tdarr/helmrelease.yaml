@@ -42,12 +42,22 @@ spec:
         fsGroupChangePolicy: "OnRootMismatch"
     controllers:
       server:
+        pod:
+          metadata:
+            annotations:
+              kubernetes.io/ingress-bandwidth: 40M
+              kubernetes.io/egress-bandwidth: 40M
         containers:
           server:
             image:
               repository: haveagitgat/tdarr
               tag: 2.32.01@sha256:347b25b14d54594bffa705eb2423aa1728ea78a045f6c9205276c15f55bc8eea
       node:
+        pod:
+          metadata:
+            annotations:
+              kubernetes.io/ingress-bandwidth: 40M
+              kubernetes.io/egress-bandwidth: 40M
         containers:
           node:
             image:
