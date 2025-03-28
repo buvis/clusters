@@ -60,7 +60,7 @@ spec:
           node:
             image:
               repository: haveagitgat/tdarr_node
-              tag: 2.35.02@sha256:59287bc178a58a75131258b53b2228753f30508a7b48125701ad637fc4f1c6d9
+              tag: 2.37.01@sha256:7e9d8e4c6520c3865387565b0cb9744f7dafb79b594fcd88c2ad93d5ad001e37
             env:
               serverIP: tdarr.media.svc.cluster.local
               ffmpegPath: "/usr/local/bin/ffmpeg"
