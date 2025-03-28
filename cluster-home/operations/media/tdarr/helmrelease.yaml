@@ -29,7 +29,7 @@ spec:
     spec:
       # renovate: registryUrl=https://bjw-s.github.io/helm-charts/
       chart: app-template
-      version: 3.7.1
+      version: 3.7.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -50,7 +50,7 @@ spec:
           server:
             image:
               repository: haveagitgat/tdarr
-              tag: 2.33.01@sha256:55ea77e759d401455795c55edf9e5428c7f493acb76eca8d7ce87b46457a0541
+              tag: 2.35.02@sha256:3192636b8cee4156cfab4fdfa567fddd64763449460607285ccf9d2956bdef1c
       node:
         pod:
           annotations:
@@ -60,7 +60,7 @@ spec:
           node:
             image:
               repository: haveagitgat/tdarr_node
-              tag: 2.33.01@sha256:da5e8224f4cec994460232981d4ff94e126b074a8840e84f69ed2a5c3bf8beee
+              tag: 2.35.02@sha256:59287bc178a58a75131258b53b2228753f30508a7b48125701ad637fc4f1c6d9
             env:
               serverIP: tdarr.media.svc.cluster.local
               ffmpegPath: "/usr/local/bin/ffmpeg"
