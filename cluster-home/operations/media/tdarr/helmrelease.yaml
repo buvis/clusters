@@ -50,7 +50,7 @@ spec:
           server:
             image:
               repository: haveagitgat/tdarr
-              tag: 2.35.02@sha256:3192636b8cee4156cfab4fdfa567fddd64763449460607285ccf9d2956bdef1c
+              tag: 2.37.01@sha256:5b15acbf9bb0e35bbbb876609b0fb2688fad8cb28cd02730cce3a4c1db349986
       node:
         pod:
           annotations:
