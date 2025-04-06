@@ -3,11 +3,11 @@ terraform {
   required_providers {
     proxmox = {
       source  = "telmate/proxmox"
-      version = "3.0.1-rc6"
+      version = "3.0.1-rc7"
     }
     sops = {
       source = "carlpett/sops"
-      version = "1.1.1"
+      version = "1.2.0"
     }
   }
 }
