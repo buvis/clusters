@@ -1,9 +1,0 @@
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: coredns-custom
-  namespace: kube-system
-data:
-  ingress.override: |
-    rewrite name auth.buvis.net ingress-nginx-controller.kube-tools.svc.cluster.local.

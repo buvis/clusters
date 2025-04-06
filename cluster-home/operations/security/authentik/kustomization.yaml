@@ -6,6 +6,5 @@ metadata:
   namespace: flux-system
 resources:
   - authentik.yaml
-  - dns.yaml
   - helmrelease.yaml
   - pvc.yaml
