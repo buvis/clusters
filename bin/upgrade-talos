@@ -1,12 +1,21 @@
 #!/usr/bin/env bash
+TALOS_VERSION=$(curl -L -s -H 'Accept: application/json' "https://github.com/siderolabs/talos/releases/latest" | sed -n 's/.*"tag_name":"\([^"]*\)".*/\1/p')
 
-if [[ $TALOS_VERSION == v* ]]; then
-    for node_ip in ${NODE_IPS//,/ }
-    do
-        echo -e "\n[Node $node_ip upgrade to Talos $TALOS_VERSION started]\n"
-        talosctl upgrade --nodes $node_ip --image factory.talos.dev/installer/$TALOS_SCHEMATIC_ID:$TALOS_VERSION --preserve
-        echo -e "\n[Node $node_ip upgrade to Talos $TALOS_VERSION finished]"
-    done
+echo -e "\nLatest Talos version is: $TALOS_VERSION.\n"
+
+curl -Lo ~/.local/bin/talosctl https://github.com/siderolabs/talos/releases/download/$TALOS_VERSION/talosctl-$(uname -s | tr "[:upper:]" "[:lower:]")-amd64
+
+chmod +x ~/.local/bin/talosctl
+
+echo -e "\nTalos CLI (talosctl) was updated to $TALOS_VERSION."
+
+if [[ -z "$NODE_IPS" ]]; then
+  echo "\nThere are no Talos nodes IPs set in NODE_IPS. Are you in cluster directory and is direnv enabled?"
 else
-    echo "You need to set TALOS_VERSION first (check https://github.com/siderolabs/talos/releases/latest)!"
+  for node_ip in ${NODE_IPS//,/ }
+  do
+      echo -e "\n[Node $node_ip upgrade to Talos $TALOS_VERSION started]\n"
+      talosctl upgrade --nodes $node_ip --image factory.talos.dev/installer/$TALOS_SCHEMATIC_ID:$TALOS_VERSION --preserve
+      echo -e "\n[Node $node_ip upgrade to Talos $TALOS_VERSION finished]"
+  done
 fi
