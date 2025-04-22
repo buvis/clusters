@@ -44,8 +44,7 @@ spec:
       siteName: Bob's Zettelkasten
       siteUrl: https://zkn.buvis.net
       requirements: |
-        mkdocs-zettelkasten==0.1.10
-        git+https://github.com/jldiaz/mkdocs-plugin-tags.git#egg=tags-macros-plugin
+        mkdocs-zettelkasten==0.2.0
         mdx_truly_sane_lists
       theme:
         name: zettelkasten-solarized-light
@@ -55,7 +54,6 @@ spec:
         - mdx_truly_sane_lists
       plugins:
         - search
-        - tags
         - zettelkasten
       nav:
         - Source: https://gitlab.com/buvis/zettelkasten
