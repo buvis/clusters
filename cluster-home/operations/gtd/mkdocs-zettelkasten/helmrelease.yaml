@@ -27,7 +27,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.buvis.net
       chart: mkdocs-git-sync
-      version: 0.1.11
+      version: 0.2.0
       sourceRef:
         kind: HelmRepository
         name: buvis
@@ -41,6 +41,7 @@ spec:
       docsDir: zettelkasten
       editUri: https://gitlab.com/buvis/zettelkasten/edit/main/zettelkasten
       updateInterval: 60
+      logLevel: warning
       siteName: Bob's Zettelkasten
       siteUrl: https://zkn.buvis.net
       requirements: |
