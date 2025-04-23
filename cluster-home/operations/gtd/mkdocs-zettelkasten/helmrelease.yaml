@@ -41,7 +41,7 @@ spec:
       docsDir: zettelkasten
       editUri: https://gitlab.com/buvis/zettelkasten/edit/main/zettelkasten
       updateInterval: 60
-      # logLevel: warning
+      logLevel: warning
       siteName: Bob's Zettelkasten
       siteUrl: https://zkn.buvis.net
       requirements: |
