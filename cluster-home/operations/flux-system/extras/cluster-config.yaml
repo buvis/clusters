@@ -5,6 +5,7 @@ metadata:
   name: cluster-config
   namespace: flux-system
 data:
+  INTERNAL_DNS_SERVER_IP: "10.5.0.1"
   GATEWAY_IP: "10.7.0.1"
   NETWORK_CIDR_K8S_CLUSTER: "172.22.0.0/16"
   NETWORK_CIDR_K8S_SERVICE: "172.24.0.0/16"
