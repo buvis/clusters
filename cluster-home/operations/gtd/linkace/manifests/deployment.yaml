@@ -19,16 +19,16 @@ spec:
         app.kubernetes.io/name: linkace
     spec:
       containers:
-      - image: ghcr.io/kovah/linkace:v1.16.0-simple
-        name: linkace
-        ports:
-        - containerPort: 80
-        volumeMounts:
-        - name: linkace-env
-          mountPath: /app/.env
-          subPath: env
+        - image: ghcr.io/kovah/linkace:v2.1.7@sha256:c1277935001ffa918bb0befda76e6ffb8250d79752f7d3c86b5814406c81198b
+          name: linkace
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: linkace-env
+              mountPath: /app/.env
+              subPath: env
       restartPolicy: Always
       volumes:
-      - name: linkace-env
-        configMap:
-          name: linkace-env
+        - name: linkace-env
+          configMap:
+            name: linkace-env
