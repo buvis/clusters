@@ -52,7 +52,7 @@ spec:
       auth:
         password: ${SECRET_AUTHENTIK_DB_PASSWORD}
     redis:
-      enabled: false
+      enabled: true
     authentik:
       secret_key: ${SECRET_AUTHENTIK_SECRET_KEY}
       postgresql:
