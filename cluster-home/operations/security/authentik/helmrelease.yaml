@@ -52,10 +52,7 @@ spec:
       auth:
         password: ${SECRET_AUTHENTIK_DB_PASSWORD}
     redis:
-      enabled: true
-      architecture: standalone
-      global:
-        storageClass: openebs-jiva-csi-default
+      enabled: false
     authentik:
       secret_key: ${SECRET_AUTHENTIK_SECRET_KEY}
       postgresql:
