@@ -54,7 +54,7 @@ spec:
     redis:
       enabled: true
       global:
-        storageClass: openebs-hostpath
+        defaultStorageClass: openebs-hostpath
     authentik:
       secret_key: ${SECRET_AUTHENTIK_SECRET_KEY}
       postgresql:
