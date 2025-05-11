@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+kubectl delete pods --all-namespaces --field-selector='status.phase=Failed'
+kubectl delete pods --all-namespaces --field-selector='status.phase=Succeeded'
