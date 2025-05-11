@@ -57,11 +57,11 @@ spec:
         defaultStorageClass: openebs-hostpath
       persistence:
         enabled: false
-      configmap: |
-        # Disable AOF and RDB persistence as we keep everything in memory only, see https://redis.io/topics/persistence
-        appendonly no
-        # Disable RDB persistence, AOF persistence already disabled above.
-        save ""
+      redis:
+        useAOFPersistence: "no"
+        configmap: |
+          # Disable RDB persistence completely
+          save ""
     authentik:
       secret_key: ${SECRET_AUTHENTIK_SECRET_KEY}
       postgresql:
