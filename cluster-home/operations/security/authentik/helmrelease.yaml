@@ -53,15 +53,15 @@ spec:
         password: ${SECRET_AUTHENTIK_DB_PASSWORD}
     redis:
       enabled: true
+      commonConfiguration: |-
+        appendonly no
+        save ""
       global:
         defaultStorageClass: openebs-hostpath
       persistence:
         enabled: false
       redis:
         useAOFPersistence: "no"
-        configmap: |
-          # Disable RDB persistence completely
-          save ""
     authentik:
       secret_key: ${SECRET_AUTHENTIK_SECRET_KEY}
       postgresql:
