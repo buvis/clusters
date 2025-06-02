@@ -89,7 +89,7 @@ spec:
             protocol: UDP
     serviceMonitor:
       main:
-        enabled: false
+        enabled: true
         serviceName: blocky
         endpoints:
           - port: http

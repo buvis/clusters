@@ -58,7 +58,7 @@ spec:
         memory: 1500Mi
     metrics:
       serviceMonitor:
-        enabled: false
+        enabled: true
     buckets:
       - name: thanos
         policy: public
