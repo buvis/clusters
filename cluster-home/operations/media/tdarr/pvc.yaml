@@ -22,7 +22,7 @@ metadata:
   name: tdarr-cache
   namespace: media
   labels:
-    snapshot.home.arpa/enabled: "true"
+    snapshot.home.arpa/enabled: "false"
     app.kubernetes.io/name: tdarr
     app.kubernetes.io/instance: tdarr
 spec:
