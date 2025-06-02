@@ -14,6 +14,8 @@ spec:
       namespace: security
     - name: openebs
       namespace: storage
+    - name: kube-prometheus-stack
+      namespace: monitoring
   interval: 5m
   install:
     timeout: 15m

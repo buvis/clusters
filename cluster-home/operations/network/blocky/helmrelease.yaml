@@ -5,6 +5,9 @@ metadata:
   name: blocky
   namespace: network
 spec:
+  dependsOn:
+    - name: kube-prometheus-stack
+      namespace: monitoring
   interval: 5m
   install:
     timeout: 15m

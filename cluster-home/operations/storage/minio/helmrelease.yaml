@@ -5,6 +5,9 @@ metadata:
   name: minio
   namespace: storage
 spec:
+  dependsOn:
+    - name: kube-prometheus-stack
+      namespace: monitoring
   interval: 5m
   chart:
     spec:
