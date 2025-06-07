@@ -129,6 +129,7 @@ spec:
               - web # https://beets.readthedocs.io/en/stable/plugins/web.html
             discogs:
               source_weight: 0.0
+              user_token: ${SECRET_DISCOGS_PAT}
             extrafiles:
               patterns:
                   all:
