@@ -50,7 +50,7 @@ spec:
           server:
             image:
               repository: haveagitgat/tdarr
-              tag: 2.40.01@sha256:4a9a20b71752eb6f770aba30247b1403e4c9ed2602453ffdd073e9fae25b4dfd
+              tag: 2.42.01@sha256:66e5c9d8e701faa9b5a36bec3830e16c6314592a1e7cecd836eb4043fae58ac1
       node:
         pod:
           annotations:
@@ -60,7 +60,7 @@ spec:
           node:
             image:
               repository: haveagitgat/tdarr_node
-              tag: 2.40.01@sha256:ac6d8451148b311d99be1e0e3978bc866009ee412f9644f521374a5dd7f3c4c5
+              tag: 2.42.01@sha256:a441c76a4647b164d67edeca9ba2e39f6341c7c6a8c664570bad606620d38b08
             env:
               serverIP: tdarr.media.svc.cluster.local
               ffmpegPath: "/usr/local/bin/ffmpeg"
