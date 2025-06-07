@@ -23,11 +23,9 @@
 - op: replace
   path: /machine/install/wipe
   value: true
-- op: add
-  path: /machine/install/extensions
-  value:
-    - image: "ghcr.io/siderolabs/iscsi-tools:v0.1.5@sha256:571f4e94f38f32ca716c3f9f701c59f47c226eca4e2f9adfbb8b931b01fa1442"
-    # - image: "ghcr.io/siderolabs/iscsi-tools:v0.1.4@sha256:3ab305068aa28513b26ab3c5b1f2937dbe3f63b9c50abe290287cc58eb454bb9" # https://github.com/siderolabs/extensions/issues/237
+- op: replace
+  path: /machine/install/image
+  value: factory.talos.dev/metal-installer/88d1f7a5c4f1d3aba7df787c448c1d3d008ed29cfb34af53fa0df4336a56040b:v1.10.3
 - op: add
   path: /machine/install/diskSelector
   value:

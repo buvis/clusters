@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from adapters import (
     CiliumAdapter,
     FluxAdapter,
@@ -17,6 +19,14 @@ class CommandBootstrap:
 
         for p in cfg.path_terraform_workspaces:
             self.tf.append(TerraformAdapter(p))
+
+        if len(self.tf) == 0:
+            console.panic(
+                "There is no Terraform workspaces defined in the configuration."
+            )
+        elif len(self.tf) == 1:
+            self.tf[0].name = cfg.cluster_name
+
         self.talos = TalosAdapter()
         self.cilium = CiliumAdapter()
 
@@ -39,7 +49,7 @@ class CommandBootstrap:
                     console.success(f"Terraform workspace initialized for {tf.name}")
                 else:
                     console.panic(
-                        f"Terraform workspace initialization failed " f"for {tf.name}!",
+                        f"Terraform workspace initialization failed for {tf.name}!",
                     )
 
             with console.status(f"Creating Proxmox nodes on {tf.name}"):
@@ -112,6 +122,7 @@ class CommandBootstrap:
 
                 if res.is_ok():
                     console.success("CNI is active")
+
                     return
 
     def deploy_flux(self):

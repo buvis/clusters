@@ -1,0 +1,75 @@
+nodes:
+  # Unfortunately, there is no way to work with multiple proxmox providers dynamically
+  # ... and so everything related to individual nodes must be hardcoded and duplicated in pm_<node_name>.tf
+  higgs:
+    api_url: https://10.7.0.40:8006/
+    datastore: higgs-tank
+    vms:
+      buvis-master:
+        id: 4011
+        macaddr: 02:DE:4D:48:28:01
+        cpu_cores: 4
+        disk_sizes:
+          system: 24
+          data: 10
+        memory_size: 16384
+      buvis-worker-01:
+        id: 4021
+        macaddr: 02:DE:4D:48:28:0A
+        cpu_cores: 4
+        disk_sizes:
+          system: 24
+          data: 508
+        memory_size: 14336
+      buvis-worker-02:
+        id: 4022
+        macaddr: 02:DE:4D:48:28:0B
+        cpu_cores: 4
+        disk_sizes:
+          system: 24
+          data: 508
+        memory_size: 14336
+      buvis-worker-03:
+        id: 4023
+        macaddr: 02:DE:4D:48:28:0C
+        cpu_cores: 4
+        disk_sizes:
+          system: 24
+          data: 508
+        memory_size: 14336
+  feynman:
+    api_url: https://10.7.0.41:8006/
+    datastore: feynman-tank
+    vms:
+      buvis-worker-04:
+        id: 4024
+        macaddr: 02:DE:4D:48:29:0A
+        cpu_cores: 4
+        disk_sizes:
+          system: 24
+          data: 170
+        memory_size: 15360
+      buvis-worker-05:
+        id: 4025
+        macaddr: 02:DE:4D:48:29:0B
+        cpu_cores: 4
+        disk_sizes:
+          system: 24
+          data: 170
+        memory_size: 15360
+      buvis-worker-06:
+        id: 4026
+        macaddr: 02:DE:4D:48:29:0C
+        cpu_cores: 4
+        disk_sizes:
+          system: 24
+          data: 170
+        memory_size: 15360
+      buvis-worker-07:
+        id: 4027
+        macaddr: 02:DE:4D:48:29:0D
+        cpu_cores: 4
+        disk_sizes:
+          system: 24
+          data: 170
+        memory_size: 15360

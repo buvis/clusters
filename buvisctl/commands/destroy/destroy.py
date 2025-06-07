@@ -2,12 +2,18 @@ from adapters import TerraformAdapter, cfg, console
 
 
 class CommandDestroy:
-
     def __init__(self):
         self.tf = []
 
         for p in cfg.path_terraform_workspaces:
             self.tf.append(TerraformAdapter(p))
+
+        if len(self.tf) == 0:
+            console.panic(
+                "There is no Terraform workspaces defined in the configuration."
+            )
+        elif len(self.tf) == 1:
+            self.tf[0].name = cfg.cluster_name
 
     def execute(self):
         if console.confirm(f"Do you want to destroy {cfg.cluster_name}"):
