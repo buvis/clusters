@@ -31,6 +31,9 @@ spec:
       hostNetwork: false
       config:
         annotations-risk-level: Critical
+        strict-validate-path-type: false
+      ingressClassResource:
+        default: true
       service:
         type: LoadBalancer
         annotations:
