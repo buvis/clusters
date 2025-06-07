@@ -83,8 +83,12 @@ spec:
       cache:
         enabled: true
         existingClaim: tdarr-cache
-        globalMounts:
-          - path: /cache
+        globalMounts: []
+        advancedMounts:
+          node:
+            node:
+              - path: /cache
+                readOnly: false
     service:
       tdarr:
         controller: server
