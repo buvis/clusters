@@ -54,7 +54,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/radarr
-              tag: 5.26.0.10051@sha256:9a9bbec11725e485a2cd0fb1bd199ec0c358aa7b09c81ae712c2cfb9d555fde5
+              tag: 5.27.0.10101@sha256:f1a47717f5792d82becbe278c9502d756b898d63b2c637da131172c4adf1ffc7
             env:
               RADARR__APPLICATION_URL: https://radarr-cz.buvis.net
               RADARR__API_KEY: ${SECRET_RADARR_CZ_API_KEY}
