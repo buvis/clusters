@@ -70,7 +70,7 @@ spec:
               tag: v2.2.0
             env:
               PORT: "7373"
-              URL: "http://radarr.media.svc.cluster.local:7878"
+              URL: "http://radarr-app.media.svc.cluster.local:7878"
               ENABLE_ADDITIONAL_METRICS: "false"
               ENABLE_UNKNOWN_QUEUE_ITEMS: "false"
               APIKEY: ${SECRET_RADARR_API_KEY}

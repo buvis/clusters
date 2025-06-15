@@ -69,7 +69,7 @@ spec:
               tag: v2.2.0@sha256:320b0ea7399f4b9af4741dcdddd7d40c05c36b0359679305d8a54df4e97065df
             env:
               PORT: "7373"
-              URL: "http://lidarr.media.svc.cluster.local:8686"
+              URL: "http://lidarr-app.media.svc.cluster.local:8686"
               ENABLE_ADDITIONAL_METRICS: "false"
               ENABLE_UNKNOWN_QUEUE_ITEMS: "false"
               APIKEY: ${SECRET_LIDARR_API_KEY}

@@ -70,7 +70,7 @@ spec:
               tag: v2.2.0
             env:
               PORT: "7373"
-              URL: "http://sonarr-cz.media.svc.cluster.local:8989"
+              URL: "http://sonarr-cz-app.media.svc.cluster.local:8989"
               ENABLE_ADDITIONAL_METRICS: "false"
               ENABLE_UNKNOWN_QUEUE_ITEMS: "false"
               APIKEY: ${SECRET_SONARR_CZ_API_KEY}
