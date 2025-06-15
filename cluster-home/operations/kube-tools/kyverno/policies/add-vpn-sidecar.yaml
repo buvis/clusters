@@ -36,9 +36,11 @@ spec:
                       - name: VPN_SERVICE_PROVIDER
                         value: ${SECRET_VPN_GATEWAY_PROVIDER}
                       - name: VPN_TYPE
-                        value: wireguard
-                      - name: WIREGUARD_PRIVATE_KEY
-                        value: ${SECRET_VPN_GATEWAY_WIREGUARD_PRIVATE_KEY}
+                        value: openvpn
+                      - name: OPENVPN_USER
+                        value: ${SECRET_VPN_GATEWAY_USER}
+                      - name: OPENVPN_PASSWORD
+                        value: ${SECRET_VPN_GATEWAY_PASSWORD}
                       - name: VPN_PORT_FORWARDING_LISTENING_PORT
                         value: "'${SECRET_VPN_BT_FORWARD_PORT}'"
                       - name: TZ
