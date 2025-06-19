@@ -16,10 +16,12 @@ spec:
       namespace: storage
   interval: 5m
   install:
+    crds: Skip
     timeout: 15m
     remediation:
       retries: 5
   upgrade:
+    crds: Skip
     timeout: 15m
     remediation:
       retries: 5
@@ -116,6 +118,8 @@ spec:
               sourceLabels:
                 - __meta_kubernetes_pod_node_name
               targetLabel: kubernetes_node
+    crds:
+      enabled: false
     grafana:
       enabled: false
     kubelet:
