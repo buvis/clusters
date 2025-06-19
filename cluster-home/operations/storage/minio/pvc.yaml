@@ -5,9 +5,9 @@ metadata:
   name: minio-buckets
   namespace: storage
 spec:
-  storageClassName: openebs-jiva-csi-default
+  storageClassName: mayastor-triple
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   resources:
     requests:
       storage: 20Gi

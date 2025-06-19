@@ -6,14 +6,14 @@ metadata:
   namespace: monitoring
 spec:
   dependsOn:
-  - name: ingress-nginx
-    namespace: kube-tools
-  - name: cert-manager
-    namespace: kube-tools
-  - name: authentik
-    namespace: security
-  - name: openebs
-    namespace: storage
+    - name: ingress-nginx
+      namespace: kube-tools
+    - name: cert-manager
+      namespace: kube-tools
+    - name: authentik
+      namespace: security
+    - name: openebs
+      namespace: storage
   interval: 5m
   install:
     timeout: 15m
@@ -43,23 +43,23 @@ spec:
           slack_api_url: ${SECRET_SLACK_PROMETHEUS_WEBHOOK}
           resolve_timeout: 5m
         receivers:
-        - name: "null"
-        - name: "slack"
-          slack_configs:
-          - channel: "#prometheus"
-            icon_url: https://avatars3.githubusercontent.com/u/3380462
-            username: "Prometheus"
-            send_resolved: true
-            title: |-
-              [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ if ne .CommonAnnotations.summary ""}}{{ .CommonAnnotations.summary }} {{ else if ne .CommonAnnotations.message ""}}{{ .CommonAnnotations.message }} {{ else if ne .CommonAnnotations.description ""}}{{ .CommonAnnotations.description }} {{ else }}{{ .CommonLabels.alertname }}{{ end }}
-            text: >-
-              {{ range .Alerts -}}
-                *Alert:* {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
-              {{ if ne .Annotations.summary ""}}*Summary:* {{ .Annotations.summary }} {{ else if ne .Annotations.message ""}}*Message:* {{ .Annotations.message }} {{ else if ne .Annotations.description ""}}*Description:* {{ .Annotations.description }}{{ end }}
-              *Details:*
-                {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
-                {{ end }}
-              {{ end }}
+          - name: "null"
+          - name: "slack"
+            slack_configs:
+              - channel: "#prometheus"
+                icon_url: https://avatars3.githubusercontent.com/u/3380462
+                username: "Prometheus"
+                send_resolved: true
+                title: |-
+                  [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ if ne .CommonAnnotations.summary ""}}{{ .CommonAnnotations.summary }} {{ else if ne .CommonAnnotations.message ""}}{{ .CommonAnnotations.message }} {{ else if ne .CommonAnnotations.description ""}}{{ .CommonAnnotations.description }} {{ else }}{{ .CommonLabels.alertname }}{{ end }}
+                text: >-
+                  {{ range .Alerts -}}
+                    *Alert:* {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
+                  {{ if ne .Annotations.summary ""}}*Summary:* {{ .Annotations.summary }} {{ else if ne .Annotations.message ""}}*Message:* {{ .Annotations.message }} {{ else if ne .Annotations.description ""}}*Description:* {{ .Annotations.description }}{{ end }}
+                  *Details:*
+                    {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+                    {{ end }}
+                  {{ end }}
         route:
           group_by: ["alertname", "job"]
           group_wait: 30s
@@ -67,19 +67,19 @@ spec:
           repeat_interval: 6h
           receiver: "slack"
           routes:
-          - receiver: "null"
-            matchers:
-            - alertname =~ "InfoInhibitor|Watchdog"
-          - receiver: "slack"
-            matchers:
-            - severity = "critical"
-            continue: true
+            - receiver: "null"
+              matchers:
+                - alertname =~ "InfoInhibitor|Watchdog"
+            - receiver: "slack"
+              matchers:
+                - severity = "critical"
+              continue: true
         inhibit_rules:
-        - source_matchers:
-          - severity = "critical"
-          target_matchers:
-          - severity = "warning"
-          equal: ["alertname", "namespace"]
+          - source_matchers:
+              - severity = "critical"
+            target_matchers:
+              - severity = "warning"
+            equal: ["alertname", "namespace"]
       ingress:
         enabled: true
         pathType: Prefix
@@ -88,44 +88,44 @@ spec:
           cert-manager.io/cluster-issuer: letsencrypt-production
           authentik.home.arpa/enabled: "true"
         hosts:
-        - alertmanager.buvis.net
-        tls:
-        - secretName: alertmanager-crt
-          hosts:
           - alertmanager.buvis.net
+        tls:
+          - secretName: alertmanager-crt
+            hosts:
+              - alertmanager.buvis.net
       alertmanagerSpec:
         storage:
           volumeClaimTemplate:
             metadata:
               name: alert
             spec:
-              storageClassName: openebs-jiva-csi-default
+              storageClassName: mayastor-triple
               resources:
                 requests:
                   storage: 1Gi
     kube-state-metrics:
       metricLabelsAllowlist:
-      - "persistentvolumeclaims=[*]"
+        - "persistentvolumeclaims=[*]"
       prometheus:
         monitor:
           enabled: true
           relabelings:
-          - action: replace
-            regex: (.*)
-            replacement: $1
-            sourceLabels:
-            - __meta_kubernetes_pod_node_name
-            targetLabel: kubernetes_node
+            - action: replace
+              regex: (.*)
+              replacement: $1
+              sourceLabels:
+                - __meta_kubernetes_pod_node_name
+              targetLabel: kubernetes_node
     grafana:
       enabled: false
     kubelet:
       enabled: true
       serviceMonitor:
         metricRelabelings:
-        - action: replace
-          sourceLabels:
-          - node
-          targetLabel: instance
+          - action: replace
+            sourceLabels:
+              - node
+            targetLabel: instance
     kubeApiServer:
       enabled: true
     kubeEtcd:
@@ -145,11 +145,11 @@ spec:
           cert-manager.io/cluster-issuer: letsencrypt-production
           authentik.home.arpa/enabled: "true"
         hosts:
-        - prometheus.buvis.net
-        tls:
-        - secretName: prometheus-crt
-          hosts:
           - prometheus.buvis.net
+        tls:
+          - secretName: prometheus-crt
+            hosts:
+              - prometheus.buvis.net
       thanosService:
         enabled: true
       thanosServiceMonitor:
@@ -187,7 +187,7 @@ spec:
             metadata:
               name: kps
             spec:
-              storageClassName: openebs-jiva-csi-default
+              storageClassName: mayastor-triple
               resources:
                 requests:
                   storage: 5Gi

@@ -14,33 +14,16 @@
   path: /cluster/network/serviceSubnets
   value:
     - 172.24.0.0/16
-- op: add
-  path: /machine/disks
-  value:
-    - device: /dev/sdb
-      partitions:
-        - mountpoint: /var/openebs/local
 - op: replace
   path: /machine/install/wipe
   value: true
 - op: replace
   path: /machine/install/image
-  value: factory.talos.dev/metal-installer/88d1f7a5c4f1d3aba7df787c448c1d3d008ed29cfb34af53fa0df4336a56040b:v1.10.4
+  value: factory.talos.dev/metal-installer/a7bcadbc1b6d03c0e687be3a5d9789ef7113362a6a1a038653dfd16283a92b6b:v1.10.4
 - op: add
   path: /machine/install/diskSelector
   value:
     size: <100GB
-- op: add
-  path: /machine/kubelet
-  value:
-    extraMounts:
-      - destination: /var/openebs/local
-        type: bind
-        source: /var/openebs/local
-        options:
-          - bind
-          - rshared
-          - rw
 - op: add
   path: /machine/time
   value:

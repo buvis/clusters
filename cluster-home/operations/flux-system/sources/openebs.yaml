@@ -6,5 +6,5 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  url: https://openebs-archive.github.io/jiva-operator
+  url: https://openebs.github.io/openebs
   timeout: 3m

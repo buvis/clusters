@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/name: beets
     app.kubernetes.io/instance: beets
 spec:
-  storageClassName: openebs-jiva-csi-default
+  storageClassName: mayastor-triple
   accessModes:
     - ReadWriteOnce
   resources:
@@ -26,7 +26,7 @@ metadata:
     app.kubernetes.io/name: beets
     app.kubernetes.io/instance: beets
 spec:
-  storageClassName: openebs-jiva-csi-default
+  storageClassName: mayastor-triple
   accessModes:
     - ReadWriteOnce
   resources:

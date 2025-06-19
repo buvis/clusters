@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/name: hass
     app.kubernetes.io/instance: hass
 spec:
-  storageClassName: openebs-jiva-csi-default
+  storageClassName: mayastor-triple
   accessModes:
     - ReadWriteOnce
   resources:

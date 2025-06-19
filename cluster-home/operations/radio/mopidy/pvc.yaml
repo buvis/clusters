@@ -9,9 +9,9 @@ metadata:
     app.kubernetes.io/name: mopidy
     app.kubernetes.io/instance: mopidy
 spec:
-  storageClassName: openebs-jiva-csi-default
+  storageClassName: mayastor-triple
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   resources:
     requests:
       storage: 5Gi

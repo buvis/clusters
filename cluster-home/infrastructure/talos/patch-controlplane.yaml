@@ -3,7 +3,7 @@
   value:
     - name: PodSecurity
       configuration:
-        apiVersion: pod-security.admission.config.k8s.io/v1alpha1
+        apiVersion: pod-security.admission.config.k8s.io/v1beta1
         defaults:
           enforce: "privileged"
           enforce-version: "latest"
@@ -12,7 +12,8 @@
           warn: "privileged"
           warn-version: "latest"
         exemptions:
-          namespaces: []
+          namespaces:
+            - openebs
           runtimeClasses: []
           usernames: []
         kind: PodSecurityConfiguration

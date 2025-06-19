@@ -1,0 +1,29 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: openebs
+  namespace: storage
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: openebs
+      # renovate: registryUrl=https://openebs.github.io/openebs/
+      version: v4.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: openebs
+        namespace: flux-system
+  values:
+    engines:
+      local:
+        lvm:
+          enabled: false
+        zfs:
+          enabled: false
+    mayastor:
+      csi:
+        node:
+          initContainers:
+            enabled: false

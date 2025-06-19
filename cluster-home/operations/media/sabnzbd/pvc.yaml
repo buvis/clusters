@@ -9,9 +9,9 @@ metadata:
     app.kubernetes.io/name: sabnzbd
     app.kubernetes.io/instance: sabnzbd
 spec:
-  storageClassName: openebs-jiva-csi-default
+  storageClassName: mayastor-triple
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi

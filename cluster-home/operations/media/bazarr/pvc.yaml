@@ -9,9 +9,9 @@ metadata:
     app.kubernetes.io/name: bazarr
     app.kubernetes.io/instance: bazarr
 spec:
-  storageClassName: openebs-jiva-csi-default
+  storageClassName: mayastor-triple
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   resources:
     requests:
       storage: 15Gi

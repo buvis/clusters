@@ -9,9 +9,9 @@ metadata:
     app.kubernetes.io/name: jellyseerr
     app.kubernetes.io/instance: jellyseerr
 spec:
-  storageClassName: openebs-jiva-csi-default
+  storageClassName: mayastor-triple
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   resources:
     requests:
       storage: 512Mi

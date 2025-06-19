@@ -6,8 +6,8 @@ metadata:
   namespace: monitoring
 spec:
   dependsOn:
-  - name: kube-prometheus-stack
-    namespace: monitoring
+    - name: kube-prometheus-stack
+      namespace: monitoring
   interval: 5m
   install:
     timeout: 15m
@@ -35,7 +35,7 @@ spec:
       isDefault: false
       persistence:
         enabled: true
-        storageClassName: openebs-jiva-csi-default
+        storageClassName: mayastor-triple
         size: 5Gi
       config:
         table_manager:

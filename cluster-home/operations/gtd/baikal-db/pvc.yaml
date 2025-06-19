@@ -9,9 +9,9 @@ metadata:
     app.kubernetes.io/name: mariadb
     app.kubernetes.io/instance: baikal-db
 spec:
-  storageClassName: openebs-jiva-csi-default
+  storageClassName: mayastor-triple
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   resources:
     requests:
       storage: 512Mi
