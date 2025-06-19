@@ -6,8 +6,10 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-  - name: cert-manager
-  - name: kube-prometheus-stack
+    - name: cert-manager
+      namespace: kube-tools
+    - name: kube-prometheus-stack
+      namespace: monitoring
   interval: 10m0s
   path: ./cluster-home/operations/kube-tools/cert-manager/prometheus-rules
   prune: true
@@ -17,7 +19,7 @@ spec:
   postBuild:
     substitute: {}
     substituteFrom:
-    - kind: Secret
-      name: cluster-secret-vars
-    - kind: ConfigMap
-      name: cluster-config
+      - kind: Secret
+        name: cluster-secret-vars
+      - kind: ConfigMap
+        name: cluster-config
