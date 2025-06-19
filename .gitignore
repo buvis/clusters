@@ -8,6 +8,7 @@ __pycache__
 Thumbs.db
 buvisctl.conf.yaml
 cluster-home/infrastructure/talos/generated-config
+cluster-home/test-area
 cluster-office/infrastructure/talos/generated-config
 terraform-plugin-proxmox.log
 terraform.tfstate*
