@@ -9,7 +9,7 @@ spec:
     - name: cert-manager
       namespace: flux-system
     - name: kube-prometheus-stack
-      namespace: monitoring
+      namespace: flux-system
   interval: 10m0s
   path: ./cluster-home/operations/kube-tools/cert-manager/prometheus-rules
   prune: true
