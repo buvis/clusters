@@ -19,7 +19,7 @@ spec:
         app.kubernetes.io/name: linkace
     spec:
       containers:
-        - image: ghcr.io/kovah/linkace:v2.1.7@sha256:c1277935001ffa918bb0befda76e6ffb8250d79752f7d3c86b5814406c81198b
+        - image: ghcr.io/kovah/linkace:v2.1.8@sha256:266ea7ffe222bda918204b6b1bdaede8152f35ba6c24b693288af9df34e5a8f0
           name: linkace
           ports:
             - containerPort: 80
