@@ -16,10 +16,12 @@ spec:
       namespace: storage
   interval: 5m
   install:
+    crds: CreateReplace
     timeout: 15m
     remediation:
       retries: 5
   upgrade:
+    crds: CreateReplace
     timeout: 15m
     remediation:
       retries: 5
