@@ -65,7 +65,7 @@ spec:
         appendonly no
         save ""
       global:
-        defaultStorageClass: openebs-hostpath
+        defaultStorageClass: mayastor-triple
       persistence:
         enabled: false
       redis:
