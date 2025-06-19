@@ -5,6 +5,9 @@ metadata:
   name: kyverno
   namespace: kube-tools
 spec:
+  dependsOn:
+    - name: prometheus-operator-crds
+      namespace: monitoring
   interval: 5m
   install:
     timeout: 15m
@@ -36,7 +39,7 @@ spec:
       interval: 1m
     backgroundController:
       serviceMonitor:
-        enabled: false
+        enabled: true
         interval: 1m
     cleanupController:
       serviceMonitor:

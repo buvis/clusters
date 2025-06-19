@@ -5,6 +5,9 @@ metadata:
   name: ingress-nginx
   namespace: kube-tools
 spec:
+  dependsOn:
+    - name: prometheus-operator-crds
+      namespace: monitoring
   interval: 5m
   install:
     timeout: 15m
@@ -42,7 +45,7 @@ spec:
       metrics:
         enabled: true
         serviceMonitor:
-          enabled: false
+          enabled: true
           namespace: kube-tools
           namespaceSelector:
             any: true
