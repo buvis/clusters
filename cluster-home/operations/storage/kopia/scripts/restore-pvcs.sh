@@ -16,5 +16,4 @@ buvisctl restore -n media radarr-cz-config
 buvisctl restore -n media sonarr-config
 buvisctl restore -n media sonarr-cz-config
 buvisctl restore -n media jellyseerr-config
-buvisctl restore -n media tdarr-data
 buvisctl restore -n media tdarr-config
