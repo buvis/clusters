@@ -27,3 +27,8 @@ spec:
         node:
           initContainers:
             enabled: false
+      io_engine:
+        envcontext: "iova-mode=pa"
+        cpuCount: 1
+        coreList:
+          - 3
