@@ -16,7 +16,7 @@ spec:
       namespace: storage
   interval: 5m
   install:
-    timeout: 25m
+    timeout: 45m
     remediation:
       retries: 5
   upgrade:
