@@ -176,27 +176,41 @@ class KubernetesAdapter:
         except ApiException:
             return None
 
+    def get_deployment(self, name, namespace):
+        try:
+            deployment = self.apps_api.read_namespaced_deployment(name=name, namespace=namespace)
+            return deployment
+        except ApiException:
+            return None
+
+    def get_statefulset(self, name, namespace):
+        try:
+            statefulset = self.apps_api.read_namespaced_stateful_set(name=name, namespace=namespace)
+            return statefulset
+        except ApiException:
+            return None
+
     def create_from_file(self, yaml_file):
         utils.create_from_yaml(self.client, yaml_file)
 
-    def scale_stateful_set_to_zero(self, name, namespace):
+    def scale_stateful_set(self, name, namespace, replicas):
         try:
             self.apps_api.patch_namespaced_stateful_set_scale(
                 name,
                 namespace,
-                [{"op": "replace", "path": "/spec/replicas", "value": 0}],
+                [{'op': 'replace', 'path': '/spec/replicas', 'value': replicas}],
             )
 
             return True
         except ApiException:
             return False
 
-    def scale_deployment_to_zero(self, name, namespace):
+    def scale_deployment(self, name, namespace, replicas):
         try:
             self.apps_api.patch_namespaced_deployment_scale(
                 name,
                 namespace,
-                [{"op": "replace", "path": "/spec/replicas", "value": 0}],
+                [{'op': 'replace', 'path': '/spec/replicas', 'value': replicas}],
             )
 
             return True

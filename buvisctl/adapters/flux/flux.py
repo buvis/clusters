@@ -100,27 +100,32 @@ class FluxAdapter:
         else:
             return AdapterResponse()
 
+    def start_application(self, namespace, stopped_apps):
+        for app, replicas in stopped_apps.items():
+            if self.k8s.get_deployment(app, namespace):
+                self.k8s.scale_deployment(app, namespace, replicas)
+            elif self.k8s.get_statefulset(app, namespace):
+                self.k8s.scale_stateful_set(app, namespace, replicas)
+
+        return AdapterResponse()
+
     def stop_application(self, app_instance, app_name, namespace):
-        app_stopped = False
-        # TODO: I need to keep track of everything stopped for later starts
+        stopped_apps = {}
+
         deployments = self.k8s.get_app_deployment(app_name, app_instance, namespace)
 
         for d in deployments.items:
-            res = self.k8s.scale_deployment_to_zero(d.metadata.name, namespace)
-
-            if res:
-                app_stopped = True
+            stopped_apps[d.metadata.name] = d.spec.replicas
+            self.k8s.scale_deployment(d.metadata.name, namespace, 0)
 
         stateful_sets = self.k8s.get_app_statefulset(app_name, app_instance, namespace)
 
         for s in stateful_sets.items:
-            res = self.k8s.scale_stateful_set_to_zero(s.metadata.name, namespace)
+            stopped_apps[s.metadata.name] = s.spec.replicas
+            self.k8s.scale_stateful_set(s.metadata.name, namespace, 0)
 
-            if res:
-                app_stopped = True
-
-        if app_stopped:
-            return AdapterResponse()
+        if stopped_apps:
+            return AdapterResponse(0, stopped_apps)
         else:
             return AdapterResponse(
                 code=1, message=f"Couldn't stop {app_instance}-{app_name} application"

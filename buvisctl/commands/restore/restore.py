@@ -53,6 +53,8 @@ class CommandRestore:
                     f"Can't resume {app_instance} helmrelease. "
                     f"Run `kubectl describe hr -n {namespace} {app_instance}`"
                 )
+        self._start_application(namespace)
+
 
     def _get_app_labels_from_pvc(self, pvc, namespace):
         pvc_resource = self.k8s.get_pvc(pvc, namespace)
@@ -92,6 +94,8 @@ class CommandRestore:
         with open(template_vars["JOBNAME"], "w") as restore_job_manifest:
             restore_job_manifest.write(job_template.render(template_vars))
 
+        stopped_apps = {}
+
     def _stop_application(self, app_instance, app_name, namespace):
         with console.status(f"Stopping {app_instance}-{app_name} application"):
             res = self.flux.stop_application(app_instance, app_name, namespace)
@@ -99,6 +103,7 @@ class CommandRestore:
             manual_stop_required = False
 
             if res.is_ok():
+                self.stopped_apps = res.message
                 if self.k8s.wait_pod_delete(app_instance, app_name, namespace):
                     console.success(f"Stopped {app_instance}-{app_name} application")
                 else:
@@ -118,6 +123,19 @@ class CommandRestore:
                 console.panic(
                     "It isn't safe to proceed with restore while "
                     "application is running"
+                )
+
+    def _start_application(self, namespace):
+        with console.status(f"Starting application"):
+            res = self.flux.start_application(
+                namespace, self.stopped_apps
+            )
+
+            if res.is_ok():
+                console.success(f"Started application")
+            else:
+                console.failure(
+                    f"Can't start application"
                 )
 
     def _submit_restore_job(self, pvc, namespace, job_name):
