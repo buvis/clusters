@@ -32,3 +32,10 @@ spec:
         cpuCount: 1
         coreList:
           - 3
+    metrics:
+      enabled: false
+    loki:
+      enabled: false
+    obs:
+      callhome:
+        enabled: false
