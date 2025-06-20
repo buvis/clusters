@@ -31,7 +31,7 @@ spec:
         envcontext: "iova-mode=pa"
         cpuCount: 1
         coreList:
-          - 3
+          - 6
     metrics:
       enabled: false
     loki:

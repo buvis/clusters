@@ -8,7 +8,7 @@ nodes:
       buvis-master:
         id: 4011
         macaddr: 02:DE:4D:48:28:01
-        cpu_cores: 4
+        cpu_cores: 7
         disk_sizes:
           system: 24
           data: 10
@@ -16,7 +16,7 @@ nodes:
       buvis-worker-01:
         id: 4021
         macaddr: 02:DE:4D:48:28:0A
-        cpu_cores: 4
+        cpu_cores: 7
         disk_sizes:
           system: 24
           data: 508
@@ -24,7 +24,7 @@ nodes:
       buvis-worker-02:
         id: 4022
         macaddr: 02:DE:4D:48:28:0B
-        cpu_cores: 4
+        cpu_cores: 7
         disk_sizes:
           system: 24
           data: 508
@@ -32,7 +32,7 @@ nodes:
       buvis-worker-03:
         id: 4023
         macaddr: 02:DE:4D:48:28:0C
-        cpu_cores: 4
+        cpu_cores: 7
         disk_sizes:
           system: 24
           data: 508
@@ -44,7 +44,7 @@ nodes:
       buvis-worker-04:
         id: 4024
         macaddr: 02:DE:4D:48:29:0A
-        cpu_cores: 4
+        cpu_cores: 7
         disk_sizes:
           system: 24
           data: 170
@@ -52,7 +52,7 @@ nodes:
       buvis-worker-05:
         id: 4025
         macaddr: 02:DE:4D:48:29:0B
-        cpu_cores: 4
+        cpu_cores: 7
         disk_sizes:
           system: 24
           data: 170
@@ -60,7 +60,7 @@ nodes:
       buvis-worker-06:
         id: 4026
         macaddr: 02:DE:4D:48:29:0C
-        cpu_cores: 4
+        cpu_cores: 7
         disk_sizes:
           system: 24
           data: 170
@@ -68,7 +68,7 @@ nodes:
       buvis-worker-07:
         id: 4027
         macaddr: 02:DE:4D:48:29:0D
-        cpu_cores: 4
+        cpu_cores: 7
         disk_sizes:
           system: 24
           data: 170

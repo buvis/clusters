@@ -19,7 +19,7 @@
   value: true
 - op: replace
   path: /machine/install/image
-  value: factory.talos.dev/metal-installer/88d1f7a5c4f1d3aba7df787c448c1d3d008ed29cfb34af53fa0df4336a56040b:v1.10.4
+  value: factory.talos.dev/metal-installer/860c33aae2de83e2b2feef30dc06e26551d3a5f402f980ee9cd25c17dd9fc744:v1.10.4
 - op: add
   path: /machine/install/diskSelector
   value:
@@ -33,3 +33,9 @@
       - "time.google.com"
       - "pool.ntp.org"
     bootTimeout: 2m0s
+- op: add
+  path: /machine/install/extraKernelArgs
+  value:
+    - amd_pstate=active
+    - isolcpus=6
+    - cpufreq.default_governor=powersave
