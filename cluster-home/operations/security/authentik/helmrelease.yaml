@@ -58,7 +58,7 @@ spec:
       image:
         registry: docker.io
         repository: bitnami/postgresql
-        tag: 17.5.0
+        tag: 17.6.0
     redis:
       enabled: true
       commonConfiguration: |-
