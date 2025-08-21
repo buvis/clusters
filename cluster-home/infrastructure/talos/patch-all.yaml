@@ -19,7 +19,7 @@
   value: true
 - op: replace
   path: /machine/install/image
-  value: factory.talos.dev/metal-installer/860c33aae2de83e2b2feef30dc06e26551d3a5f402f980ee9cd25c17dd9fc744:v1.10.4
+  value: factory.talos.dev/metal-installer/860c33aae2de83e2b2feef30dc06e26551d3a5f402f980ee9cd25c17dd9fc744:v1.10.6
 - op: add
   path: /machine/install/diskSelector
   value:
