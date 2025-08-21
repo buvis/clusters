@@ -6,8 +6,8 @@ metadata:
   namespace: gtd
 spec:
   dependsOn:
-  - name: openebs
-    namespace: storage
+    - name: openebs
+      namespace: storage
   interval: 5m
   install:
     timeout: 15m
@@ -23,7 +23,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.bitnami.com/bitnami
       chart: mariadb
-      version: 22.0.0
+      version: 21.0.8
       sourceRef:
         kind: HelmRepository
         name: bitnami
