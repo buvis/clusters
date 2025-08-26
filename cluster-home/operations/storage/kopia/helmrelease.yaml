@@ -60,21 +60,21 @@ spec:
               tag: 20240412.0.225911@sha256:71f87ac0abe4c34808016394635b45eec63a5a934f0baab266516e93ca40fb3e
             env:
               KOPIA_PASSWORD: ${SECRET_KOPIA_PASSWORD}
-          command:
-            - /bin/sh
-            - -c
-          args:
-            - |
-              kopia repository connect filesystem \
-                --path=/snapshots \
-                --override-hostname=cluster \
-                --override-username=root \
-              && exec kopia server start \
-                --insecure \
-                --address 0.0.0.0:80 \
-                --metrics-listen-addr 0.0.0.0:8080 \
-                --without-password \
-                --log-level debug
+            command:
+              - /bin/sh
+              - -c
+            args:
+              - |-
+                kopia repository connect filesystem \
+                  --path=/snapshots \
+                  --override-hostname=cluster \
+                  --override-username=root \
+                && exec kopia server start \
+                  --insecure \
+                  --address 0.0.0.0:80 \
+                  --metrics-listen-addr 0.0.0.0:8080 \
+                  --without-password \
+                  --log-level debug
     service:
       app:
         controller: kopia
