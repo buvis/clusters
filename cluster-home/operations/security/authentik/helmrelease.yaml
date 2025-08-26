@@ -71,7 +71,6 @@ spec:
       redis:
         useAOFPersistence: "no"
     authentik:
-      bootstrap_token: ${SECRET_AUTHENTIK_BOOTSTRAP_TOKEN}
       secret_key: ${SECRET_AUTHENTIK_SECRET_KEY}
       postgresql:
         name: authentik
