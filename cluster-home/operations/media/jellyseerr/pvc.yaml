@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/name: jellyseerr
     app.kubernetes.io/instance: jellyseerr
 spec:
-  storageClassName: mayastor-triple
+  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
   resources:

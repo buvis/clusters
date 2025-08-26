@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/name: prowlarr
     app.kubernetes.io/instance: prowlarr
 spec:
-  storageClassName: mayastor-triple
+  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
   resources:

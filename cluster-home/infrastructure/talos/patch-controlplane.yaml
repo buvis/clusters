@@ -13,7 +13,7 @@
           warn-version: "latest"
         exemptions:
           namespaces:
-            - openebs
+            - storage
           runtimeClasses: []
           usernames: []
         kind: PodSecurityConfiguration

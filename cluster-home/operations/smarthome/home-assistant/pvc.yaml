@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/name: hass
     app.kubernetes.io/instance: hass
 spec:
-  storageClassName: mayastor-triple
+  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
   resources:

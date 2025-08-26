@@ -12,7 +12,7 @@ spec:
       namespace: kube-tools
     - name: authentik
       namespace: security
-    - name: openebs
+    - name: longhorn
       namespace: storage
     - name: kube-prometheus-stack
       namespace: monitoring

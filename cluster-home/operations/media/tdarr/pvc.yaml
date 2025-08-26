@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/name: tdarr
     app.kubernetes.io/instance: tdarr
 spec:
-  storageClassName: mayastor-triple
+  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
   resources:
@@ -26,7 +26,7 @@ metadata:
     app.kubernetes.io/name: tdarr
     app.kubernetes.io/instance: tdarr
 spec:
-  storageClassName: mayastor-triple
+  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
   resources:

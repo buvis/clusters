@@ -35,7 +35,7 @@ spec:
       isDefault: false
       persistence:
         enabled: true
-        storageClassName: mayastor-triple
+        storageClassName: longhorn
         size: 5Gi
       config:
         table_manager:

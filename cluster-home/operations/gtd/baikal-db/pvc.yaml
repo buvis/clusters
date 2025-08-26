@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/name: mariadb
     app.kubernetes.io/instance: baikal-db
 spec:
-  storageClassName: mayastor-triple
+  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
   resources:

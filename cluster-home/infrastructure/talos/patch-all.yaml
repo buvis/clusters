@@ -37,5 +37,3 @@
   path: /machine/install/extraKernelArgs
   value:
     - amd_pstate=active
-    - isolcpus=6
-    - cpufreq.default_governor=powersave

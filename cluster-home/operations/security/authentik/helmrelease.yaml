@@ -12,7 +12,7 @@ spec:
       namespace: kube-tools
     - name: kyverno
       namespace: kube-tools
-    - name: openebs
+    - name: longhorn
       namespace: storage
   interval: 5m
   install:
@@ -65,7 +65,7 @@ spec:
         appendonly no
         save ""
       global:
-        defaultStorageClass: mayastor-triple
+        defaultStorageClass: longhorn
       persistence:
         enabled: false
       redis:

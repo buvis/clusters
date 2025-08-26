@@ -5,7 +5,7 @@ metadata:
   name: minio-buckets
   namespace: storage
 spec:
-  storageClassName: mayastor-triple
+  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
   resources:

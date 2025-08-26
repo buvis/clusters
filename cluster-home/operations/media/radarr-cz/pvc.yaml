@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/name: radarr-cz
     app.kubernetes.io/instance: radarr-cz
 spec:
-  storageClassName: mayastor-triple
+  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
   resources:

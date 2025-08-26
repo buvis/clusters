@@ -21,7 +21,7 @@ spec:
       namespace: kube-tools
     - name: cert-manager
       namespace: kube-tools
-    - name: openebs
+    - name: longhorn
       namespace: storage
     - name: authentik
       namespace: security

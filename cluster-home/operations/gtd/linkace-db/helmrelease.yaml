@@ -6,7 +6,7 @@ metadata:
   namespace: gtd
 spec:
   dependsOn:
-    - name: openebs
+    - name: longhorn
       namespace: storage
   interval: 5m
   install:

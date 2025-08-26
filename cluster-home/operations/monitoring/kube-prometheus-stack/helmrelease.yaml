@@ -12,7 +12,7 @@ spec:
       namespace: kube-tools
     - name: authentik
       namespace: security
-    - name: openebs
+    - name: longhorn
       namespace: storage
   interval: 5m
   install:
@@ -101,7 +101,7 @@ spec:
             metadata:
               name: alert
             spec:
-              storageClassName: mayastor-triple
+              storageClassName: longhorn
               resources:
                 requests:
                   storage: 1Gi
@@ -191,7 +191,7 @@ spec:
             metadata:
               name: kps
             spec:
-              storageClassName: mayastor-triple
+              storageClassName: longhorn
               resources:
                 requests:
                   storage: 5Gi

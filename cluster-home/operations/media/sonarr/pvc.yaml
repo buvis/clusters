@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/name: sonarr
     app.kubernetes.io/instance: sonarr
 spec:
-  storageClassName: mayastor-triple
+  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
   resources:

@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/name: lidarr
     app.kubernetes.io/instance: lidarr
 spec:
-  storageClassName: mayastor-triple
+  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
   resources:

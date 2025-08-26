@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/name: bazarr
     app.kubernetes.io/instance: bazarr
 spec:
-  storageClassName: mayastor-triple
+  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
   resources:
