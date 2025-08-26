@@ -3,5 +3,5 @@ export NODE_IPS=<comma separated list of nodes' IPs>
 export KUBECONFIG=$(expand_path .kube/config)
 export TALOSCONFIG=$(expand_path ./infrastructure/talos/talosconfig)
 export TF_VAR_talos_version=v1.10.6
-export TF_VAR_talos_schematic_id=860c33aae2de83e2b2feef30dc06e26551d3a5f402f980ee9cd25c17dd9fc744
+export TF_VAR_talos_schematic_id=decca0d019b92170b9c7101da90f1ec0de7e9841b3d126ac4111743778d8eb1a
 export GITHUB_TOKEN=<see https://docs.buvis.net/installation/#gitops>
