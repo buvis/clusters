@@ -1,0 +1,50 @@
+#!/bin/bash
+set -euo pipefail
+
+AUTHENTIK_URL=$TF_VAR_authentik_endpoint
+AUTHENTIK_TOKEN=$TF_VAR_authentik_token
+OUTPOST_NAME="proxy-outpost"
+
+# Find Outpost UUID
+OUTPOSTS=$(curl -s -H "Authorization: Bearer $AUTHENTIK_TOKEN" \
+  "$AUTHENTIK_URL/api/v3/outposts/instances/")
+
+OUTPOST_UUID=$(echo "$OUTPOSTS" | jq -r ".results[] | select(.name == \"$OUTPOST_NAME\") | .pk")
+
+if [ -z "$OUTPOST_UUID" ]; then
+  echo "❌ Error: Outpost '$OUTPOST_NAME' not found."
+  exit 1
+fi
+
+# Get current config and write to file
+curl -s -H "Authorization: Bearer $AUTHENTIK_TOKEN" \
+  "$AUTHENTIK_URL/api/v3/outposts/instances/$OUTPOST_UUID/" |
+  jq '.' >outpost.json
+
+# Trigger update
+echo "🔄 Updating Outpost '$OUTPOST_NAME' ($OUTPOST_UUID)..."
+RESPONSE=$(curl -s -H "Authorization: Bearer $AUTHENTIK_TOKEN" \
+  -H "Content-Type: application/json" \
+  -X PATCH \
+  --data @outpost.json \
+  "$AUTHENTIK_URL/api/v3/outposts/instances/$OUTPOST_UUID/")
+
+rm outpost.json
+
+# Print just key info in a formatted way
+echo "📋 Update summary:"
+echo "$RESPONSE" | jq -r '
+    {
+      name,
+      pk,
+      type,
+      refresh_interval_s,
+      namespace: .config.kubernetes_namespace,
+      ingress_class: .config.kubernetes_ingress_class_name
+    }
+    | to_entries
+    | map("\(.key): \(.value)")
+    | .[]
+'
+
+echo "✅ Outpost update triggered. Check pods in 'security' namespace."
