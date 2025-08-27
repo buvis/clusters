@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Discover all PVCs that have the restore label
+# Adjust the label selector if you want a different one
+kubectl get pvc -A -l snapshot.home.arpa/enabled=true \
+  -o custom-columns=NAMESPACE:.metadata.namespace,NAME:.metadata.name --no-headers |
+  while read -r namespace name; do
+    echo "Restoring PVC: $name in namespace: $namespace"
+    buvisctl restore -n "$namespace" "$name"
+  done
+
+echo "Restore complete for all matching PVCs."

@@ -1,0 +1,42 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: media-tdarr-config-restore-snapshot
+  namespace: media
+spec:
+  ttlSecondsAfterFinished: 3600
+  template:
+    spec:
+      automountServiceAccountToken: false
+      restartPolicy: OnFailure
+      containers:
+        - name: restore
+          image: docker.io/kopia/kopia:20240412.0.225911@sha256:71f87ac0abe4c34808016394635b45eec63a5a934f0baab266516e93ca40fb3e
+          env:
+            - name: KOPIA_PASSWORD
+              value: "none"
+          command:
+            - /bin/bash
+            - -c
+            - |-
+              shopt -s dotglob
+              printf "\e[1;32m%-6s\e[m\n" "[01/04] Connect to repo ..."      && kopia repo connect filesystem --path=/snapshots --override-hostname=cluster --override-username=root
+              printf "\e[1;32m%-6s\e[m\n" "[02/04] Remove previous data ..." && rm -rf /data/media/tdarr-config/*
+              printf "\e[1;32m%-6s\e[m\n" "[03/04] Restore snapshot ..."     && kopia snap restore k841a336fb289e1e282d8905956b0a780 /data/media/tdarr-config
+              printf "\e[1;32m%-6s\e[m\n" "[04/04] Disconnect from repo ..." && kopia repo disconnect
+          volumeMounts:
+            - name: tdarr-config-data
+              mountPath: /data/media/tdarr-config
+            - name: snapshots
+              mountPath: /snapshots
+          securityContext:
+            privileged: true
+      volumes:
+        - name: tdarr-config-data
+          persistentVolumeClaim:
+            claimName: tdarr-config
+        - name: snapshots
+          nfs:
+            server: 10.5.0.70
+            path: /mnt/joule-tank-01/pv/storage/kopia/snapshots

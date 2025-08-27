@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Define the label selector to find the target CronJobs
 LABEL_SELECTOR="generate.kyverno.io/policy-name=snapshot-cronjob-controller"

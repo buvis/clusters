@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 kubectl get pvc -A -l snapshot.home.arpa/enabled=true -o custom-columns=NAMESPACE:.metadata.namespace,NAME:.metadata.name --no-headers |
   while read -r namespace name; do
     echo "Triggering update for PVC: $name in namespace: $namespace"
