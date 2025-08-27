@@ -42,7 +42,7 @@ spec:
                 - name: KOPIA_LOG_DIR
                   value: /snapshots/logs
                 - name: KOPIA_PASSWORD
-                  value: "none"
+                  value: ${SECRET_KOPIA_PASSWORD}
               command:
                 - /bin/bash
                 - -c
