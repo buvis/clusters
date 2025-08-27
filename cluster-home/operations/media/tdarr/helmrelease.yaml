@@ -38,8 +38,15 @@ spec:
   values:
     defaultPodOptions:
       securityContext:
-        fsGroup: 1000
+        runAsUser: 0
+        runAsGroup: 0
+        fsGroup: 100
         fsGroupChangePolicy: "OnRootMismatch"
+        supplementalGroups:
+          - 44 # video
+          - 125 # render
+          - 105 # render
+          - 568
     controllers:
       server:
         pod:
