@@ -32,7 +32,8 @@ class CommandRestore:
                 "NAMESPACE": namespace,
                 "PVC": pvc,
                 "RESTORE_COMMAND": restore_command,
-            }
+                "KOPIA_PASSWORD": os.getenv("KOPIA_PASSWORD", ""),
+            },
         )
         console.success(f"Gathered all information needed to restore {pvc}")
         res = self.flux.suspend_hr(app_instance, namespace)
@@ -54,7 +55,6 @@ class CommandRestore:
                     f"Run `kubectl describe hr -n {namespace} {app_instance}`"
                 )
         self._start_application(namespace)
-
 
     def _get_app_labels_from_pvc(self, pvc, namespace):
         pvc_resource = self.k8s.get_pvc(pvc, namespace)
@@ -104,6 +104,7 @@ class CommandRestore:
 
             if res.is_ok():
                 self.stopped_apps = res.message
+
                 if self.k8s.wait_pod_delete(app_instance, app_name, namespace):
                     console.success(f"Stopped {app_instance}-{app_name} application")
                 else:
@@ -121,22 +122,17 @@ class CommandRestore:
 
             if not manual_stop:
                 console.panic(
-                    "It isn't safe to proceed with restore while "
-                    "application is running"
+                    "It isn't safe to proceed with restore while application is running"
                 )
 
     def _start_application(self, namespace):
         with console.status(f"Starting application"):
-            res = self.flux.start_application(
-                namespace, self.stopped_apps
-            )
+            res = self.flux.start_application(namespace, self.stopped_apps)
 
             if res.is_ok():
                 console.success(f"Started application")
             else:
-                console.failure(
-                    f"Can't start application"
-                )
+                console.failure(f"Can't start application")
 
     def _submit_restore_job(self, pvc, namespace, job_name):
         with console.status(f"Restoring {pvc} data"):

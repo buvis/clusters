@@ -15,7 +15,7 @@ spec:
           image: docker.io/kopia/kopia:20240412.0.225911@sha256:71f87ac0abe4c34808016394635b45eec63a5a934f0baab266516e93ca40fb3e
           env:
             - name: KOPIA_PASSWORD
-              value: "none"
+              value: {{KOPIA_PASSWORD}}
           command:
             - /bin/bash
             - -c
