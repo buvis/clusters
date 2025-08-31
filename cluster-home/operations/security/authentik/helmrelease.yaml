@@ -49,7 +49,16 @@ spec:
             hosts:
               - auth.buvis.net
     postgresql:
-      enabled: false
+      enabled: true
+      primary:
+        persistence:
+          existingClaim: authentik-db
+      auth:
+        password: ${SECRET_AUTHENTIK_DB_PASSWORD}
+      image:
+        registry: docker.io
+        repository: bitnami/postgresql
+        tag: 17.6.0
     redis:
       enabled: true
       commonConfiguration: |-
@@ -64,11 +73,8 @@ spec:
     authentik:
       secret_key: ${SECRET_AUTHENTIK_SECRET_KEY}
       postgresql:
-        host: buvis-pg-cluster-rw.storage.svc
-        port: 5432
         name: authentik
         user: authentik
         password: ${SECRET_AUTHENTIK_DB_PASSWORD}
-        sslmode: require
     global:
       addPrometheusAnnotations: true
