@@ -17,10 +17,12 @@ spec:
         createdb: false
         passwordSecret:
           name: authentik-db-owner
-  serviceTemplates:
-    - metadata:
-        name: rw
-      spec:
-        type: LoadBalancer
-        loadBalancerIP: 10.11.0.86
-        externalTrafficPolicy: Local
+    services:
+      additional:
+        serviceTemplates:
+          - metadata:
+              name: rw
+            spec:
+              type: LoadBalancer
+              loadBalancerIP: 10.11.0.86
+              externalTrafficPolicy: Local
