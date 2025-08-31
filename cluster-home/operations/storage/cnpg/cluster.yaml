@@ -21,6 +21,8 @@ spec:
       additional:
         - selectorType: rw
           serviceTemplate:
+            metadata:
+              name: buvis-pg-cluster-rw
             spec:
               type: LoadBalancer
               externalTrafficPolicy: Local
