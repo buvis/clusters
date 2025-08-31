@@ -22,7 +22,7 @@ spec:
         - selectorType: rw
           serviceTemplate:
             metadata:
-              name: buvis-pg-cluster-rw
+              name: buvis-pg-cluster-rw-exposed-on-lan
             spec:
               type: LoadBalancer
               externalTrafficPolicy: Local
