@@ -1,0 +1,14 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: authentik
+  namespace: storage
+spec:
+  cluster: buvis-pg-cluster
+  name: authentik
+  owner: authentik
+  # Run in DB after creation; requires superuser on cluster
+  extensions:
+    enabled:
+      - name: pg_trgm
+      - name: citext

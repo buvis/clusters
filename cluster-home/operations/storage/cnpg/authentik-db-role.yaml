@@ -1,0 +1,14 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Role
+metadata:
+  name: authentik
+  namespace: storage
+spec:
+  cluster: buvis-pg-cluster
+  superuser: false
+  createdb: false
+  login: true
+  inRoles: []
+  passwordSecret:
+    name: authentik-db-owner
