@@ -5,10 +5,10 @@ metadata:
   name: authentik
   namespace: storage
 spec:
-  cluster: buvis-pg-cluster
+  cluster:
+    name: buvis-pg-cluster
   name: authentik
   owner: authentik
   extensions:
-    enabled:
-      - name: pg_trgm
-      - name: citext
+    - name: pg_trgm
+    - name: citext
