@@ -19,10 +19,11 @@ spec:
           name: authentik-db-owner
     services:
       additional:
-        serviceTemplates:
-          - metadata:
-              name: rw
+        - selectorType: rw
+          serviceTemplate:
+            meta:
+              name: buvis-pg-cluster-rw-lb
             spec:
               type: LoadBalancer
-              loadBalancerIP: 10.11.0.86
               externalTrafficPolicy: Local
+              loadBalancerIP: 10.11.0.86
