@@ -17,4 +17,3 @@ spec:
         createdb: false
         passwordSecret:
           name: authentik-db-owner
-          key: password
