@@ -30,10 +30,12 @@ spec:
         createdb: false
         passwordSecret:
           name: authentik-db-owner
-  services:
-    additional:
-      - selectorType: rw
-        serviceTemplate:
-          spec:
-            type: LoadBalancer
-            loadBalancerIP: ${SVC_IP_CNPG_RW}
+    services:
+      additional:
+        - selectorType: rw
+          serviceTemplate:
+            metadata:
+              name: buvis-pg-cluster-rw-lb
+            spec:
+              type: LoadBalancer
+              loadBalancerIP: ${SVC_IP_CNPG_RW}
