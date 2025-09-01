@@ -38,3 +38,5 @@ spec:
       sourceRanges: []
       dns:
         type: None
+      spec:
+        loadBalancerIP: 10.11.0.86
