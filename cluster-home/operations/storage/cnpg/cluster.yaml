@@ -9,45 +9,19 @@ spec:
   imageName: ghcr.io/cloudnative-pg/postgresql:17.5@sha256:b1deeed2aa998b2f381e39c5cadb9ec06127708c8bd62965743af19abf21628f
   storage:
     size: 10Gi
-  walArchive:
-    method: plugin
-    plugin:
-      name: barman-cloud
-      image: ghcr.io/cloudnative-pg/plugins:1.27.0
-      args:
-        - "--endpoint-url"
-        - "https://s3.us-west-000.backblazeb2.com"
-      env:
-        - name: BARMAN_S3_BUCKET
-          value: "backup-buvis-home-cnpg"
-        - name: BARMAN_S3_REGION
-          value: "us-west-000"
-        - name: AWS_S3_FORCE_PATH_STYLE
-          value: "true"
-        - name: AWS_ACCESS_KEY_ID
-          value: ${SECRET_B2_KEY_ID}
-        - name: AWS_SECRET_ACCESS_KEY
-          value: ${SECRET_B2_APPLICATION_KEY}
   backup:
-    method: plugin
-    retentionPolicy: "30d"
-    plugin:
-      name: barman-cloud
-      image: ghcr.io/cloudnative-pg/plugins:1.27.0
-      args:
-        - "--endpoint-url"
-        - "https://s3.us-west-000.backblazeb2.com"
-      env:
-        - name: BARMAN_S3_BUCKET
-          value: "backup-buvis-home-cnpg"
-        - name: BARMAN_S3_REGION
-          value: "us-west-000"
-        - name: AWS_S3_FORCE_PATH_STYLE
-          value: "true"
-        - name: AWS_ACCESS_KEY_ID
-          value: ${SECRET_B2_KEY_ID}
-        - name: AWS_SECRET_ACCESS_KEY
-          value: ${SECRET_B2_APPLICATION_KEY}
+    barmanObjectStore:
+      destinationPath: "s3://backup-buvis-home-cnpg"
+      endpointURL: "https://s3.us-west-000.backblazeb2.com"
+      s3ForcePathStyle: true
+      s3Credentials:
+        accessKeyId:
+          name: cnpg-barman-inline
+          key: AWS_ACCESS_KEY_ID
+        secretAccessKey:
+          name: cnpg-barman-inline
+          key: AWS_SECRET_ACCESS_KEY
+
 
   managed:
     roles:
@@ -57,13 +31,13 @@ spec:
         createdb: false
         passwordSecret:
           name: authentik-db-owner
-    services:
-      additional:
-        - selectorType: rw
-          serviceTemplate:
-            metadata:
-              name: buvis-pg-cluster-rw-lb
-            spec:
-              type: LoadBalancer
-              externalTrafficPolicy: Local
-              loadBalancerIP: 10.11.0.86
+  services:
+    additional:
+      - selectorType: rw
+        serviceTemplate:
+          metadata:
+            name: buvis-pg-cluster-rw-lb
+          spec:
+            type: LoadBalancer
+            externalTrafficPolicy: Local
+            loadBalancerIP: 10.11.0.86
