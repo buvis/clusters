@@ -13,7 +13,6 @@ spec:
     barmanObjectStore:
       destinationPath: "s3://backup-buvis-home-cnpg"
       endpointURL: "https://s3.us-west-000.backblazeb2.com"
-      s3ForcePathStyle: true
       s3Credentials:
         accessKeyId:
           name: cnpg-barman-inline
@@ -39,4 +38,4 @@ spec:
       dns:
         type: None
       spec:
-        loadBalancerIP: 10.11.0.86
+        loadBalancerIP: ${SVC_IP_CNPG_RW}
