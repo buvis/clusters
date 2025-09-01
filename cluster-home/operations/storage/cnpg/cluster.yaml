@@ -30,12 +30,10 @@ spec:
         createdb: false
         passwordSecret:
           name: authentik-db-owner
-  expose:
-    type: LoadBalancer
-    annotations: {}
-    loadBalancer:
-      sourceRanges: []
-      dns:
-        type: None
-      spec:
-        loadBalancerIP: ${SVC_IP_CNPG_RW}
+  services:
+    additional:
+      - selectorType: rw
+        serviceTemplate:
+          spec:
+            type: LoadBalancer
+            loadBalancerIP: ${SVC_IP_CNPG_RW}
