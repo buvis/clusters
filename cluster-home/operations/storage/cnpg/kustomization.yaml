@@ -6,7 +6,6 @@ metadata:
   namespace: storage
 resources:
   - cluster.yaml
-  - b2-credentials.yaml
   - authentik-secret.yaml
   - authentik-database.yaml
   - scheduled-backup.yaml
