@@ -24,9 +24,10 @@ spec:
           value: "us-west-000"
         - name: AWS_S3_FORCE_PATH_STYLE
           value: "true"
-      envFrom:
-        - secretRef:
-            name: cnpg-b2-credentials
+        - name: AWS_ACCESS_KEY_ID
+          value: ${SECRET_B2_KEY_ID}
+        - name: AWS_SECRET_ACCESS_KEY
+          value: ${SECRET_B2_APPLICATION_KEY}
   backup:
     method: plugin
     retentionPolicy: "30d"
@@ -43,9 +44,10 @@ spec:
           value: "us-west-000"
         - name: AWS_S3_FORCE_PATH_STYLE
           value: "true"
-      envFrom:
-        - secretRef:
-            name: cnpg-b2-credentials
+        - name: AWS_ACCESS_KEY_ID
+          value: ${SECRET_B2_KEY_ID}
+        - name: AWS_SECRET_ACCESS_KEY
+          value: ${SECRET_B2_APPLICATION_KEY}
 
   managed:
     roles:
