@@ -14,14 +14,15 @@ spec:
     plugin:
       name: barman-cloud
       image: ghcr.io/cloudnative-pg/plugins:1.27.0
+      args:
+        - "--endpoint-url"
+        - "https://s3.us-west-000.backblazeb2.com"
       env:
         - name: BARMAN_S3_BUCKET
           value: "backup-buvis-home-cnpg"
-        - name: BARMAN_S3_ENDPOINT
-          value: "s3.us-west-000.backblazeb2.com"
         - name: BARMAN_S3_REGION
           value: "us-west-000"
-        - name: BARMAN_S3_PATH_STYLE
+        - name: AWS_S3_FORCE_PATH_STYLE
           value: "true"
       envFrom:
         - secretRef:
@@ -32,14 +33,15 @@ spec:
     plugin:
       name: barman-cloud
       image: ghcr.io/cloudnative-pg/plugins:1.27.0
+      args:
+        - "--endpoint-url"
+        - "https://s3.us-west-000.backblazeb2.com"
       env:
         - name: BARMAN_S3_BUCKET
           value: "backup-buvis-home-cnpg"
-        - name: BARMAN_S3_ENDPOINT
-          value: "s3.us-west-000.backblazeb2.com"
         - name: BARMAN_S3_REGION
           value: "us-west-000"
-        - name: BARMAN_S3_PATH_STYLE
+        - name: AWS_S3_FORCE_PATH_STYLE
           value: "true"
       envFrom:
         - secretRef:
