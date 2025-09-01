@@ -31,13 +31,10 @@ spec:
         createdb: false
         passwordSecret:
           name: authentik-db-owner
-  services:
-    additional:
-      - selectorType: rw
-        serviceTemplate:
-          metadata:
-            name: buvis-pg-cluster-rw-lb
-          spec:
-            type: LoadBalancer
-            externalTrafficPolicy: Local
-            loadBalancerIP: 10.11.0.86
+  expose:
+    type: LoadBalancer
+    annotations: {}
+    loadBalancer:
+      sourceRanges: []
+      dns:
+        type: None
