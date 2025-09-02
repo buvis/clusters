@@ -23,12 +23,3 @@ spec:
     image:
       repository: ghcr.io/cloudnative-pg/cloudnative-pg
       tag: 1.27.0@sha256:9e5633b36f1f3ff0bb28b434ce51c95fbb8428a4ab47bc738ea403eb09dbf945
-    
-    # Configure the controller manager config for plugin discovery
-    config:
-      data:
-        plugin-barman-cloud.cloudnative-pg.io: |
-          endpoint: https://plugin-barman-cloud.storage.svc.cluster.local:9090
-          tls:
-            clientCert: plugin-barman-cloud-client-tls
-            serverCert: plugin-barman-cloud-server-tls
