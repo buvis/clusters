@@ -10,7 +10,7 @@ spec:
   storage:
     size: 10Gi
   plugins:
-    - name: barman-cloud.cloudnative-pg.io
+    - name: plugin-barman-cloud.cloudnative-pg.io
       isWALArchiver: true
       parameters:
         barmanObjectName: buvis-pg-backup
