@@ -7,7 +7,6 @@ metadata:
 spec:
   cluster:
     name: buvis-pg-cluster
-  backupOwnerReference: self
   method: plugin
   pluginConfiguration:
     name: barman-cloud.cloudnative-pg.io
