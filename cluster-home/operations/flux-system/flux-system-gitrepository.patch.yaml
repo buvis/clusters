@@ -10,3 +10,5 @@ spec:
     /*
     # include manifests
     !/**/*.yaml
+    # exclude manually applied manifests
+    /operations/storage/cnpg/adhoc-backup.yaml
