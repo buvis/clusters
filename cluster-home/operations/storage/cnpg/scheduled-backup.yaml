@@ -11,7 +11,7 @@ spec:
   backupOwnerReference: self
   method: plugin
   pluginConfiguration:
-    name: barman-cloud.cloudnative-pg.io
+    name: plugin-barman-cloud.cloudnative-pg.io
     parameters:
       barmanObjectName: buvis-pg-backup
 ---
@@ -27,7 +27,7 @@ spec:
   backupOwnerReference: self
   method: plugin
   pluginConfiguration:
-    name: barman-cloud.cloudnative-pg.io
+    name: plugin-barman-cloud.cloudnative-pg.io
     parameters:
       barmanObjectName: buvis-pg-backup
 ---
@@ -43,6 +43,6 @@ spec:
   backupOwnerReference: self
   method: plugin
   pluginConfiguration:
-    name: barman-cloud.cloudnative-pg.io
+    name: plugin-barman-cloud.cloudnative-pg.io
     parameters:
       barmanObjectName: buvis-pg-backup
