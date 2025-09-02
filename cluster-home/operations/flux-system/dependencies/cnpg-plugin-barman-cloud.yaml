@@ -20,4 +20,4 @@ spec:
       - kind: ConfigMap
         name: cluster-config
       - kind: Secret
-        name: cluster-secrets
+        name: cluster-secret-vars
