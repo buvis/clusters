@@ -7,7 +7,7 @@ metadata:
 spec:
   cluster:
     name: buvis-pg-cluster
-  schedule: "30 3 * * *" # Daily at 3:30 AM
+  schedule: "0 30 3 * * *" # Daily at 3:30 AM
   backupOwnerReference: self
   immediate: true
   method: plugin
@@ -22,7 +22,7 @@ metadata:
 spec:
   cluster:
     name: buvis-pg-cluster
-  schedule: "0 2 * * 0" # Weekly on Sunday at 2 AM
+  schedule: "0 0 2 * * 0" # Weekly on Sunday at 2 AM
   backupOwnerReference: self
   method: plugin
   pluginConfiguration:
@@ -36,7 +36,7 @@ metadata:
 spec:
   cluster:
     name: buvis-pg-cluster
-  schedule: "0 1 1 * *" # Monthly on 1st day at 1 AM
+  schedule: "0 0 1 1 * *" # Monthly on 1st day at 1 AM
   backupOwnerReference: self
   method: plugin
   pluginConfiguration:
