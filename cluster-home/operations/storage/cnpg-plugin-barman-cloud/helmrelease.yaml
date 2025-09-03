@@ -26,4 +26,5 @@ spec:
       tag: "v0.6.0"
       pullPolicy: IfNotPresent
     serviceAccount:
+      create: true
       name: plugin-barman-cloud
