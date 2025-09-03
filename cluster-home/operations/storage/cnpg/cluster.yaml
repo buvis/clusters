@@ -10,7 +10,7 @@ spec:
   storage:
     size: 10Gi
   plugins:
-    - name: plugin-barman-cloud.cloudnative-pg.io
+    - name: barman-cloud.cloudnative-pg.io
       enabled: true
       isWALArchiver: true
       parameters:

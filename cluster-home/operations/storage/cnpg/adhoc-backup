@@ -9,6 +9,6 @@ spec:
     name: buvis-pg-cluster
   method: plugin
   pluginConfiguration:
-    name: plugin-barman-cloud.cloudnative-pg.io
+    name: barman-cloud.cloudnative-pg.io
     parameters:
       barmanObjectName: buvis-pg-backup

@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: plugin-barman-cloud
+  name: barman-cloud
   namespace: storage
 spec:
   interval: 5m
@@ -21,52 +21,9 @@ spec:
     remediation:
       retries: 3
   values:
-    # Enable CRDs installation
-    crds:
-      enabled: true
-      keep: true
-      
-    # Configure the plugin image
     image:
       repository: ghcr.io/cloudnative-pg/plugin-barman-cloud
       tag: "v0.6.0"
       pullPolicy: IfNotPresent
-      
-    # Resource configuration
-    resources:
-      requests:
-        memory: "256Mi"
-        cpu: "100m"
-      limits:
-        memory: "512Mi"
-        cpu: "500m"
-        
-    # Service account
     serviceAccount:
-      create: true
       name: plugin-barman-cloud
-      
-    # RBAC
-    rbac:
-      create: true
-      
-    # Security context
-    podSecurityContext:
-      allowPrivilegeEscalation: false
-      capabilities:
-        drop:
-        - ALL
-      readOnlyRootFilesystem: true
-      runAsGroup: 10001
-      runAsUser: 10001
-      seccompProfile:
-        type: RuntimeDefault
-        
-    # Custom labels for integration
-    customLabels:
-      app.kubernetes.io/component: barman-cloud-plugin
-      app.kubernetes.io/part-of: cnpg
-      
-    # Disable cert-manager dependency (assuming it's already installed)
-    cert-manager:
-      enabled: false
