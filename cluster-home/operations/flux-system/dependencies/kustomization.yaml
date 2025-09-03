@@ -8,4 +8,4 @@ resources:
   - longhorn.yaml
   - kube-prometheus-stack.yaml
   - cnpg.yaml
-  - cnpg-plugin-barman-cloud.yaml
+  # - cnpg-plugin-barman-cloud.yaml
