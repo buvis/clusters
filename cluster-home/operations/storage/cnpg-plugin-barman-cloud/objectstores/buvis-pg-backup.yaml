@@ -21,8 +21,4 @@ spec:
     data:
       compression: gzip
       jobs: 2
-    tags:
-      cluster: "buvis-pg-cluster"
-      environment: "production"
-      backup-tool: "barman-cloud-plugin"
   retentionPolicy: "7d"
