@@ -5,7 +5,6 @@ metadata:
   name: cnpg
   namespace: storage
 resources:
-  - authentik-secret.yaml
   - databases.yaml
   - helmrelease.yaml
   - scheduled-backup.yaml
