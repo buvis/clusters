@@ -7,7 +7,7 @@ metadata:
 type: kubernetes.io/basic-auth
 stringData:
   username: linkace
-  password: ${SECRET_LINKACE_DB_PASSWORD}
+  password: ${SECRET_LINKACE_PG_PASSWORD}
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
