@@ -11,7 +11,7 @@ data:
 
     ## Basic app configuration
     # The app key is generated later, please leave it blank
-    APP_KEY=${SECRET_LINKACE_APP_KEY}
+    # APP_KEY=${SECRET_LINKACE_APP_KEY}
     ## Configuration of the database connection
     ## Attention: Those settings are configured during the web setup, please do not modify them now.
     # Set the database driver (mysql, pgsql, sqlsrv)
