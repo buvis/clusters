@@ -29,7 +29,7 @@ spec:
             - name: DB_HOST
               value: buvis-pg-cluster-rw.storage
             - name: DB_PORT
-              value: 5432
+              value: "5432"
             - name: DB_DATABASE
               value: linkace
             - name: DB_USERNAME
