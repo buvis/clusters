@@ -21,14 +21,21 @@ spec:
       containers:
         - image: ghcr.io/kovah/linkace:v2.2.0@sha256:baa826d946e04dff901995208aaf040b774ab02dbc89b47a1e016b6e3aabb144
           name: linkace
+          env:
+            - name: APP_KEY
+              value: ${SECRET_LINKACE_APP_KEY}
+            - name: DB_CONNECTION
+              value: pgsql
+            - name: DB_HOST
+              value: buvis-pg-cluster-rw.storage
+            - name: DB_PORT
+              value: 5432
+            - name: DB_DATABASE
+              value: linkace
+            - name: DB_USERNAME
+              value: linkace
+            - name: DB_PASSWORD
+              value: ${SECRET_LINKACE_PG_PASSWORD}
           ports:
             - containerPort: 80
-          volumeMounts:
-            - name: linkace-env
-              mountPath: /app/.env
-              subPath: env
       restartPolicy: Always
-      volumes:
-        - name: linkace-env
-          configMap:
-            name: linkace-env
