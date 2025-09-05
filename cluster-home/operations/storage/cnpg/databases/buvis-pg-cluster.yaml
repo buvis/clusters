@@ -23,6 +23,12 @@ spec:
         createdb: false
         passwordSecret:
           name: authentik-db-owner
+      - name: linkace
+        login: true
+        superuser: false
+        createdb: false
+        passwordSecret:
+          name: linkace-db-owner
     services:
       additional:
         - selectorType: rw

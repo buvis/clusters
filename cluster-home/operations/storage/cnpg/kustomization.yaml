@@ -8,5 +8,3 @@ resources:
   - databases.yaml
   - helmrelease.yaml
   - scheduled-backup.yaml
-  - role-authentik.yaml
-  - role-linkace.yaml
