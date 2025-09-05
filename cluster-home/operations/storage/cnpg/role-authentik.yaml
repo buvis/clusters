@@ -1,0 +1,10 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: authentik-db-owner
+  namespace: storage
+type: kubernetes.io/basic-auth
+stringData:
+  username: authentik
+  password: ${SECRET_AUTHENTIK_DB_PASSWORD}

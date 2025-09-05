@@ -1,14 +1,4 @@
 ---
-apiVersion: v1
-kind: Secret
-metadata:
-  name: linkace-db-owner
-  namespace: storage
-type: kubernetes.io/basic-auth
-stringData:
-  username: linkace
-  password: ${SECRET_LINKACE_DB_PASSWORD}
----
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
