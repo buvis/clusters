@@ -59,10 +59,11 @@ spec:
           image: ghcr.io/kovah/linkace:v2.2.0
           workingDir: /var/www/html
           command: ["sh", "-lc"]
-          args: >
-            php /var/www/html/artisan config:clear &&
-            php /var/www/html/artisan cache:clear &&
-            php /var/www/html/artisan route:clear || true
+          args:
+            - >
+              php /var/www/html/artisan config:clear &&
+              php /var/www/html/artisan cache:clear &&
+              php /var/www/html/artisan route:clear || true
           volumeMounts:
             - name: la-cache
               mountPath: /var/www/html/bootstrap/cache
