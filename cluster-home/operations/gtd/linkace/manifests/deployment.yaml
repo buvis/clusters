@@ -25,18 +25,19 @@ spec:
           image: ghcr.io/kovah/linkace:v2.2.0
           workingDir: /var/www/html
           command: ["sh", "-lc"]
-          args: |
-            umask 027 &&
-            mkdir -p /work &&
-            {
-              printf 'APP_KEY=%s\n' "$APP_KEY";
-              printf 'DB_CONNECTION=%s\n' "${DB_CONNECTION:-pgsql}";
-              printf 'DB_HOST=%s\n' "$DB_HOST";
-              printf 'DB_PORT=%s\n' "${DB_PORT:-5432}";
-              printf 'DB_DATABASE=%s\n' "$DB_DATABASE";
-              printf 'DB_USERNAME=%s\n' "$DB_USERNAME";
-              printf 'DB_PASSWORD=%s\n' "$DB_PASSWORD";
-            } > /work/.env
+          args:
+            - >
+              umask 027 &&
+              mkdir -p /work &&
+              {
+                printf 'APP_KEY=%s\n' "$APP_KEY";
+                printf 'DB_CONNECTION=%s\n' "${DB_CONNECTION:-pgsql}";
+                printf 'DB_HOST=%s\n' "$DB_HOST";
+                printf 'DB_PORT=%s\n' "${DB_PORT:-5432}";
+                printf 'DB_DATABASE=%s\n' "$DB_DATABASE";
+                printf 'DB_USERNAME=%s\n' "$DB_USERNAME";
+                printf 'DB_PASSWORD=%s\n' "$DB_PASSWORD";
+              } > /work/.env
           env:
             - name: APP_KEY
               value: ${SECRET_LINKACE_APP_KEY}
