@@ -4,19 +4,15 @@ kind: Deployment
 metadata:
   name: linkace
   namespace: gtd
-  labels:
-    app.kubernetes.io/name: linkace
 spec:
   replicas: 1
   selector:
-    matchLabels:
-      app.kubernetes.io/name: linkace
+    matchLabels: { app.kubernetes.io/name: linkace }
   strategy:
     type: Recreate
   template:
     metadata:
-      labels:
-        app.kubernetes.io/name: linkace
+      labels: { app.kubernetes.io/name: linkace }
     spec:
       volumes:
         - name: la-cache
@@ -24,23 +20,23 @@ spec:
         - name: env-file
           emptyDir: {}
       initContainers:
+        # Write a real .env from Pod env
         - name: write-env-as-app
-          image: linkace/linkace:latest
-          workingDir: /app
+          image: ghcr.io/kovah/linkace:v2.2.0
+          workingDir: /var/www/html
           command: ["sh", "-lc"]
-          args:
-            - >
-              umask 027 &&
-              mkdir -p /work &&
-              {
-                printf 'APP_KEY=%s\n' "$APP_KEY";
-                printf 'DB_CONNECTION=%s\n' "${DB_CONNECTION:-pgsql}";
-                printf 'DB_HOST=%s\n' "$DB_HOST";
-                printf 'DB_PORT=%s\n' "${DB_PORT:-5432}";
-                printf 'DB_DATABASE=%s\n' "$DB_DATABASE";
-                printf 'DB_USERNAME=%s\n' "$DB_USERNAME";
-                printf 'DB_PASSWORD=%s\n' "$DB_PASSWORD";
-              } > /work/.env
+          args: |
+            umask 027 &&
+            mkdir -p /work &&
+            {
+              printf 'APP_KEY=%s\n' "$APP_KEY";
+              printf 'DB_CONNECTION=%s\n' "${DB_CONNECTION:-pgsql}";
+              printf 'DB_HOST=%s\n' "$DB_HOST";
+              printf 'DB_PORT=%s\n' "${DB_PORT:-5432}";
+              printf 'DB_DATABASE=%s\n' "$DB_DATABASE";
+              printf 'DB_USERNAME=%s\n' "$DB_USERNAME";
+              printf 'DB_PASSWORD=%s\n' "$DB_PASSWORD";
+            } > /work/.env
           env:
             - name: APP_KEY
               value: ${SECRET_LINKACE_APP_KEY}
@@ -60,21 +56,21 @@ spec:
             - name: env-file
               mountPath: /work
         - name: artisan-clear
-          image: ghcr.io/kovah/linkace:v2.2.0@sha256:baa826d946e04dff901995208aaf040b774ab02dbc89b47a1e016b6e3aabb144
-          imagePullPolicy: IfNotPresent
-          workingDir: /app
+          image: ghcr.io/kovah/linkace:v2.2.0
+          workingDir: /var/www/html
           command: ["sh", "-lc"]
-          args:
-            - >
-              php /app/artisan config:clear &&
-              php /app/artisan cache:clear &&
-              php /app/artisan route:clear || true
+          args: >
+            php /var/www/html/artisan config:clear &&
+            php /var/www/html/artisan cache:clear &&
+            php /var/www/html/artisan route:clear || true
           volumeMounts:
             - name: la-cache
-              mountPath: /app/bootstrap/cache
+              mountPath: /var/www/html/bootstrap/cache
       containers:
-        - image: ghcr.io/kovah/linkace:v2.2.0@sha256:baa826d946e04dff901995208aaf040b774ab02dbc89b47a1e016b6e3aabb144
-          name: linkace
+        - name: linkace
+          image: ghcr.io/kovah/linkace:v2.2.0
+          ports:
+            - containerPort: 80
           env:
             - name: APP_KEY
               value: ${SECRET_LINKACE_APP_KEY}
@@ -90,12 +86,9 @@ spec:
               value: linkace
             - name: DB_PASSWORD
               value: ${SECRET_LINKACE_PG_PASSWORD}
-          ports:
-            - containerPort: 80
           volumeMounts:
             - name: la-cache
-              mountPath: /app/bootstrap/cache
+              mountPath: /var/www/html/bootstrap/cache
             - name: env-file
-              mountPath: /app/.env
+              mountPath: /var/www/html/.env
               subPath: .env
-      restartPolicy: Always
