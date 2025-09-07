@@ -18,6 +18,21 @@ spec:
       labels:
         app.kubernetes.io/name: linkace
     spec:
+      volumes:
+        - name: la-cache
+          emptyDir: {}
+      initContainers:
+        - name: clear-laravel-cache
+          image: busybox:1.36
+          command: ["sh", "-c"]
+          args:
+            - >
+              mkdir -p /app/bootstrap/cache &&
+              rm -f /app/bootstrap/cache/*.php &&
+              chmod -R 775 /app/bootstrap/cache
+          volumeMounts:
+            - name: la-cache
+              mountPath: /app/bootstrap/cache
       containers:
         - image: ghcr.io/kovah/linkace:v2.2.0@sha256:baa826d946e04dff901995208aaf040b774ab02dbc89b47a1e016b6e3aabb144
           name: linkace
@@ -38,4 +53,7 @@ spec:
               value: ${SECRET_LINKACE_PG_PASSWORD}
           ports:
             - containerPort: 80
+          volumeMounts:
+            - name: la-cache
+              mountPath: /app/bootstrap/cache
       restartPolicy: Always
