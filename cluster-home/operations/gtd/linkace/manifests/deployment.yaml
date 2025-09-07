@@ -22,18 +22,16 @@ spec:
         - name: la-cache
           emptyDir: {}
       initContainers:
-        - name: clear-laravel-cache
-          image: busybox:1.36
-          command: ["sh", "-c"]
+        - name: artisan-clear
+          image: ghcr.io/kovah/linkace:v2.2.0@sha256:baa826d946e04dff901995208aaf040b774ab02dbc89b47a1e016b6e3aabb144
+          imagePullPolicy: IfNotPresent
+          workingDir: /app
+          command: ["sh", "-lc"]
           args:
             - >
-              php artisan config:clear &&
-              php artisan cache:clear &&
-              php artisan route:clear &&
-              mkdir -p /app/bootstrap/cache &&
-              rm -f /app/bootstrap/cache/*.php &&
-              chmod -R 775 /app/bootstrap/cache &&
-              chmod 666 /app/.env
+              php /app/artisan config:clear &&
+              php /app/artisan cache:clear &&
+              php /app/artisan route:clear || true
           volumeMounts:
             - name: la-cache
               mountPath: /app/bootstrap/cache
