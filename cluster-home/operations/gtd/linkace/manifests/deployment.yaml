@@ -24,23 +24,22 @@ spec:
         - name: env-file
           emptyDir: {}
       initContainers:
-        - name: write-env
-          image: busybox:1.36
-          command: ["sh", "-c"]
-          args:
-            - |
-              set -e
-              mkdir -p /work
-              {
-                printf 'APP_KEY=%s\n' "$APP_KEY";
-                printf 'DB_CONNECTION=%s\n' "${DB_CONNECTION:-pgsql}";
-                printf 'DB_HOST=%s\n' "$DB_HOST";
-                printf 'DB_PORT=%s\n' "${DB_PORT:-5432}";
-                printf 'DB_DATABASE=%s\n' "$DB_DATABASE";
-                printf 'DB_USERNAME=%s\n' "$DB_USERNAME";
-                printf 'DB_PASSWORD=%s\n' "$DB_PASSWORD";
-              } > /work/.env
-              chmod 640 /work/.env
+        - name: write-env-as-app
+          image: linkace/linkace:latest
+          workingDir: /app
+          command: ["sh", "-lc"]
+          args: |
+            umask 027 && \
+            mkdir -p /work && \
+            {
+              printf 'APP_KEY=%s\n' "$APP_KEY";
+              printf 'DB_CONNECTION=%s\n' "${DB_CONNECTION:-pgsql}";
+              printf 'DB_HOST=%s\n' "$DB_HOST";
+              printf 'DB_PORT=%s\n' "${DB_PORT:-5432}";
+              printf 'DB_DATABASE=%s\n' "$DB_DATABASE";
+              printf 'DB_USERNAME=%s\n' "$DB_USERNAME";
+              printf 'DB_PASSWORD=%s\n' "$DB_PASSWORD";
+            } > /work/.env
           env:
             - name: APP_KEY
               value: ${SECRET_LINKACE_APP_KEY}
