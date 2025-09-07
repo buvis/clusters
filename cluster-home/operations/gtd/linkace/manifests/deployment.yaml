@@ -33,7 +33,7 @@ spec:
               mkdir -p /app/bootstrap/cache &&
               rm -f /app/bootstrap/cache/*.php &&
               chmod -R 775 /app/bootstrap/cache &&
-              chmod 666 /app/.env &&
+              chmod 666 /app/.env
           volumeMounts:
             - name: la-cache
               mountPath: /app/bootstrap/cache
