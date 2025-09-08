@@ -23,12 +23,6 @@ spec:
           emptyDir: {}
         - name: env-file
           emptyDir: {}
-        - name: config
-          configMap:
-            name: linkace-config
-            items:
-              - key: database.php
-                path: database.php
       initContainers:
         - name: write-env-as-app
           image: linkace/linkace:latest
@@ -46,7 +40,6 @@ spec:
                 printf 'DB_DATABASE=%s\n' "$DB_DATABASE";
                 printf 'DB_USERNAME=%s\n' "$DB_USERNAME";
                 printf 'DB_PASSWORD=%s\n' "$DB_PASSWORD";
-                printf 'DB_SCHEMA=%s\n' "${DB_SCHEMA:-linkace}";
               } > /work/.env
           env:
             - name: APP_KEY
@@ -63,8 +56,6 @@ spec:
               value: linkace
             - name: DB_PASSWORD
               value: ${SECRET_LINKACE_PG_PASSWORD}
-            - name: DB_SCHEMA
-              value: linkace
           volumeMounts:
             - name: env-file
               mountPath: /work
@@ -99,8 +90,6 @@ spec:
               value: linkace
             - name: DB_PASSWORD
               value: ${SECRET_LINKACE_PG_PASSWORD}
-            - name: DB_SCHEMA
-              value: linkace
           ports:
             - containerPort: 80
           volumeMounts:
@@ -109,7 +98,4 @@ spec:
             - name: env-file
               mountPath: /app/.env
               subPath: .env
-            - name: config
-              mountPath: /app/config/database.php
-              subPath: database.php
       restartPolicy: Always
