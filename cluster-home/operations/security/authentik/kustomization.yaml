@@ -7,4 +7,3 @@ metadata:
 resources:
   - authentik.yaml
   - helmrelease.yaml
-  - pvc.yaml
