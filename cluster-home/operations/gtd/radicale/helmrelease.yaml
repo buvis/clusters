@@ -39,8 +39,8 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/kozea/radicale
-              tag: 3.5.5@sha256:b257d0b6171cf0ed6dd467b581c7633ee34076d8c64aaf7c8de432c341b77bdc
+              repository: tomsquest/docker-radicale
+              tag: 3.5.5.0@sha256:0c26cce308d63b3af01f4a3ea1f66246a23c2ead7c1987d5cc7284073d3719d5
     service:
       app:
         controller: radicale
@@ -78,7 +78,7 @@ spec:
         type: configMap
         name: radicale-config
         globalMounts:
-          - path: /etc/radicale/config
+          - path: /config/config
             subPath: config.cfg
             readOnly: true
       data:
