@@ -52,7 +52,7 @@ spec:
                 - -c
                 - |
                   printf "\e[1;32m%-6s\e[m\n" "[01/03] Connect to repo ..."       && kopia repo connect filesystem --path=/snapshots --override-hostname=cluster --override-username=root
-                  printf "\e[1;32m%-6s\e[m\n" "[02/03] Sync repository to B2 ..." && kopia repository sync-to s3 --endpoint="s3.us-west-000.backblazeb2.com" --bucket=backup-buvis-home-kopia
+                  printf "\e[1;32m%-6s\e[m\n" "[02/03] Sync repository to B2 ..." && kopia repository sync-to s3 --endpoint="s3.us-west-000.backblazeb2.com" --bucket=backup-buvis-home-kopia --access-key=$AWS_ACCESS_KEY_ID --secret-acces-key=$AWS_SECRET_ACCESS_KEY
                   printf "\e[1;32m%-6s\e[m\n" "[03/03] Disconnect from repo ..."  && kopia repo disconnect
               volumeMounts:
                 - name: snapshots
