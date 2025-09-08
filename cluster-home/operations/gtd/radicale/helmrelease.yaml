@@ -33,7 +33,7 @@ spec:
       interval: 5m
   values:
     controllers:
-      baikal:
+      radicale:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
