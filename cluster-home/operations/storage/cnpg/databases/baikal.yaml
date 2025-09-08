@@ -1,0 +1,24 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: baikal-db-owner
+  namespace: storage
+type: kubernetes.io/basic-auth
+stringData:
+  username: baikal
+  password: ${SECRET_BAIKAL_PG_PASSWORD}
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: baikal
+  namespace: storage
+spec:
+  cluster:
+    name: buvis-pg-cluster
+  name: baikal
+  owner: baikal
+  extensions:
+    - name: pg_trgm
+    - name: citext

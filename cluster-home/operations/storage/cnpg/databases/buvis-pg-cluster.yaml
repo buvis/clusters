@@ -23,6 +23,12 @@ spec:
         createdb: false
         passwordSecret:
           name: authentik-db-owner
+      - name: baikal
+        login: true
+        superuser: false
+        createdb: false
+        passwordSecret:
+          name: baikal-db-owner
       - name: linkace
         login: true
         superuser: false
