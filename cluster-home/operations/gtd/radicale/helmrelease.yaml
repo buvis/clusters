@@ -1,0 +1,89 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: baikal
+  namespace: gtd
+spec:
+  dependsOn:
+    - name: ingress-nginx
+      namespace: kube-tools
+    - name: cert-manager
+      namespace: kube-tools
+  interval: 5m
+  install:
+    timeout: 15m
+    remediation:
+      retries: 5
+  upgrade:
+    timeout: 15m
+    remediation:
+      retries: 5
+      remediateLastFailure: true
+    cleanupOnFail: true
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts/
+      chart: app-template
+      version: 3.7.3
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    controllers:
+      baikal:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/kozea/radicale
+              tag: 3.5.5@sha256:b257d0b6171cf0ed6dd467b581c7633ee34076d8c64aaf7c8de432c341b77bdc
+    service:
+      app:
+        controller: radicale
+        ports:
+          http:
+            port: 5232
+    ingress:
+      app:
+        className: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-production
+        hosts:
+          - host: &hostName radicale.buvis.net
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - *hostName
+            secretName: radicale-crt
+    persistence:
+      auth:
+        enabled: true
+        type: secret
+        name: radicale-users
+        globalMounts:
+          - path: /config/users
+            subPath: users
+            readOnly: true
+      config:
+        enabled: true
+        type: configMap
+        name: radicale-config
+        globalMounts:
+          - path: /etc/radicale/config
+            subPath: config.cfg
+            readOnly: true
+      data:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: radicale-data
+        globalMounts:
+          - path: /data
