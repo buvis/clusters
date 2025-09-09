@@ -48,8 +48,6 @@ spec:
             image:
               repository: ghcr.io/jelmer/xandikos
               tag: v0.2.11@sha256:7a114b27927f1a71c6eb8ddc55c6dd3c6ffba68c6bd92c0ce958cac00bb4db6a
-            env:
-              DEBUG: "true"
             command:
               - python3
               - -m
@@ -57,6 +55,7 @@ spec:
             args:
               - --listen-address=0.0.0.0
               - --dump-dav-xml
+              - --debug
               - --port=8000
               - -d
               - /data
