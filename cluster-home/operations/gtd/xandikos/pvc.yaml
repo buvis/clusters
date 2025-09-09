@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: xandikos-data
+  namespace: gtd
+  labels:
+    snapshot.home.arpa/enabled: "true"
+    app.kubernetes.io/name: xandikos
+    app.kubernetes.io/instance: xandikos
+spec:
+  storageClassName: longhorn
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

@@ -1,0 +1,84 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: xandikos
+  namespace: gtd
+spec:
+  dependsOn:
+    - name: ingress-nginx
+      namespace: kube-tools
+    - name: cert-manager
+      namespace: kube-tools
+  interval: 5m
+  install:
+    timeout: 15m
+    remediation:
+      retries: 5
+  upgrade:
+    timeout: 15m
+    remediation:
+      retries: 5
+      remediateLastFailure: true
+    cleanupOnFail: true
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts/
+      chart: app-template
+      version: 3.7.3
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    controllers:
+      xandikos:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/jelmer/xandikos
+              tag: v0.2.11@sha256:7a114b27927f1a71c6eb8ddc55c6dd3c6ffba68c6bd92c0ce958cac00bb4db6a
+            env:
+              PORT: "8000"
+              LISTEN_ADDRESS: 0.0.0.0
+              DATA_DIR: /data
+              AUTOCREATE: "false"
+              DEFAULTS: "false"
+              ROUTE_PREFIX: /
+    service:
+      app:
+        controller: xandikos
+        ports:
+          http:
+            port: 8000
+    ingress:
+      app:
+        className: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-production
+          authentik.home.arpa/enabled: "false"
+          nginx.ingress.kubernetes.io/auth-type: basic
+          nginx.ingress.kubernetes.io/auth-secret: xandikos-basic-auth
+          nginx.ingress.kubernetes.io/auth-realm: "Authentication Required"
+        hosts:
+          - host: &hostName dav.buvis.net
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - *hostName
+            secretName: xandikos-crt
+    persistence:
+      data:
+        enabled: true
+        type: persistentVolumeClaim
+        existingClaim: xandikos-data
+        globalMounts:
+          - path: /data
