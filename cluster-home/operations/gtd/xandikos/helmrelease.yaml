@@ -54,6 +54,8 @@ spec:
               - xandikos.web
             args:
               - --listen-address=0.0.0.0
+              - --debug
+              - --dump-dav-xml
               - --port=8000
               - -d
               - /data
