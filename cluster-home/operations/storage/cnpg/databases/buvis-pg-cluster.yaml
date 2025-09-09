@@ -37,3 +37,5 @@ spec:
               name: buvis-pg-cluster-rw-lb
             spec:
               type: LoadBalancer
+              loadBalancerIP: ${SVC_IP_CNPG_RW}
+              externalTrafficPolicy: Cluster
