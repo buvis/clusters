@@ -49,13 +49,14 @@ spec:
               repository: ghcr.io/jelmer/xandikos
               tag: v0.2.11@sha256:7a114b27927f1a71c6eb8ddc55c6dd3c6ffba68c6bd92c0ce958cac00bb4db6a
             env:
-              PORT: "8000"
-              CURRENT_USER_PRINCIPAL: jatolule
-              LISTEN_ADDRESS: 0.0.0.0
-              DATA_DIR: /data
               AUTOCREATE: "false"
+              CURRENT_USER_PRINCIPAL: /jatolule/
+              DATA_DIR: /data
+              DEBUG: "true"
               DEFAULTS: "false"
+              LISTEN_ADDRESS: 0.0.0.0
               NO_STRICT: "false"
+              PORT: "8000"
               ROUTE_PREFIX: /
     service:
       app:
