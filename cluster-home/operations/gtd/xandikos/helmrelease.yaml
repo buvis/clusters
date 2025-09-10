@@ -58,6 +58,7 @@ spec:
               - --listen-address=0.0.0.0
               - --dump-dav-xml
               - --debug
+              - --no-strict
               - --port=8000
               - -d
               - /data
