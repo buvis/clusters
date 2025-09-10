@@ -52,6 +52,7 @@ spec:
         className: nginx
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-production
+          nginx.ingress.kubernetes.io/proxy-body-size: 100M
         hosts:
           - host: &hostName radicale.buvis.net
             paths:
