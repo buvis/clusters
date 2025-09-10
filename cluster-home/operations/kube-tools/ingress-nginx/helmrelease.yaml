@@ -41,7 +41,7 @@ spec:
         type: LoadBalancer
         annotations:
           lbipam.cilium.io/ips: ${SVC_IP_INGRESS}
-      replicaCount: 1
+      replicaCount: 3
       metrics:
         enabled: true
         serviceMonitor:
