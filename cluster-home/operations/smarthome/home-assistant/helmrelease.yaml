@@ -48,11 +48,11 @@ spec:
           app:
             image:
               repository: ghcr.io/home-assistant/home-assistant
-              tag: 2025.9.1
+              tag: 2025.9.4
           codeserver:
             image:
               repository: codercom/code-server
-              tag: 4.103.2
+              tag: 4.104.1
             workingDir: "/config"
             args:
               - --auth
