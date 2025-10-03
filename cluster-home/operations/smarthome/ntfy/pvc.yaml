@@ -19,6 +19,23 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  name: ntfy-db
+  namespace: smarthome
+  labels:
+    snapshot.home.arpa/enabled: "true"
+    app.kubernetes.io/name: ntfy
+    app.kubernetes.io/instance: ntfy
+spec:
+  storageClassName: longhorn
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
   name: ntfy-cache
   namespace: smarthome
   labels:

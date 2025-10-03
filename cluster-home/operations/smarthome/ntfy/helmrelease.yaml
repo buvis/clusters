@@ -49,6 +49,8 @@ spec:
             image:
               repository: binwiederhier/ntfy
               tag: v2.14@sha256:5a051798d14138c3ecb12c038652558ab6a077e1aceeb867c151cbf5fa8451ef
+            env:
+              NTFY_AUTH_DEFAULT_ACCESS: deny-all
             args:
               - serve
     persistence:
@@ -57,6 +59,11 @@ spec:
         existingClaim: ntfy-config
         globalMounts:
           - path: /etc/ntfy
+      db:
+        enabled: true
+        existingClaim: ntfy-db
+        globalMounts:
+          - path: /var/lib/ntfy
       cache:
         enabled: true
         existingClaim: ntfy-cache
