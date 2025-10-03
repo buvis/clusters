@@ -1,0 +1,86 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ntfy
+  namespace: smarthome
+spec:
+  interval: 5m
+  install:
+    timeout: 15m
+    remediation:
+      retries: 5
+  upgrade:
+    timeout: 15m
+    remediation:
+      retries: 5
+      remediateLastFailure: true
+    cleanupOnFail: true
+  dependsOn:
+    - name: ingress-nginx
+      namespace: kube-tools
+    - name: cert-manager
+      namespace: kube-tools
+    - name: longhorn
+      namespace: storage
+    - name: authentik
+      namespace: security
+  chart:
+    spec:
+      # renovate: registryUrl=https://bjw-s.github.io/helm-charts/
+      chart: app-template
+      version: 3.7.3
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsUser: 0
+        runAsGroup: 0
+        fsGroup: 0
+        fsGroupChangePolicy: OnRootMismatch
+    controllers:
+      ntfy:
+        containers:
+          app:
+            image:
+              repository: binwiederhier/ntfy
+              tag: v2.14@sha256:5a051798d14138c3ecb12c038652558ab6a077e1aceeb867c151cbf5fa8451ef
+            args:
+              - serve
+    persistence:
+      config:
+        enabled: true
+        existingClaim: ntfy-config
+        globalMounts:
+          - path: /etc/ntfy
+      cache:
+        enabled: true
+        existingClaim: ntfy-cache
+        globalMounts:
+          - path: /var/cache/ntfy
+    service:
+      app:
+        controller: ntfy
+        ports:
+          http:
+            port: 80
+    ingress:
+      app:
+        className: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-production
+        hosts:
+          - host: &hostName ntfy.buvis.net
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - *hostName
+            secretName: ntfy-crt
