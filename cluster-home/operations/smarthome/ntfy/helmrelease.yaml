@@ -52,6 +52,7 @@ spec:
             env:
               NTFY_AUTH_DEFAULT_ACCESS: deny-all
               NTFY_AUTH_FILE: /var/lib/ntfy/user.db
+              NTFY_UPSTREAM_BASE_URL: "https://ntfy.sh"
             args:
               - serve
     persistence:
