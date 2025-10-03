@@ -51,6 +51,7 @@ spec:
               tag: v2.14@sha256:5a051798d14138c3ecb12c038652558ab6a077e1aceeb867c151cbf5fa8451ef
             env:
               NTFY_AUTH_DEFAULT_ACCESS: deny-all
+              NTFY_AUTH_FILE: /var/lib/ntfy/user.db
             args:
               - serve
     persistence:
