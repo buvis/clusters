@@ -14,7 +14,8 @@
       "Bash(yq eval:*)",
       "Bash(python3:*)",
       "Bash(flux get ks:*)",
-      "Bash(flux reconcile:*)"
+      "Bash(flux reconcile:*)",
+      "WebFetch(domain:cloudnative-pg.io)"
     ],
     "deny": [],
     "ask": []
