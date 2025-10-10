@@ -53,7 +53,7 @@ spec:
         cpu: 25m
       limits:
         memory: 1500Mi
-buckets:
+    buckets:
       - name: thanos
         policy: public
         purge: true
