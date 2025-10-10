@@ -24,10 +24,12 @@ spec:
       createDefaultDiskLabeledNodes: true
       defaultDataLocality: best-effort
       defaultLonghornStaticStorageClass: longhorn
-      defaultReplicaCount: 3
+      defaultReplicaCount: 2
       guaranteedEngineManagerCPU: 20
       guaranteedReplicaManagerCPU: 20
       nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
+      replicaSoftAntiAffinity: "true"
+      replicaZoneSoftAntiAffinity: "true"
       replicaSoftAntiAffinity: "true"
       replicaZoneSoftAntiAffinity: "true"
     ingress:

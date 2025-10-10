@@ -4,6 +4,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: hass-config
   namespace: smarthome
+  annotations:
+    longhorn.io/number-of-replicas: "3"
   labels:
     snapshot.home.arpa/enabled: "true"
     app.kubernetes.io/name: hass
