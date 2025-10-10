@@ -14,9 +14,7 @@ spec:
       namespace: security
     - name: longhorn
       namespace: storage
-    - name: kube-prometheus-stack
-      namespace: monitoring
-  interval: 5m
+interval: 5m
   install:
     timeout: 15m
     remediation:
@@ -63,24 +61,7 @@ spec:
                 memory: 1024Mi
               limits:
                 memory: 4096Mi
-          exporter:
-            image:
-              repository: ghcr.io/onedr0p/exportarr
-              tag: v2.3.0@sha256:af535d94061cf97a52e1661945ffba78c03f9443eae7c0da1a80a5a4be56b520
-            env:
-              PORT: "7373"
-              URL: "http://lidarr-app.media.svc.cluster.local:8686"
-              ENABLE_ADDITIONAL_METRICS: "false"
-              ENABLE_UNKNOWN_QUEUE_ITEMS: "false"
-              APIKEY: ${SECRET_LIDARR_API_KEY}
-            args: ["lidarr"]
-            resources:
-              requests:
-                cpu: 100m
-                memory: 100Mi
-              limits:
-                memory: 250Mi
-    persistence:
+persistence:
       config:
         enabled: true
         existingClaim: lidarr-config
@@ -98,12 +79,7 @@ spec:
         ports:
           http:
             port: 8686
-      exporter:
-        controller: lidarr
-        ports:
-          http:
-            port: 7373
-    ingress:
+ingress:
       app:
         className: nginx
         annotations:
@@ -121,13 +97,4 @@ spec:
           - hosts:
               - *hostName
             secretName: lidarr-crt
-    serviceMonitor:
-      main:
-        enabled: true
-        serviceName: lidarr-exporter
-        endpoints:
-          - port: http
-            scheme: http
-            path: /metrics
-            interval: 1m
-            scrapeTimeout: 10s
+

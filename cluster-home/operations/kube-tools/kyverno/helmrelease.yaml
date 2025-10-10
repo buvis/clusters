@@ -5,10 +5,7 @@ metadata:
   name: kyverno
   namespace: kube-tools
 spec:
-  dependsOn:
-    - name: prometheus-operator-crds
-      namespace: monitoring
-  interval: 5m
+interval: 5m
   install:
     timeout: 15m
     remediation:
@@ -32,24 +29,7 @@ spec:
     crds:
       install: true
     replicaCount: 3
-    grafana:
-      enabled: true
-    serviceMonitor:
-      enabled: false
-      interval: 1m
-    backgroundController:
-      serviceMonitor:
-        enabled: true
-        interval: 1m
-    cleanupController:
-      serviceMonitor:
-        enabled: false
-        interval: 1m
-    reportsController:
-      serviceMonitor:
-        enabled: false
-        interval: 1m
-    topologySpreadConstraints:
+topologySpreadConstraints:
       - maxSkew: 1
         topologyKey: kubernetes.io/hostname
         whenUnsatisfiable: DoNotSchedule

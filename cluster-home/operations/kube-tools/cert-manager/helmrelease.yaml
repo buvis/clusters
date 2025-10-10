@@ -5,10 +5,7 @@ metadata:
   name: cert-manager
   namespace: kube-tools
 spec:
-  dependsOn:
-    - name: prometheus-operator-crds
-      namespace: monitoring
-  interval: 5m
+interval: 5m
   install:
     timeout: 15m
     remediation:
@@ -31,10 +28,5 @@ spec:
       interval: 5m
   values:
     installCRDs: true
-    prometheus:
-      enabled: true
-      servicemonitor:
-        enabled: true
-        prometheusInstance: monitoring
-    extraArgs:
+extraArgs:
       - --acme-http01-solver-nameservers=1.1.1.1:53,9.9.9.9:53

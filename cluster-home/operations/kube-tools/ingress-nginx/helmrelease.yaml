@@ -5,10 +5,7 @@ metadata:
   name: ingress-nginx
   namespace: kube-tools
 spec:
-  dependsOn:
-    - name: prometheus-operator-crds
-      namespace: monitoring
-  interval: 5m
+interval: 5m
   install:
     timeout: 15m
     remediation:
@@ -42,14 +39,7 @@ spec:
         annotations:
           lbipam.cilium.io/ips: ${SVC_IP_INGRESS}
       replicaCount: 3
-      metrics:
-        enabled: true
-        serviceMonitor:
-          enabled: true
-          namespace: kube-tools
-          namespaceSelector:
-            any: true
-      affinity:
+affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
             - weight: 100

@@ -5,10 +5,7 @@ metadata:
   name: minio
   namespace: storage
 spec:
-  dependsOn:
-    - name: kube-prometheus-stack
-      namespace: monitoring
-  interval: 5m
+interval: 5m
   chart:
     spec:
       chart: minio
@@ -56,10 +53,7 @@ spec:
         cpu: 25m
       limits:
         memory: 1500Mi
-    metrics:
-      serviceMonitor:
-        enabled: true
-    buckets:
+buckets:
       - name: thanos
         policy: public
         purge: true

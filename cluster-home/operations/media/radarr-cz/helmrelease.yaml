@@ -14,8 +14,6 @@ spec:
       namespace: security
     - name: longhorn
       namespace: storage
-    - name: kube-prometheus-stack
-      namespace: monitoring
   interval: 5m
   install:
     timeout: 15m
@@ -64,24 +62,7 @@ spec:
                 memory: 250Mi
               limits:
                 memory: 2000Mi
-          exporter:
-            image:
-              repository: ghcr.io/onedr0p/exportarr
-              tag: v2.3.0
-            env:
-              PORT: "7373"
-              URL: "http://radarr-cz-app.media.svc.cluster.local:7878"
-              ENABLE_ADDITIONAL_METRICS: "false"
-              ENABLE_UNKNOWN_QUEUE_ITEMS: "false"
-              APIKEY: ${SECRET_RADARR_CZ_API_KEY}
-            args: ["radarr"]
-            resources:
-              requests:
-                cpu: 100m
-                memory: 100Mi
-              limits:
-                memory: 250Mi
-    persistence:
+persistence:
       config:
         enabled: true
         existingClaim: radarr-cz-config
@@ -99,12 +80,7 @@ spec:
         ports:
           http:
             port: 7878
-      exporter:
-        controller: radarr-cz
-        ports:
-          http:
-            port: 7373
-    ingress:
+ingress:
       app:
         className: nginx
         annotations:
@@ -122,13 +98,4 @@ spec:
           - hosts:
               - *hostName
             secretName: radarr-cz-crt
-    serviceMonitor:
-      main:
-        enabled: true
-        serviceName: radarr-cz-exporter
-        endpoints:
-          - port: http
-            scheme: http
-            path: /metrics
-            interval: 1m
-            scrapeTimeout: 10s
+

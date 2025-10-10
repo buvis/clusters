@@ -5,10 +5,7 @@ metadata:
   name: blocky
   namespace: network
 spec:
-  dependsOn:
-    - name: kube-prometheus-stack
-      namespace: monitoring
-  interval: 5m
+interval: 5m
   install:
     timeout: 15m
     remediation:
@@ -87,17 +84,7 @@ spec:
             enabled: true
             port: 53
             protocol: UDP
-    serviceMonitor:
-      main:
-        enabled: true
-        serviceName: blocky
-        endpoints:
-          - port: http
-            scheme: http
-            path: /metrics
-            interval: 30s
-            scrapeTimeout: 10s
-    persistence:
+persistence:
       config:
         enabled: true
         type: configMap

@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__serena__list_dir",
+      "mcp__serena__activate_project",
+      "mcp__serena__search_for_pattern",
+      "mcp__serena__read_file",
+      "Bash(kubectl get:*)",
+      "mcp__serena__replace_regex",
+      "Bash(rm:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
