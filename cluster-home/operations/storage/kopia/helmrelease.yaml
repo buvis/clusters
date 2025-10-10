@@ -58,6 +58,12 @@ spec:
             image:
               repository: docker.io/kopia/kopia
               tag: 20240412.0.225911@sha256:71f87ac0abe4c34808016394635b45eec63a5a934f0baab266516e93ca40fb3e
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
             env:
               KOPIA_PASSWORD: ${SECRET_KOPIA_PASSWORD}
             command:

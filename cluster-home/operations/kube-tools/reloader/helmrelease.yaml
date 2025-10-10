@@ -26,3 +26,11 @@ spec:
         name: stakater
         namespace: flux-system
       interval: 10m
+  values:
+    reloader:
+      resources:
+        requests:
+          cpu: 20m
+          memory: 64Mi
+        limits:
+          memory: 128Mi

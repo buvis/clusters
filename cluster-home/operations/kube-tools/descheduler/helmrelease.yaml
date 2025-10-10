@@ -29,6 +29,12 @@ spec:
   values:
     kind: Deployment
     replicas: 3
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
+      limits:
+        memory: 128Mi
     leaderElection:
       enabled: true
     deschedulerPolicy:

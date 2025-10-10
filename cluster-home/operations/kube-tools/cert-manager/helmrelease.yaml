@@ -5,7 +5,7 @@ metadata:
   name: cert-manager
   namespace: kube-tools
 spec:
-interval: 5m
+  interval: 5m
   install:
     timeout: 15m
     remediation:
@@ -28,5 +28,25 @@ interval: 5m
       interval: 5m
   values:
     installCRDs: true
-extraArgs:
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        memory: 256Mi
+    webhook:
+      resources:
+        requests:
+          cpu: 20m
+          memory: 64Mi
+        limits:
+          memory: 128Mi
+    cainjector:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 128Mi
+        limits:
+          memory: 256Mi
+    extraArgs:
       - --acme-http01-solver-nameservers=1.1.1.1:53,9.9.9.9:53

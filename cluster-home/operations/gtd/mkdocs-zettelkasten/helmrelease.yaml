@@ -41,6 +41,12 @@ spec:
       runAsUser: 1001
       fsGroup: 1001
       runAsNonRoot: true
+    resources:
+      requests:
+        cpu: 50m
+        memory: 256Mi
+      limits:
+        memory: 512Mi
     config:
       repo: https://gitlab.com/buvis/zettelkasten.git
       credentials: ${SECRET_ZETTELKASTEN_REPO_CREDENTIALS}

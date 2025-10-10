@@ -14,7 +14,7 @@ spec:
       namespace: security
     - name: longhorn
       namespace: storage
-interval: 5m
+  interval: 5m
   install:
     timeout: 15m
     remediation:
@@ -61,7 +61,7 @@ interval: 5m
                 memory: 1024Mi
               limits:
                 memory: 4096Mi
-persistence:
+    persistence:
       config:
         enabled: true
         existingClaim: lidarr-config
@@ -79,7 +79,7 @@ persistence:
         ports:
           http:
             port: 8686
-ingress:
+    ingress:
       app:
         className: nginx
         annotations:

@@ -5,7 +5,7 @@ metadata:
   name: blocky
   namespace: network
 spec:
-interval: 5m
+  interval: 5m
   install:
     timeout: 15m
     remediation:
@@ -50,6 +50,12 @@ interval: 5m
             image:
               repository: ghcr.io/0xerr0r/blocky
               tag: v0.26
+            resources:
+              requests:
+                cpu: 20m
+                memory: 50Mi
+              limits:
+                memory: 150Mi
             probes:
               liveness:
                 spec:
@@ -84,7 +90,7 @@ interval: 5m
             enabled: true
             port: 53
             protocol: UDP
-persistence:
+    persistence:
       config:
         enabled: true
         type: configMap

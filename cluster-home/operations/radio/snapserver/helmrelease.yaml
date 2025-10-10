@@ -27,6 +27,12 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    resources:
+      requests:
+        cpu: 30m
+        memory: 64Mi
+      limits:
+        memory: 128Mi
     service:
       main:
         enabled: true

@@ -62,7 +62,7 @@ spec:
                 memory: 250Mi
               limits:
                 memory: 2000Mi
-persistence:
+    persistence:
       config:
         enabled: true
         existingClaim: radarr-cz-config
@@ -80,7 +80,7 @@ persistence:
         ports:
           http:
             port: 7878
-ingress:
+    ingress:
       app:
         className: nginx
         annotations:

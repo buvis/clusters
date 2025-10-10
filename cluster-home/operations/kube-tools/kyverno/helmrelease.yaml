@@ -5,7 +5,7 @@ metadata:
   name: kyverno
   namespace: kube-tools
 spec:
-interval: 5m
+  interval: 5m
   install:
     timeout: 15m
     remediation:
@@ -29,7 +29,35 @@ interval: 5m
     crds:
       install: true
     replicaCount: 3
-topologySpreadConstraints:
+    admissionController:
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          memory: 512Mi
+    backgroundController:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 128Mi
+        limits:
+          memory: 256Mi
+    cleanupController:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          memory: 128Mi
+    reportsController:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 128Mi
+        limits:
+          memory: 256Mi
+    topologySpreadConstraints:
       - maxSkew: 1
         topologyKey: kubernetes.io/hostname
         whenUnsatisfiable: DoNotSchedule

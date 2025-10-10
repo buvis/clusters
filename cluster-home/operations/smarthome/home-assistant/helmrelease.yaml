@@ -49,10 +49,22 @@ spec:
             image:
               repository: ghcr.io/home-assistant/home-assistant
               tag: 2025.10.1
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+              limits:
+                memory: 1Gi
           codeserver:
             image:
               repository: codercom/code-server
               tag: 4.104.3
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                memory: 512Mi
             workingDir: "/config"
             args:
               - --auth

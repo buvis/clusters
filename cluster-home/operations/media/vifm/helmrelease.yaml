@@ -42,6 +42,12 @@ spec:
             image:
               repository: ghcr.io/buvis/vifm
               tag: v0.14@sha256:9dbeff8bba59f2355d919d5682901e41e1ef3b00b1bd7047d732ec3f783adf03
+            resources:
+              requests:
+                cpu: 10m
+                memory: 32Mi
+              limits:
+                memory: 64Mi
             stdin: true
             tty: true
     persistence:

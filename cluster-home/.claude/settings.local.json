@@ -7,7 +7,12 @@
       "mcp__serena__read_file",
       "Bash(kubectl get:*)",
       "mcp__serena__replace_regex",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "mcp__serena__find_file",
+      "WebSearch",
+      "Bash(find:*)",
+      "Bash(yq eval:*)",
+      "Bash(python3:*)"
     ],
     "deny": [],
     "ask": []
