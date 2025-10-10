@@ -12,13 +12,14 @@ spec:
       metadata:
         annotations:
           longhorn.io/number-of-replicas: "3"
-      accessModes:
-        - ReadWriteOnce
-      resources:
-        requests:
-          storage: 10Gi
-      storageClassName: longhorn
-      volumeMode: Filesystem
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
+        storageClassName: longhorn
+        volumeMode: Filesystem
   plugins:
     - name: barman-cloud.cloudnative-pg.io
       enabled: true

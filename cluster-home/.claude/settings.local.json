@@ -15,7 +15,8 @@
       "Bash(python3:*)",
       "Bash(flux get ks:*)",
       "Bash(flux reconcile:*)",
-      "WebFetch(domain:cloudnative-pg.io)"
+      "WebFetch(domain:cloudnative-pg.io)",
+      "mcp__serena__check_onboarding_performed"
     ],
     "deny": [],
     "ask": []
