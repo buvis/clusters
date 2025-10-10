@@ -30,8 +30,6 @@ spec:
       nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
       replicaSoftAntiAffinity: "true"
       replicaZoneSoftAntiAffinity: "true"
-      replicaSoftAntiAffinity: "true"
-      replicaZoneSoftAntiAffinity: "true"
     resources:
       requests:
         cpu: 100m

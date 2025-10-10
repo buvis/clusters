@@ -12,7 +12,9 @@
       "WebSearch",
       "Bash(find:*)",
       "Bash(yq eval:*)",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(flux get ks:*)",
+      "Bash(flux reconcile:*)"
     ],
     "deny": [],
     "ask": []
