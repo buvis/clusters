@@ -101,7 +101,7 @@ spec:
           - path: /media/videos
       cache:
         enabled: true
-        type: emptyDir
+        existingClaim: tdarr-cache
         globalMounts: []
         advancedMounts:
           node:

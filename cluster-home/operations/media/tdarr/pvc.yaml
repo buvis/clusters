@@ -15,5 +15,22 @@ spec:
   resources:
     requests:
       storage: 20Gi
-# Removed: tdarr-cache now uses emptyDir storage to avoid 3x replication overhead (was 100Gi -> 300Gi disk usage)
-# The cache is temporary transcoding data that doesn't need persistence or replication
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tdarr-cache
+  namespace: media
+  annotations:
+    longhorn.io/number-of-replicas: "1"
+  labels:
+    snapshot.home.arpa/enabled: "false"
+    app.kubernetes.io/name: tdarr
+    app.kubernetes.io/instance: tdarr
+spec:
+  storageClassName: longhorn
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Gi
