@@ -1,0 +1,128 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tqm
+  namespace: media
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  dependsOn:
+    - name: qbittorrent
+      namespace: media
+  values:
+    controllers:
+      tagging:
+        type: cronjob
+        cronjob: &cronJobSpec
+          schedule: "@hourly"
+          concurrencyPolicy: Forbid
+          successfulJobsHistory: 1
+          failedJobsHistory: 1
+        containers:
+          app:
+            image:
+              repository: ghcr.io/autobrr/tqm
+              tag: v1.17.0
+            args:
+              - tag
+              - --config
+              - /config/config.yaml
+            env:
+              TZ: Europe/Berlin
+              QBITTORRENT_HOST: qbittorrent.media
+              QBITTORRENT_PORT: "8080"
+              QBITTORRENT_USERNAME: ${SECRET_QB_USERNAME}
+              QBITTORRENT_PASSWORD: ${SECRET_QB_PASSWORD}
+            resources: &resources
+              requests:
+                memory: 250Mi
+                cpu: 25m
+              limits:
+                memory: 500Mi
+        pod:
+          restartPolicy: OnFailure
+          securityContext: &securityContext
+            runAsUser: 568
+            runAsGroup: 568
+            runAsNonRoot: true
+      cleanup:
+        type: cronjob
+        cronjob:
+          <<: *cronJobSpec
+          schedule: "0 */6 * * *" # Every 6 hours
+        containers:
+          app:
+            image:
+              repository: ghcr.io/autobrr/tqm
+              tag: v1.17.0
+            args:
+              - clean
+              - --config
+              - /config/config.yaml
+            env:
+              TZ: Europe/Berlin
+              QBITTORRENT_HOST: qbittorrent.media
+              QBITTORRENT_PORT: "8080"
+              QBITTORRENT_USERNAME: ${SECRET_QB_USERNAME}
+              QBITTORRENT_PASSWORD: ${SECRET_QB_PASSWORD}
+            resources: *resources
+        pod:
+          restartPolicy: OnFailure
+          securityContext: *securityContext
+      orphan:
+        type: cronjob
+        cronjob:
+          <<: *cronJobSpec
+          schedule: "@daily"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/autobrr/tqm
+              tag: v1.17.0
+            args:
+              - orphan
+              - --config
+              - /config/config.yaml
+            env:
+              TZ: Europe/Berlin
+              QBITTORRENT_HOST: qbittorrent.media
+              QBITTORRENT_PORT: "8080"
+              QBITTORRENT_USERNAME: ${SECRET_QB_USERNAME}
+              QBITTORRENT_PASSWORD: ${SECRET_QB_PASSWORD}
+            resources: *resources
+        pod:
+          restartPolicy: OnFailure
+          securityContext: *securityContext
+    persistence:
+      config:
+        type: secret
+        name: tqm-config
+        globalMounts:
+          - path: /config/config.yaml
+            subPath: config.yaml
+            readOnly: true
+      media:
+        existingClaim: nas-media-downloads
+        advancedMounts:
+          orphan:
+            app:
+              - path: /downloads

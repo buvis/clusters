@@ -16,7 +16,10 @@
       "Bash(flux get ks:*)",
       "Bash(flux reconcile:*)",
       "WebFetch(domain:cloudnative-pg.io)",
-      "mcp__serena__check_onboarding_performed"
+      "mcp__serena__check_onboarding_performed",
+      "Bash(kubectl describe:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)"
     ],
     "deny": [],
     "ask": []
