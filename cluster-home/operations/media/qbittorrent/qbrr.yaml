@@ -35,7 +35,7 @@ spec:
           app:
             image:
               repository: ghcr.io/buroa/qbrr
-              tag: v0.1.1
+              tag: 0.1.1@sha256:fe4a1d100ba896999253a5122d9c77cc4920779d618c23f765458cb6ec7383ca
             env:
               TZ: Europe/Berlin
               QBITTORRENT_HOST: http://qbittorrent.media:8080
