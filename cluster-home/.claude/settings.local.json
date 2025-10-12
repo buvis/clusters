@@ -19,7 +19,12 @@
       "mcp__serena__check_onboarding_performed",
       "Bash(kubectl describe:*)",
       "WebFetch(domain:github.com)",
-      "WebFetch(domain:raw.githubusercontent.com)"
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(kubectl logs:*)",
+      "Bash(kubectl exec:*)",
+      "Bash(kubectl patch:*)",
+      "Bash(kubectl delete:*)",
+      "Bash(kubectl apply:*)"
     ],
     "deny": [],
     "ask": []
