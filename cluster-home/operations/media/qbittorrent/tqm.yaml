@@ -44,7 +44,7 @@ spec:
               tag: pr-72@sha256:189ae269cf3b948ac64b962ed9b039da2130ab67e1db1655139e405847518715
             args:
               - retag
-              - qbt
+              - qbittorrent
               - --config
               - /config/config.yaml
             env:
@@ -78,7 +78,7 @@ spec:
               tag: pr-72@sha256:189ae269cf3b948ac64b962ed9b039da2130ab67e1db1655139e405847518715
             args:
               - clean
-              - qbt
+              - qbittorrent
               - --config
               - /config/config.yaml
             env:
@@ -104,7 +104,7 @@ spec:
               tag: pr-72@sha256:189ae269cf3b948ac64b962ed9b039da2130ab67e1db1655139e405847518715
             args:
               - orphan
-              - qbt
+              - qbittorrent
               - --config
               - /config/config.yaml
             env:
