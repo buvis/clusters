@@ -41,7 +41,7 @@ spec:
           app:
             image:
               repository: ghcr.io/autobrr/tqm
-              tag: v1.17.0
+              tag: pr-72@sha256:189ae269cf3b948ac64b962ed9b039da2130ab67e1db1655139e405847518715
             args:
               - tag
               - --config
@@ -73,7 +73,7 @@ spec:
           app:
             image:
               repository: ghcr.io/autobrr/tqm
-              tag: v1.17.0
+              tag: pr-72@sha256:189ae269cf3b948ac64b962ed9b039da2130ab67e1db1655139e405847518715
             args:
               - clean
               - --config
@@ -97,7 +97,7 @@ spec:
           app:
             image:
               repository: ghcr.io/autobrr/tqm
-              tag: v1.17.0
+              tag: pr-72@sha256:189ae269cf3b948ac64b962ed9b039da2130ab67e1db1655139e405847518715
             args:
               - orphan
               - --config
