@@ -47,6 +47,7 @@ spec:
               - --config
               - /config/config.yaml
             env:
+              HOME: /tmp
               TZ: Europe/Berlin
               QBITTORRENT_HOST: qbittorrent.media
               QBITTORRENT_PORT: "8080"
@@ -79,6 +80,7 @@ spec:
               - --config
               - /config/config.yaml
             env:
+              HOME: /tmp
               TZ: Europe/Berlin
               QBITTORRENT_HOST: qbittorrent.media
               QBITTORRENT_PORT: "8080"
@@ -103,6 +105,7 @@ spec:
               - --config
               - /config/config.yaml
             env:
+              HOME: /tmp
               TZ: Europe/Berlin
               QBITTORRENT_HOST: qbittorrent.media
               QBITTORRENT_PORT: "8080"
