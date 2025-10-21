@@ -25,7 +25,7 @@ spec:
               spec:
                 containers:
                   - name: gluetun
-                    image: ghcr.io/qdm12/gluetun@sha256:9b429a254a359f7553b0260e2f194901a1fd6fc4ac09f0749c7de6620cb11b1a
+                    image: ghcr.io/qdm12/gluetun@sha256:4b9b8ead8c092c8bdc7739a8c90c969fa0082c4d051c5036fa974ae1c60edca9
                     env:
                       - name: DNS_ADDRESS
                         value: "${CLUSTER_DNS}"
