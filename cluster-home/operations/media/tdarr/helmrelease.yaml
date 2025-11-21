@@ -57,7 +57,7 @@ spec:
           server:
             image:
               repository: haveagitgat/tdarr
-              tag: 2.51.03@sha256:5796f2fbb318f22609972f8dd07602b1fc562606c518c13c809eda4c2f9fca26
+              tag: 2.58.02@sha256:20a5656c4af4854e1877046294f77113f949d27e35940a9a65f231423d063207
             resources:
               requests:
                 cpu: 100m
