@@ -3,6 +3,7 @@ __pycache__
 .DS_Store
 .envrc
 .kube*
+.mise.toml
 .terraform*
 .vault-pwd
 Thumbs.db

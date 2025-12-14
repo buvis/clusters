@@ -1,0 +1,10 @@
+[env]
+NODE_IPS = <comma separated list of nodes' IPs>
+KUBECONFIG = "{{ config_root }}/infrastructure/.kube/kubeconfig"
+TALOSCONFIG = "{{ config_root }}/infrastructure/talos/generated-config/talosconfig"
+TF_VAR_talos_version = "v1.11.2"
+TF_VAR_talos_schematic_id = "decca0d019b92170b9c7101da90f1ec0de7e9841b3d126ac4111743778d8eb1a"
+TF_VAR_authentik_endpoint = <authentik endpoint, e.g. https://authentik.example.com>
+TF_VAR_authentik_token = <authentik token, see https://authentik.example.com/if/admin/#/core/tokens>
+KOPIA_PASSWORD = <kopia snapshots password>
+GITHUB_TOKEN = <see https://docs.buvis.net/installation/#gitops>
