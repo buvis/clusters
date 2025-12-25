@@ -5,6 +5,8 @@ metadata:
   name: flux-system
   namespace: flux-system
 spec:
+  ref:
+    branch: master
   ignore: |
     # exclude all
     /*
