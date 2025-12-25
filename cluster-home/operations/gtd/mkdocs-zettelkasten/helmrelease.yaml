@@ -50,7 +50,7 @@ spec:
     config:
       repo: https://gitlab.com/buvis/zettelkasten.git
       credentials: ${SECRET_ZETTELKASTEN_REPO_CREDENTIALS}
-      branch: main
+      branch: master
       docsDir: zettelkasten
       editUri: https://gitlab.com/buvis/zettelkasten/edit/main/zettelkasten
       updateInterval: 60
