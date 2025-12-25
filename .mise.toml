@@ -1,0 +1,11 @@
+[tools]
+python = "3.12"
+uv = "latest"
+
+[env]
+_.path = ["./bin"]
+_.python.venv = { path = ".venv", create = true }
+PYTHONPATH = "{{ config_root }}/buvisctl"
+
+[hooks.enter]
+run = "uv sync -q"

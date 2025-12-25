@@ -3,11 +3,11 @@ __pycache__
 .DS_Store
 .envrc
 .kube*
-.mise.toml
 .terraform*
 .vault-pwd
 Thumbs.db
 buvisctl.conf.yaml
+cluster-home/.mise.toml
 cluster-home/infrastructure/talos/generated-config
 cluster-home/test-area
 cluster-office/infrastructure/talos/generated-config
