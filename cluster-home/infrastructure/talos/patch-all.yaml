@@ -37,3 +37,8 @@
   path: /machine/install/extraKernelArgs
   value:
     - amd_pstate=active
+- op: add
+  path: /machine/network/searchDomains
+  value:
+    - svc.cluster.local
+    - cluster.local
