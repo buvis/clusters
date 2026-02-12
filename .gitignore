@@ -5,6 +5,7 @@ __pycache__
 .kube*
 .terraform*
 .vault-pwd
+**/.serena
 Thumbs.db
 buvisctl.conf.yaml
 cluster-home/.mise.toml
