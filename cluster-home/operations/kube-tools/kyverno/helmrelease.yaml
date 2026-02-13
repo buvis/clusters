@@ -29,6 +29,15 @@ spec:
     crds:
       install: true
     replicaCount: 3
+    config:
+      webhooks:
+        - namespaceSelector:
+            matchExpressions:
+              - key: kubernetes.io/metadata.name
+                operator: NotIn
+                values:
+                  - kube-system
+                  - kube-tools
     admissionController:
       resources:
         requests:

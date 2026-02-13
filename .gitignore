@@ -15,3 +15,4 @@ cluster-office/infrastructure/talos/generated-config
 terraform-plugin-proxmox.log
 terraform.tfstate*
 **/.claude/settings.local.json
+**/.local
