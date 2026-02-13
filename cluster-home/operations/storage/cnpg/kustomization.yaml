@@ -7,4 +7,3 @@ metadata:
 resources:
   - databases.yaml
   - helmrelease.yaml
-  - scheduled-backup.yaml
