@@ -31,7 +31,7 @@ spec:
     replicaCount: 3
     config:
       webhooks:
-        - namespaceSelector:
+        namespaceSelector:
             matchExpressions:
               - key: kubernetes.io/metadata.name
                 operator: NotIn
