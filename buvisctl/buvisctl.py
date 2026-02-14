@@ -26,15 +26,18 @@ def bootstrap():
 
 @cli.command("update")
 @click.argument("component")
-def update(component):
+@click.argument("version", required=False)
+def update(component, version):
     """Update buvis component
 
     Supported components:
     - flux
+    - talos
+    - cilium <version>
     """
     _check_configuration()
     cmd = CommandUpdate()
-    cmd.execute(component)
+    cmd.execute(component, version)
 
 
 @cli.command("destroy")

@@ -1,18 +1,21 @@
 import os
-from platform import node
 
-from adapters import FluxAdapter, TalosAdapter, console
+from adapters import CiliumAdapter, FluxAdapter, TalosAdapter, console
 
 
 class CommandUpdate:
     def __init__(self):
         pass
 
-    def execute(self, component):
+    def execute(self, component, version=None):
         if component == "flux":
             self.update_flux()
         elif component == "talos":
             self.update_talos()
+        elif component == "cilium":
+            if not version:
+                console.panic("Cilium version is required: buvisctl update cilium <version>")
+            self.update_cilium(version)
         else:
             console.panic(f"I don't know how to update {component}")
 
@@ -54,3 +57,27 @@ class CommandUpdate:
                     console.success(res.message)
                 else:
                     console.panic(res.message)
+
+    def update_cilium(self, version):
+        self.cilium = CiliumAdapter()
+
+        with console.status(f"Rendering Cilium {version} manifests"):
+            res = self.cilium.render_manifests(version)
+
+            if res.is_ok():
+                console.success(f"Cilium {version} manifests rendered")
+            else:
+                console.panic("Failed rendering Cilium manifests", res.message)
+
+        with console.status("Embedding manifests in Talos controlplane patch"):
+            res = self.cilium.embed_in_talos_patch(version)
+
+            if res.is_ok():
+                console.success("Talos controlplane patch updated")
+            else:
+                console.panic("Failed updating Talos patch", res.message)
+
+        console.success(
+            f"Cilium {version} embedded in Talos config. "
+            "Run 'talosctl upgrade-k8s' to apply."
+        )

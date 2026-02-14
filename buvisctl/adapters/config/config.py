@@ -4,6 +4,7 @@ from pathlib import Path
 import yaml
 from adapters.console.console import console
 
+from .cilium import CiliumConfig
 from .flux import FluxConfig
 from .node import NodeConfig
 from .talos import TalosConfig
@@ -44,7 +45,7 @@ class ConfigAdapter:
         self.flux = FluxConfig(config_file["flux"])
         self.talos = TalosConfig(config_file["talos"])
         self.path_kubeconfig_dir = config_file.get("kubeconfig_dir", "")
-        self.path_config_cni = Path(config_file["cilium_cfg"])
+        self.cilium = CiliumConfig(config_file.get("cilium", {}))
         self.path_backup_manifests_dir = config_file.get("backup_manifests_dir", "")
 
 
