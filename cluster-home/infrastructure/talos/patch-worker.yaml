@@ -1,18 +1,13 @@
-- op: add
-  path: /machine/disks
-  value:
+machine:
+  disks:
     - device: /dev/sdb
       partitions:
         - mountpoint: /var/lib/longhorn
-- op: add
-  path: /machine/kernel
-  value:
+  kernel:
     modules:
       - name: nvme_tcp
       - name: vfio_pci
-- op: add
-  path: /machine/kubelet
-  value:
+  kubelet:
     extraMounts:
       - destination: /var/local
         type: bind
@@ -21,10 +16,6 @@
           - bind
           - rshared
           - rw
-- op: add
-  path: /machine/kubelet
-  value:
-    extraMounts:
       - destination: /var/lib/longhorn
         type: bind
         source: /var/lib/longhorn
@@ -32,11 +23,7 @@
           - bind
           - rshared
           - rw
-- op: add
-  path: /machine/nodeLabels
-  value:
-    node.longhorn.io/create-default-disk: true
-- op: add
-  path: /machine/sysctls
-  value:
+  nodeLabels:
+    node.longhorn.io/create-default-disk: "true"
+  sysctls:
     vm.nr_hugepages: "1024"

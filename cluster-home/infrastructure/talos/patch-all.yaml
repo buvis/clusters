@@ -1,44 +1,29 @@
-- op: add
-  path: /cluster/network/cni
-  value:
-    name: none
-- op: add
-  path: /cluster/proxy
-  value:
+cluster:
+  network:
+    cni:
+      name: none
+    podSubnets:
+      - 172.22.0.0/16
+    serviceSubnets:
+      - 172.24.0.0/16
+  proxy:
     disabled: true
-- op: replace
-  path: /cluster/network/podSubnets
-  value:
-    - 172.22.0.0/16
-- op: replace
-  path: /cluster/network/serviceSubnets
-  value:
-    - 172.24.0.0/16
-- op: replace
-  path: /machine/install/wipe
-  value: true
-- op: replace
-  path: /machine/install/image
-  value: factory.talos.dev/metal-installer/decca0d019b92170b9c7101da90f1ec0de7e9841b3d126ac4111743778d8eb1a:v1.12.3
-- op: add
-  path: /machine/install/diskSelector
-  value:
-    size: <100GB
-- op: add
-  path: /machine/time
-  value:
+machine:
+  install:
+    wipe: true
+    image: factory.talos.dev/metal-installer/decca0d019b92170b9c7101da90f1ec0de7e9841b3d126ac4111743778d8eb1a:v1.12.3
+    diskSelector:
+      size: <100GB
+    extraKernelArgs:
+      - amd_pstate=active
+  time:
     disabled: false
     servers:
       - "time.cloudflare.com"
       - "time.google.com"
       - "pool.ntp.org"
     bootTimeout: 2m0s
-- op: add
-  path: /machine/install/extraKernelArgs
-  value:
-    - amd_pstate=active
-- op: add
-  path: /machine/network/searchDomains
-  value:
-    - svc.cluster.local
-    - cluster.local
+  network:
+    searchDomains:
+      - svc.cluster.local
+      - cluster.local

@@ -182,7 +182,7 @@ class TalosAdapter:
             patch_content = patch_file.read_text(encoding="utf-8")
             # Regex to find the line with the image version and replace only the version part after colon
             patch_pattern = re.compile(
-                r"(value: factory\.talos\.dev/metal-installer/[a-f0-9]+:)(v[\d\.]+)"
+                r"(image: factory\.talos\.dev/metal-installer/[a-f0-9]+:)(v[\d\.]+)"
             )
             updated_patch_content = patch_pattern.sub(
                 lambda m: m.group(1) + talos_version, patch_content
