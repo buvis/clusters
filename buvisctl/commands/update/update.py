@@ -77,7 +77,10 @@ class CommandUpdate:
             else:
                 console.panic("Failed updating Talos patch", res.message)
 
-        console.success(
-            f"Cilium {version} embedded in Talos config. "
-            "Run 'talosctl upgrade-k8s' to apply."
-        )
+        with console.status(f"Applying Cilium {version} to cluster"):
+            res = self.cilium.apply_manifests()
+
+            if res.is_ok():
+                console.success(f"Cilium {version} applied to cluster")
+            else:
+                console.panic("Failed applying Cilium manifests", res.message)

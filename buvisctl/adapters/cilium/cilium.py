@@ -97,6 +97,25 @@ class CiliumAdapter:
         self._update_upgrade_compatibility(version)
         return AdapterResponse()
 
+    def apply_manifests(self):
+        cmd = [
+            "kubectl",
+            "apply",
+            "--server-side",
+            "--force-conflicts",
+            "-f",
+            "-",
+        ]
+
+        results = subprocess.run(
+            cmd, input=self._manifests, capture_output=True, text=True,
+        )
+
+        if results.returncode != 0:
+            return AdapterResponse(code=results.returncode, message=results.stderr)
+
+        return AdapterResponse()
+
     def _update_upgrade_compatibility(self, version):
         major_minor = ".".join(version.split(".")[:2])
         values_path = cfg.cilium.path_values
