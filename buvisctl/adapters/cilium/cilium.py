@@ -27,11 +27,13 @@ class CiliumAdapter:
 
     def wait_for_install(self):
         cmd = [
-            "cilium",
+            "kubectl",
+            "rollout",
             "status",
-            "--wait",
-            "--wait-duration",
-            "15m",
+            "daemonset/cilium",
+            "-n",
+            "kube-system",
+            "--timeout=15m",
         ]
 
         results = subprocess.run(cmd, capture_output=True)
@@ -57,6 +59,13 @@ class CiliumAdapter:
             str(cfg.cilium.path_values),
         ]
 
+        ca = self._get_existing_ca()
+        if ca:
+            cmd += [
+                "--set", f"tls.ca.cert={ca['cert']}",
+                "--set", f"tls.ca.key={ca['key']}",
+            ]
+
         results = subprocess.run(cmd, capture_output=True, text=True)
 
         if results.returncode != 0:
@@ -70,6 +79,23 @@ class CiliumAdapter:
         lines = [line.rstrip() for line in output.splitlines()]
         self._manifests = "\n".join(lines) + "\n"
         return AdapterResponse()
+
+    def _get_existing_ca(self):
+        cmd = [
+            "kubectl", "get", "secret", "cilium-ca",
+            "-n", "kube-system",
+            "-o", "jsonpath={.data.ca\\.crt} {.data.ca\\.key}",
+        ]
+        results = subprocess.run(cmd, capture_output=True, text=True)
+
+        if results.returncode != 0:
+            return None
+
+        parts = results.stdout.strip().split(" ", 1)
+        if len(parts) != 2:
+            return None
+
+        return {"cert": parts[0], "key": parts[1]}
 
     def embed_in_talos_patch(self, version):
         patch_path = cfg.talos.path_patch_controlplane
