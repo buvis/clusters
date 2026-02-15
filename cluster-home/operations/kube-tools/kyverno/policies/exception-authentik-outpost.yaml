@@ -1,0 +1,20 @@
+---
+apiVersion: kyverno.io/v2
+kind: PolicyException
+metadata:
+  name: authentik-outpost-multi-host
+  namespace: security
+spec:
+  exceptions:
+  - policyName: validate-one-ingress-host
+    ruleNames:
+    - deny-multiple-hosts
+  match:
+    any:
+    - resources:
+        names:
+        - ak-outpost-*
+        kinds:
+        - Ingress
+        namespaces:
+        - security
