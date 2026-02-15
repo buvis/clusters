@@ -40,8 +40,8 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/autobrr/tqm
-              tag: pr-72@sha256:189ae269cf3b948ac64b962ed9b039da2130ab67e1db1655139e405847518715
+              repository: ghcr.io/buvis/tqm
+              tag: v1.19.0
             args:
               - retag
               - qbittorrent
@@ -74,8 +74,8 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/autobrr/tqm
-              tag: pr-72@sha256:189ae269cf3b948ac64b962ed9b039da2130ab67e1db1655139e405847518715
+              repository: ghcr.io/buvis/tqm
+              tag: v1.19.0
             args:
               - clean
               - qbittorrent
@@ -100,8 +100,8 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/autobrr/tqm
-              tag: pr-72@sha256:189ae269cf3b948ac64b962ed9b039da2130ab67e1db1655139e405847518715
+              repository: ghcr.io/buvis/tqm
+              tag: v1.19.0
             args:
               - orphan
               - qbittorrent
