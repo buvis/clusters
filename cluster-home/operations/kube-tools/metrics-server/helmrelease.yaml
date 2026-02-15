@@ -28,6 +28,8 @@ spec:
       interval: 10m
   values:
     replicas: 2
+    args:
+      - --kubelet-insecure-tls
     resources:
       requests:
         cpu: 50m
