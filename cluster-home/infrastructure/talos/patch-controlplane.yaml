@@ -1008,7 +1008,7 @@ cluster:
                 type: Unconfined
             containers:
             - name: cilium-agent
-              image: "quay.io/cilium/cilium:v1.19.0@sha256:be9f8571c2e114b3e12e41f785f2356ade703b2eac936aa878805565f0468c60"
+              image: "quay.io/cilium/cilium:v1.19.1@sha256:41f1f74a0000de8656f1de4088ea00c8f2d49d6edea579034c73c5fd5fe01792"
               imagePullPolicy: IfNotPresent
               command:
               - cilium-agent
@@ -1187,7 +1187,7 @@ cluster:
 
             initContainers:
             - name: config
-              image: "quay.io/cilium/cilium:v1.19.0@sha256:be9f8571c2e114b3e12e41f785f2356ade703b2eac936aa878805565f0468c60"
+              image: "quay.io/cilium/cilium:v1.19.1@sha256:41f1f74a0000de8656f1de4088ea00c8f2d49d6edea579034c73c5fd5fe01792"
               imagePullPolicy: IfNotPresent
               command:
               - cilium-dbg
@@ -1218,7 +1218,7 @@ cluster:
                   drop:
                     - ALL
             - name: apply-sysctl-overwrites
-              image: "quay.io/cilium/cilium:v1.19.0@sha256:be9f8571c2e114b3e12e41f785f2356ade703b2eac936aa878805565f0468c60"
+              image: "quay.io/cilium/cilium:v1.19.1@sha256:41f1f74a0000de8656f1de4088ea00c8f2d49d6edea579034c73c5fd5fe01792"
               imagePullPolicy: IfNotPresent
               env:
               - name: BIN_PATH
@@ -1256,7 +1256,7 @@ cluster:
             # from a privileged container because the mount propagation bidirectional
             # only works from privileged containers.
             - name: mount-bpf-fs
-              image: "quay.io/cilium/cilium:v1.19.0@sha256:be9f8571c2e114b3e12e41f785f2356ade703b2eac936aa878805565f0468c60"
+              image: "quay.io/cilium/cilium:v1.19.1@sha256:41f1f74a0000de8656f1de4088ea00c8f2d49d6edea579034c73c5fd5fe01792"
               imagePullPolicy: IfNotPresent
               args:
               - 'mount | grep "/sys/fs/bpf type bpf" || mount -t bpf bpf /sys/fs/bpf'
@@ -1272,7 +1272,7 @@ cluster:
                 mountPath: /sys/fs/bpf
                 mountPropagation: Bidirectional
             - name: clean-cilium-state
-              image: "quay.io/cilium/cilium:v1.19.0@sha256:be9f8571c2e114b3e12e41f785f2356ade703b2eac936aa878805565f0468c60"
+              image: "quay.io/cilium/cilium:v1.19.1@sha256:41f1f74a0000de8656f1de4088ea00c8f2d49d6edea579034c73c5fd5fe01792"
               imagePullPolicy: IfNotPresent
               command:
               - /init-container.sh
@@ -1322,7 +1322,7 @@ cluster:
                 mountPath: /var/run/cilium # wait-for-kube-proxy
             # Install the CNI binaries in an InitContainer so we don't have a writable host mount in the agent
             - name: install-cni-binaries
-              image: "quay.io/cilium/cilium:v1.19.0@sha256:be9f8571c2e114b3e12e41f785f2356ade703b2eac936aa878805565f0468c60"
+              image: "quay.io/cilium/cilium:v1.19.1@sha256:41f1f74a0000de8656f1de4088ea00c8f2d49d6edea579034c73c5fd5fe01792"
               imagePullPolicy: IfNotPresent
               command:
                 - "/install-plugin.sh"
@@ -1697,7 +1697,7 @@ cluster:
                 type: RuntimeDefault
             containers:
             - name: cilium-operator
-              image: "quay.io/cilium/operator-generic:v1.19.0@sha256:5b04006015e5800307dc6314676edc4c0bb7ac2fc7848be2b94b43bb030ab648"
+              image: "quay.io/cilium/operator-generic:v1.19.1@sha256:e7278d763e448bf6c184b0682cf98cdca078d58a27e1b2f3c906792670aa211a"
               imagePullPolicy: IfNotPresent
               command:
               - cilium-operator-generic
