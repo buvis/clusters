@@ -40,7 +40,7 @@ spec:
           app:
             image:
               repository: tomsquest/docker-radicale
-              tag: 3.5.9.0@sha256:b833f12e7fe02ef5fcb841bf331785b865325924c22e375b34279b96b29cf7b6
+              tag: 3.6.0.0@sha256:4d46a338ae083db37418eb979e91c2ccfb0c7ef632ab9311b0ef54a41042f064
             resources:
               requests:
                 cpu: 15m
