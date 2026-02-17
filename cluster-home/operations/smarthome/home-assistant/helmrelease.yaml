@@ -58,7 +58,7 @@ spec:
           codeserver:
             image:
               repository: codercom/code-server
-              tag: 4.108.2
+              tag: 4.109.2
             resources:
               requests:
                 cpu: 50m
