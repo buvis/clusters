@@ -52,7 +52,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/sonarr
-              tag: 4.0.16.2943@sha256:0a1b8f5cb5b072f7ad8c6ff64a25dc512115d1a114ecf19a58a3b4f870207ddd
+              tag: 4.0.16.2946@sha256:22651c750eedb091f6d76ade95dbecae0eeafe2b55432c3b8d8b042e8745f344
             env:
               SONARR__APPLICATION_URL: https://sonarr-cz.buvis.net
               SONARR__API_KEY: ${SECRET_SONARR_CZ_API_KEY}
