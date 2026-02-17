@@ -7,15 +7,21 @@
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate Dashboard",
   "kubernetes": {
-    "fileMatch": ["./.+\\.yaml$"]
+    "managerFilePatterns": [
+      "/./.+\\.yaml$/"
+    ]
   },
   "helm-values": {
-    "fileMatch": ["./.+helmrelease\\.yaml$"]
+    "managerFilePatterns": [
+      "/./.+helmrelease\\.yaml$/"
+    ]
   },
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": ["./.+helmrelease\\.yaml$"],
+      "managerFilePatterns": [
+        "/./.+helmrelease\\.yaml$/"
+      ],
       "matchStrings": [
         "registryUrl=(?<registryUrl>.*?)\n *chart: (?<depName>.*?)\n *version: (?<currentValue>.*)\n"
       ],
