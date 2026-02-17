@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Check out code
-      uses: actions/checkout@v6
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
     - name: Setup Flux CLI
       uses: fluxcd/flux2/action@main
       with:
@@ -25,7 +25,7 @@ jobs:
           --export > ./cluster-home/operations/flux-system/gotk-components.yaml
         echo "flux_version=${VERSION}" >> $GITHUB_OUTPUT
     - name: Create pull request for Flux update
-      uses: peter-evans/create-pull-request@v8
+      uses: peter-evans/create-pull-request@c0f553fe549906ede9cf27b5156039d195d2ece0 # v8
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         branch: "flux/update-${{ steps.update.outputs.flux_version }}"
