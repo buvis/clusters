@@ -1,16 +1,20 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base",
-    "github>buvis/clusters//.github/renovate/allowedVersions.json",
+    "github>tbouska/renovate-config",
+    "github>buvis/clusters//.github/renovate/allowedVersions.json"
   ],
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate Dashboard",
   "kubernetes": {
     "fileMatch": ["./.+\\.yaml$"]
   },
-  "helm-values": {"fileMatch": ["./.+helmrelease\\.yaml$"]},
-  "regexManagers": [
+  "helm-values": {
+    "fileMatch": ["./.+helmrelease\\.yaml$"]
+  },
+  "customManagers": [
     {
+      "customType": "regex",
       "fileMatch": ["./.+helmrelease\\.yaml$"],
       "matchStrings": [
         "registryUrl=(?<registryUrl>.*?)\n *chart: (?<depName>.*?)\n *version: (?<currentValue>.*)\n"
