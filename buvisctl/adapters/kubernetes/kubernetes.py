@@ -285,6 +285,53 @@ class KubernetesAdapter:
         except ApiException as e:
             return AdapterResponse(code=1, message=e)
 
+    def get_pod(self, name, namespace):
+        try:
+            return self.api.read_namespaced_pod(name=name, namespace=namespace)
+        except ApiException:
+            return None
+
+    def create_pod(self, pod, namespace):
+        try:
+            self.api.create_namespaced_pod(namespace=namespace, body=pod)
+            return AdapterResponse()
+        except ApiException as e:
+            return AdapterResponse(code=1, message=e)
+
+    def delete_pod(self, name, namespace):
+        try:
+            self.api.delete_namespaced_pod(name=name, namespace=namespace)
+            return AdapterResponse()
+        except ApiException as e:
+            return AdapterResponse(code=1, message=e)
+
+    def get_pv(self, name):
+        try:
+            return self.api.read_persistent_volume(name=name)
+        except ApiException:
+            return None
+
+    def wait_pod_complete(self, name, namespace, timeout=600):
+        for event in self.watch.stream(
+            func=self.api.list_namespaced_pod,
+            namespace=namespace,
+            field_selector=f"metadata.name={name}",
+            timeout_seconds=timeout,
+        ):
+            phase = event["object"].status.phase
+            if phase == "Succeeded":
+                return True
+            elif phase == "Failed":
+                return False
+
+        return False
+
+    def get_pod_logs(self, name, namespace):
+        try:
+            return self.api.read_namespaced_pod_log(name=name, namespace=namespace)
+        except ApiException:
+            return None
+
     def label_node(self, node, label):
         label_name, label_value = label.split(": ")
         body = {"metadata": {"labels": {label_name: label_value}}}

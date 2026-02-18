@@ -2,8 +2,8 @@ import click
 
 from adapters import console
 from commands import (CommandBackup, CommandBootstrap, CommandCheck,
-                      CommandDestroy, CommandGenerate, CommandRestore,
-                      CommandUpdate)
+                      CommandDestroy, CommandFsck, CommandGenerate,
+                      CommandRestore, CommandUpdate)
 
 
 @click.group(help="CLI tool to manage buvis clusters")
@@ -45,6 +45,21 @@ def destroy():
     _check_configuration()
     cmd = CommandDestroy()
     cmd.execute()
+
+
+@cli.command("fsck")
+@click.argument("pod")
+@click.option("-n",
+              "--namespace",
+              default="default",
+              help="Namespace of the failing pod")
+def fsck(pod, namespace):
+    """Run fsck on Longhorn volumes of a failing pod.
+
+    POD is the name of the pod with filesystem corruption.
+    """
+    cmd = CommandFsck()
+    cmd.execute(pod, namespace)
 
 
 @cli.command("restore")
