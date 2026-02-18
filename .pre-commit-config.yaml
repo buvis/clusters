@@ -14,11 +14,6 @@ repos:
   - id: trailing-whitespace
   - id: end-of-file-fixer
   - id: mixed-line-ending
-- repo: https://github.com/Lucas-C/pre-commit-hooks
-  rev: v1.1.10
-  hooks:
-  - id: remove-crlf
-  - id: remove-tabs
 - repo: https://github.com/sirosen/fix-smartquotes
   rev: 0.2.0
   hooks:
