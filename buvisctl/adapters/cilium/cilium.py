@@ -4,7 +4,6 @@ import yaml
 from adapters.config.config import cfg
 from adapters.response import AdapterResponse
 
-
 CILIUM_OCI_CHART = "oci://quay.io/cilium/charts/cilium"
 
 
@@ -40,10 +39,9 @@ class CiliumAdapter:
 
         if results.returncode == 0:
             return AdapterResponse()
-        else:
-            return AdapterResponse(
-                code=results.returncode, message=results.stderr.decode()
-            )
+        return AdapterResponse(
+            code=results.returncode, message=results.stderr.decode(),
+        )
 
     def render_manifests(self, version):
         cmd = [
@@ -76,14 +74,14 @@ class CiliumAdapter:
     def embed_in_talos_patch(self, version):
         patch_path = cfg.talos.path_patch_controlplane
 
-        with open(patch_path, "r") as f:
+        with open(patch_path) as f:
             patch = yaml.safe_load(f)
 
         patch.setdefault("cluster", {})["inlineManifests"] = [
             {
                 "name": "cilium",
                 "contents": self._manifests,
-            }
+            },
         ]
 
         with open(patch_path, "w") as f:
@@ -122,7 +120,7 @@ class CiliumAdapter:
         major_minor = ".".join(version.split(".")[:2])
         values_path = cfg.cilium.path_values
 
-        with open(values_path, "r") as f:
+        with open(values_path) as f:
             values = yaml.safe_load(f)
 
         values["upgradeCompatibility"] = major_minor

@@ -1,4 +1,3 @@
-from pathlib import Path
 
 from adapters import (
     CiliumAdapter,
@@ -22,7 +21,7 @@ class CommandBootstrap:
 
         if len(self.tf) == 0:
             console.panic(
-                "There is no Terraform workspaces defined in the configuration."
+                "There is no Terraform workspaces defined in the configuration.",
             )
         elif len(self.tf) == 1:
             self.tf[0].name = cfg.cluster_name
@@ -87,7 +86,7 @@ class CommandBootstrap:
             for node in cfg.nodes:
                 if node.role == "worker":
                     res = self.k8s.label_node(
-                        node, "node-role.kubernetes.io/worker: true"
+                        node, "node-role.kubernetes.io/worker: true",
                     )
 
                     if res.is_ok():

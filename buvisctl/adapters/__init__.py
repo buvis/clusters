@@ -1,3 +1,4 @@
+from .cilium.cilium import CiliumAdapter
 from .config.config import cfg
 from .console.console import console
 from .flux.flux import FluxAdapter
@@ -6,4 +7,3 @@ from .kubernetes.kubernetes import KubernetesAdapter
 from .socket.socket import SocketAdapter
 from .talos.talos import TalosAdapter
 from .terraform.terraform import TerraformAdapter
-from .cilium.cilium import CiliumAdapter

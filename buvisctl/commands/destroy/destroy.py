@@ -10,7 +10,7 @@ class CommandDestroy:
 
         if len(self.tf) == 0:
             console.panic(
-                "There is no Terraform workspaces defined in the configuration."
+                "There is no Terraform workspaces defined in the configuration.",
             )
         elif len(self.tf) == 1:
             self.tf[0].name = cfg.cluster_name
@@ -24,7 +24,7 @@ class CommandDestroy:
                     if res.is_ok():
                         console.success(
                             f"Proxmox VMs destroyed on {tf.name}. "
-                            "Go to Proxmox UI and remove any leftover VM disks."
+                            "Go to Proxmox UI and remove any leftover VM disks.",
                         )
                     else:
                         console.panic(

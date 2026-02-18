@@ -52,7 +52,7 @@ class CommandRestore:
             else:
                 console.panic(
                     f"Can't resume {app_instance} helmrelease. "
-                    f"Run `kubectl describe hr -n {namespace} {app_instance}`"
+                    f"Run `kubectl describe hr -n {namespace} {app_instance}`",
                 )
         self._start_application(namespace)
 
@@ -63,7 +63,7 @@ class CommandRestore:
             console.panic(f"PVC {pvc} doesn't exist in {namespace} namespace")
 
         app_instance = pvc_resource.metadata.labels.get(
-            "app.kubernetes.io/instance", ""
+            "app.kubernetes.io/instance", "",
         )
         app_name = pvc_resource.metadata.labels.get("app.kubernetes.io/name", "")
 
@@ -71,7 +71,7 @@ class CommandRestore:
             console.panic(
                 "Can't determine application name from PVC. "
                 "Please add app.kubernetes.io/name and "
-                "app.kubernetes.io/instance labels to it."
+                "app.kubernetes.io/instance labels to it.",
             )
 
         return (app_instance, app_name)
@@ -94,7 +94,6 @@ class CommandRestore:
         with open(template_vars["JOBNAME"], "w") as restore_job_manifest:
             restore_job_manifest.write(job_template.render(template_vars))
 
-        stopped_apps = {}
 
     def _stop_application(self, app_instance, app_name, namespace):
         with console.status(f"Stopping {app_instance}-{app_name} application"):
@@ -114,25 +113,25 @@ class CommandRestore:
 
         if manual_stop_required:
             console.failure(
-                f"Can't stop application {app_instance}-{app_name} application"
+                f"Can't stop application {app_instance}-{app_name} application",
             )
             manual_stop = console.confirm(
-                f"Can you stop {app_instance}-{app_name} application, please?"
+                f"Can you stop {app_instance}-{app_name} application, please?",
             )
 
             if not manual_stop:
                 console.panic(
-                    "It isn't safe to proceed with restore while application is running"
+                    "It isn't safe to proceed with restore while application is running",
                 )
 
     def _start_application(self, namespace):
-        with console.status(f"Starting application"):
+        with console.status("Starting application"):
             res = self.flux.start_application(namespace, self.stopped_apps)
 
             if res.is_ok():
-                console.success(f"Started application")
+                console.success("Started application")
             else:
-                console.failure(f"Can't start application")
+                console.failure("Can't start application")
 
     def _submit_restore_job(self, pvc, namespace, job_name):
         with console.status(f"Restoring {pvc} data"):

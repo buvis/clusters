@@ -41,10 +41,9 @@ class TalosAdapter:
 
         if results.returncode == 0:
             return AdapterResponse()
-        else:
-            return AdapterResponse(
-                code=results.returncode, message=results.stderr.decode()
-            )
+        return AdapterResponse(
+            code=results.returncode, message=results.stderr.decode(),
+        )
 
     def configure_node(self, node):
         res = self.socket.is_open(node.ip, PORT_TALOS_INIT)
@@ -65,10 +64,9 @@ class TalosAdapter:
 
         if results.returncode == 0:
             return AdapterResponse()
-        else:
-            return AdapterResponse(
-                code=results.returncode, message=results.stderr.decode()
-            )
+        return AdapterResponse(
+            code=results.returncode, message=results.stderr.decode(),
+        )
 
     def bootstrap_cluster(self):
         res = self.socket.is_open(cfg.ip_master, PORT_TALOS_API)
@@ -86,7 +84,7 @@ class TalosAdapter:
 
         if results.returncode > 0:
             return AdapterResponse(
-                code=results.returncode, message=results.stderr.decode()
+                code=results.returncode, message=results.stderr.decode(),
             )
 
         cmd_node_config = ["talosctl", "config", "node", cfg.ip_master]
@@ -94,7 +92,7 @@ class TalosAdapter:
 
         if results.returncode > 0:
             return AdapterResponse(
-                code=results.returncode, message=results.stderr.decode()
+                code=results.returncode, message=results.stderr.decode(),
             )
 
         cmd_bootstrap = ["talosctl", "bootstrap"]
@@ -102,10 +100,9 @@ class TalosAdapter:
 
         if results.returncode > 0:
             return AdapterResponse(
-                code=results.returncode, message=results.stderr.decode()
+                code=results.returncode, message=results.stderr.decode(),
             )
-        else:
-            return AdapterResponse()
+        return AdapterResponse()
 
     def get_kubeconfig(self):
         res = self.socket.is_open(cfg.ip_master, PORT_K8S_API)
@@ -123,10 +120,9 @@ class TalosAdapter:
 
         if results.returncode > 0:
             return AdapterResponse(
-                code=results.returncode, message=results.stderr.decode()
+                code=results.returncode, message=results.stderr.decode(),
             )
-        else:
-            return AdapterResponse()
+        return AdapterResponse()
 
     def _get_latest_talos_version(self) -> str:
         """
@@ -147,7 +143,7 @@ class TalosAdapter:
             data = response.json()
 
             return data["tag_name"]
-        except (requests.RequestException, KeyError, json.JSONDecodeError) as e:
+        except (requests.RequestException, KeyError, json.JSONDecodeError):
             return ""
 
     def _update_talos_version_files(self, talos_version: str) -> None:
@@ -182,10 +178,10 @@ class TalosAdapter:
             patch_content = patch_file.read_text(encoding="utf-8")
             # Regex to find the line with the image version and replace only the version part after colon
             patch_pattern = re.compile(
-                r"(image: factory\.talos\.dev/metal-installer/[a-f0-9]+:)(v[\d\.]+)"
+                r"(image: factory\.talos\.dev/metal-installer/[a-f0-9]+:)(v[\d\.]+)",
             )
             updated_patch_content = patch_pattern.sub(
-                lambda m: m.group(1) + talos_version, patch_content
+                lambda m: m.group(1) + talos_version, patch_content,
             )
             patch_file.write_text(updated_patch_content, encoding="utf-8")
 
@@ -195,7 +191,7 @@ class TalosAdapter:
         if not talos_version:
             return AdapterResponse(
                 code=1,
-                message=f"Couldn't get the latest Talos version tag from GitHub",
+                message="Couldn't get the latest Talos version tag from GitHub",
             )
 
         os_name = platform.system().lower()
@@ -247,7 +243,7 @@ class TalosAdapter:
         if not talos_version:
             return AdapterResponse(
                 code=1,
-                message=f"Couldn't get the latest Talos version tag from GitHub",
+                message="Couldn't get the latest Talos version tag from GitHub",
             )
 
         schematic_id = os.getenv("TF_VAR_talos_schematic_id")

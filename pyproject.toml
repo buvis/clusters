@@ -9,3 +9,21 @@ dependencies = [
     "rich",
     "jinja2",
 ]
+
+[tool.ruff.lint]
+ignore = [
+    "ANN",     # type annotations - not used in this project
+    "S603",    # subprocess call - expected for CLI tool
+    "PLW1510", # subprocess.run without check - return code checked manually
+    "PTH",     # pathlib vs os.path - not enforced
+    "TRY300",  # try-except-return style
+    "RET504",  # unnecessary assignment before return
+    "SIM112",  # use os.environ capitalization
+    "S701",    # jinja2 autoescape
+    "C901",    # function complexity
+    "PLR0912", # too many branches
+    "PLR0915", # too many statements
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]

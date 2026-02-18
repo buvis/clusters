@@ -44,7 +44,7 @@ class CommandUpdate:
 
         if not node_ips:
             console.panic(
-                "There are no Talos nodes IPs set in NODE_IPS.\nAre you in cluster directory and is direnv enabled?"
+                "There are no Talos nodes IPs set in NODE_IPS.\nAre you in cluster directory and is direnv enabled?",
             )
 
         ips = [ip.strip() for ip in node_ips.split(",") if ip.strip()]

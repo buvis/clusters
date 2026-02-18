@@ -18,7 +18,7 @@ class SocketAdapter:
                 tester.connect((ip, port))
 
                 return AdapterResponse()
-            except socket.error as e:
+            except OSError as e:
                 time.sleep(5)
                 sleep_count = sleep_count + 1
 

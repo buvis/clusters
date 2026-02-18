@@ -20,7 +20,7 @@ class ConfigAdapter:
         self.path_config_file = Path(CONFIG_FILENAME).absolute()
 
         if self.path_config_file.is_file():
-            with open(self.path_config_file, "r") as file_handle:
+            with open(self.path_config_file) as file_handle:
                 config_file = yaml.safe_load(file_handle)
                 self._process_config_file(config_file)
         else:

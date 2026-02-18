@@ -2,7 +2,6 @@ import base64
 import time
 
 from adapters.response import AdapterResponse
-
 from kubernetes import client, config, dynamic, utils, watch
 from kubernetes.client.exceptions import ApiException
 
@@ -26,14 +25,13 @@ class KubernetesAdapter:
 
                 if namespace_status.status.phase == "Active":
                     return AdapterResponse()
-                else:
-                    sleep_count = sleep_count + 1
+                sleep_count = sleep_count + 1
 
-                    if sleep_count > timeout / 5:
-                        return AdapterResponse(
-                            code=504,
-                            message=f"Namespace {name} not active",
-                        )
+                if sleep_count > timeout / 5:
+                    return AdapterResponse(
+                        code=504,
+                        message=f"Namespace {name} not active",
+                    )
             except ApiException as e:
                 time.sleep(5)
                 sleep_count = sleep_count + 1
@@ -117,7 +115,7 @@ class KubernetesAdapter:
                 )
             try:
                 self.api.create_namespaced_secret(
-                    namespace="flux-system", body=new_secret
+                    namespace="flux-system", body=new_secret,
                 )
             except ApiException as e:
                 return AdapterResponse(code=1, message=e)
@@ -140,7 +138,7 @@ class KubernetesAdapter:
     def get_pvc(self, name, namespace):
         try:
             pvcs = self.dynamic_client.resources.get(
-                api_version="v1", kind="PersistentVolumeClaim"
+                api_version="v1", kind="PersistentVolumeClaim",
             )
             selected_pvc = pvcs.get(name=name, namespace=namespace)
 
@@ -198,7 +196,7 @@ class KubernetesAdapter:
             self.apps_api.patch_namespaced_stateful_set_scale(
                 name,
                 namespace,
-                [{'op': 'replace', 'path': '/spec/replicas', 'value': replicas}],
+                [{"op": "replace", "path": "/spec/replicas", "value": replicas}],
             )
 
             return True
@@ -210,7 +208,7 @@ class KubernetesAdapter:
             self.apps_api.patch_namespaced_deployment_scale(
                 name,
                 namespace,
-                [{'op': 'replace', 'path': '/spec/replicas', 'value': replicas}],
+                [{"op": "replace", "path": "/spec/replicas", "value": replicas}],
             )
 
             return True
@@ -223,7 +221,7 @@ class KubernetesAdapter:
             f"app.kubernetes.io/instance={app_instance}"
         )
         current_pods = self.api.list_namespaced_pod(
-            namespace=namespace, label_selector=label_selector
+            namespace=namespace, label_selector=label_selector,
         )
 
         if len(current_pods.items) == 0:
@@ -249,7 +247,7 @@ class KubernetesAdapter:
         ):
             if event["object"].status.phase == "Succeeded":
                 return True
-            elif event["object"].status.phase == "Failed":
+            if event["object"].status.phase == "Failed":
                 return False
 
         return False
@@ -257,7 +255,7 @@ class KubernetesAdapter:
     def delete_job(self, job_name, namespace):
         try:
             self.batch_api.delete_namespaced_job(
-                job_name, namespace, propagation_policy="Background"
+                job_name, namespace, propagation_policy="Background",
             )
         except ApiException:
             pass
@@ -321,7 +319,7 @@ class KubernetesAdapter:
             phase = event["object"].status.phase
             if phase == "Succeeded":
                 return True
-            elif phase == "Failed":
+            if phase == "Failed":
                 return False
 
         return False

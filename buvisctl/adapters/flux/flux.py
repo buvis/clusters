@@ -71,10 +71,9 @@ class FluxAdapter:
 
         if results.returncode == 0:
             return AdapterResponse()
-        else:
-            return AdapterResponse(
-                code=results.returncode, message=results.stderr.decode()
-            )
+        return AdapterResponse(
+            code=results.returncode, message=results.stderr.decode(),
+        )
 
     def suspend_hr(self, name, namespace):
         flux_suspend_command = ["flux", "suspend", "hr", "-n", namespace, name]
@@ -85,8 +84,7 @@ class FluxAdapter:
                 code=404,
                 message=f"helmrelease {name} not in {namespace} namespace",
             )
-        else:
-            return AdapterResponse()
+        return AdapterResponse()
 
     def resume_hr(self, name, namespace):
         flux_resume_command = ["flux", "resume", "hr", "-n", namespace, name]
@@ -97,8 +95,7 @@ class FluxAdapter:
                 code=404,
                 message=f"helmrelease {name} not in {namespace} namespace",
             )
-        else:
-            return AdapterResponse()
+        return AdapterResponse()
 
     def start_application(self, namespace, stopped_apps):
         for app, replicas in stopped_apps.items():
@@ -126,7 +123,6 @@ class FluxAdapter:
 
         if stopped_apps:
             return AdapterResponse(0, stopped_apps)
-        else:
-            return AdapterResponse(
-                code=1, message=f"Couldn't stop {app_instance}-{app_name} application"
-            )
+        return AdapterResponse(
+            code=1, message=f"Couldn't stop {app_instance}-{app_name} application",
+        )

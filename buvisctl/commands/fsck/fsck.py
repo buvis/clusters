@@ -1,6 +1,5 @@
-from kubernetes import client
-
 from adapters import KubernetesAdapter, console
+from kubernetes import client
 
 
 class CommandFsck:

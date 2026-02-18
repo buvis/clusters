@@ -1,9 +1,15 @@
 import click
-
 from adapters import console
-from commands import (CommandBackup, CommandBootstrap, CommandCheck,
-                      CommandDestroy, CommandFsck, CommandGenerate,
-                      CommandRestore, CommandUpdate)
+from commands import (
+    CommandBackup,
+    CommandBootstrap,
+    CommandCheck,
+    CommandDestroy,
+    CommandFsck,
+    CommandGenerate,
+    CommandRestore,
+    CommandUpdate,
+)
 
 
 @click.group(help="CLI tool to manage buvis clusters")
