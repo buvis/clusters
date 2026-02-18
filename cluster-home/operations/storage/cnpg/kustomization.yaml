@@ -5,5 +5,5 @@ metadata:
   name: cnpg
   namespace: storage
 resources:
-  - databases.yaml
-  - helmrelease.yaml
+- databases.yaml
+- helmrelease.yaml

@@ -12,12 +12,12 @@ spec:
     kind: GitRepository
     name: flux-system
   dependsOn:
-    - name: cnpg
-      namespace: flux-system
+  - name: cnpg
+    namespace: flux-system
   postBuild:
     substitute: {}
     substituteFrom:
-      - kind: ConfigMap
-        name: cluster-config
-      - kind: Secret
-        name: cluster-secret-vars
+    - kind: ConfigMap
+      name: cluster-config
+    - kind: Secret
+      name: cluster-secret-vars

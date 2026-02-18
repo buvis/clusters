@@ -34,7 +34,7 @@ spec:
         fsGroup: 568
         fsGroupChangePolicy: "OnRootMismatch"
         supplementalGroups:
-          - 985
+        - 985
     controllers:
       vifm:
         containers:
@@ -55,19 +55,19 @@ spec:
         enabled: true
         existingClaim: nas-media-downloads
         globalMounts:
-          - path: /media/downloads
+        - path: /media/downloads
       music:
         enabled: true
         existingClaim: nas-media-music
         globalMounts:
-          - path: /media/music
+        - path: /media/music
       videos:
         enabled: true
         existingClaim: nas-media-videos
         globalMounts:
-          - path: /media/videos
+        - path: /media/videos
       inbox:
         enabled: true
         existingClaim: nas-media-music-inbox
         globalMounts:
-          - path: /media/music-inbox
+        - path: /media/music-inbox

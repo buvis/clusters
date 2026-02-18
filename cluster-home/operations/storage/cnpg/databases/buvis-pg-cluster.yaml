@@ -12,7 +12,7 @@ spec:
   storage:
     pvcTemplate:
       accessModes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       resources:
         requests:
           storage: 20Gi
@@ -23,32 +23,32 @@ spec:
       archive_timeout: "30min"  # Reduce WAL generation on idle database (default was 5min)
       wal_keep_size: "128MB"    # Keep less WAL for replicas (down from 512MB)
   plugins:
-    - name: barman-cloud.cloudnative-pg.io
-      enabled: true
-      isWALArchiver: true
-      parameters:
-        barmanObjectName: buvis-pg-backup
+  - name: barman-cloud.cloudnative-pg.io
+    enabled: true
+    isWALArchiver: true
+    parameters:
+      barmanObjectName: buvis-pg-backup
   managed:
     roles:
-      - name: authentik
-        login: true
-        superuser: false
-        createdb: false
-        passwordSecret:
-          name: authentik-db-owner
-      - name: linkace
-        login: true
-        superuser: false
-        createdb: false
-        passwordSecret:
-          name: linkace-db-owner
+    - name: authentik
+      login: true
+      superuser: false
+      createdb: false
+      passwordSecret:
+        name: authentik-db-owner
+    - name: linkace
+      login: true
+      superuser: false
+      createdb: false
+      passwordSecret:
+        name: linkace-db-owner
     services:
       additional:
-        - selectorType: rw
-          serviceTemplate:
-            metadata:
-              name: buvis-pg-cluster-rw-lb
-            spec:
-              type: LoadBalancer
-              loadBalancerIP: ${SVC_IP_CNPG_RW}
-              externalTrafficPolicy: Cluster
+      - selectorType: rw
+        serviceTemplate:
+          metadata:
+            name: buvis-pg-cluster-rw-lb
+          spec:
+            type: LoadBalancer
+            loadBalancerIP: ${SVC_IP_CNPG_RW}
+            externalTrafficPolicy: Cluster

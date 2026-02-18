@@ -6,14 +6,14 @@ metadata:
   namespace: media
 spec:
   dependsOn:
-    - name: ingress-nginx
-      namespace: kube-tools
-    - name: cert-manager
-      namespace: kube-tools
-    - name: authentik
-      namespace: security
-    - name: longhorn
-      namespace: storage
+  - name: ingress-nginx
+    namespace: kube-tools
+  - name: cert-manager
+    namespace: kube-tools
+  - name: authentik
+    namespace: security
+  - name: longhorn
+    namespace: storage
   interval: 5m
   install:
     timeout: 15m
@@ -43,10 +43,10 @@ spec:
         fsGroup: 100
         fsGroupChangePolicy: "OnRootMismatch"
         supplementalGroups:
-          - 44 # video
-          - 125 # render
-          - 105 # render
-          - 568
+        - 44 # video
+        - 125 # render
+        - 105 # render
+        - 568
     controllers:
       server:
         pod:
@@ -92,13 +92,13 @@ spec:
         advancedMounts:
           server:
             server:
-              - path: /app/server
-                subPath: server
+            - path: /app/server
+              subPath: server
       media:
         enabled: true
         existingClaim: nas-media-videos
         globalMounts:
-          - path: /media/videos
+        - path: /media/videos
       cache:
         enabled: true
         existingClaim: tdarr-cache
@@ -106,8 +106,8 @@ spec:
         advancedMounts:
           node:
             node:
-              - path: /cache
-                readOnly: false
+            - path: /cache
+              readOnly: false
     service:
       tdarr:
         controller: server
@@ -123,14 +123,14 @@ spec:
           cert-manager.io/cluster-issuer: letsencrypt-production
           authentik.home.arpa/enabled: "true"
         hosts:
-          - host: &hostName tdarr.buvis.net
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  identifier: tdarr
-                  port: http
+        - host: &hostName tdarr.buvis.net
+          paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: tdarr
+              port: http
         tls:
-          - hosts:
-              - *hostName
-            secretName: tdarr-crt
+        - hosts:
+          - *hostName
+          secretName: tdarr-crt

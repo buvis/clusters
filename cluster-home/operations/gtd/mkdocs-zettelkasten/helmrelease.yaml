@@ -6,12 +6,12 @@ metadata:
   namespace: gtd
 spec:
   dependsOn:
-    - name: ingress-nginx
-      namespace: kube-tools
-    - name: cert-manager
-      namespace: kube-tools
-    - name: authentik
-      namespace: security
+  - name: ingress-nginx
+    namespace: kube-tools
+  - name: cert-manager
+    namespace: kube-tools
+  - name: authentik
+    namespace: security
   interval: 5m
   install:
     timeout: 15m
@@ -63,14 +63,14 @@ spec:
       theme:
         name: zettelkasten-solarized-light
       extensions:
-        - admonition
-        - pymdownx.superfences
-        - mdx_truly_sane_lists
+      - admonition
+      - pymdownx.superfences
+      - mdx_truly_sane_lists
       plugins:
-        - search
-        - zettelkasten
+      - search
+      - zettelkasten
       nav:
-        - Source: https://gitlab.com/buvis/zettelkasten
+      - Source: https://gitlab.com/buvis/zettelkasten
     ingress:
       enabled: true
       annotations:
@@ -78,11 +78,11 @@ spec:
         cert-manager.io/cluster-issuer: letsencrypt-production
         authentik.home.arpa/enabled: "true"
       hosts:
-        - host: zkn.buvis.net
-          paths:
-            - path: /
-              pathType: Prefix
+      - host: zkn.buvis.net
+        paths:
+        - path: /
+          pathType: Prefix
       tls:
-        - secretName: zkn-crt
-          hosts:
-            - zkn.buvis.net
+      - secretName: zkn-crt
+        hosts:
+        - zkn.buvis.net

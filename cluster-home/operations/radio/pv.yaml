@@ -8,19 +8,19 @@ spec:
   capacity:
     storage: 1Mi
   accessModes:
-    - ReadWriteMany
+  - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: ${FAST_NAS_SERVER_IP}
     path: ${FAST_NAS_PATH_MEDIA}/music
   mountOptions:
-    - nfsvers=4
-    - tcp
-    - intr
-    - hard
-    - noatime
-    - nodiratime
-    - nolock
+  - nfsvers=4
+  - tcp
+  - intr
+  - hard
+  - noatime
+  - nodiratime
+  - nolock
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -30,7 +30,7 @@ metadata:
 spec:
   storageClassName: nas-media-music-radio
   accessModes:
-    - ReadWriteMany
+  - ReadWriteMany
   resources:
     requests:
       storage: 1Mi

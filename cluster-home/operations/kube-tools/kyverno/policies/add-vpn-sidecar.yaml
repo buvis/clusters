@@ -8,53 +8,53 @@ metadata:
 spec:
   generateExisting: true
   rules:
-    - name: add-vpn-sidecar
-      match:
-        any:
-          - resources:
-              kinds:
-                - Deployment
-                - StatefulSet
-      mutate:
-        patchStrategicMerge:
-          spec:
-            template:
-              metadata:
-                annotations:
-                  (vpn/gluetun-inject): "true"
-              spec:
-                containers:
-                  - name: gluetun
-                    image: ghcr.io/qdm12/gluetun@sha256:03c4914d0634df6d5dcf96ee21b6ece0c88ffffdb1d7c1121537d8ad053965f2
-                    env:
-                      - name: DNS_ADDRESS
-                        value: "${CLUSTER_DNS}"
-                      - name: FIREWALL_INPUT_PORTS
-                        value: "6767,8191,8096,5055,8686,7373,9696,6881,7878,7373,8989,8265,8266,8080"
-                      - name: FIREWALL_OUTBOUND_SUBNETS
-                        value: "${NETWORK_CIDR_K8S_CLUSTER},${NETWORK_CIDR_K8S_SERVICE},${NETWORK_CIDR_K8S_SERVICE_EXTERNAL},${NETWORK_CIDR_HOST}"
-                      - name: VPN_SERVICE_PROVIDER
-                        value: ${SECRET_VPN_GATEWAY_PROVIDER}
-                      - name: VPN_TYPE
-                        value: openvpn
-                      - name: OPENVPN_USER
-                        value: ${SECRET_VPN_GATEWAY_USER}
-                      - name: OPENVPN_PASSWORD
-                        value: ${SECRET_VPN_GATEWAY_PASSWORD}
-                      - name: VPN_PORT_FORWARDING_LISTENING_PORT
-                        value: "'${SECRET_VPN_BT_FORWARD_PORT}'"
-                      - name: TZ
-                        value: ${TIMEZONE}
-                    securityContext:
-                      privileged: true
-                      runAsUser: 0
-                      capabilities:
-                        add:
-                          - NET_ADMIN
-                    volumeMounts:
-                      - name: tun
-                        mountPath: /dev/net
-                volumes:
-                  - name: tun
-                    hostPath:
-                      path: /dev/net
+  - name: add-vpn-sidecar
+    match:
+      any:
+      - resources:
+          kinds:
+          - Deployment
+          - StatefulSet
+    mutate:
+      patchStrategicMerge:
+        spec:
+          template:
+            metadata:
+              annotations:
+                (vpn/gluetun-inject): "true"
+            spec:
+              containers:
+              - name: gluetun
+                image: ghcr.io/qdm12/gluetun@sha256:03c4914d0634df6d5dcf96ee21b6ece0c88ffffdb1d7c1121537d8ad053965f2
+                env:
+                - name: DNS_ADDRESS
+                  value: "${CLUSTER_DNS}"
+                - name: FIREWALL_INPUT_PORTS
+                  value: "6767,8191,8096,5055,8686,7373,9696,6881,7878,7373,8989,8265,8266,8080"
+                - name: FIREWALL_OUTBOUND_SUBNETS
+                  value: "${NETWORK_CIDR_K8S_CLUSTER},${NETWORK_CIDR_K8S_SERVICE},${NETWORK_CIDR_K8S_SERVICE_EXTERNAL},${NETWORK_CIDR_HOST}"
+                - name: VPN_SERVICE_PROVIDER
+                  value: ${SECRET_VPN_GATEWAY_PROVIDER}
+                - name: VPN_TYPE
+                  value: openvpn
+                - name: OPENVPN_USER
+                  value: ${SECRET_VPN_GATEWAY_USER}
+                - name: OPENVPN_PASSWORD
+                  value: ${SECRET_VPN_GATEWAY_PASSWORD}
+                - name: VPN_PORT_FORWARDING_LISTENING_PORT
+                  value: "'${SECRET_VPN_BT_FORWARD_PORT}'"
+                - name: TZ
+                  value: ${TIMEZONE}
+                securityContext:
+                  privileged: true
+                  runAsUser: 0
+                  capabilities:
+                    add:
+                    - NET_ADMIN
+                volumeMounts:
+                - name: tun
+                  mountPath: /dev/net
+              volumes:
+              - name: tun
+                hostPath:
+                  path: /dev/net

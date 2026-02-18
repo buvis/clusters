@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: cnpg-plugin-barman-cloud
+  - name: cnpg-plugin-barman-cloud
   interval: 10m0s
   path: ./cluster-home/operations/storage/cnpg/databases
   prune: true
@@ -16,7 +16,7 @@ spec:
   postBuild:
     substitute: {}
     substituteFrom:
-      - kind: Secret
-        name: cluster-secret-vars
-      - kind: ConfigMap
-        name: cluster-config
+    - kind: Secret
+      name: cluster-secret-vars
+    - kind: ConfigMap
+      name: cluster-config

@@ -20,5 +20,5 @@ spec:
   name: linkace
   owner: linkace
   extensions:
-    - name: pg_trgm
-    - name: citext
+  - name: pg_trgm
+  - name: citext

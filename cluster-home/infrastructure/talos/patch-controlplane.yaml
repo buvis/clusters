@@ -209,8 +209,6 @@ cluster:
         auto-direct-node-routes: "false"
         direct-routing-skip-unreachable: "false"
 
-
-
         kube-proxy-replacement: "true"
         kube-proxy-replacement-healthz-bind-address: ""
         enable-no-service-endpoints-routable: "true"

@@ -6,14 +6,14 @@ metadata:
   namespace: media
 spec:
   dependsOn:
-    - name: ingress-nginx
-      namespace: kube-tools
-    - name: cert-manager
-      namespace: kube-tools
-    - name: authentik
-      namespace: security
-    - name: longhorn
-      namespace: storage
+  - name: ingress-nginx
+    namespace: kube-tools
+  - name: cert-manager
+    namespace: kube-tools
+  - name: authentik
+    namespace: security
+  - name: longhorn
+    namespace: storage
   interval: 5m
   install:
     timeout: 15m
@@ -43,7 +43,7 @@ spec:
         fsGroup: 568
         fsGroupChangePolicy: "OnRootMismatch"
         supplementalGroups:
-          - 985
+        - 985
     controllers:
       beets:
         annotations:
@@ -81,9 +81,9 @@ spec:
         type: configMap
         name: beets-config
         globalMounts:
-          - path: /config/config.yaml
-            readOnly: true
-            subPath: config.yaml
+        - path: /config/config.yaml
+          readOnly: true
+          subPath: config.yaml
       data:
         enabled: true
         existingClaim: beets-data
@@ -91,7 +91,7 @@ spec:
         enabled: true
         existingClaim: nas-media-music
         globalMounts:
-          - path: /media/music
+        - path: /media/music
       tmp:
         type: emptyDir
     configMaps:
@@ -161,14 +161,14 @@ spec:
           cert-manager.io/cluster-issuer: letsencrypt-production
           authentik.home.arpa/enabled: "true"
         hosts:
-          - host: &hostName beets.buvis.net
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  identifier: app
-                  port: http
+        - host: &hostName beets.buvis.net
+          paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: app
+              port: http
         tls:
-          - hosts:
-              - *hostName
-            secretName: beets-crt
+        - hosts:
+          - *hostName
+          secretName: beets-crt

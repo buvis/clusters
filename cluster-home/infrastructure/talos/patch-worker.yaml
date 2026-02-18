@@ -1,28 +1,28 @@
 machine:
   disks:
-    - device: /dev/sdb
-      partitions:
-        - mountpoint: /var/lib/longhorn
+  - device: /dev/sdb
+    partitions:
+    - mountpoint: /var/lib/longhorn
   kernel:
     modules:
-      - name: nvme_tcp
-      - name: vfio_pci
+    - name: nvme_tcp
+    - name: vfio_pci
   kubelet:
     extraMounts:
-      - destination: /var/local
-        type: bind
-        source: /var/local
-        options:
-          - bind
-          - rshared
-          - rw
-      - destination: /var/lib/longhorn
-        type: bind
-        source: /var/lib/longhorn
-        options:
-          - bind
-          - rshared
-          - rw
+    - destination: /var/local
+      type: bind
+      source: /var/local
+      options:
+      - bind
+      - rshared
+      - rw
+    - destination: /var/lib/longhorn
+      type: bind
+      source: /var/lib/longhorn
+      options:
+      - bind
+      - rshared
+      - rw
   nodeLabels:
     node.longhorn.io/create-default-disk: "true"
   sysctls:

@@ -17,14 +17,14 @@ spec:
       remediateLastFailure: true
     cleanupOnFail: true
   dependsOn:
-    - name: ingress-nginx
-      namespace: kube-tools
-    - name: cert-manager
-      namespace: kube-tools
-    - name: longhorn
-      namespace: storage
-    - name: authentik
-      namespace: security
+  - name: ingress-nginx
+    namespace: kube-tools
+  - name: cert-manager
+    namespace: kube-tools
+  - name: longhorn
+    namespace: storage
+  - name: authentik
+    namespace: security
   chart:
     spec:
       # renovate: registryUrl=https://bjw-s.github.io/helm-charts/
@@ -67,14 +67,14 @@ spec:
                 memory: 512Mi
             workingDir: "/config"
             args:
-              - --auth
-              - "none"
-              - --user-data-dir
-              - "/config/.vscode"
-              - --extensions-dir
-              - "/config/.vscode"
-              - --port
-              - "12321"
+            - --auth
+            - "none"
+            - --user-data-dir
+            - "/config/.vscode"
+            - --extensions-dir
+            - "/config/.vscode"
+            - --port
+            - "12321"
     persistence:
       config:
         enabled: true
@@ -110,30 +110,30 @@ spec:
           cert-manager.io/cluster-issuer: letsencrypt-production
           nginx.org/websocket-services: hass
         hosts:
-          - host: &hostName hass.buvis.net
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
+        - host: &hostName hass.buvis.net
+          paths:
+          - path: /
+            service:
+              identifier: app
+              port: http
         tls:
-          - hosts:
-              - *hostName
-            secretName: hass-crt
+        - hosts:
+          - *hostName
+          secretName: hass-crt
       codeserver:
         className: nginx
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-production
           authentik.home.arpa/enabled: "true"
         hosts:
-          - host: &hostNameEditor hass-editor.buvis.net
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  identifier: codeserver
-                  port: http
+        - host: &hostNameEditor hass-editor.buvis.net
+          paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: codeserver
+              port: http
         tls:
-          - hosts:
-              - *hostNameEditor
-            secretName: hass-editor-crt
+        - hosts:
+          - *hostNameEditor
+          secretName: hass-editor-crt

@@ -6,14 +6,14 @@ metadata:
   namespace: radio
 spec:
   dependsOn:
-    - name: ingress-nginx
-      namespace: kube-tools
-    - name: cert-manager
-      namespace: kube-tools
-    - name: authentik
-      namespace: security
-    - name: longhorn
-      namespace: storage
+  - name: ingress-nginx
+    namespace: kube-tools
+  - name: cert-manager
+    namespace: kube-tools
+  - name: authentik
+    namespace: security
+  - name: longhorn
+    namespace: storage
   interval: 5m
   install:
     timeout: 15m
@@ -66,14 +66,14 @@ spec:
           cert-manager.io/cluster-issuer: letsencrypt-production
           authentik.home.arpa/enabled: "true"
         hosts:
-          - host: radio-home.buvis.net
-            paths:
-              - path: /
-                pathType: Prefix
+        - host: radio-home.buvis.net
+          paths:
+          - path: /
+            pathType: Prefix
         tls:
-          - hosts:
-              - radio-home.buvis.net
-            secretName: radio-home-crt
+        - hosts:
+          - radio-home.buvis.net
+          secretName: radio-home-crt
     persistence:
       media:
         enabled: true

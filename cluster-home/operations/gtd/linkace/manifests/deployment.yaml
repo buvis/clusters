@@ -19,83 +19,83 @@ spec:
         app.kubernetes.io/name: linkace
     spec:
       volumes:
-        - name: la-cache
-          emptyDir: {}
-        - name: env-file
-          emptyDir: {}
+      - name: la-cache
+        emptyDir: {}
+      - name: env-file
+        emptyDir: {}
       initContainers:
-        - name: write-env-as-app
-          image: linkace/linkace:latest@sha256:cc578ba2299d5c41352131ea2c94e7ef192613cc8b622c196791c8fcdc4db0c3
-          workingDir: /app
-          command: ["sh", "-lc"]
-          args:
-            - >
-              umask 027 &&
-              mkdir -p /work &&
-              {
-                printf 'APP_KEY=%s\n' "$APP_KEY";
-                printf 'DB_CONNECTION=%s\n' "${DB_CONNECTION:-pgsql}";
-                printf 'DB_HOST=%s\n' "$DB_HOST";
-                printf 'DB_PORT=%s\n' "${DB_PORT:-5432}";
-                printf 'DB_DATABASE=%s\n' "$DB_DATABASE";
-                printf 'DB_USERNAME=%s\n' "$DB_USERNAME";
-                printf 'DB_PASSWORD=%s\n' "$DB_PASSWORD";
-              } > /work/.env
-          env:
-            - name: APP_KEY
-              value: ${SECRET_LINKACE_APP_KEY}
-            - name: DB_CONNECTION
-              value: pgsql
-            - name: DB_HOST
-              value: buvis-pg-cluster-rw.storage
-            - name: DB_PORT
-              value: "5432"
-            - name: DB_DATABASE
-              value: linkace
-            - name: DB_USERNAME
-              value: linkace
-            - name: DB_PASSWORD
-              value: ${SECRET_LINKACE_PG_PASSWORD}
-          volumeMounts:
-            - name: env-file
-              mountPath: /work
-        - name: artisan-clear
-          image: ghcr.io/kovah/linkace:v2.5.1@sha256:cc578ba2299d5c41352131ea2c94e7ef192613cc8b622c196791c8fcdc4db0c3
-          imagePullPolicy: IfNotPresent
-          workingDir: /app
-          command: ["sh", "-lc"]
-          args:
-            - >
-              php /app/artisan config:clear &&
-              php /app/artisan cache:clear &&
-              php /app/artisan route:clear || true
-          volumeMounts:
-            - name: la-cache
-              mountPath: /app/bootstrap/cache
+      - name: write-env-as-app
+        image: linkace/linkace:latest@sha256:cc578ba2299d5c41352131ea2c94e7ef192613cc8b622c196791c8fcdc4db0c3
+        workingDir: /app
+        command: ["sh", "-lc"]
+        args:
+        - >
+          umask 027 &&
+          mkdir -p /work &&
+          {
+            printf 'APP_KEY=%s\n' "$APP_KEY";
+            printf 'DB_CONNECTION=%s\n' "${DB_CONNECTION:-pgsql}";
+            printf 'DB_HOST=%s\n' "$DB_HOST";
+            printf 'DB_PORT=%s\n' "${DB_PORT:-5432}";
+            printf 'DB_DATABASE=%s\n' "$DB_DATABASE";
+            printf 'DB_USERNAME=%s\n' "$DB_USERNAME";
+            printf 'DB_PASSWORD=%s\n' "$DB_PASSWORD";
+          } > /work/.env
+        env:
+        - name: APP_KEY
+          value: ${SECRET_LINKACE_APP_KEY}
+        - name: DB_CONNECTION
+          value: pgsql
+        - name: DB_HOST
+          value: buvis-pg-cluster-rw.storage
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_DATABASE
+          value: linkace
+        - name: DB_USERNAME
+          value: linkace
+        - name: DB_PASSWORD
+          value: ${SECRET_LINKACE_PG_PASSWORD}
+        volumeMounts:
+        - name: env-file
+          mountPath: /work
+      - name: artisan-clear
+        image: ghcr.io/kovah/linkace:v2.5.1@sha256:cc578ba2299d5c41352131ea2c94e7ef192613cc8b622c196791c8fcdc4db0c3
+        imagePullPolicy: IfNotPresent
+        workingDir: /app
+        command: ["sh", "-lc"]
+        args:
+        - >
+          php /app/artisan config:clear &&
+          php /app/artisan cache:clear &&
+          php /app/artisan route:clear || true
+        volumeMounts:
+        - name: la-cache
+          mountPath: /app/bootstrap/cache
       containers:
-        - image: ghcr.io/kovah/linkace:v2.5.1@sha256:cc578ba2299d5c41352131ea2c94e7ef192613cc8b622c196791c8fcdc4db0c3
-          name: linkace
-          env:
-            - name: APP_KEY
-              value: ${SECRET_LINKACE_APP_KEY}
-            - name: DB_CONNECTION
-              value: pgsql
-            - name: DB_HOST
-              value: buvis-pg-cluster-rw.storage
-            - name: DB_PORT
-              value: "5432"
-            - name: DB_DATABASE
-              value: linkace
-            - name: DB_USERNAME
-              value: linkace
-            - name: DB_PASSWORD
-              value: ${SECRET_LINKACE_PG_PASSWORD}
-          ports:
-            - containerPort: 80
-          volumeMounts:
-            - name: la-cache
-              mountPath: /app/bootstrap/cache
-            - name: env-file
-              mountPath: /app/.env
-              subPath: .env
+      - image: ghcr.io/kovah/linkace:v2.5.1@sha256:cc578ba2299d5c41352131ea2c94e7ef192613cc8b622c196791c8fcdc4db0c3
+        name: linkace
+        env:
+        - name: APP_KEY
+          value: ${SECRET_LINKACE_APP_KEY}
+        - name: DB_CONNECTION
+          value: pgsql
+        - name: DB_HOST
+          value: buvis-pg-cluster-rw.storage
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_DATABASE
+          value: linkace
+        - name: DB_USERNAME
+          value: linkace
+        - name: DB_PASSWORD
+          value: ${SECRET_LINKACE_PG_PASSWORD}
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: la-cache
+          mountPath: /app/bootstrap/cache
+        - name: env-file
+          mountPath: /app/.env
+          subPath: .env
       restartPolicy: Always

@@ -1,6 +1,9 @@
 ---
 ignore: |
   .github/
+  .direnv/
+  .venv/
+  .serena/
   cluster-secrets.yaml
   gotk-components.yaml
   vault.yaml
@@ -8,6 +11,8 @@ ignore: |
   production/operations/minio-operator/minio/secret.yaml
   production/operations/monitoring/thanos/secret.yaml
   production/operations/vpn/vpn-gateway/secret.yaml
+  **/generated-config/
+  cluster-office/infrastructure/manifests/
 extends: default
 rules:
   truthy:

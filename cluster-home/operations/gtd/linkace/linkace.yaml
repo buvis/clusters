@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: cnpg
+  - name: cnpg
   interval: 5m
   path: "./cluster-home/operations/gtd/linkace/manifests"
   prune: true
@@ -16,7 +16,7 @@ spec:
   postBuild:
     substitute: {}
     substituteFrom:
-      - kind: Secret
-        name: cluster-secret-vars
-      - kind: ConfigMap
-        name: cluster-config
+    - kind: Secret
+      name: cluster-secret-vars
+    - kind: ConfigMap
+      name: cluster-config

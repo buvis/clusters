@@ -4,12 +4,12 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: pods-list-exec
 rules:
-  - apiGroups: [""]
-    resources: ["pods", "pods/log"]
-    verbs: ["get", "list"]
-  - apiGroups: [""]
-    resources: ["pods/exec"]
-    verbs: ["get", "create"]
+- apiGroups: [""]
+  resources: ["pods", "pods/log"]
+  verbs: ["get", "list"]
+- apiGroups: [""]
+  resources: ["pods/exec"]
+  verbs: ["get", "create"]
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -23,9 +23,9 @@ metadata:
   name: scheduled-task-pods-list-exec
   namespace: media
 subjects:
-  - kind: ServiceAccount
-    name: scheduled-task
-    namespace: media
+- kind: ServiceAccount
+  name: scheduled-task
+  namespace: media
 roleRef:
   kind: ClusterRole
   name: pods-list-exec
@@ -46,14 +46,14 @@ spec:
       template:
         spec:
           containers:
-            - name: beets-update
-              image: buvis/kube-exec:latest@sha256:d3730ae3474c37c5cd5f9ea44ca30441ae5442f450ffddba21fbdfc384d73f20
-              env:
-                - name: NAMESPACE
-                  value: media
-                - name: LABEL
-                  value: "app.kubernetes.io/name=beets"
-                - name: COMMAND
-                  value: 'beet import -q "/media/music/-_import_-" && find /media/music -type d -name "_LIDARR_ADDITIONS" | sort | xargs -I {} beet import -q "{}" && beet update && beet move'
+          - name: beets-update
+            image: buvis/kube-exec:latest@sha256:d3730ae3474c37c5cd5f9ea44ca30441ae5442f450ffddba21fbdfc384d73f20
+            env:
+            - name: NAMESPACE
+              value: media
+            - name: LABEL
+              value: "app.kubernetes.io/name=beets"
+            - name: COMMAND
+              value: 'beet import -q "/media/music/-_import_-" && find /media/music -type d -name "_LIDARR_ADDITIONS" | sort | xargs -I {} beet import -q "{}" && beet update && beet move'
           serviceAccountName: scheduled-task
           restartPolicy: OnFailure

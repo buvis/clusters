@@ -5,6 +5,6 @@ metadata:
   name: cnpg-plugin-barman-cloud
   namespace: storage
 resources:
-  - manifest.yaml
-  - b2-backup-buvis-home-cnpg-secret.yaml
-  - objectstores.yaml
+- manifest.yaml
+- b2-backup-buvis-home-cnpg-secret.yaml
+- objectstores.yaml

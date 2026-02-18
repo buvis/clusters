@@ -5,5 +5,5 @@ metadata:
   name: kopia
   namespace: storage
 resources:
-  - helmrelease.yaml
-  - jobs.yaml
+- helmrelease.yaml
+- jobs.yaml

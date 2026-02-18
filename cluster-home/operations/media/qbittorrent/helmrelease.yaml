@@ -6,14 +6,14 @@ metadata:
   namespace: media
 spec:
   dependsOn:
-    - name: ingress-nginx
-      namespace: kube-tools
-    - name: cert-manager
-      namespace: kube-tools
-    - name: authentik
-      namespace: security
-    - name: longhorn
-      namespace: storage
+  - name: ingress-nginx
+    namespace: kube-tools
+  - name: cert-manager
+    namespace: kube-tools
+  - name: authentik
+    namespace: security
+  - name: longhorn
+    namespace: storage
   interval: 5m
   install:
     timeout: 15m
@@ -45,7 +45,7 @@ spec:
         fsGroup: 568
         fsGroupChangePolicy: "OnRootMismatch"
         supplementalGroups:
-          - 985
+        - 985
     controllers:
       qbittorrent:
         containers:
@@ -97,14 +97,14 @@ spec:
           cert-manager.io/cluster-issuer: letsencrypt-production
           authentik.home.arpa/enabled: "true"
         hosts:
-          - host: &hostName qb.buvis.net
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  identifier: app
-                  port: http
+        - host: &hostName qb.buvis.net
+          paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: app
+              port: http
         tls:
-          - hosts:
-              - *hostName
-            secretName: qbittorrent-crt
+        - hosts:
+          - *hostName
+          secretName: qbittorrent-crt
