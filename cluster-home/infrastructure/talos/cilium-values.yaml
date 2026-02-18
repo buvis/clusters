@@ -27,4 +27,8 @@ securityContext:
     - NET_ADMIN
     - SYS_ADMIN
     - SYS_RESOURCE
+hubble:
+  tls:
+    auto:
+      method: cronJob
 upgradeCompatibility: '1.19'

@@ -51,33 +51,12 @@ cluster:
         name: "cilium-operator"
         namespace: kube-system
       ---
-      # Source: cilium/templates/cilium-ca-secret.yaml
+      # Source: cilium/templates/hubble/tls-cronjob/serviceaccount.yaml
       apiVersion: v1
-      kind: Secret
+      kind: ServiceAccount
       metadata:
-        name: cilium-ca
+        name: "hubble-generate-certs"
         namespace: kube-system
-        labels:
-          cilium.io/helm-template-non-idempotent: "true"
-      data:
-        ca.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURGRENDQWZ5Z0F3SUJBZ0lSQVA2VFF6WnlsNTM5M0FyWkNrUVBLOUl3RFFZSktvWklodmNOQVFFTEJRQXcKRkRFU01CQUdBMVVFQXhNSlEybHNhWFZ0SUVOQk1CNFhEVEkyTURJeE5ERXlNVEF5TmxvWERUSTVNREl4TXpFeQpNVEF5Tmxvd0ZERVNNQkFHQTFVRUF4TUpRMmxzYVhWdElFTkJNSUlCSWpBTkJna3Foa2lHOXcwQkFRRUZBQU9DCkFROEFNSUlCQ2dLQ0FRRUFxR1lwVFFoSnZMNk5TN1hBNFdmdFlRaGVqWFAvM2JMU2M0Qm14MzhRQXRaS2VoV2QKVk5XNTh0dzU4R3RVM1dQYUkxM01VZXR2NWhMa2ttbVovMkZ1OCtydGVTMTIvV1pZTk55WU42aEZHSGpWOFB5cwo4K3QrcnZSLzkzWS8rcUJqWGg0bEpVaHdzdFduNXNxaUpiRytVbzkxMWozUzZxU01oWXBTckpKdWxndk5USGtlCkxzS0xEV01COEZQMWdLTnN1cnB2K1VvQzZWTFluVFlxa0pMbHlEZjQzSTM3T3lzU1krdjRKLzduNmlGS1pTc0sKR2JOS2pCVll0ZDBGMkZwMXVUTEozQWpBSzBpc0VLb2kzelg1TGlJZ3hQSzJmQldDN25BVGZQMFpQNDZkMEtpagpFeTdwMEwvcURYWnR4KzViaVRPaGQyUDdwSHdFaFVWTHM2cURDd0lEQVFBQm8yRXdYekFPQmdOVkhROEJBZjhFCkJBTUNBcVF3SFFZRFZSMGxCQll3RkFZSUt3WUJCUVVIQXdFR0NDc0dBUVVGQndNQ01BOEdBMVVkRXdFQi93UUYKTUFNQkFmOHdIUVlEVlIwT0JCWUVGSTd2cmtrcXNJWkI4K0tpZ09WLzdTOUlkNkZiTUEwR0NTcUdTSWIzRFFFQgpDd1VBQTRJQkFRQ1hVSCtCL3J1NEtBNVlnWVl4ZHM1dUlaek1qYjlUOFhpTlA1bFRtcXplSnI3S3hTZStwbTU5CjNTNnlsQTQvMVdVcGlrdFBUMUlOUHJ1WFZXVUJGL1NyRE4wWDIyT0psWlg2YjdVWUduaUVnZDJ6MDVLOStBTzUKYTZ0YSt3bnI0SHg0Z0dmWnhHcytjazhwMTBjeC9HeWpDY1c1THZWMDQvOWo4QVdFamNtcDBFV1oxRUszWnlSdAp3eGNsbHJVcC8ySHVxa1lSdS85Q0ljV3ZRVEV0RDIwN1lRN25QVjFzWnVCUVhtVnlzVEVPN2thbmRCYWlxdGVaClBaYURGckJzdnFHME5yblJJL3oyRUNJZnFxVUNrNUpBNDhlcEs4SGJzOWZ6TnU5bVNYSTVmcDh3UnVGR0xidFgKR0ZoZURHbEVUR0o2RUp4aHBVQS81dUpnZzJXZlE4YlUKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
-        ca.key: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFb3dJQkFBS0NBUUVBcUdZcFRRaEp2TDZOUzdYQTRXZnRZUWhlalhQLzNiTFNjNEJteDM4UUF0WktlaFdkClZOVzU4dHc1OEd0VTNXUGFJMTNNVWV0djVoTGtrbW1aLzJGdTgrcnRlUzEyL1daWU5OeVlONmhGR0hqVjhQeXMKOCt0K3J2Ui85M1kvK3FCalhoNGxKVWh3c3RXbjVzcWlKYkcrVW85MTFqM1M2cVNNaFlwU3JKSnVsZ3ZOVEhrZQpMc0tMRFdNQjhGUDFnS05zdXJwditVb0M2VkxZblRZcWtKTGx5RGY0M0kzN095c1NZK3Y0Si83bjZpRktaU3NLCkdiTktqQlZZdGQwRjJGcDF1VExKM0FqQUswaXNFS29pM3pYNUxpSWd4UEsyZkJXQzduQVRmUDBaUDQ2ZDBLaWoKRXk3cDBML3FEWFp0eCs1YmlUT2hkMlA3cEh3RWhVVkxzNnFEQ3dJREFRQUJBb0lCQUV1NFdEVGJsN0JuYkVoUgpTdy92dDhUTVN4dkd2NVBUN3g1aGE1V2p0RExhWVhYQTExUklvQXFzYk44R25BdktkTkUzUVlMS1h5L3dhZGZOCjVTRjRrYmZhK0hubThCeWtFdUIrR25IWVYyMVlGRGIrbnRRMUhXc1U1SitFaStNcGtGVEhNRU94N1g3MFpFRjUKOXV3RkhzT24zei84MzZTRFplNDhFczJuTUZPRjh5d0xWYlhhTHpWYWZPaDU5RkpWODJKR2dtZmNKK2h4cUZrMwo1QzgzWEJwT3NxMU9VTjRYQ1VFbkVIZDFuRFgyTUkwQTZiZlNIaitYbUswdk10WnozbXRKSUMyV0dKcytnRTZJCnUvYUZqS0RkWmlXQW93Q1doT3haQWFnbDdaUlVtLzI1SUdpdFE0bjkrT1FZWW9OZXJVM25mL1ZiOWR5NGkwVUIKblJxM2V3a0NnWUVBMXpIMS9iQzQyYmluM3VueUUyWjB4WklsbGIvQ0dUenB5QUNnZ3NDNjNLM04xOHFKajYrYgpvUDlObXIxaWNFVDZLeGw2NG56SVhRMVFpQWxQakR5dTF4UlVJZG9qSm1tdmw3SVR6V1BhU084alVRTTdsR3p6CnVjUFdVdWZ4SnVZMTVGWGlEN01TUndXWGoyVUltMlQzUmw4U2g1djVtY1dlTnZoR2lLaEg4UE1DZ1lFQXlGU2QKNVBxUHpCRE53bzdKU2duTHRTeGxaWlVQSlE4QVdLa09zUDB3MzNTQXhLMWJ0bHhLSHI3TmJWQmJrVjRQeDQ2aQorNkxZQTlaQ1ptRDd3QzEyVlZGcE9QS25HVHYyRUNKWFFwMkVLM0hvSGJRdXVkWVlmOEdLd3l5TURqSzBQd1YyClR3c1ZmMW9NdFQ5MmhvY0J3eHFxN3htR2xFU2QxcjdxMjhQM2E0a0NnWUFEZkxYRnhLVmFNZG5Xak9mMVZJV3oKNWVoaUF0ZDhYVFpVblYzOGdHOEd3SEpEZXU2N3UxYkVSeDdVMFJqVlJPamc1ZXJOM01QS2Jqck4yWWpHZHYxRwpVdmdDREd6aFpIa0o5a0xINDBSWVJqZkdTazBlM0owZWQ0UHpsL3FhYk1TV3pLVjdKNlcyTE9zRjBkZFAzVlQ4CmVQSHQ3S01nME1qOWp3eGxqb1NMN1FLQmdRQ3VUdklVQ3ZDVDN3c3AvcE9tbUY5bmhQbTFLYjNEd1FuTUcwMXQKTXVFVGpZdDlsbG4ya3RicmFablZROVpvNWk5VXRBZWNiRlVKQWFWRTc1NGQyWERkUzdrQ2xDQlJGSnRGN3B0KwpteEFsdlRiNm9ZMEdwZ01ySm54VzFxd0dycGVuUGxseTdYSUhIWk54SVlkQUJyakJ5ckp3MlFVQWZiUFk1c1h6CjhzK1dBUUtCZ0N2SWtucG9ERFN5N25lV3JQNkM3NFJQbFBBc3Q2eWNJZVp2cXBSVWo4ZVVzK0w3TlV0WXJVcHAKRGUyYTRaUWpjc2xEZzFQNk5vdEdLdjhSNCtFb0tQZ3JDRWNjZ2ZNU1JSMEZGZDJaYUtoVDZtVy9Qb1NURlFPNgpTbXprYTMxZ01GekNBUzVVSkFsc3dnQitJSHl0NnFhRlJQM1BLQmlXTjRvOUVYU1NXdWFBCi0tLS0tRU5EIFJTQSBQUklWQVRFIEtFWS0tLS0tCg==
-      ---
-      # Source: cilium/templates/hubble/tls-helm/server-secret.yaml
-      apiVersion: v1
-      kind: Secret
-      metadata:
-        name: hubble-server-certs
-        namespace: kube-system
-        labels:
-          cilium.io/helm-template-non-idempotent: "true"
-
-        annotations:
-      type: kubernetes.io/tls
-      data:
-        ca.crt:  LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURGRENDQWZ5Z0F3SUJBZ0lSQVA2VFF6WnlsNTM5M0FyWkNrUVBLOUl3RFFZSktvWklodmNOQVFFTEJRQXcKRkRFU01CQUdBMVVFQXhNSlEybHNhWFZ0SUVOQk1CNFhEVEkyTURJeE5ERXlNVEF5TmxvWERUSTVNREl4TXpFeQpNVEF5Tmxvd0ZERVNNQkFHQTFVRUF4TUpRMmxzYVhWdElFTkJNSUlCSWpBTkJna3Foa2lHOXcwQkFRRUZBQU9DCkFROEFNSUlCQ2dLQ0FRRUFxR1lwVFFoSnZMNk5TN1hBNFdmdFlRaGVqWFAvM2JMU2M0Qm14MzhRQXRaS2VoV2QKVk5XNTh0dzU4R3RVM1dQYUkxM01VZXR2NWhMa2ttbVovMkZ1OCtydGVTMTIvV1pZTk55WU42aEZHSGpWOFB5cwo4K3QrcnZSLzkzWS8rcUJqWGg0bEpVaHdzdFduNXNxaUpiRytVbzkxMWozUzZxU01oWXBTckpKdWxndk5USGtlCkxzS0xEV01COEZQMWdLTnN1cnB2K1VvQzZWTFluVFlxa0pMbHlEZjQzSTM3T3lzU1krdjRKLzduNmlGS1pTc0sKR2JOS2pCVll0ZDBGMkZwMXVUTEozQWpBSzBpc0VLb2kzelg1TGlJZ3hQSzJmQldDN25BVGZQMFpQNDZkMEtpagpFeTdwMEwvcURYWnR4KzViaVRPaGQyUDdwSHdFaFVWTHM2cURDd0lEQVFBQm8yRXdYekFPQmdOVkhROEJBZjhFCkJBTUNBcVF3SFFZRFZSMGxCQll3RkFZSUt3WUJCUVVIQXdFR0NDc0dBUVVGQndNQ01BOEdBMVVkRXdFQi93UUYKTUFNQkFmOHdIUVlEVlIwT0JCWUVGSTd2cmtrcXNJWkI4K0tpZ09WLzdTOUlkNkZiTUEwR0NTcUdTSWIzRFFFQgpDd1VBQTRJQkFRQ1hVSCtCL3J1NEtBNVlnWVl4ZHM1dUlaek1qYjlUOFhpTlA1bFRtcXplSnI3S3hTZStwbTU5CjNTNnlsQTQvMVdVcGlrdFBUMUlOUHJ1WFZXVUJGL1NyRE4wWDIyT0psWlg2YjdVWUduaUVnZDJ6MDVLOStBTzUKYTZ0YSt3bnI0SHg0Z0dmWnhHcytjazhwMTBjeC9HeWpDY1c1THZWMDQvOWo4QVdFamNtcDBFV1oxRUszWnlSdAp3eGNsbHJVcC8ySHVxa1lSdS85Q0ljV3ZRVEV0RDIwN1lRN25QVjFzWnVCUVhtVnlzVEVPN2thbmRCYWlxdGVaClBaYURGckJzdnFHME5yblJJL3oyRUNJZnFxVUNrNUpBNDhlcEs4SGJzOWZ6TnU5bVNYSTVmcDh3UnVGR0xidFgKR0ZoZURHbEVUR0o2RUp4aHBVQS81dUpnZzJXZlE4YlUKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
-        tls.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURWekNDQWorZ0F3SUJBZ0lSQUlsZldSbXo0U1g0SzlEM3B0Z3VxTk13RFFZSktvWklodmNOQVFFTEJRQXcKRkRFU01CQUdBMVVFQXhNSlEybHNhWFZ0SUVOQk1CNFhEVEkyTURJeE56SXpNekF6T1ZvWERUSTNNREl4TnpJegpNekF6T1Zvd0tqRW9NQ1lHQTFVRUF3d2ZLaTVrWldaaGRXeDBMbWgxWW1Kc1pTMW5jbkJqTG1OcGJHbDFiUzVwCmJ6Q0NBU0l3RFFZSktvWklodmNOQVFFQkJRQURnZ0VQQURDQ0FRb0NnZ0VCQUo3V0xEYTFXelFxQkhyVmhBZi8KOHpiaVB5NFJBSnl4VEpnMGRUL1dzN1RGdThsc2xjd3FaQ2doR1BmTm1XaEx5RHZSdms1a3FCdG5Bdi9URW9mSgpTZTQ2MXZzN1JGc0VXekszR1M0TU05QklwVVdVZ2xGMm9jUlNGTUw3RjdVRFArWVBTNjdzSmEzaWZvdm1zQlluCkt6cE1rdHdqdjFkSjRmRGdtR1B3dU9YbW5WeFpHL2VVclpUeWYvd2FNbVZuRWFySUFDQ254MFludGRSc1dWWkcKY1BYOG1ubVpmdjBINU50UDhqd0w2bFN5MFhVMFEvbzJMU0dJd3Z6SitDZ1pUalNCYnRleXlWVTEzZWF4T093MAo0VGxzVXFiQlc3TU5OZFlxcE92VUJOc21VNUIrNmh2UVpxVXdSN3AzNSs5VFN1WE5MTCtLb3Q2WGtES0ZEQjcxCmJMOENBd0VBQWFPQmpUQ0JpakFPQmdOVkhROEJBZjhFQkFNQ0JhQXdIUVlEVlIwbEJCWXdGQVlJS3dZQkJRVUgKQXdFR0NDc0dBUVVGQndNQ01Bd0dBMVVkRXdFQi93UUNNQUF3SHdZRFZSMGpCQmd3Rm9BVWp1K3VTU3F3aGtIego0cUtBNVgvdEwwaDNvVnN3S2dZRFZSMFJCQ013SVlJZktpNWtaV1poZFd4MExtaDFZbUpzWlMxbmNuQmpMbU5wCmJHbDFiUzVwYnpBTkJna3Foa2lHOXcwQkFRc0ZBQU9DQVFFQVJtZnAzL2FkMngwUDVCc0lMd1ZLSmlBOFpUNEoKV1Y5Nm0xQVBRdlc4cm9QejR1eWlVOWdlekVWUUxSYTZaeVVDN2ZTYk5jU3ZlQjNrSzlodGsyeDNzaEhBckMxYQo0ZzIrSkZXc3Nac0xRS0xlNXpIL0pSSWVHQ2tSTndPUkxPK0hlTGdWcU44Ym8zelpIckdGUkp1eDd2R0txZ1dxCm1PTzJIVFowdEZHUHM0WnBoQU8xNzlFVUlGZGFwamFGc3NNMWFac1ZGak1pZFhsQ0wyK0hSNzJGVkppZGU5UlAKTExBTzVjbSt2K3F6bklIWGYrQ0NiNURRbGNDRUc0L28yNzBOazJUaXVsODYwUVVhY1hXa2pYR0htclorOUJ5QQo2MFBjQlpOb3RsVU8ybGpMdGxQMjVyOG1MclZPSzNlWVN4VTVSV2VoeXF0Y3h1S1lhV2tpVmM5dld3PT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
-        tls.key: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFb3dJQkFBS0NBUUVBbnRZc05yVmJOQ29FZXRXRUIvL3pOdUkvTGhFQW5MRk1tRFIxUDlhenRNVzd5V3lWCnpDcGtLQ0VZOTgyWmFFdklPOUcrVG1Tb0cyY0MvOU1TaDhsSjdqclcrenRFV3dSYk1yY1pMZ3d6MEVpbFJaU0MKVVhhaHhGSVV3dnNYdFFNLzVnOUxydXdscmVKK2krYXdGaWNyT2t5UzNDTy9WMG5oOE9DWVkvQzQ1ZWFkWEZrYgo5NVN0bFBKLy9Cb3laV2NScXNnQUlLZkhSaWUxMUd4WlZrWnc5ZnlhZVpsKy9RZmsyMC95UEF2cVZMTFJkVFJECitqWXRJWWpDL01uNEtCbE9OSUZ1MTdMSlZUWGQ1ckU0N0RUaE9XeFNwc0Zic3cwMTFpcWs2OVFFMnlaVGtIN3EKRzlCbXBUQkh1bmZuNzFOSzVjMHN2NHFpM3BlUU1vVU1IdlZzdndJREFRQUJBb0lCQUFNSk5rc2l2WjJLVFdUegpxU203VUxESjNrbnp5cFBlMGx5anZyZFEvcHBaU29wQ2FHZnJTaTEzaEh5b0VnM3JuNURWSk5LOEd5SjY4NVJrCk9tOGNxb0hDaWlnVWdwZjRHMWpRSmN1NjIvcXRNM1l0clMxVmNTakplNFZ4T3pZYk1TRFA4TE1QNXlCNFpkRjkKYXFiaHYzSnhLRUFnOFhWVS80YVZKR25mU0xRaGpweE1la2l5MXA3QTlxaUpFN3l5ZDdpN1BzaS9CQkRraHpZQwpwdCtGZzc3YTlrL3BTeVc2dWVFcmJicytzSFB3Y0I1RXFGTE5QM0U0MWg5ZHlLSzdXaCtma1doZkhNWkEwblQzClBXRnFOWTI5L2ZoR1lNWXAwb3dEMmhoQWg0aVdUaHV4VENMU05DeGc1Z05GMkp3eEQ5YVJpV3RxM3VjYXNGNFAKeDVYbUFCRUNnWUVBeXlReUNJL014UnVHUDB5ODVubWdxaTZwNS91dFBSeFpmY05LRHhlTTZPdTR0dG9wVDkzUwp2SW9rSjErbWRFekc1S0toOFVadm1sajNqR1A4ZmFua3BSK0VhYVlLaUN4MERaTnVXbE12cHB4TmdrNWNteEgrCmQxU3ZCZGRkWDVlN2JTMUwxMXExWTNMU2JRTHhJWC8wVXp4L3IzU3RkalNQZ1RCQldnTWNPOE1DZ1lFQXlDcTIKOXhsWkpWSm9BMWVLdnZTNXBlbFNwWkRzZWhyNFMvd0xXMkJNSkY3LzhCMW9NNjVzc0N3ZVFhbkRxcURnVlMwbQprZ2VFTEY2RGMxSFc0UHAySjVhZVFkV1dUd3lqSm5sVnZJb2VHWVJINGJyVGNJdEY2ZDA2bkhoV2lUM2RWb1FFCjdBbUVaYmVxVjhDdS9ac0pJT0hWdkFxaVkzQlpHRUdXVkxaTHgxVUNnWUJ3ZFV4Qmt5SWdhSGxzWjVZWDNYT0YKWXlucVpGam1nT0JHRUN2YXFRWDRHQzc5QTA5bGlIN1dvMzhhVVFoOFQ5aTMwQlRvMWo2SWF3STROVTRkWDBWVgo2Rm5NaHdCRG5LQnV0NVNhNm54eHR3dnR2R1hsN3hNNWlxY09DOGtFVjZLSjhVNlFIUVpYMU1RTFYxcVlXaGF2ClVjbTZIMVM4SUtMbE9RcWt3eDRKTXdLQmdIUUxIMnQ5aklyd2pWQnlyZ01xaVg1QUdDUFlNdUJQUm1kMnhYYkMKQ3lLQzJNbnhvbmxqdzZzV3lLdTBxYlQvODA0dUVOQlQvekpoMEw5SVVOUzVIMHF3TFN0cGtleGVIUyt1NUIrYgp5dnRzRHVnMGtXUUx1Z3Bzc1JBSlM5SGd4YkxrY3A0TW5tOEIzWVZtTll6ZEZwdXprVitrb3FRWGUrOXVCcU14CjFCakpBb0dCQUxydEwvOUlDeXB0VlRZOEdxWmttcHVjWkNTamVNT2xRb29CS3ZWZldxc01pekEwNGdYTXkwaGkKcTJiVnhCeGxVNm90d0pqQklFOXZDc3MxTTFqakJvRThVUzNGeSsxZzl2SGJZTFRLdWZhUjdQRi9WRXNyUStrTgpsZWxRM2RXZlEzUElmNVpPcmN1QnlnNjRJVXVRZG0zMGRNWWxEM2QxOE5FZEQ5SWJDUmNmCi0tLS0tRU5EIFJTQSBQUklWQVRFIEtFWS0tLS0tCg==
       ---
       # Source: cilium/templates/cilium-configmap.yaml
       apiVersion: v1
@@ -843,6 +822,44 @@ cluster:
         - list
         - watch
       ---
+      # Source: cilium/templates/hubble/tls-cronjob/role.yaml
+      apiVersion: rbac.authorization.k8s.io/v1
+      kind: Role
+      metadata:
+        name: hubble-generate-certs
+        namespace: kube-system
+        labels:
+          app.kubernetes.io/part-of: cilium
+
+      rules:
+        - apiGroups:
+            - ""
+          resources:
+            - secrets
+          verbs:
+            - create
+        - apiGroups:
+            - ""
+          resources:
+            - secrets
+          resourceNames:
+            - hubble-server-certs
+            - hubble-relay-client-certs
+            - hubble-relay-server-certs
+            - hubble-metrics-server-certs
+            - hubble-ui-client-certs
+          verbs:
+            - update
+        - apiGroups:
+            - ""
+          resources:
+            - secrets
+          resourceNames:
+            - cilium-ca
+          verbs:
+            - get
+            - update
+      ---
       # Source: cilium/templates/cilium-agent/rolebinding.yaml
       apiVersion: rbac.authorization.k8s.io/v1
       kind: RoleBinding
@@ -926,6 +943,24 @@ cluster:
       subjects:
       - kind: ServiceAccount
         name: "cilium-operator"
+        namespace: kube-system
+      ---
+      # Source: cilium/templates/hubble/tls-cronjob/rolebinding.yaml
+      apiVersion: rbac.authorization.k8s.io/v1
+      kind: RoleBinding
+      metadata:
+        name: hubble-generate-certs
+        namespace: kube-system
+        labels:
+          app.kubernetes.io/part-of: cilium
+
+      roleRef:
+        apiGroup: rbac.authorization.k8s.io
+        kind: Role
+        name: hubble-generate-certs
+      subjects:
+      - kind: ServiceAccount
+        name: "hubble-generate-certs"
         namespace: kube-system
       ---
       # Source: cilium/templates/cilium-envoy/service.yaml
@@ -1796,3 +1831,129 @@ cluster:
             - name: cilium-config-path
               configMap:
                 name: cilium-config
+      ---
+      # Source: cilium/templates/hubble/tls-cronjob/job.yaml
+      apiVersion: batch/v1
+      kind: Job
+      metadata:
+        name: hubble-generate-certs-417e9bb2bb
+        namespace: kube-system
+        labels:
+          k8s-app: hubble-generate-certs
+          app.kubernetes.io/name: hubble-generate-certs
+          app.kubernetes.io/part-of: cilium
+      spec:
+        template:
+          metadata:
+            labels:
+              k8s-app: hubble-generate-certs
+          spec:
+            securityContext:
+              seccompProfile:
+                type: RuntimeDefault
+            containers:
+              - name: certgen
+                image: "quay.io/cilium/certgen:v0.3.2@sha256:19921f48ee7e2295ea4dca955878a6cd8d70e6d4219d08f688e866ece9d95d4d"
+                imagePullPolicy: IfNotPresent
+                securityContext:
+                  capabilities:
+                    drop:
+                    - ALL
+                  allowPrivilegeEscalation: false
+                command:
+                  - "/usr/bin/cilium-certgen"
+                # Because this is executed as a job, we pass the values as command
+                # line args instead of via config map. This allows users to inspect
+                # the values used in past runs by inspecting the completed pod.
+                args:
+                  - "--ca-generate=true"
+                  - "--ca-reuse-secret"
+                  - "--ca-secret-namespace=kube-system"
+                  - "--ca-secret-name=cilium-ca"
+                  - "--ca-common-name=Cilium CA"
+                env:
+                  - name: CILIUM_CERTGEN_CONFIG
+                    value: |
+                      certs:
+                      - name: hubble-server-certs
+                        namespace: kube-system
+                        commonName: "*.default.hubble-grpc.cilium.io"
+                        hosts:
+                        - "*.default.hubble-grpc.cilium.io"
+                        usage:
+                        - signing
+                        - key encipherment
+                        - server auth
+                        - client auth
+                        validity: 8760h
+
+            hostNetwork: false
+            serviceAccountName: "hubble-generate-certs"
+            automountServiceAccountToken: true
+            restartPolicy: OnFailure
+      ---
+      # Source: cilium/templates/hubble/tls-cronjob/cronjob.yaml
+      apiVersion: batch/v1
+      kind: CronJob
+      metadata:
+        name: hubble-generate-certs
+        namespace: kube-system
+        labels:
+          k8s-app: hubble-generate-certs
+          app.kubernetes.io/name: hubble-generate-certs
+          app.kubernetes.io/part-of: cilium
+      spec:
+        schedule: "0 0 1 */4 *"
+        successfulJobsHistoryLimit: 3
+        failedJobsHistoryLimit: 1
+        concurrencyPolicy: Forbid
+        jobTemplate:
+          spec:
+            template:
+              metadata:
+                labels:
+                  k8s-app: hubble-generate-certs
+              spec:
+                securityContext:
+                  seccompProfile:
+                    type: RuntimeDefault
+                containers:
+                  - name: certgen
+                    image: "quay.io/cilium/certgen:v0.3.2@sha256:19921f48ee7e2295ea4dca955878a6cd8d70e6d4219d08f688e866ece9d95d4d"
+                    imagePullPolicy: IfNotPresent
+                    securityContext:
+                      capabilities:
+                        drop:
+                        - ALL
+                      allowPrivilegeEscalation: false
+                    command:
+                      - "/usr/bin/cilium-certgen"
+                    # Because this is executed as a job, we pass the values as command
+                    # line args instead of via config map. This allows users to inspect
+                    # the values used in past runs by inspecting the completed pod.
+                    args:
+                      - "--ca-generate=true"
+                      - "--ca-reuse-secret"
+                      - "--ca-secret-namespace=kube-system"
+                      - "--ca-secret-name=cilium-ca"
+                      - "--ca-common-name=Cilium CA"
+                    env:
+                      - name: CILIUM_CERTGEN_CONFIG
+                        value: |
+                          certs:
+                          - name: hubble-server-certs
+                            namespace: kube-system
+                            commonName: "*.default.hubble-grpc.cilium.io"
+                            hosts:
+                            - "*.default.hubble-grpc.cilium.io"
+                            usage:
+                            - signing
+                            - key encipherment
+                            - server auth
+                            - client auth
+                            validity: 8760h
+
+                hostNetwork: false
+                serviceAccountName: "hubble-generate-certs"
+                automountServiceAccountToken: true
+                restartPolicy: OnFailure
