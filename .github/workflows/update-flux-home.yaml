@@ -25,6 +25,7 @@ jobs:
           --export > ./cluster-home/operations/flux-system/gotk-components.yaml
         echo "flux_version=${VERSION}" >> $GITHUB_OUTPUT
     - name: Create pull request for Flux update
+      id: create-pr
       uses: peter-evans/create-pull-request@c0f553fe549906ede9cf27b5156039d195d2ece0 # v8
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -39,3 +40,8 @@ jobs:
         body: |
           Release notes: https://github.com/fluxcd/flux2/releases/tag/${{ steps.update.outputs.flux_version }}
         labels: flux/update
+    - name: Enable auto-merge
+      if: steps.create-pr.outputs.pull-request-operation == 'created'
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: gh pr merge --auto --rebase "${{ steps.create-pr.outputs.pull-request-url }}"
