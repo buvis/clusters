@@ -4,8 +4,6 @@
     "github>tbouska/renovate-config",
     "github>buvis/clusters//.github/renovate/allowedVersions.json"
   ],
-  "dependencyDashboard": true,
-  "dependencyDashboardTitle": "Renovate Dashboard",
   "kubernetes": {
     "managerFilePatterns": [
       "/./.+\\.yaml$/"
