@@ -36,7 +36,7 @@ spec:
   values:
     image:
       repository: buvis/mkdocs-git-sync
-      tag: v0.3.0@sha256:4f8d4a023f182ca05eec07df5ffbd4f9b13733ca0f026e618119f758642469b5
+      tag: v0.3.0@sha256:4779f6388084464403065065a26f09e11f55a5321c3d7758e84c1296cffe62f0
     securityContext:
       runAsUser: 1001
       fsGroup: 1001
