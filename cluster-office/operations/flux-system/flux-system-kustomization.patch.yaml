@@ -12,7 +12,7 @@ spec:
   postBuild:
     substitute: {}
     substituteFrom:
-    - kind: Secret
-      name: cluster-secret-vars
-    - kind: ConfigMap
-      name: cluster-config
+      - kind: Secret
+        name: cluster-secret-vars
+      - kind: ConfigMap
+        name: cluster-config

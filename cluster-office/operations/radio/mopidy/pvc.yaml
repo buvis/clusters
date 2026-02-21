@@ -8,19 +8,19 @@ spec:
   capacity:
     storage: 10Gi
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: ${NFS_SERVER_IP}
     path: ${NFS_SERVER_PATH_MOPIDY}
   mountOptions:
-  - nfsvers=3
-  - tcp
-  - intr
-  - hard
-  - noatime
-  - nodiratime
-  - nolock
+    - nfsvers=3
+    - tcp
+    - intr
+    - hard
+    - noatime
+    - nodiratime
+    - nolock
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -30,7 +30,7 @@ metadata:
 spec:
   storageClassName: mopidy-data
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   resources:
     requests:
       storage: 10Gi

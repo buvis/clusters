@@ -1,7 +1,7 @@
 ---
 creation_rules:
-- path_regex: \.enc\..*$
-  pgp: 8E6938876331A62A4B7D5580053DA8FFF394EAD6
-- path_regex: .*.yaml
-  encrypted_regex: '^(data|stringData|caBundle)$'
-  pgp: 8E6938876331A62A4B7D5580053DA8FFF394EAD6
+  - path_regex: \.enc\..*$
+    pgp: 8E6938876331A62A4B7D5580053DA8FFF394EAD6
+  - path_regex: .*.yaml
+    encrypted_regex: '^(data|stringData|caBundle)$'
+    pgp: 8E6938876331A62A4B7D5580053DA8FFF394EAD6

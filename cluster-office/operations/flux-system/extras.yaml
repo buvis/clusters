@@ -7,8 +7,8 @@ metadata:
 spec:
   interval: 10m0s
   dependsOn:
-  - name: flux-system
-    namespace: flux-system
+    - name: flux-system
+      namespace: flux-system
   path: ./cluster-office/operations/flux-system/extras
   prune: true
   sourceRef:

@@ -5,18 +5,18 @@ metadata:
   name: flux-system
   namespace: flux-system
 resources:
-- gotk-components.yaml
-- gotk-sync.yaml
-- sources.yaml
-- extras.yaml
+  - gotk-components.yaml
+  - gotk-sync.yaml
+  - sources.yaml
+  - extras.yaml
 patches:
-- path: flux-system-gitrepository.patch.yaml
-  target:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-- path: flux-system-kustomization.patch.yaml
-  target:
-    kind: Kustomization
-    name: flux-system
-    namespace: flux-system
+  - path: flux-system-gitrepository.patch.yaml
+    target:
+      kind: GitRepository
+      name: flux-system
+      namespace: flux-system
+  - path: flux-system-kustomization.patch.yaml
+    target:
+      kind: Kustomization
+      name: flux-system
+      namespace: flux-system

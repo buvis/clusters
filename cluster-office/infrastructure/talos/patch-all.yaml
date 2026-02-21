@@ -3,16 +3,16 @@
   value:
     name: custom
     urls:
-    - https://raw.githubusercontent.com/buvis/clusters/main/cluster-office/infrastructure/manifests/deploy-tigera-operator.yaml
-    - https://raw.githubusercontent.com/buvis/clusters/main/cluster-office/infrastructure/manifests/install-calico.yaml
+      - https://raw.githubusercontent.com/buvis/clusters/main/cluster-office/infrastructure/manifests/deploy-tigera-operator.yaml
+      - https://raw.githubusercontent.com/buvis/clusters/main/cluster-office/infrastructure/manifests/install-calico.yaml
 - op: replace
   path: /cluster/network/podSubnets
   value:
-  - 172.42.0.0/16
+    - 172.42.0.0/16
 - op: replace
   path: /cluster/network/serviceSubnets
   value:
-  - 172.44.0.0/16
+    - 172.44.0.0/16
 - op: replace
   path: /machine/install/disk
   value: /dev/mmcblk0
@@ -24,7 +24,7 @@
   value:
     disabled: false
     servers:
-    - 'time.cloudflare.com'
-    - 'time.google.com'
-    - 'pool.ntp.org'
+      - 'time.cloudflare.com'
+      - 'time.google.com'
+      - 'pool.ntp.org'
     bootTimeout: 2m0s
