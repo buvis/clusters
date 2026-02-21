@@ -5,7 +5,7 @@ metadata:
   name: kyverno
   namespace: kube-tools
 resources:
-- helmrelease.yaml
-- kyverno.yaml
-- policies.yaml
-- rbac.yaml
+  - helmrelease.yaml
+  - kyverno.yaml
+  - policies.yaml
+  - rbac.yaml

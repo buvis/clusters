@@ -15,6 +15,6 @@ spec:
       name: letsencrypt-production-account-key
     # Add a single challenge solver, HTTP01 using nginx
     solvers:
-    - http01:
-        ingress:
-          class: nginx
+      - http01:
+          ingress:
+            class: nginx

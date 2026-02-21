@@ -6,10 +6,10 @@ metadata:
   namespace: gtd
 spec:
   dependsOn:
-  - name: ingress-nginx
-    namespace: kube-tools
-  - name: cert-manager
-    namespace: kube-tools
+    - name: ingress-nginx
+      namespace: kube-tools
+    - name: cert-manager
+      namespace: kube-tools
   interval: 5m
   install:
     timeout: 15m
@@ -60,37 +60,37 @@ spec:
           cert-manager.io/cluster-issuer: letsencrypt-production
           nginx.ingress.kubernetes.io/proxy-body-size: 100M
         hosts:
-        - host: &hostName radicale.buvis.net
-          paths:
-          - path: /
-            pathType: Prefix
-            service:
-              identifier: app
-              port: http
+          - host: &hostName radicale.buvis.net
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+                  port: http
         tls:
-        - hosts:
-          - *hostName
-          secretName: radicale-crt
+          - hosts:
+              - *hostName
+            secretName: radicale-crt
     persistence:
       auth:
         enabled: true
         type: secret
         name: radicale-users
         globalMounts:
-        - path: /config/users
-          subPath: users
-          readOnly: true
+          - path: /config/users
+            subPath: users
+            readOnly: true
       config:
         enabled: true
         type: configMap
         name: radicale-config
         globalMounts:
-        - path: /config/config
-          subPath: config.cfg
-          readOnly: true
+          - path: /config/config
+            subPath: config.cfg
+            readOnly: true
       data:
         enabled: true
         type: persistentVolumeClaim
         existingClaim: radicale-data
         globalMounts:
-        - path: /data
+          - path: /data

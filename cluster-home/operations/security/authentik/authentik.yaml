@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-  - name: flux-system-extras
+    - name: flux-system-extras
   interval: 5m
   path: "./cluster-home/operations/security/authentik"
   prune: true
@@ -16,7 +16,7 @@ spec:
   postBuild:
     substitute: {}
     substituteFrom:
-    - kind: Secret
-      name: cluster-secret-vars
-    - kind: ConfigMap
-      name: cluster-config
+      - kind: Secret
+        name: cluster-secret-vars
+      - kind: ConfigMap
+        name: cluster-config

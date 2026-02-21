@@ -49,7 +49,7 @@ spec:
           enabled: true
           params:
             nodeAffinityType:
-            - requiredDuringSchedulingIgnoredDuringExecution
+              - requiredDuringSchedulingIgnoredDuringExecution
         RemovePodsViolatingTopologySpreadConstraint:
           enabled: true
           params:
@@ -78,5 +78,5 @@ spec:
             failedPods:
               includingInitContainers: true
               excludeOwnerKinds:
-              - "Job"
+                - "Job"
               minPodLifeTimeSeconds: 3600

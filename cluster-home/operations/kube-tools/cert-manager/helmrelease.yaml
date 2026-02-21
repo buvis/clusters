@@ -49,4 +49,4 @@ spec:
         limits:
           memory: 256Mi
     extraArgs:
-    - --acme-http01-solver-nameservers=1.1.1.1:53,9.9.9.9:53
+      - --acme-http01-solver-nameservers=1.1.1.1:53,9.9.9.9:53

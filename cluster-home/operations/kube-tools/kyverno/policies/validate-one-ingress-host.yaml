@@ -13,19 +13,19 @@ metadata:
 spec:
   validationFailureAction: audit
   rules:
-  - name: deny-multiple-hosts
-    match:
-      resources:
-        kinds:
-        - Ingress
-    preconditions:
-      all:
-      - key: "{{ request.operation }}"
-        operator: Equals
-        value: CREATE
-      - key: "{{ request.object.spec.rules[].host | length(@)}}"
-        operator: GreaterThan
-        value: 1
-    validate:
-      message: "An Ingress resource may only contain a single host entry."
-      deny: {}
+    - name: deny-multiple-hosts
+      match:
+        resources:
+          kinds:
+            - Ingress
+      preconditions:
+        all:
+          - key: "{{ request.operation }}"
+            operator: Equals
+            value: CREATE
+          - key: "{{ request.object.spec.rules[].host | length(@)}}"
+            operator: GreaterThan
+            value: 1
+      validate:
+        message: "An Ingress resource may only contain a single host entry."
+        deny: {}

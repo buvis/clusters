@@ -6,15 +6,15 @@ metadata:
   namespace: security
 spec:
   exceptions:
-  - policyName: validate-one-ingress-host
-    ruleNames:
-    - deny-multiple-hosts
+    - policyName: validate-one-ingress-host
+      ruleNames:
+        - deny-multiple-hosts
   match:
     any:
-    - resources:
-        names:
-        - ak-outpost-*
-        kinds:
-        - Ingress
-        namespaces:
-        - security
+      - resources:
+          names:
+            - ak-outpost-*
+          kinds:
+            - Ingress
+          namespaces:
+            - security

@@ -17,17 +17,17 @@ metadata:
     authentik.home.arpa/enabled: "true"
 spec:
   tls:
-  - hosts:
-    - fn.buvis.net
-    secretName: fn-crt
+    - hosts:
+        - fn.buvis.net
+      secretName: fn-crt
   rules:
-  - host: fn.buvis.net
-    http:
-      paths:
-      - path: /
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: gateway
-            port:
-              number: 8080
+    - host: fn.buvis.net
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: gateway
+                port:
+                  number: 8080

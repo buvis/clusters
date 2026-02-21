@@ -6,14 +6,14 @@ metadata:
   namespace: media
 spec:
   dependsOn:
-  - name: ingress-nginx
-    namespace: kube-tools
-  - name: cert-manager
-    namespace: kube-tools
-  - name: authentik
-    namespace: security
-  - name: longhorn
-    namespace: storage
+    - name: ingress-nginx
+      namespace: kube-tools
+    - name: cert-manager
+      namespace: kube-tools
+    - name: authentik
+      namespace: security
+    - name: longhorn
+      namespace: storage
   interval: 5m
   install:
     timeout: 15m
@@ -44,12 +44,12 @@ spec:
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app.kubernetes.io/name
-                operator: In
-                values: ["qbittorrent"]
-            topologyKey: kubernetes.io/hostname
+            - labelSelector:
+                matchExpressions:
+                  - key: app.kubernetes.io/name
+                    operator: In
+                    values: ["qbittorrent"]
+              topologyKey: kubernetes.io/hostname
       securityContext:
         runAsUser: 1001
         runAsGroup: 1001
@@ -120,14 +120,14 @@ spec:
           cert-manager.io/cluster-issuer: letsencrypt-production
           authentik.home.arpa/enabled: "true"
         hosts:
-        - host: &hostName sabnzbd.buvis.net
-          paths:
-          - path: /
-            pathType: Prefix
-            service:
-              identifier: app
-              port: http
+          - host: &hostName sabnzbd.buvis.net
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+                  port: http
         tls:
-        - hosts:
-          - *hostName
-          secretName: sabnzbd-crt
+          - hosts:
+              - *hostName
+            secretName: sabnzbd-crt

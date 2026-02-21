@@ -5,4 +5,4 @@ metadata:
   name: linkace
   namespace: flux-system
 resources:
-- linkace.yaml
+  - linkace.yaml

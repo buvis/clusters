@@ -17,44 +17,44 @@ spec:
     spec:
       priorityClassName: system-node-critical
       tolerations:
-      - operator: "Exists"
-        effect: "NoExecute"
-      - operator: "Exists"
-        effect: "NoSchedule"
+        - operator: "Exists"
+          effect: "NoExecute"
+        - operator: "Exists"
+          effect: "NoSchedule"
       containers:
-      - image: squat/generic-device-plugin@sha256:8e74085edef446b02116d0e851a7a5576b4681e07fe5be75c4e5f6791a8ad0f7
-        args:
-        - --device
-        - |
-          name: tun
-          groups:
-            - count: 1000
-              paths:
-                - path: /dev/net/tun
-        name: generic-device-plugin
-        resources:
-          requests:
-            cpu: 50m
-            memory: 10Mi
-          limits:
-            cpu: 50m
-            memory: 20Mi
-        ports:
-        - containerPort: 8080
-          name: http
-        securityContext:
-          privileged: true
-        volumeMounts:
-        - name: device-plugin
-          mountPath: /var/lib/kubelet/device-plugins
-        - name: dev
-          mountPath: /dev
+        - image: squat/generic-device-plugin@sha256:8e74085edef446b02116d0e851a7a5576b4681e07fe5be75c4e5f6791a8ad0f7
+          args:
+            - --device
+            - |
+              name: tun
+              groups:
+                - count: 1000
+                  paths:
+                    - path: /dev/net/tun
+          name: generic-device-plugin
+          resources:
+            requests:
+              cpu: 50m
+              memory: 10Mi
+            limits:
+              cpu: 50m
+              memory: 20Mi
+          ports:
+            - containerPort: 8080
+              name: http
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: device-plugin
+              mountPath: /var/lib/kubelet/device-plugins
+            - name: dev
+              mountPath: /dev
       volumes:
-      - name: device-plugin
-        hostPath:
-          path: /var/lib/kubelet/device-plugins
-      - name: dev
-        hostPath:
-          path: /dev
+        - name: device-plugin
+          hostPath:
+            path: /var/lib/kubelet/device-plugins
+        - name: dev
+          hostPath:
+            path: /dev
   updateStrategy:
     type: RollingUpdate

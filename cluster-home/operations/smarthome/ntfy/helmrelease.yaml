@@ -17,14 +17,14 @@ spec:
       remediateLastFailure: true
     cleanupOnFail: true
   dependsOn:
-  - name: ingress-nginx
-    namespace: kube-tools
-  - name: cert-manager
-    namespace: kube-tools
-  - name: longhorn
-    namespace: storage
-  - name: authentik
-    namespace: security
+    - name: ingress-nginx
+      namespace: kube-tools
+    - name: cert-manager
+      namespace: kube-tools
+    - name: longhorn
+      namespace: storage
+    - name: authentik
+      namespace: security
   chart:
     spec:
       # renovate: registryUrl=https://bjw-s.github.io/helm-charts/
@@ -61,23 +61,23 @@ spec:
               NTFY_UPSTREAM_BASE_URL: "https://ntfy.sh"
               NTFY_BASE_URL: "https://ntfy.buvis.net"
             args:
-            - serve
+              - serve
     persistence:
       config:
         enabled: true
         existingClaim: ntfy-config
         globalMounts:
-        - path: /etc/ntfy
+          - path: /etc/ntfy
       db:
         enabled: true
         existingClaim: ntfy-db
         globalMounts:
-        - path: /var/lib/ntfy
+          - path: /var/lib/ntfy
       cache:
         enabled: true
         existingClaim: ntfy-cache
         globalMounts:
-        - path: /var/cache/ntfy
+          - path: /var/cache/ntfy
     service:
       app:
         controller: ntfy
@@ -90,13 +90,13 @@ spec:
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-production
         hosts:
-        - host: &hostName ntfy.buvis.net
-          paths:
-          - path: /
-            service:
-              identifier: app
-              port: http
+          - host: &hostName ntfy.buvis.net
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
         tls:
-        - hosts:
-          - *hostName
-          secretName: ntfy-crt
+          - hosts:
+              - *hostName
+            secretName: ntfy-crt

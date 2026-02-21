@@ -26,8 +26,8 @@ spec:
   uninstall:
     keepHistory: false
   dependsOn:
-  - name: qbittorrent
-    namespace: media
+    - name: qbittorrent
+      namespace: media
   values:
     controllers:
       tagging:
@@ -43,10 +43,10 @@ spec:
               repository: ghcr.io/buvis/tqm
               tag: v1.19.0
             args:
-            - retag
-            - qbittorrent
-            - --config
-            - /config/config.yaml
+              - retag
+              - qbittorrent
+              - --config
+              - /config/config.yaml
             env:
               HOME: /tmp
               TZ: Europe/Berlin
@@ -77,10 +77,10 @@ spec:
               repository: ghcr.io/buvis/tqm
               tag: v1.19.0
             args:
-            - clean
-            - qbittorrent
-            - --config
-            - /config/config.yaml
+              - clean
+              - qbittorrent
+              - --config
+              - /config/config.yaml
             env:
               HOME: /tmp
               TZ: Europe/Berlin
@@ -103,10 +103,10 @@ spec:
               repository: ghcr.io/buvis/tqm
               tag: v1.19.0
             args:
-            - orphan
-            - qbittorrent
-            - --config
-            - /config/config.yaml
+              - orphan
+              - qbittorrent
+              - --config
+              - /config/config.yaml
             env:
               HOME: /tmp
               TZ: Europe/Berlin
@@ -123,12 +123,12 @@ spec:
         type: secret
         name: tqm-config
         globalMounts:
-        - path: /config/config.yaml
-          subPath: config.yaml
-          readOnly: true
+          - path: /config/config.yaml
+            subPath: config.yaml
+            readOnly: true
       media:
         existingClaim: nas-media-downloads
         advancedMounts:
           orphan:
             app:
-            - path: /downloads
+              - path: /downloads

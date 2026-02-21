@@ -10,17 +10,17 @@ metadata:
     authentik.home.arpa/enabled: "true"
 spec:
   tls:
-  - hosts:
-    - bookmarks.buvis.net
-    secretName: linkace-crt
+    - hosts:
+        - bookmarks.buvis.net
+      secretName: linkace-crt
   rules:
-  - host: bookmarks.buvis.net
-    http:
-      paths:
-      - path: /
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: linkace
-            port:
-              number: 80
+    - host: bookmarks.buvis.net
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: linkace
+                port:
+                  number: 80

@@ -3,9 +3,9 @@ cluster:
     cni:
       name: none
     podSubnets:
-    - 172.22.0.0/16
+      - 172.22.0.0/16
     serviceSubnets:
-    - 172.24.0.0/16
+      - 172.24.0.0/16
   proxy:
     disabled: true
 machine:
@@ -15,15 +15,15 @@ machine:
     diskSelector:
       size: <100GB
     extraKernelArgs:
-    - amd_pstate=active
+      - amd_pstate=active
   time:
     disabled: false
     servers:
-    - "time.cloudflare.com"
-    - "time.google.com"
-    - "pool.ntp.org"
+      - "time.cloudflare.com"
+      - "time.google.com"
+      - "pool.ntp.org"
     bootTimeout: 2m0s
   network:
     searchDomains:
-    - svc.cluster.local
-    - cluster.local
+      - svc.cluster.local
+      - cluster.local

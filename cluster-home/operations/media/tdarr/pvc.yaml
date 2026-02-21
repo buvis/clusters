@@ -11,7 +11,7 @@ metadata:
 spec:
   storageClassName: longhorn
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   resources:
     requests:
       storage: 20Gi
@@ -30,7 +30,7 @@ metadata:
 spec:
   storageClassName: longhorn
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   resources:
     requests:
       storage: 100Gi

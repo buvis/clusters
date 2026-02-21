@@ -7,16 +7,16 @@ spec:
   nodeSelector:
     matchExpressions:
     # - {key: somekey, operator: NotIn, values: ["never-used-value"]}
-    - { key: node-role.kubernetes.io/worker, operator: In, values: ["true"] }
+      - {key: node-role.kubernetes.io/worker, operator: In, values: ["true"]}
   bgpInstances:
-  - name: cilium
-    localASN: 64512
-    peers:
-    - name: gateway
-      peerASN: 64513
-      peerAddress: 10.7.0.1
-      peerConfigRef:
-        name: gateway-bgp
+    - name: cilium
+      localASN: 64512
+      peers:
+        - name: gateway
+          peerASN: 64513
+          peerAddress: 10.7.0.1
+          peerConfigRef:
+            name: gateway-bgp
 ---
 apiVersion: cilium.io/v2alpha1
 kind: CiliumBGPPeerConfig
@@ -24,11 +24,11 @@ metadata:
   name: gateway-bgp
 spec:
   families:
-  - afi: ipv4
-    safi: unicast
-    advertisements:
-      matchLabels:
-        advertise: "bgp"
+    - afi: ipv4
+      safi: unicast
+      advertisements:
+        matchLabels:
+          advertise: "bgp"
   gracefulRestart:
     enabled: true
     restartTimeSeconds: 30
@@ -45,13 +45,13 @@ metadata:
     advertise: bgp
 spec:
   advertisements:
-  - advertisementType: "Service"
-    service:
-      addresses:
-      - LoadBalancerIP
-    selector:
-      matchExpressions:
-      - { key: somekey, operator: NotIn, values: ["never-used-value"] }
+    - advertisementType: "Service"
+      service:
+        addresses:
+          - LoadBalancerIP
+      selector:
+        matchExpressions:
+          - {key: somekey, operator: NotIn, values: ["never-used-value"]}
 ---
 apiVersion: cilium.io/v2alpha1
 kind: CiliumLoadBalancerIPPool
@@ -60,4 +60,4 @@ metadata:
 spec:
   allowFirstLastIPs: "No"
   blocks:
-  - cidr: "10.11.0.0/16"
+    - cidr: "10.11.0.0/16"

@@ -33,11 +33,11 @@ spec:
       webhooks:
         namespaceSelector:
           matchExpressions:
-          - key: kubernetes.io/metadata.name
-            operator: NotIn
-            values:
-            - kube-system
-            - kube-tools
+            - key: kubernetes.io/metadata.name
+              operator: NotIn
+              values:
+                - kube-system
+                - kube-tools
     admissionController:
       resources:
         requests:
@@ -67,9 +67,9 @@ spec:
         limits:
           memory: 256Mi
     topologySpreadConstraints:
-    - maxSkew: 1
-      topologyKey: kubernetes.io/hostname
-      whenUnsatisfiable: DoNotSchedule
-      labelSelector:
-        matchLabels:
-          app.kubernetes.io/instance: kyverno
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            app.kubernetes.io/instance: kyverno

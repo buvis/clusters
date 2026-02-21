@@ -8,9 +8,9 @@ roleRef:
   kind: ClusterRole
   name: admin
 subjects:
-- kind: ServiceAccount
-  name: kyverno-admission-controller
-  namespace: kube-tools
-- kind: ServiceAccount
-  name: kyverno-background-controller
-  namespace: kube-tools
+  - kind: ServiceAccount
+    name: kyverno-admission-controller
+    namespace: kube-tools
+  - kind: ServiceAccount
+    name: kyverno-background-controller
+    namespace: kube-tools

@@ -5,6 +5,6 @@ metadata:
   name: dependencies
   namespace: flux-system
 resources:
-- longhorn.yaml
-- cnpg.yaml
-- cnpg-plugin-barman-cloud.yaml
+  - longhorn.yaml
+  - cnpg.yaml
+  - cnpg-plugin-barman-cloud.yaml
