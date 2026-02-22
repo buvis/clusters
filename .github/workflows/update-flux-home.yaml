@@ -40,6 +40,25 @@ jobs:
         body: |
           Release notes: https://github.com/fluxcd/flux2/releases/tag/${{ steps.update.outputs.flux_version }}
         labels: flux/update
+    - name: Wait for PR check to start
+      if: steps.create-pr.outputs.pull-request-operation == 'created' || steps.create-pr.outputs.pull-request-operation == 'updated'
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        SHA="${{ steps.create-pr.outputs.pull-request-head-sha }}"
+        for i in $(seq 1 30); do
+          COUNT=$(gh api "repos/${{ github.repository }}/commits/${SHA}/check-runs" --jq '.check_runs | map(select(.name == "lint")) | length')
+          if [ "$COUNT" -gt 0 ]; then
+            echo "lint check run found"
+            exit 0
+          fi
+          echo "waiting for lint check run... (attempt $i)"
+          sleep 10
+        done
+        echo "::warning::lint check never started, pushing empty commit to retrigger"
+        git checkout "${{ steps.create-pr.outputs.pull-request-head-sha }}"
+        git commit --allow-empty -m "chore: retrigger CI"
+        git push origin HEAD:flux/update-${{ steps.update.outputs.flux_version }}
     - name: Enable auto-merge
       if: steps.create-pr.outputs.pull-request-operation == 'created'
       env:
