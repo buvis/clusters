@@ -12,6 +12,11 @@ spec:
   interval: 5m
   path: "./cluster-home/operations/storage/cnpg"
   prune: true
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      name: cnpg
+      namespace: storage
   sourceRef:
     kind: GitRepository
     name: flux-system

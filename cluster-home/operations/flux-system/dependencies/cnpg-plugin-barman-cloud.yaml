@@ -8,6 +8,11 @@ spec:
   interval: 5m
   path: ./cluster-home/operations/storage/cnpg-plugin-barman-cloud
   prune: true
+  healthChecks:
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: barman-cloud
+      namespace: storage
   sourceRef:
     kind: GitRepository
     name: flux-system

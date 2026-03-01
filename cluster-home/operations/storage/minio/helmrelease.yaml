@@ -6,6 +6,14 @@ metadata:
   namespace: storage
 spec:
   interval: 5m
+  install:
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+      remediateLastFailure: true
+    cleanupOnFail: true
   chart:
     spec:
       chart: minio
@@ -18,11 +26,11 @@ spec:
   values:
     image:
       repository: quay.io/minio/minio
-      tag: RELEASE.2023-12-06T09-09-22Z@sha256:e6833eb7d59b285017b97dfee9216ee9dba88b733682140341cf8be9f93448ad
+      tag: RELEASE.2025-09-07T16-13-09Z@sha256:14cea493d9a34af32f524e538b8346cf79f3321eff8e708c1e2960462bd8936e
       pullPolicy: IfNotPresent
     mcImage:
       repository: quay.io/minio/mc
-      tag: RELEASE.2023-01-11T03-14-16Z@sha256:1f374e2f61a8a4902ed528fb1d19f93a44b3d81a158b003779f85883833990c3
+      tag: RELEASE.2025-08-13T08-35-41Z@sha256:a7fe349ef4bd8521fb8497f55c6042871b2ae640607cf99d9bede5e9bdf11727
       pullPolicy: IfNotPresent
     mode: standalone
     rootUser: root
@@ -38,9 +46,10 @@ spec:
       enabled: false
     consoleIngress:
       enabled: true
+      ingressClassName: nginx
       annotations:
-        kubernetes.io/ingress.class: nginx
         cert-manager.io/cluster-issuer: letsencrypt-production
+        authentik.home.arpa/enabled: "true"
       hosts:
         - minio.buvis.net
       tls:

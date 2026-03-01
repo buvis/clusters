@@ -8,6 +8,11 @@ spec:
   interval: 5m
   path: ./cluster-home/operations/kube-tools/cert-manager
   prune: true
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      name: cert-manager
+      namespace: kube-tools
   sourceRef:
     kind: GitRepository
     name: flux-system
