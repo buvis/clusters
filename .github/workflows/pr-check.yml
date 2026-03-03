@@ -3,6 +3,8 @@ name: PR check
 on:
   pull_request:
     branches: [master]
+  push:
+    branches: [flux/update-*]
   workflow_dispatch:
 
 jobs:
