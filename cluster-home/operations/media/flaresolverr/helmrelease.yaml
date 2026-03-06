@@ -44,9 +44,9 @@ spec:
             resources:
               requests:
                 cpu: 15m
-                memory: 105Mi
+                memory: 256Mi
               limits:
-                memory: 292Mi
+                memory: 1Gi
     service:
       app:
         controller: flaresolverr
