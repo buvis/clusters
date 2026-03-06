@@ -51,9 +51,11 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/home-operations/sonarr
-              tag: 4.0.16.2946@sha256:22651c750eedb091f6d76ade95dbecae0eeafe2b55432c3b8d8b042e8745f344
+              repository: lscr.io/linuxserver/sonarr
+              tag: 4.0.16
             env:
+              PUID: "568"
+              PGID: "568"
               SONARR__APPLICATION_URL: https://sonarr.buvis.net
               SONARR__API_KEY: ${SECRET_SONARR_API_KEY}
             resources:

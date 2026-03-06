@@ -52,7 +52,7 @@ spec:
       credentials: ${SECRET_ZETTELKASTEN_REPO_CREDENTIALS}
       branch: master
       docsDir: zettelkasten
-      editUri: https://gitlab.com/buvis/zettelkasten/edit/main/zettelkasten
+      editUri: https://gitlab.com/buvis/zettelkasten/edit/master/zettelkasten
       updateInterval: 60
       logLevel: warning
       siteName: Bob's Zettelkasten
