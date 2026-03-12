@@ -32,6 +32,9 @@ spec:
       config:
         annotations-risk-level: Critical
         strict-validate-path-type: false
+        proxy-buffer-size: 16k
+        proxy-buffers-number: "4"
+        large-client-header-buffers: 4 16k
       ingressClassResource:
         default: true
       service:
