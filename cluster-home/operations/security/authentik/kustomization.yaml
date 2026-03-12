@@ -7,3 +7,4 @@ metadata:
 resources:
   - authentik.yaml
   - helmrelease.yaml
+  - outpost-restart-cronjob.yaml

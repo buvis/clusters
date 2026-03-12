@@ -1,0 +1,54 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: outpost-restarter
+  namespace: security
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: outpost-restarter
+  namespace: security
+rules:
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: outpost-restarter
+  namespace: security
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: outpost-restarter
+subjects:
+  - kind: ServiceAccount
+    name: outpost-restarter
+    namespace: security
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: outpost-restart
+  namespace: security
+spec:
+  schedule: "0 4 */3 * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: outpost-restarter
+          restartPolicy: OnFailure
+          containers:
+            - name: restart
+              image: bitnami/kubectl:latest
+              command:
+                - kubectl
+                - rollout
+                - restart
+                - deployment/ak-outpost-proxy-outpost
+                - -n
+                - security
