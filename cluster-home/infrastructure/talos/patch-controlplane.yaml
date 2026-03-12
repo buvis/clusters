@@ -1851,7 +1851,7 @@ cluster:
                   type: RuntimeDefault
               containers:
                 - name: certgen
-                  image: "quay.io/cilium/certgen:v0.4.0@sha256:86f1e2248eef0057fb34eb331a32c876cbdf9c21ce8eefe6ecf8f559770dbb72"
+                  image: "quay.io/cilium/certgen:v0.4.1@sha256:f0c656830e856d26b24b0e144df1f8b327d3b46748d76a630514111fc365b697"
                   imagePullPolicy: IfNotPresent
                   securityContext:
                     capabilities:
@@ -1917,7 +1917,7 @@ cluster:
                       type: RuntimeDefault
                   containers:
                     - name: certgen
-                      image: "quay.io/cilium/certgen:v0.4.0@sha256:86f1e2248eef0057fb34eb331a32c876cbdf9c21ce8eefe6ecf8f559770dbb72"
+                      image: "quay.io/cilium/certgen:v0.4.1@sha256:f0c656830e856d26b24b0e144df1f8b327d3b46748d76a630514111fc365b697"
                       imagePullPolicy: IfNotPresent
                       securityContext:
                         capabilities:
