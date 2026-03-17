@@ -47,7 +47,7 @@ spec:
         spec:
           containers:
             - name: beets-update
-              image: buvis/kube-exec:latest@sha256:88eaf6a49354b474e932c5bff0a0b46308e8a202b548ea6332bc5231124af8fc
+              image: buvis/kube-exec:latest@sha256:8fad0240375caf0157dbbf67dbf0ea5232ba54e5a9aaec758873be123230c090
               env:
                 - name: NAMESPACE
                   value: media
