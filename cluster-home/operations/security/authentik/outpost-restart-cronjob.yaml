@@ -44,7 +44,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: restart
-              image: bitnami/kubectl:latest@sha256:bb9aa37807db071f4ed40d7d7e45d3eb513b45446aa5b43ead2d386fb8526cc7
+              image: bitnami/kubectl:latest@sha256:3a8ef2eba6186625bef5d59129e8118abeba5072d104c6f03e3167a9b1070ae2
               command:
                 - kubectl
                 - rollout
