@@ -29,7 +29,7 @@ spec:
   values:
     image:
       repository: ghcr.io/buvis/mopidy
-      tag: v3.70.0@sha256:452c86c8294cb929ca742c888dd9c19934859937cb679a54fce3ba39f8989524
+      tag: v3.70.0@sha256:94923e0cd79edb06e5f70a7e35323b22bf4ef43586474d46569cae9ec3ea5114
     service:
       main:
         enabled: true
