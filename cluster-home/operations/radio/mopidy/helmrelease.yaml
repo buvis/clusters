@@ -38,7 +38,7 @@ spec:
   values:
     image:
       repository: ghcr.io/buvis/mopidy
-      tag: v3.70.0@sha256:ed8dfe52790ba6a1638ffb0a180af2bdbc9d1fe45e3df5f2eda477a6107fc7c9
+      tag: v3.70.0@sha256:dac47e35ae0ca9c3527a5a3fd69e4eb6890c2c59c20c31b2f4ef0a63949b0ba9
     resources:
       requests:
         cpu: 50m
