@@ -28,7 +28,7 @@ spec:
   values:
     image:
       repository: ghcr.io/cloudnative-pg/cloudnative-pg
-      tag: 1.28.1@sha256:0edcdaefaa83d68822158cf4370d83d185c54db2b6beb7e0848aca16eafa6344
+      tag: 1.28.2@sha256:510de37115a75f364e9464e1796352a80c5f4b05a62b5aac5d713e9d7548aa1f
     resources:
       requests:
         cpu: 100m
