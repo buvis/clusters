@@ -25,7 +25,7 @@ spec:
           emptyDir: {}
       initContainers:
         - name: write-env-as-app
-          image: linkace/linkace:latest@sha256:cc008363bef22f3151b5b80faf2d13d3a073682b378e1e5d3f8f46972af2c9f9
+          image: linkace/linkace:latest@sha256:afc8703d863e7ebde9dc92439a2942140b135f4bd6e9c6e1ae3298d6cdcef678
           workingDir: /app
           command: ["sh", "-lc"]
           args:
