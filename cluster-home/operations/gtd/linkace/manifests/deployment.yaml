@@ -34,6 +34,7 @@ spec:
               mkdir -p /work &&
               {
                 printf 'APP_KEY=%s\n' "$APP_KEY";
+                printf 'APP_URL=%s\n' "$APP_URL";
                 printf 'DB_CONNECTION=%s\n' "${DB_CONNECTION:-pgsql}";
                 printf 'DB_HOST=%s\n' "$DB_HOST";
                 printf 'DB_PORT=%s\n' "${DB_PORT:-5432}";
@@ -44,6 +45,8 @@ spec:
           env:
             - name: APP_KEY
               value: ${SECRET_LINKACE_APP_KEY}
+            - name: APP_URL
+              value: https://bookmarks.buvis.net
             - name: DB_CONNECTION
               value: pgsql
             - name: DB_HOST
@@ -78,6 +81,8 @@ spec:
           env:
             - name: APP_KEY
               value: ${SECRET_LINKACE_APP_KEY}
+            - name: APP_URL
+              value: https://bookmarks.buvis.net
             - name: DB_CONNECTION
               value: pgsql
             - name: DB_HOST
