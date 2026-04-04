@@ -1,3 +1,4 @@
+---
 bgpControlPlane:
   enabled: true
 cgroup:
@@ -31,4 +32,4 @@ hubble:
   tls:
     auto:
       method: cronJob
-upgradeCompatibility: '1.19'
+upgradeCompatibility: "1.19"
