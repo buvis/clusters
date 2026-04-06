@@ -10,8 +10,16 @@ jobs:
   components:
     runs-on: ubuntu-latest
     steps:
+    - name: Generate app token
+      uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3
+      id: app-token
+      with:
+        app-id: ${{ secrets.BOT_APP_ID }}
+        private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
     - name: Check out code
       uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      with:
+        token: ${{ steps.app-token.outputs.token }}
     - name: Setup Flux CLI
       uses: fluxcd/flux2/action@c432d380dda02377556e18e13289c63933e444c6 # main
       with:
@@ -28,7 +36,7 @@ jobs:
       id: create-pr
       uses: peter-evans/create-pull-request@c0f553fe549906ede9cf27b5156039d195d2ece0 # v8
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ steps.app-token.outputs.token }}
         branch: "flux/update-${{ steps.update.outputs.flux_version }}"
         delete-branch: true
         title: "Update flux components to ${{ steps.update.outputs.flux_version }} @home"
@@ -40,13 +48,8 @@ jobs:
         body: |
           Release notes: https://github.com/fluxcd/flux2/releases/tag/${{ steps.update.outputs.flux_version }}
         labels: flux/update
-    - name: Trigger PR check workflow
+    - name: Enable auto-merge
       if: steps.create-pr.outputs.pull-request-operation == 'created' || steps.create-pr.outputs.pull-request-operation == 'updated'
       env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: gh workflow run pr-check.yml --ref flux/update-${{ steps.update.outputs.flux_version }}
-    - name: Enable auto-merge
-      if: (!cancelled()) && (steps.create-pr.outputs.pull-request-operation == 'created' || steps.create-pr.outputs.pull-request-operation == 'updated')
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ steps.app-token.outputs.token }}
       run: gh pr merge --auto --rebase "${{ steps.create-pr.outputs.pull-request-url }}"
