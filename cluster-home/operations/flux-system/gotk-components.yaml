@@ -2560,7 +2560,7 @@ spec:
             resourceFieldRef:
               containerName: manager
               resource: limits.memory
-        image: ghcr.io/fluxcd/source-controller:v1.8.1
+        image: ghcr.io/fluxcd/source-controller:v1.8.1@sha256:7382d002cffeed2d877331353f95797e89c0aa7ecb432e661eeeda3e590b3293
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -3387,7 +3387,7 @@ spec:
             resourceFieldRef:
               containerName: manager
               resource: limits.memory
-        image: ghcr.io/fluxcd/kustomize-controller:v1.8.2
+        image: ghcr.io/fluxcd/kustomize-controller:v1.8.2@sha256:c480b89e26e42f6c112a4f683244a7979de3a2ca299bed7d5367ddf4fed706f0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -4937,7 +4937,7 @@ spec:
             resourceFieldRef:
               containerName: manager
               resource: limits.memory
-        image: ghcr.io/fluxcd/helm-controller:v1.5.3
+        image: ghcr.io/fluxcd/helm-controller:v1.5.3@sha256:b150af0cd7a501dafe2374b1d22c39abf0572465df4fa1fb99b37927b0d95d75
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -6374,7 +6374,7 @@ spec:
             resourceFieldRef:
               containerName: manager
               resource: limits.memory
-        image: ghcr.io/fluxcd/notification-controller:v1.8.2
+        image: ghcr.io/fluxcd/notification-controller:v1.8.2@sha256:87806dc20caff40b37280ea3155cc9ef3e995402997c49a8f9f9c6bff57e1499
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
