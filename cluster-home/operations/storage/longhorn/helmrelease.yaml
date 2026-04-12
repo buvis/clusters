@@ -26,6 +26,10 @@ spec:
       remediateLastFailure: true
     cleanupOnFail: true
   values:
+    persistence:
+      defaultClassReplicaCount: 2
+    storageClass:
+      volumeBindingMode: WaitForFirstConsumer
     defaultSettings:
       createDefaultDiskLabeledNodes: true
       defaultDataLocality: best-effort
