@@ -28,7 +28,6 @@ spec:
   values:
     persistence:
       defaultClassReplicaCount: 2
-    storageClass:
       volumeBindingMode: WaitForFirstConsumer
     defaultSettings:
       createDefaultDiskLabeledNodes: true
