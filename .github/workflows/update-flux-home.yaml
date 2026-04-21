@@ -21,7 +21,7 @@ jobs:
       with:
         token: ${{ steps.app-token.outputs.token }}
     - name: Setup Flux CLI
-      uses: fluxcd/flux2/action@7d27a26665b34463b0ed5fb54fa06642375536f9 # main
+      uses: fluxcd/flux2/action@99a7d2d735c8b5d2e133ea5e470f29f02fafa7d4 # main
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Update Flux components
