@@ -42,12 +42,28 @@ spec:
         createdb: false
         passwordSecret:
           name: linkace-db-owner
+      - name: windmill_user
+        ensure: present
+        login: false
+        superuser: false
+        createdb: false
+      - name: windmill_admin
+        ensure: present
+        login: false
+        superuser: false
+        createdb: false
+        bypassrls: true
+        inRoles:
+          - windmill_user
       - name: windmill
         login: true
         superuser: false
         createdb: false
         passwordSecret:
           name: windmill-db-owner
+        inRoles:
+          - windmill_admin
+          - windmill_user
     services:
       additional:
         - selectorType: rw
