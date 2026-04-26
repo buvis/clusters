@@ -20,8 +20,8 @@ spec:
       volumeMode: Filesystem
   postgresql:
     parameters:
-      archive_timeout: "30min"  # Reduce WAL generation on idle database (default was 5min)
-      wal_keep_size: "128MB"    # Keep less WAL for replicas (down from 512MB)
+      archive_timeout: "30min" # Reduce WAL generation on idle database (default was 5min)
+      wal_keep_size: "128MB" # Keep less WAL for replicas (down from 512MB)
   plugins:
     - name: barman-cloud.cloudnative-pg.io
       enabled: true
@@ -42,6 +42,12 @@ spec:
         createdb: false
         passwordSecret:
           name: linkace-db-owner
+      - name: windmill
+        login: true
+        superuser: false
+        createdb: false
+        passwordSecret:
+          name: windmill-db-owner
     services:
       additional:
         - selectorType: rw

@@ -2,23 +2,23 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: linkace-db-owner
+  name: windmill-db-owner
   namespace: storage
 type: kubernetes.io/basic-auth
 stringData:
-  username: linkace
-  password: ${SECRET_LINKACE_PG_PASSWORD}
+  username: windmill
+  password: ${SECRET_WINDMILL_PG_PASSWORD}
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
-  name: linkace
+  name: windmill
   namespace: storage
 spec:
   cluster:
     name: buvis-pg-cluster
-  name: linkace
-  owner: linkace
+  name: windmill
+  owner: windmill
   extensions:
     - name: pg_trgm
     - name: citext
