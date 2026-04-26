@@ -1,0 +1,82 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: windmill-instance
+  namespace: windmill
+data:
+  spec: |
+    global_settings:
+      base_url: "https://windmill.buvis.net"
+
+      # Job retention — 30 days. Adjust to taste.
+      retention_period_secs: 2592000
+      job_default_timeout: 600
+      request_size_limit_mb: 50
+
+      # SMTP for notifications and email triggers.
+      # CHANGE: provider details. Password is pulled from the SOPS secret.
+      smtp_settings:
+        smtp_host: "smtp.protonmail.ch"
+        smtp_port: 587
+        smtp_username: "noreply@buvis.net"
+        smtp_password:
+          secretKeyRef:
+            name: windmill-secrets
+            key: smtp-password
+        smtp_from: "noreply@buvis.net"
+        smtp_tls_implicit: false
+
+      # No private package registries — leave empty for public PyPI / npm.
+      pip_index_url: ""
+      pip_extra_index_url: ""
+      npm_config_registry: ""
+
+      # Alert channels — wire up later if you want email/Slack on critical errors.
+      critical_error_channels: []
+
+      # OAuth — uncomment and add a secret reference if you want to enable it.
+      # oauths:
+      #   github:
+      #     id: "your-github-oauth-app-client-id"
+      #     secret:
+      #       secretKeyRef:
+      #         name: windmill-secrets
+      #         key: github-oauth-secret
+
+      # Enterprise license — uncomment if you have one.
+      # license_key:
+      #   secretKeyRef:
+      #     name: windmill-secrets
+      #     key: license
+
+    worker_configs:
+      default:
+        worker_tags:
+          - "deno"
+          - "python3"
+          - "bash"
+          - "go"
+          - "dependency"
+          - "flow"
+          - "hub"
+          - "other"
+          - "powershell"
+          - "rust"
+        env_vars_static:
+          TZ: "Europe/Prague"
+
+      native:
+        native_mode: true
+        worker_tags:
+          - "nativets"
+          - "postgresql"
+          - "mysql"
+          - "graphql"
+          - "http"
+          - "snowflake"
+          - "mssql"
+          - "bigquery"
+          - "oracledb"
+        env_vars_static:
+          TZ: "Europe/Prague"

@@ -1,0 +1,114 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: windmill
+  namespace: windmill
+spec:
+  dependsOn:
+    - name: ingress-nginx
+      namespace: kube-tools
+    - name: cert-manager
+      namespace: kube-tools
+    - name: authentik
+      namespace: security
+    - name: cnpg
+      namespace: storage
+  interval: 30m
+  timeout: 10m
+  chart:
+    spec:
+      chart: windmill
+      version: "4.9.0"
+      sourceRef:
+        kind: HelmRepository
+        name: windmill
+        namespace: flux-system
+      interval: 5m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    postgresql:
+      enabled: false
+    minio:
+      enabled: false
+    windmill:
+      baseDomain: windmill.buvis.net
+      baseProtocol: https
+      databaseUrlSecretName: windmill-secrets
+      appReplicas: 1
+      app:
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            memory: 1Gi
+      extraReplicas: 1
+      windmillExtra:
+        enableLsp: true
+        enableDebugger: true
+        requireSignedDebugRequests: true
+        resources:
+          requests:
+            cpu: 50m
+            memory: 256Mi
+          limits:
+            memory: 1Gi
+      operator:
+        enabled: true
+        instanceSpec: null
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            memory: 256Mi
+      workerGroups:
+        - name: "default"
+          replicas: 2
+          privileged: true
+          podSecurityContext:
+            runAsUser: 0
+            runAsNonRoot: false
+          resources:
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              memory: 2Gi
+        - name: "native"
+          replicas: 2
+          privileged: false
+          podSecurityContext:
+            runAsUser: 0
+            runAsNonRoot: false
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              memory: 512Mi
+          extraEnv:
+            - name: NATIVE_MODE
+              value: "true"
+            - name: SLEEP_QUEUE
+              value: "200"
+    ingress:
+      enabled: true
+      className: nginx
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-production
+        nginx.ingress.kubernetes.io/affinity: cookie
+        nginx.ingress.kubernetes.io/affinity-mode: persistent
+        nginx.ingress.kubernetes.io/session-cookie-name: windmill_route
+        nginx.ingress.kubernetes.io/proxy-body-size: 50m
+      tls:
+        - hosts:
+            - windmill.bobiste.cz
+          secretName: windmill-crt
