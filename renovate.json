@@ -4,6 +4,9 @@
     "github>tbouska/renovate-config",
     "github>buvis/clusters//.github/renovate/allowedVersions.json"
   ],
+  "ignorePaths": [
+    "**/patch-controlplane.yaml"
+  ],
   "kubernetes": {
     "managerFilePatterns": [
       "/./.+\\.yaml$/"

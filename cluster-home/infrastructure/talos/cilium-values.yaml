@@ -1,6 +1,10 @@
 ---
 bgpControlPlane:
   enabled: true
+certgen:
+  image:
+    tag: v0.4.3
+    digest: sha256:d63d1cb3ee6db2167cb1ca9e7e31f30b6197846fcf42505d8f59e2f090a42c86
 cgroup:
   autoMount:
     enabled: false
