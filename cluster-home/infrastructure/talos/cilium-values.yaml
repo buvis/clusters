@@ -1,4 +1,3 @@
----
 bgpControlPlane:
   enabled: true
 cgroup:
@@ -13,23 +12,23 @@ kubeProxyReplacement: true
 securityContext:
   capabilities:
     ciliumAgent:
-      - CHOWN
-      - KILL
-      - NET_ADMIN
-      - NET_RAW
-      - IPC_LOCK
-      - SYS_ADMIN
-      - SYS_RESOURCE
-      - DAC_OVERRIDE
-      - FOWNER
-      - SETGID
-      - SETUID
+    - CHOWN
+    - KILL
+    - NET_ADMIN
+    - NET_RAW
+    - IPC_LOCK
+    - SYS_ADMIN
+    - SYS_RESOURCE
+    - DAC_OVERRIDE
+    - FOWNER
+    - SETGID
+    - SETUID
     cleanCiliumState:
-      - NET_ADMIN
-      - SYS_ADMIN
-      - SYS_RESOURCE
+    - NET_ADMIN
+    - SYS_ADMIN
+    - SYS_RESOURCE
 hubble:
   tls:
     auto:
       method: cronJob
-upgradeCompatibility: "1.19"
+upgradeCompatibility: '1.19'
