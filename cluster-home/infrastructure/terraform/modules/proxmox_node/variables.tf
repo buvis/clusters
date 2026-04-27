@@ -37,4 +37,3 @@ variable "talos_version" {
   description = "Talos version to deploy"
   type        = string
 }
-
