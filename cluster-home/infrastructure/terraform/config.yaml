@@ -1,3 +1,4 @@
+---
 nodes:
   # Unfortunately, there is no way to work with multiple proxmox providers dynamically
   # ... and so everything related to individual nodes must be hardcoded and duplicated in pm_<node_name>.tf

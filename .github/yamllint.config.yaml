@@ -11,6 +11,8 @@ ignore: |
   production/operations/minio-operator/minio/secret.yaml
   production/operations/monitoring/thanos/secret.yaml
   production/operations/vpn/vpn-gateway/secret.yaml
+  cluster-home/operations/gtd/radicale/secret.yaml
+  cluster-home/operations/windmill/windmill/secrets.yaml
   **/generated-config/
   cluster-office/infrastructure/manifests/
 extends: default
@@ -28,4 +30,4 @@ rules:
     max-spaces-inside: 0
   indentation:
     spaces: 2
-    indent-sequences: true
+    indent-sequences: consistent

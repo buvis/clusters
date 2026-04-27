@@ -1,3 +1,4 @@
+---
 machine:
   disks:
     - device: /dev/sdb
