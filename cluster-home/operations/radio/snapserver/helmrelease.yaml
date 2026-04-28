@@ -37,6 +37,7 @@ spec:
       main:
         enabled: true
         type: LoadBalancer
+        externalTrafficPolicy: Local
         annotations:
           lbipam.cilium.io/ips: ${SVC_IP_SNAPSERVER}
         ports:
