@@ -101,6 +101,10 @@ spec:
                       "$NTFY_URL" >/dev/null 2>&1 || true
                   }
 
+                  # Probe 3 times over a ~45s window. Only restart if ALL three
+                  # confirm non-playing. This handles two known false positives:
+                  #  - transient cluster-side network glitch (single probe unreachable)
+                  #  - brief stream gaps during track changes (single probe idle)
                   s1=$(probe_status)
                   echo "probe1: $s1"
                   if [ "$s1" = "playing" ]; then
@@ -114,9 +118,16 @@ spec:
                     exit 0
                   fi
 
-                  echo "stream not playing twice in a row (probe1=$s1, probe2=$s2), restarting"
+                  sleep 30
+                  s3=$(probe_status)
+                  echo "probe3: $s3"
+                  if [ "$s3" = "playing" ]; then
+                    exit 0
+                  fi
+
+                  echo "stream not playing in 3 consecutive probes (probe1=$s1, probe2=$s2, probe3=$s3), restarting"
                   notify "snapcast-watchdog" "default" "warning,radio" \
-                    "Stream stuck (probe1=$s1, probe2=$s2). Restarting snapserver, then mopidy."
+                    "Stream stuck (probe1=$s1, probe2=$s2, probe3=$s3). Restarting snapserver, then mopidy."
 
                   # Restart in order: snapserver first, then mopidy. Always attempt
                   # mopidy even if snapserver wait fails — half a recovery is worse
@@ -132,17 +143,17 @@ spec:
 
                   # Give mopidy time to reconnect to snapserver and start the stream
                   sleep 30
-                  s3=$(probe_status)
-                  echo "probe3 after restart: $s3"
+                  s_after=$(probe_status)
+                  echo "probe after restart: $s_after"
 
-                  if [ "$s3" = "playing" ]; then
+                  if [ "$s_after" = "playing" ]; then
                     notify "snapcast-watchdog" "low" "white_check_mark,radio" \
                       "Recovered. Stream is now playing."
                     exit 0
                   fi
 
                   notify "snapcast-watchdog" "high" "rotating_light,radio" \
-                    "Restart did not recover stream (status=$s3). Manual intervention needed."
+                    "Restart did not recover stream (status=$s_after). Manual intervention needed."
                   exit 1
               resources:
                 requests:
