@@ -101,26 +101,30 @@ spec:
                   # probe_snapserver returns: playing | idle | unreachable
                   # Retries up to 3x to cover transient cold-start / routing races.
                   probe_snapserver() {
+                    body_file=$(mktemp)
                     err_log=$(mktemp)
                     for attempt in 1 2 3; do
-                      body=$(curl -fsS --max-time 8 \
+                      info=$(curl -sS --max-time 8 \
+                        -o "$body_file" \
+                        -w 'HTTP=%{http_code} BYTES=%{size_download} TIME=%{time_total}' \
                         -H 'Content-Type: application/json' \
                         -d '{"id":1,"jsonrpc":"2.0","method":"Server.GetStatus"}' \
                         "$SNAPSERVER_URL" 2>"$err_log")
                       rc=$?
-                      if [ -n "$body" ]; then
-                        s=$(echo "$body" | jq -r '.result.streams[0].status // empty' 2>/dev/null)
+                      bytes=$(wc -c < "$body_file" 2>/dev/null)
+                      echo "[probe_snapserver] attempt $attempt rc=$rc $info file_bytes=$bytes err: $(tr '\n' ' ' < "$err_log")" >&2
+                      if [ "${bytes:-0}" -gt 0 ]; then
+                        s=$(jq -r '.result.streams[0].status // empty' "$body_file" 2>/dev/null)
                         if [ -n "$s" ]; then
-                          rm -f "$err_log"
+                          rm -f "$body_file" "$err_log"
                           echo "$s"
                           return
                         fi
                       fi
-                      echo "[probe_snapserver] attempt $attempt curl rc=$rc err: $(tr '\n' ' ' < "$err_log")" >&2
-                      : > "$err_log"
+                      : > "$body_file"; : > "$err_log"
                       sleep 2
                     done
-                    rm -f "$err_log"
+                    rm -f "$body_file" "$err_log"
                     echo "unreachable"
                   }
 
