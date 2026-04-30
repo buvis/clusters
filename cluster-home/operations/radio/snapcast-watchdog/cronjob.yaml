@@ -59,6 +59,8 @@ spec:
             - name: watchdog
               image: alpine/k8s:1.35.4@sha256:d9aeef2665287b9918bc57c539ba95382ba4c8d52c8b1310df5666a89d9a3d04
               env:
+                - name: MOPIDY_URL
+                  value: "http://mopidy:6680/mopidy/rpc"
                 - name: SNAPSERVER_URL
                   value: "http://snapserver/jsonrpc"
                 - name: NTFY_URL
@@ -72,8 +74,36 @@ spec:
                 - |
                   set -u
 
-                  probe_status() {
-                    # Returns one of: playing | idle | unreachable
+                  # We probe mopidy's own playback state as the canary.
+                  # Reasons:
+                  #  - It directly tells us whether the radio is meant to be playing.
+                  #  - mopidy's HTTP RPC is reliable; snapserver's HTTP API hangs in
+                  #    some states (e.g. when input stream is paused) which previously
+                  #    caused false-positive restarts.
+                  #  - The user's manual recovery trigger is exactly "mopidy stopped
+                  #    playing", which is what this probe detects.
+                  probe_mopidy() {
+                    # Returns one of: playing | paused | stopped | unreachable
+                    body=$(curl -fsS --max-time 5 \
+                      -H 'Content-Type: application/json' \
+                      -d '{"jsonrpc":"2.0","id":1,"method":"core.playback.get_state"}' \
+                      "$MOPIDY_URL" 2>/dev/null)
+                    if [ -z "$body" ]; then
+                      echo "unreachable"
+                      return
+                    fi
+                    s=$(echo "$body" | jq -r '.result // empty' 2>/dev/null)
+                    if [ -z "$s" ]; then
+                      echo "unreachable"
+                    else
+                      echo "$s"
+                    fi
+                  }
+
+                  # Used only for post-restart verification. snapserver "status:playing"
+                  # confirms audio is actually flowing end-to-end (mopidy is generating
+                  # data AND snapserver is receiving it).
+                  probe_snapserver() {
                     body=$(curl -fsS --max-time 5 \
                       -H 'Content-Type: application/json' \
                       -d '{"id":1,"jsonrpc":"2.0","method":"Server.GetStatus"}' \
@@ -101,33 +131,24 @@ spec:
                       "$NTFY_URL" >/dev/null 2>&1 || true
                   }
 
-                  # Probe 3 times over a ~45s window. Only restart if ALL three
-                  # confirm non-playing. This handles two known false positives:
-                  #  - transient cluster-side network glitch (single probe unreachable)
-                  #  - brief stream gaps during track changes (single probe idle)
-                  s1=$(probe_status)
-                  echo "probe1: $s1"
-                  if [ "$s1" = "playing" ]; then
+                  # Two probes 15s apart on the mopidy state. Restart if both
+                  # report anything other than "playing".
+                  m1=$(probe_mopidy)
+                  echo "mopidy probe1: $m1"
+                  if [ "$m1" = "playing" ]; then
                     exit 0
                   fi
 
                   sleep 15
-                  s2=$(probe_status)
-                  echo "probe2: $s2"
-                  if [ "$s2" = "playing" ]; then
+                  m2=$(probe_mopidy)
+                  echo "mopidy probe2: $m2"
+                  if [ "$m2" = "playing" ]; then
                     exit 0
                   fi
 
-                  sleep 30
-                  s3=$(probe_status)
-                  echo "probe3: $s3"
-                  if [ "$s3" = "playing" ]; then
-                    exit 0
-                  fi
-
-                  echo "stream not playing in 3 consecutive probes (probe1=$s1, probe2=$s2, probe3=$s3), restarting"
+                  echo "mopidy not playing twice (m1=$m1, m2=$m2), restarting"
                   notify "snapcast-watchdog" "default" "warning,radio" \
-                    "Stream stuck (probe1=$s1, probe2=$s2, probe3=$s3). Restarting snapserver, then mopidy."
+                    "Mopidy not playing (m1=$m1, m2=$m2). Restarting snapserver, then mopidy."
 
                   # Restart in order: snapserver first, then mopidy. Always attempt
                   # mopidy even if snapserver wait fails — half a recovery is worse
@@ -141,19 +162,21 @@ spec:
                   kubectl -n radio rollout status deployment/mopidy --timeout=120s || \
                     echo "warn: mopidy rollout status failed (continuing anyway)"
 
-                  # Give mopidy time to reconnect to snapserver and start the stream
+                  # Give mopidy time to reconnect to snapserver and start playback
+                  # (defaultplaylist autoplay should kick in on mopidy startup)
                   sleep 30
-                  s_after=$(probe_status)
-                  echo "probe after restart: $s_after"
+                  m_after=$(probe_mopidy)
+                  ss_after=$(probe_snapserver)
+                  echo "after restart: mopidy=$m_after snapserver=$ss_after"
 
-                  if [ "$s_after" = "playing" ]; then
+                  if [ "$m_after" = "playing" ] && [ "$ss_after" = "playing" ]; then
                     notify "snapcast-watchdog" "low" "white_check_mark,radio" \
                       "Recovered. Stream is now playing."
                     exit 0
                   fi
 
                   notify "snapcast-watchdog" "high" "rotating_light,radio" \
-                    "Restart did not recover stream (status=$s_after). Manual intervention needed."
+                    "Restart did not recover (mopidy=$m_after, snapserver=$ss_after). Manual intervention needed."
                   exit 1
               resources:
                 requests:
