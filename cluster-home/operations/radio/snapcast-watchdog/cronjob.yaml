@@ -73,81 +73,86 @@ spec:
                 - |
                   set -u
 
-                  # We probe mopidy's own playback state as the canary.
-                  # Reasons:
-                  #  - It directly tells us whether the radio is meant to be playing.
-                  #  - mopidy's HTTP RPC is reliable; snapserver's HTTP API hangs in
-                  #    some states (e.g. when input stream is paused) which previously
-                  #    caused false-positive restarts.
-                  #  - The user's manual recovery trigger is exactly "mopidy stopped
-                  #    playing", which is what this probe detects.
+                  # probe_mopidy returns: playing | paused | stopped | unreachable
                   probe_mopidy() {
-                    # Returns one of: playing | paused | stopped | unreachable
                     body=$(curl -fsS --max-time 5 \
                       -H 'Content-Type: application/json' \
                       -d '{"jsonrpc":"2.0","id":1,"method":"core.playback.get_state"}' \
                       "$MOPIDY_URL" 2>/dev/null)
-                    if [ -z "$body" ]; then
-                      echo "unreachable"
-                      return
-                    fi
+                    [ -z "$body" ] && { echo "unreachable"; return; }
                     s=$(echo "$body" | jq -r '.result // empty' 2>/dev/null)
-                    if [ -z "$s" ]; then
-                      echo "unreachable"
-                    else
-                      echo "$s"
-                    fi
+                    [ -z "$s" ] && echo "unreachable" || echo "$s"
                   }
 
-                  # Used only for post-restart verification. snapserver "status:playing"
-                  # confirms audio is actually flowing end-to-end (mopidy is generating
-                  # data AND snapserver is receiving it).
+                  # probe_snapserver returns: playing | idle | unreachable
+                  # Retries up to 3x because snapserver's HTTP API is occasionally
+                  # slow / unresponsive even when audio is flowing fine.
                   probe_snapserver() {
-                    body=$(curl -fsS --max-time 5 \
-                      -H 'Content-Type: application/json' \
-                      -d '{"id":1,"jsonrpc":"2.0","method":"Server.GetStatus"}' \
-                      "$SNAPSERVER_URL" 2>/dev/null)
-                    if [ -z "$body" ]; then
-                      echo "unreachable"
-                      return
-                    fi
-                    s=$(echo "$body" | jq -r '.result.streams[0].status // empty' 2>/dev/null)
-                    if [ -z "$s" ]; then
-                      echo "unreachable"
-                    else
-                      echo "$s"
-                    fi
+                    for _ in 1 2 3; do
+                      body=$(curl -fsS --max-time 8 \
+                        -H 'Content-Type: application/json' \
+                        -d '{"id":1,"jsonrpc":"2.0","method":"Server.GetStatus"}' \
+                        "$SNAPSERVER_URL" 2>/dev/null)
+                      if [ -n "$body" ]; then
+                        s=$(echo "$body" | jq -r '.result.streams[0].status // empty' 2>/dev/null)
+                        if [ -n "$s" ]; then
+                          echo "$s"
+                          return
+                        fi
+                      fi
+                      sleep 2
+                    done
+                    echo "unreachable"
+                  }
+
+                  # is_unhealthy: returns 0 if a probe-pair indicates real trouble,
+                  # 1 (= healthy) otherwise. Sets globals $m and $s for caller.
+                  # Definitions:
+                  #   - mopidy != "playing"  → unhealthy (user paused/mopidy crashed)
+                  #   - snapserver = "idle"  → unhealthy (mopidy thinks it plays
+                  #                            but no audio reaches snapserver)
+                  #   - snapserver = "unreachable" → IGNORED (API flakiness, not a
+                  #                            stream problem; mopidy's view wins)
+                  is_unhealthy() {
+                    m=$(probe_mopidy)
+                    s=$(probe_snapserver)
+                    echo "  mopidy=$m  snapserver=$s"
+                    [ "$m" != "playing" ] && return 0
+                    [ "$s" = "idle" ] && return 0
+                    return 1
                   }
 
                   notify() {
                     title="$1"; priority="$2"; tags="$3"; body="$4"
-                    curl -fsS --max-time 5 \
-                      -H "Authorization: Bearer ${NTFY_TOKEN:-}" \
-                      -H "Title: $title" \
-                      -H "Priority: $priority" \
-                      -H "Tags: $tags" \
-                      -d "$body" \
-                      "$NTFY_URL" >/dev/null 2>&1 || true
+                    if curl -fsS --max-time 10 \
+                         -H "Authorization: Bearer ${NTFY_TOKEN:-}" \
+                         -H "Title: $title" \
+                         -H "Priority: $priority" \
+                         -H "Tags: $tags" \
+                         -d "$body" \
+                         "$NTFY_URL" >/dev/null 2>&1; then
+                      echo "ntfy: sent ($priority) -- $body"
+                    else
+                      echo "ntfy: FAILED to send ($priority) -- $body"
+                    fi
                   }
 
-                  # Two probes 15s apart on the mopidy state. Restart if both
-                  # report anything other than "playing".
-                  m1=$(probe_mopidy)
-                  echo "mopidy probe1: $m1"
-                  if [ "$m1" = "playing" ]; then
+                  echo "probe1:"
+                  if ! is_unhealthy; then
                     exit 0
                   fi
+                  m1="$m"; s1="$s"
 
                   sleep 15
-                  m2=$(probe_mopidy)
-                  echo "mopidy probe2: $m2"
-                  if [ "$m2" = "playing" ]; then
+                  echo "probe2:"
+                  if ! is_unhealthy; then
                     exit 0
                   fi
+                  m2="$m"; s2="$s"
 
-                  echo "mopidy not playing twice (m1=$m1, m2=$m2), restarting"
+                  echo "unhealthy in 2 probes (mopidy: $m1->$m2, snapserver: $s1->$s2), restarting"
                   notify "snapcast-watchdog" "default" "warning,radio" \
-                    "Mopidy not playing (m1=$m1, m2=$m2). Restarting snapserver, then mopidy."
+                    "Stream stuck (mopidy: $m1→$m2, snapserver: $s1→$s2). Restarting snapserver, then mopidy."
 
                   # Restart in order: snapserver first, then mopidy. Always attempt
                   # mopidy even if snapserver wait fails — half a recovery is worse
@@ -162,15 +167,18 @@ spec:
                     echo "warn: mopidy rollout status failed (continuing anyway)"
 
                   # Give mopidy time to reconnect to snapserver and start playback
-                  # (defaultplaylist autoplay should kick in on mopidy startup)
+                  # (defaultplaylist autoplay should kick in on mopidy startup).
+                  # Recovery success criterion: mopidy reports "playing".
+                  # We don't require snapserver=playing because snapserver's HTTP API
+                  # is unreliable and would cause false "did not recover" outcomes.
                   sleep 30
                   m_after=$(probe_mopidy)
                   ss_after=$(probe_snapserver)
                   echo "after restart: mopidy=$m_after snapserver=$ss_after"
 
-                  if [ "$m_after" = "playing" ] && [ "$ss_after" = "playing" ]; then
+                  if [ "$m_after" = "playing" ]; then
                     notify "snapcast-watchdog" "low" "white_check_mark,radio" \
-                      "Recovered. Stream is now playing."
+                      "Recovered. Mopidy=playing, snapserver=$ss_after."
                     exit 0
                   fi
 
