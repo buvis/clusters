@@ -43,14 +43,13 @@ metadata:
 spec:
   schedule: "*/2 * * * *"
   concurrencyPolicy: Forbid
-  successfulJobsHistoryLimit: 0
+  successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
   startingDeadlineSeconds: 60
   jobTemplate:
     spec:
       backoffLimit: 0
       activeDeadlineSeconds: 600
-      ttlSecondsAfterFinished: 60
       template:
         spec:
           serviceAccountName: snapcast-watchdog
