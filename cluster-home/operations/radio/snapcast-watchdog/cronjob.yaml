@@ -114,17 +114,9 @@ spec:
                     exit 0
                   fi
 
-                  # Distinguish: definitively-broken (idle) vs cannot-tell (unreachable)
-                  if [ "$s1" = "unreachable" ] || [ "$s2" = "unreachable" ]; then
-                    echo "snapserver unreachable, NOT restarting (transient cluster issue)"
-                    notify "snapcast-watchdog" "low" "warning,radio" \
-                      "Watchdog could not reach snapserver (probe1=$s1, probe2=$s2). Skipping restart."
-                    exit 0
-                  fi
-
-                  echo "stream definitively not playing (status=$s2), restarting"
+                  echo "stream not playing twice in a row (probe1=$s1, probe2=$s2), restarting"
                   notify "snapcast-watchdog" "default" "warning,radio" \
-                    "Stream stuck (status=$s2). Restarting snapserver, then mopidy."
+                    "Stream stuck (probe1=$s1, probe2=$s2). Restarting snapserver, then mopidy."
 
                   # Restart in order: snapserver first, then mopidy. Always attempt
                   # mopidy even if snapserver wait fails — half a recovery is worse
