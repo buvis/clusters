@@ -13,7 +13,7 @@ metadata:
 rules:
   - apiGroups: ["apps"]
     resources: ["deployments"]
-    verbs: ["get", "patch"]
+    verbs: ["get", "list", "watch", "patch"]
   - apiGroups: ["apps"]
     resources: ["deployments/status"]
     verbs: ["get"]
@@ -49,6 +49,7 @@ spec:
   jobTemplate:
     spec:
       backoffLimit: 0
+      activeDeadlineSeconds: 600
       template:
         spec:
           serviceAccountName: snapcast-watchdog
@@ -69,12 +70,23 @@ spec:
                 - -c
                 - |
                   set -u
+
                   probe_status() {
-                    curl -fsS --max-time 5 \
+                    # Returns one of: playing | idle | unreachable
+                    body=$(curl -fsS --max-time 5 \
                       -H 'Content-Type: application/json' \
                       -d '{"id":1,"jsonrpc":"2.0","method":"Server.GetStatus"}' \
-                      "$SNAPSERVER_URL" 2>/dev/null \
-                      | jq -r '.result.streams[0].status // "unreachable"'
+                      "$SNAPSERVER_URL" 2>/dev/null)
+                    if [ -z "$body" ]; then
+                      echo "unreachable"
+                      return
+                    fi
+                    s=$(echo "$body" | jq -r '.result.streams[0].status // empty' 2>/dev/null)
+                    if [ -z "$s" ]; then
+                      echo "unreachable"
+                    else
+                      echo "$s"
+                    fi
                   }
 
                   notify() {
@@ -101,15 +113,29 @@ spec:
                     exit 0
                   fi
 
-                  echo "stream not playing twice (status=$s2), restarting"
+                  # Distinguish: definitively-broken (idle) vs cannot-tell (unreachable)
+                  if [ "$s1" = "unreachable" ] || [ "$s2" = "unreachable" ]; then
+                    echo "snapserver unreachable, NOT restarting (transient cluster issue)"
+                    notify "snapcast-watchdog" "low" "warning,radio" \
+                      "Watchdog could not reach snapserver (probe1=$s1, probe2=$s2). Skipping restart."
+                    exit 0
+                  fi
+
+                  echo "stream definitively not playing (status=$s2), restarting"
                   notify "snapcast-watchdog" "default" "warning,radio" \
                     "Stream stuck (status=$s2). Restarting snapserver, then mopidy."
 
-                  kubectl -n radio rollout restart deployment/snapserver
-                  kubectl -n radio rollout status deployment/snapserver --timeout=120s
+                  # Restart in order: snapserver first, then mopidy. Always attempt
+                  # mopidy even if snapserver wait fails — half a recovery is worse
+                  # than full attempt because mopidy's tcpclientsink to old snapserver
+                  # is dead and won't auto-reconnect.
+                  kubectl -n radio rollout restart deployment/snapserver || true
+                  kubectl -n radio rollout status deployment/snapserver --timeout=120s || \
+                    echo "warn: snapserver rollout status failed (continuing anyway)"
 
-                  kubectl -n radio rollout restart deployment/mopidy
-                  kubectl -n radio rollout status deployment/mopidy --timeout=120s
+                  kubectl -n radio rollout restart deployment/mopidy || true
+                  kubectl -n radio rollout status deployment/mopidy --timeout=120s || \
+                    echo "warn: mopidy rollout status failed (continuing anyway)"
 
                   # Give mopidy time to reconnect to snapserver and start the stream
                   sleep 30
