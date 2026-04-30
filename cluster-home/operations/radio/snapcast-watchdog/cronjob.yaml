@@ -114,7 +114,7 @@ spec:
                       bytes=$(wc -c < "$body_file" 2>/dev/null)
                       echo "[probe_snapserver] attempt $attempt rc=$rc $info file_bytes=$bytes err: $(tr '\n' ' ' < "$err_log")" >&2
                       if [ "${bytes:-0}" -gt 0 ]; then
-                        s=$(jq -r '.result.streams[0].status // empty' "$body_file" 2>/dev/null)
+                        s=$(jq -r '.result.server.streams[0].status // empty' "$body_file" 2>/dev/null)
                         if [ -n "$s" ]; then
                           rm -f "$body_file" "$err_log"
                           echo "$s"
