@@ -1,0 +1,137 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: snapcast-watchdog
+  namespace: radio
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: snapcast-watchdog
+  namespace: radio
+rules:
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "patch"]
+  - apiGroups: ["apps"]
+    resources: ["deployments/status"]
+    verbs: ["get"]
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: snapcast-watchdog
+  namespace: radio
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: snapcast-watchdog
+subjects:
+  - kind: ServiceAccount
+    name: snapcast-watchdog
+    namespace: radio
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: snapcast-watchdog
+  namespace: radio
+spec:
+  schedule: "*/2 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  startingDeadlineSeconds: 60
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          serviceAccountName: snapcast-watchdog
+          restartPolicy: Never
+          containers:
+            - name: watchdog
+              image: alpine/k8s:1.35.4@sha256:d9aeef2665287b9918bc57c539ba95382ba4c8d52c8b1310df5666a89d9a3d04
+              env:
+                - name: SNAPSERVER_URL
+                  value: "http://snapserver/jsonrpc"
+                - name: NTFY_URL
+                  value: "http://ntfy.smarthome/radio-watchdog"
+              envFrom:
+                - secretRef:
+                    name: snapcast-watchdog-ntfy
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  set -u
+                  probe_status() {
+                    curl -fsS --max-time 5 \
+                      -H 'Content-Type: application/json' \
+                      -d '{"id":1,"jsonrpc":"2.0","method":"Server.GetStatus"}' \
+                      "$SNAPSERVER_URL" 2>/dev/null \
+                      | jq -r '.result.streams[0].status // "unreachable"'
+                  }
+
+                  notify() {
+                    title="$1"; priority="$2"; tags="$3"; body="$4"
+                    curl -fsS --max-time 5 \
+                      -H "Authorization: Bearer ${NTFY_TOKEN:-}" \
+                      -H "Title: $title" \
+                      -H "Priority: $priority" \
+                      -H "Tags: $tags" \
+                      -d "$body" \
+                      "$NTFY_URL" >/dev/null 2>&1 || true
+                  }
+
+                  s1=$(probe_status)
+                  echo "probe1: $s1"
+                  if [ "$s1" = "playing" ]; then
+                    exit 0
+                  fi
+
+                  sleep 15
+                  s2=$(probe_status)
+                  echo "probe2: $s2"
+                  if [ "$s2" = "playing" ]; then
+                    exit 0
+                  fi
+
+                  echo "stream not playing twice (status=$s2), restarting"
+                  notify "snapcast-watchdog" "default" "warning,radio" \
+                    "Stream stuck (status=$s2). Restarting snapserver, then mopidy."
+
+                  kubectl -n radio rollout restart deployment/snapserver
+                  kubectl -n radio rollout status deployment/snapserver --timeout=120s
+
+                  kubectl -n radio rollout restart deployment/mopidy
+                  kubectl -n radio rollout status deployment/mopidy --timeout=120s
+
+                  # Give mopidy time to reconnect to snapserver and start the stream
+                  sleep 30
+                  s3=$(probe_status)
+                  echo "probe3 after restart: $s3"
+
+                  if [ "$s3" = "playing" ]; then
+                    notify "snapcast-watchdog" "low" "white_check_mark,radio" \
+                      "Recovered. Stream is now playing."
+                    exit 0
+                  fi
+
+                  notify "snapcast-watchdog" "high" "rotating_light,radio" \
+                    "Restart did not recover stream (status=$s3). Manual intervention needed."
+                  exit 1
+              resources:
+                requests:
+                  cpu: 10m
+                  memory: 32Mi
+                limits:
+                  memory: 128Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop: ["ALL"]
