@@ -73,35 +73,54 @@ spec:
                 - |
                   set -u
 
+                  # Wait briefly so the fresh CronJob pod's CNI/Cilium routing
+                  # is fully established before the first probe (avoids cold-start
+                  # races where curl can fail to connect to the service IP).
+                  sleep 3
+
                   # probe_mopidy returns: playing | paused | stopped | unreachable
+                  # Logs curl stderr to stderr on failure so we can diagnose later.
                   probe_mopidy() {
+                    err_log=$(mktemp)
                     body=$(curl -fsS --max-time 5 \
                       -H 'Content-Type: application/json' \
                       -d '{"jsonrpc":"2.0","id":1,"method":"core.playback.get_state"}' \
-                      "$MOPIDY_URL" 2>/dev/null)
-                    [ -z "$body" ] && { echo "unreachable"; return; }
+                      "$MOPIDY_URL" 2>"$err_log")
+                    rc=$?
+                    if [ -z "$body" ]; then
+                      echo "[probe_mopidy] curl rc=$rc err: $(tr '\n' ' ' < "$err_log")" >&2
+                      rm -f "$err_log"
+                      echo "unreachable"
+                      return
+                    fi
+                    rm -f "$err_log"
                     s=$(echo "$body" | jq -r '.result // empty' 2>/dev/null)
                     [ -z "$s" ] && echo "unreachable" || echo "$s"
                   }
 
                   # probe_snapserver returns: playing | idle | unreachable
-                  # Retries up to 3x because snapserver's HTTP API is occasionally
-                  # slow / unresponsive even when audio is flowing fine.
+                  # Retries up to 3x to cover transient cold-start / routing races.
                   probe_snapserver() {
-                    for _ in 1 2 3; do
+                    err_log=$(mktemp)
+                    for attempt in 1 2 3; do
                       body=$(curl -fsS --max-time 8 \
                         -H 'Content-Type: application/json' \
                         -d '{"id":1,"jsonrpc":"2.0","method":"Server.GetStatus"}' \
-                        "$SNAPSERVER_URL" 2>/dev/null)
+                        "$SNAPSERVER_URL" 2>"$err_log")
+                      rc=$?
                       if [ -n "$body" ]; then
                         s=$(echo "$body" | jq -r '.result.streams[0].status // empty' 2>/dev/null)
                         if [ -n "$s" ]; then
+                          rm -f "$err_log"
                           echo "$s"
                           return
                         fi
                       fi
+                      echo "[probe_snapserver] attempt $attempt curl rc=$rc err: $(tr '\n' ' ' < "$err_log")" >&2
+                      : > "$err_log"
                       sleep 2
                     done
+                    rm -f "$err_log"
                     echo "unreachable"
                   }
 
