@@ -113,7 +113,7 @@ spec:
                       rc=$?
                       bytes=$(wc -c < "$body_file" 2>/dev/null)
                       echo "[probe_snapserver] attempt $attempt rc=$rc $info file_bytes=$bytes err: $(tr '\n' ' ' < "$err_log")" >&2
-                      if [ "${bytes:-0}" -gt 0 ]; then
+                      if [ "$${bytes:-0}" -gt 0 ]; then
                         s=$(jq -r '.result.server.streams[0].status // empty' "$body_file" 2>/dev/null)
                         if [ -n "$s" ]; then
                           rm -f "$body_file" "$err_log"
@@ -148,7 +148,7 @@ spec:
                   notify() {
                     title="$1"; priority="$2"; tags="$3"; body="$4"
                     if curl -fsS --max-time 10 \
-                         -H "Authorization: Bearer ${NTFY_TOKEN:-}" \
+                         -H "Authorization: Bearer $${NTFY_TOKEN:-}" \
                          -H "Title: $title" \
                          -H "Priority: $priority" \
                          -H "Tags: $tags" \
