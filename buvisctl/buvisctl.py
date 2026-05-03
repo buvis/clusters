@@ -2,6 +2,7 @@ import click
 from adapters import console
 from commands import (
     CommandBackup,
+    CommandBackupRadicale,
     CommandBootstrap,
     CommandCheck,
     CommandDestroy,
@@ -89,19 +90,44 @@ def restore(pvc, namespace, snapshot):
     cmd.execute(pvc, namespace, snapshot)
 
 
-@cli.command("backup")
+@cli.group("backup")
+def backup():
+    """On-demand backups."""
+
+
+@backup.command("pvc")
 @click.argument("pvc")
 @click.option("-n",
               "--namespace",
               default="default",
               help="Name of PVC's namespace")
-def backup(pvc, namespace):
+def backup_pvc(pvc, namespace):
     """Backup PVC with Kopia backup cronjob.
 
     PVC is the name of the persistent volume claim to backup.
     """
     cmd = CommandBackup()
     cmd.execute(pvc, namespace)
+
+
+@backup.command("radicale")
+@click.option("-n",
+              "--namespace",
+              default="gtd",
+              help="Namespace where Radicale runs")
+@click.option("--raw",
+              is_flag=True,
+              help="Dump on-disk collection directories as tar.gz instead of "
+                   "downloading merged ICS/VCF via Radicale's HTTP API")
+def backup_radicale(namespace, raw):
+    """Backup all Radicale collections to CWD.
+
+    By default, downloads each collection as a single .ics or .vcf via
+    Radicale's HTTP API (matching the web UI download). With --raw, instead
+    archives each collection's on-disk directory as a timestamped .tar.gz.
+    """
+    cmd = CommandBackupRadicale()
+    cmd.execute(namespace, raw)
 
 
 @cli.command("generate")

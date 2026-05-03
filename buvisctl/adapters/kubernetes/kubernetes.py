@@ -135,6 +135,14 @@ class KubernetesAdapter:
         except ApiException:
             return None
 
+    def get_secret_data(self, name, namespace):
+        try:
+            secret = self.api.read_namespaced_secret(name=name, namespace=namespace)
+        except ApiException:
+            return None
+
+        return secret.data or {}
+
     def get_pvc(self, name, namespace):
         try:
             pvcs = self.dynamic_client.resources.get(

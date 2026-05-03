@@ -1,4 +1,5 @@
 from .backup.backup import CommandBackup
+from .backup.radicale import CommandBackupRadicale
 from .bootstrap.bootstrap import CommandBootstrap
 from .check.check import CommandCheck
 from .destroy.destroy import CommandDestroy
