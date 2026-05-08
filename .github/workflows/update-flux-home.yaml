@@ -52,4 +52,15 @@ jobs:
       if: steps.create-pr.outputs.pull-request-operation == 'created' || steps.create-pr.outputs.pull-request-operation == 'updated'
       env:
         GH_TOKEN: ${{ steps.app-token.outputs.token }}
-      run: gh pr merge --auto --rebase "${{ steps.create-pr.outputs.pull-request-url }}"
+        PR_URL: ${{ steps.create-pr.outputs.pull-request-url }}
+      run: |
+        for attempt in 1 2 3 4 5; do
+          if gh pr merge --auto --rebase "$PR_URL"; then
+            exit 0
+          fi
+          delay=$((attempt * 10))
+          echo "Attempt ${attempt} to enable auto-merge failed; retrying in ${delay}s"
+          sleep "${delay}"
+        done
+        echo "::error::Failed to enable auto-merge on ${PR_URL} after 5 attempts"
+        exit 1
