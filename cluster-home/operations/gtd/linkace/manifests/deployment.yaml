@@ -63,7 +63,7 @@ spec:
             - name: env-file
               mountPath: /work
         - name: artisan-clear
-          image: ghcr.io/kovah/linkace:v2.5.7@sha256:227f6deac099e0c093824f0f1ad19616ed7e88d4a7b57e91c25de4bfb04246a8
+          image: ghcr.io/kovah/linkace:v2.5.8@sha256:121207c9dafc43aad04242b633848dfcbbf82a1ecacad90ffc735eeeeda5d494
           imagePullPolicy: IfNotPresent
           workingDir: /app
           command: ["sh", "-lc"]
@@ -76,7 +76,7 @@ spec:
             - name: la-cache
               mountPath: /app/bootstrap/cache
       containers:
-        - image: ghcr.io/kovah/linkace:v2.5.7@sha256:227f6deac099e0c093824f0f1ad19616ed7e88d4a7b57e91c25de4bfb04246a8
+        - image: ghcr.io/kovah/linkace:v2.5.8@sha256:121207c9dafc43aad04242b633848dfcbbf82a1ecacad90ffc735eeeeda5d494
           name: linkace
           env:
             - name: APP_KEY
