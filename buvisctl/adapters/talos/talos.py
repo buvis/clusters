@@ -260,7 +260,11 @@ class TalosAdapter:
             "--nodes",
             node_ip,
             "--image",
-            f"factory.talos.dev/installer/{schematic_id}:{talos_version}",
+            # metal-installer must match the platform/install image in patch-all.yaml;
+            # the generic installer/ path is wrong for a metal node on Talos 1.10+.
+            f"factory.talos.dev/metal-installer/{schematic_id}:{talos_version}",
+            # --preserve keeps the EPHEMERAL partition (etcd on the control plane,
+            # Longhorn data on workers). Deprecated, slated for removal in Talos 1.18.
             "--preserve",
         ]
 

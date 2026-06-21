@@ -4,6 +4,7 @@ import time
 from adapters.response import AdapterResponse
 from kubernetes import client, config, dynamic, utils, watch
 from kubernetes.client.exceptions import ApiException
+from kubernetes.dynamic.exceptions import ResourceNotFoundError
 
 
 class KubernetesAdapter:
@@ -347,3 +348,53 @@ class KubernetesAdapter:
             return AdapterResponse(code=1, message=e)
 
         return AdapterResponse()
+
+    def get_degraded_longhorn_volumes(self):
+        """Names of Longhorn volumes whose robustness is 'degraded'.
+
+        Detached volumes report robustness 'unknown' (no running consumer) and
+        are not degraded, so they are ignored. Returns None when Longhorn is not
+        installed, which callers treat as "nothing to wait for".
+        """
+        try:
+            volumes = self.dynamic_client.resources.get(
+                api_version="longhorn.io/v1beta2", kind="Volume",
+            )
+            items = volumes.get().items
+        except (ApiException, ResourceNotFoundError):
+            return None
+
+        return [
+            v.metadata.name
+            for v in items
+            if v.status and v.status.robustness == "degraded"
+        ]
+
+    def wait_longhorn_healthy(self, timeout=1800, interval=15):
+        """Block until no Longhorn volume is degraded.
+
+        After a node reboots, its replicas rebuild and the volumes they back
+        report 'degraded' until the rebuild finishes. Rebooting the next node
+        during that window can drop a volume to its last online replica and
+        fault it. Gating on a fully-healed state keeps every volume redundant
+        across the rolling upgrade. No-op when Longhorn is absent.
+        """
+        waited = 0
+
+        while True:
+            degraded = self.get_degraded_longhorn_volumes()
+
+            if degraded is None or len(degraded) == 0:
+                return AdapterResponse()
+
+            if waited >= timeout:
+                return AdapterResponse(
+                    code=504,
+                    message=(
+                        f"{len(degraded)} Longhorn volume(s) still degraded "
+                        f"after {timeout}s: {', '.join(sorted(degraded))}"
+                    ),
+                )
+
+            time.sleep(interval)
+            waited += interval

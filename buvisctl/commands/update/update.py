@@ -1,6 +1,12 @@
 import os
 
-from adapters import CiliumAdapter, FluxAdapter, TalosAdapter, console
+from adapters import (
+    CiliumAdapter,
+    FluxAdapter,
+    KubernetesAdapter,
+    TalosAdapter,
+    console,
+)
 
 
 class CommandUpdate:
@@ -31,14 +37,7 @@ class CommandUpdate:
 
     def update_talos(self):
         self.talos = TalosAdapter()
-
-        with console.status("Updating Talosctl CLI"):
-            res = self.talos.update_talosctl()
-
-            if res.is_ok():
-                console.success("Latest talosctl CLI downloaded")
-            else:
-                console.panic("Failed downloading latest talosctl CLI", res.message)
+        self.kubernetes = KubernetesAdapter()
 
         node_ips = os.getenv("NODE_IPS")
 
@@ -49,7 +48,20 @@ class CommandUpdate:
 
         ips = [ip.strip() for ip in node_ips.split(",") if ip.strip()]
 
+        # Upgrade nodes before bumping talosctl: the upgrade is triggered over the
+        # node's currently-running apid, and a talosctl newer than that apid gets
+        # GOAWAY ENHANCE_YOUR_CALM ("too_many_pings"). Keeping the CLI matched to
+        # the running nodes during the upgrade RPC avoids the version skew.
         for node_ip in ips:
+            # Wait for Longhorn to finish rebuilding replicas from the previous
+            # node before rebooting the next one, so no volume is left on a
+            # single online replica. No-op when all volumes are already healthy.
+            with console.status(f"Waiting for Longhorn to heal before {node_ip}"):
+                res = self.kubernetes.wait_longhorn_healthy()
+
+                if res.is_nok():
+                    console.panic(res.message)
+
             with console.status(f"Updating Talos node {node_ip}"):
                 res = self.talos.update_node(node_ip)
 
@@ -57,6 +69,14 @@ class CommandUpdate:
                     console.success(res.message)
                 else:
                     console.panic(res.message)
+
+        with console.status("Updating Talosctl CLI"):
+            res = self.talos.update_talosctl()
+
+            if res.is_ok():
+                console.success("Latest talosctl CLI downloaded")
+            else:
+                console.panic("Failed downloading latest talosctl CLI", res.message)
 
     def update_cilium(self, version):
         self.cilium = CiliumAdapter()
