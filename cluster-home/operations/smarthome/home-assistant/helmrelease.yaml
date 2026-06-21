@@ -48,7 +48,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-assistant/home-assistant
-              tag: 2026.6.3@sha256:aed891b8f801072302815b4b0fab5adb714182967e9d2e2d4a2be558241c73ad
+              tag: 2026.6.4@sha256:adb3341e31e03e0048e60d8c1cf952e118a381ae258bb921d3da12a3b27bf0c2
             resources:
               requests:
                 cpu: 100m
@@ -58,7 +58,7 @@ spec:
           codeserver:
             image:
               repository: codercom/code-server
-              tag: 4.124.2@sha256:726c75e330d99c9e6545ff1208042ccc3d97465cf24cdb48b304d111a43cd441
+              tag: 4.125.0@sha256:9a7848dd2627158e3873f88bd8743807a4168e4d580f26ec0cbc132a9d9ee78e
             resources:
               requests:
                 cpu: 50m
