@@ -18102,7 +18102,7 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       containers:
         - name: tigera-operator
-          image: quay.io/tigera/operator:v1.42.2-arm64@sha256:2da6ea60e1e4881c7e5216a81376adf03d80968d9ddef8c6c4afe1d25a78949d
+          image: quay.io/tigera/operator:v1.42.3-arm64@sha256:effcb0961e38ad2fab6c12268984a43b9477aa4debc4fd05ce01afc98639d593
           imagePullPolicy: IfNotPresent
           command:
             - operator
