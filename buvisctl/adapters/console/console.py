@@ -1,3 +1,5 @@
+import sys
+
 from rich.console import Console
 from rich.prompt import Confirm
 
@@ -22,7 +24,7 @@ class ConsoleAdapter:
 
     def panic(self, message, details=""):
         self.failure(message, details)
-        exit()
+        sys.exit()
 
     def status(self, message):
         return self.console.status(message, spinner="arrow3")
