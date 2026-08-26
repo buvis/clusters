@@ -45,6 +45,18 @@ spec:
                         value: "'${SECRET_VPN_BT_FORWARD_PORT}'"
                       - name: TZ
                         value: ${TIMEZONE}
+                    # OpenVPN keeps retrying the same server after AUTH_FAILED
+                    # and gluetun's own health restart never fires; after hours
+                    # of that the sidecar spins at ~3.5 cores (pegged the Proxmox
+                    # host 2026-07-13..08-26). Let kubelet restart it once the
+                    # tunnel has been down ~5 min so gluetun picks another server.
+                    livenessProbe:
+                      exec:
+                        command: ["/gluetun-entrypoint", "healthcheck"]
+                      initialDelaySeconds: 120
+                      periodSeconds: 30
+                      timeoutSeconds: 10
+                      failureThreshold: 10
                     securityContext:
                       privileged: true
                       runAsUser: 0
