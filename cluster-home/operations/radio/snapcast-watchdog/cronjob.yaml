@@ -56,7 +56,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: watchdog
-              image: alpine/k8s:1.36.4@sha256:358ddfc2d6ff3f00dd461dbd79aaa6d6738709f225b8da0945bb63bd4dbc304e
+              image: alpine/k8s:1.37.0@sha256:b421c2e9419edb98db39b6ab641669f4db7bb2acf354f22450c6b7e7176d1ff4
               env:
                 - name: MOPIDY_URL
                   value: "http://mopidy:6680/mopidy/rpc"
