@@ -1,0 +1,122 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: gluetun-watchdog
+  namespace: media
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: gluetun-watchdog
+  namespace: media
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list"]
+  - apiGroups: [""]
+    resources: ["pods/log"]
+    verbs: ["get"]
+  - apiGroups: ["apps"]
+    resources: ["replicasets"]
+    verbs: ["get"]
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "list", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: gluetun-watchdog
+  namespace: media
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: gluetun-watchdog
+subjects:
+  - kind: ServiceAccount
+    name: gluetun-watchdog
+    namespace: media
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: gluetun-watchdog
+  namespace: media
+spec:
+  schedule: "*/2 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  startingDeadlineSeconds: 60
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      activeDeadlineSeconds: 120
+      template:
+        spec:
+          serviceAccountName: gluetun-watchdog
+          restartPolicy: Never
+          containers:
+            - name: watchdog
+              image: alpine/k8s:1.37.0@sha256:b421c2e9419edb98db39b6ab641669f4db7bb2acf354f22450c6b7e7176d1ff4
+              env:
+                - name: NAMESPACE
+                  value: media
+                # Number of "auth-failure" lines within the lookback window that
+                # counts as stuck (vs. a one-off blip).
+                - name: AUTH_FAIL_THRESHOLD
+                  value: "2"
+                - name: LOOKBACK
+                  value: "2m"
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  set -u
+
+                  # gluetun only re-picks a VPN server on process start, never
+                  # mid-run, so a sidecar stuck retrying the same rejecting
+                  # NordVPN server needs an external restart. The kyverno
+                  # exec-livenessProbe (add-vpn-sidecar policy) already does
+                  # this on a ~2min tunnel-down timer; this job catches the
+                  # same failure faster by matching the log pattern directly,
+                  # across every gluetun sidecar in the namespace (not just
+                  # radio's mopidy/snapserver).
+                  pods=$(kubectl -n "$NAMESPACE" get pods -o json \
+                    | jq -r '.items[] | select(.spec.containers[]?.name=="gluetun") | .metadata.name')
+
+                  for pod in $pods; do
+                    count=$(kubectl -n "$NAMESPACE" logs "$pod" -c gluetun --since="$LOOKBACK" 2>/dev/null \
+                      | grep -c "auth-failure" || true)
+                    count=${count:-0}
+
+                    if [ "$count" -lt "$AUTH_FAIL_THRESHOLD" ]; then
+                      continue
+                    fi
+
+                    rs=$(kubectl -n "$NAMESPACE" get pod "$pod" -o jsonpath='{.metadata.ownerReferences[0].name}' 2>/dev/null)
+                    if [ -z "$rs" ]; then
+                      echo "warn: $pod has no owning ReplicaSet, skipping"
+                      continue
+                    fi
+
+                    deploy=$(kubectl -n "$NAMESPACE" get replicaset "$rs" -o jsonpath='{.metadata.ownerReferences[0].name}' 2>/dev/null)
+                    if [ -z "$deploy" ]; then
+                      echo "warn: replicaset $rs has no owning Deployment, skipping"
+                      continue
+                    fi
+
+                    echo "pod $pod (deployment/$deploy): $count auth-failure lines in last $LOOKBACK, restarting"
+                    kubectl -n "$NAMESPACE" rollout restart "deployment/$deploy" || true
+                  done
+              resources:
+                requests:
+                  cpu: 10m
+                  memory: 32Mi
+                limits:
+                  memory: 128Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop: ["ALL"]

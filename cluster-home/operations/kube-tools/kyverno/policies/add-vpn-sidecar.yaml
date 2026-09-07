@@ -47,16 +47,25 @@ spec:
                         value: ${TIMEZONE}
                     # OpenVPN keeps retrying the same server after AUTH_FAILED
                     # and gluetun's own health restart never fires; after hours
-                    # of that the sidecar spins at ~3.5 cores (pegged the Proxmox
-                    # host 2026-07-13..08-26). Let kubelet restart it once the
-                    # tunnel has been down ~5 min so gluetun picks another server.
+                    # of that the sidecar spins at multiple cores (pegged the
+                    # Proxmox host repeatedly, e.g. 2026-07-13..08-26, 2026-09-07).
+                    # Let kubelet restart it once the tunnel has been down ~2 min
+                    # so gluetun picks another server; gluetun-watchdog (media ns)
+                    # backs this up with faster, log-pattern-based detection.
                     livenessProbe:
                       exec:
                         command: ["/gluetun-entrypoint", "healthcheck"]
                       initialDelaySeconds: 120
                       periodSeconds: 30
                       timeoutSeconds: 10
-                      failureThreshold: 10
+                      failureThreshold: 4
+                    # ponytail: 300m is a guessed ceiling for a VPN relay's normal
+                    # load; raise it if legitimate handshakes/throughput get
+                    # throttled. Needs the matching exception in
+                    # remove-cpu-limits.yaml or this gets stripped right back off.
+                    resources:
+                      limits:
+                        cpu: 300m
                     securityContext:
                       privileged: true
                       runAsUser: 0
