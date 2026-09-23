@@ -84,7 +84,7 @@ spec:
                     # Stagger jobs to run randomly within 0-900 seconds to avoid bringing down all apps at once
                     initContainers:
                       - name: wait
-                        image: busybox:1.38@sha256:cac8f90bbee42dc962a6b38bb1a235948d070385bb9d996bba15a6db8d364008
+                        image: busybox:1.38@sha256:fd7dc98638c8e305f4dc34e979f1c0fdfdcaeb0fbf8fcff77ae834b6da3d7e6e
                         command: ["sh", "-c", 'sleep_duration=$((RANDOM % 901)); for i in $(seq $sleep_duration -1 0); do echo "Will start in: $i seconds"; sleep 1; done']
                     containers:
                       - name: snapshot
