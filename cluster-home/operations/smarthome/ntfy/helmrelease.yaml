@@ -48,7 +48,7 @@ spec:
           app:
             image:
               repository: binwiederhier/ntfy
-              tag: v2.33@sha256:98e6ba316c1cda52438e66f8f73d41e2f8ff5a6e76ea8af603988c44202532ca
+              tag: v2.33@sha256:29bc952294d58957f6ca6638eca9a653a33555989224edbdf4bb9433ee606497
             resources:
               requests:
                 cpu: 20m
