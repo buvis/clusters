@@ -21,7 +21,7 @@ jobs:
       with:
         token: ${{ steps.app-token.outputs.token }}
     - name: Setup Flux CLI
-      uses: fluxcd/flux2/action@22c6ee1a6099ce252b729199c105a38319b587d4 # main
+      uses: fluxcd/flux2/action@dfcd91066ef9ae5a9faeb014212aaaebb19e451b # main
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Update Flux components
@@ -34,7 +34,7 @@ jobs:
         echo "flux_version=${VERSION}" >> $GITHUB_OUTPUT
     - name: Create pull request for Flux update
       id: create-pr
-      uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
+      uses: peter-evans/create-pull-request@15733dbdfeedb4f7fdb73d13c6f5ac83b710fab8 # v8
       with:
         token: ${{ steps.app-token.outputs.token }}
         branch: "flux/update-${{ steps.update.outputs.flux_version }}"
