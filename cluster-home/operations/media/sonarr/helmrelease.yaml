@@ -52,7 +52,7 @@ spec:
           app:
             image:
               repository: lscr.io/linuxserver/sonarr
-              tag: 4.0.20@sha256:339814bbf50599ac3b59077c252f29833d0138b59a062d0e82ce37bdc7f04f86
+              tag: 4.0.20@sha256:5c943771636f8f13b833efc0eae81b9373737435a262503a29157842c052ed0b
             env:
               PUID: "568"
               PGID: "568"
